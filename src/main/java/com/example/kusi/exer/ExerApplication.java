@@ -14,9 +14,20 @@ public class ExerApplication {
 		System.out.println("Stul es un meme");
 		System.out.println("Que putas estamos haciendo");
 		//Subir:
+		//Nueva informacion
+		//Estar en la rama adecuada
 		//git add -A
 		//git commit -m ""
 		//git push
+		//realizar pull request
+		//
+		//Traer:
+		//pararse en la rama que queremos traer
+		//git fetch (trae todas las ramas)
+		//git pull (Rama especifica)
+		//realizar pull request
+		//Merge del pull request
+
 		//ayuda estamos perdidas
 	}
 
