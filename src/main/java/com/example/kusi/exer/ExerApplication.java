@@ -2,6 +2,7 @@ package com.example.kusi.exer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Repository;
 
 @SpringBootApplication
 public class ExerApplication {
@@ -21,6 +22,6 @@ public class ExerApplication {
 		//git commit -m ""
 		//git push
 	}
-
+@Repository
 }
 
