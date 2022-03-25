@@ -12,7 +12,7 @@ public class ExerApplication {
 		System.out.println("ayuda no entiendonada");
 		System.out.println("Todos fumamos ramitas");
 		System.out.println("Hola que hace");
-		//obtener profile encrypted id
+		//obtener profile encrypted id "/lol/summoner/v4/summoners/by-name/{summonerName}"
 	}
 
 }
