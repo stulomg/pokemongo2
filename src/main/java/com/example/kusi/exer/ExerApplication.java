@@ -10,6 +10,7 @@ public class ExerApplication {
 		SpringApplication.run(ExerApplication.class, args);
 		System.out.println("Mancos");
 		System.out.println("Todos fumamos ramitas");
+		System.out.println("Hola que hace");
 	}
 
 }
