@@ -9,6 +9,7 @@ public class ExerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ExerApplication.class, args);
 		System.out.println("Mancos");
+		System.out.println("Todos fumamos ramitas");
 		System.out.println("Hola que hace");
 		System.out.println("Stul es un meme");
 		System.out.println("Que putas estamos haciendo");
@@ -27,6 +28,7 @@ public class ExerApplication {
 		//realizar pull request
 		//Merge del pull request
 
+		//ayuda estamos perdidas
 	}
 
 }
