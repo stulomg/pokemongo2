@@ -9,6 +9,7 @@ public class ExerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ExerApplication.class, args);
 		System.out.println("Mancos");
+		System.out.println("Cosita de rama");
 	}
 
 }
