@@ -14,6 +14,13 @@ public class ExerApplication {
 		System.out.println("Hola que hace");
 		//obtener profile encrypted id "/lol/summoner/v4/summoners/by-name/{summonerName}"
 		//obtener division liga lp etcetcetc "/lol/league/v4/entries/by-summoner/{encryptedSummonerId}"
+		System.out.println("Stul es un meme");
+		System.out.println("Que putas estamos haciendo");
+		//Subir:
+		//git add -A
+		//git commit -m ""
+		//git push
 	}
 
 }
+
