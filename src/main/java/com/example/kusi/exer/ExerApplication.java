@@ -11,6 +11,13 @@ public class ExerApplication {
 		System.out.println("Mancos");
 		System.out.println("Todos fumamos ramitas");
 		System.out.println("Hola que hace");
+		System.out.println("Stul es un meme");
+		System.out.println("Que putas estamos haciendo");
+		//Subir:
+		//git add -A
+		//git commit -m ""
+		//git push
 	}
 
 }
+
