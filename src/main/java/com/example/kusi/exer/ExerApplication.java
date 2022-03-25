@@ -17,6 +17,7 @@ public class ExerApplication {
 		//git add -A
 		//git commit -m ""
 		//git push
+		//ayuda estamos perdidas
 	}
 
 }
