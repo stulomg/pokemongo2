@@ -16,6 +16,13 @@ public class ExerApplication {
 		//git add -A
 		//git commit -m ""
 		//git push
+		//realizar pull request
+		//Merge del pull request
+
+		//Traer:
+		//pararse en la rama que queremos traer
+		//git fetch (trae todas las ramas)
+		//git pull (Rama especifica)
 	}
 
 }
