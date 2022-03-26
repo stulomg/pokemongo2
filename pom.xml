@@ -14,7 +14,6 @@
 	<name>SpringBootCallingExternalApiApplication</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-			<start-class>mypackage.App</start-class>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
