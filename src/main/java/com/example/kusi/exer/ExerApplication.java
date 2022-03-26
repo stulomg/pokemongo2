@@ -38,6 +38,13 @@ public class ExerApplication {
 		//Merge del pull request
 
 		//ayuda estamos perdidas
+
+
+		String nameId = "sajfh51265";
+		String Division = "Platino";
+		String Liga = "II";
+		int leaguepoints = 45;
+
 	}
 }
 
