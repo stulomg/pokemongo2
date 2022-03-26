@@ -8,10 +8,10 @@
 		<version>2.6.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example.kusi</groupId>
-	<artifactId>exer</artifactId>
+	<groupId>com.springbootcallingexternalapi</groupId>
+	<artifactId>SpringBootCallingExternalApiApplication</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>exer</name>
+	<name>SpringBootCallingExternalApiApplication</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 			<start-class>mypackage.App</start-class>
@@ -38,7 +38,11 @@
 			<artifactId>spring-web</artifactId>
 			<version>5.3.16</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

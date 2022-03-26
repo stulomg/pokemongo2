@@ -1,7 +1,8 @@
-package com.springbootapp.springbootcallingexternalapi;
+package com.springbootcallingexternalapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @SpringBootApplication
@@ -23,11 +24,6 @@ public class SpringBootCallingExternalApiApplication {
 		//realizar pull request
 		//Merge del pull request
 		SpringApplication.run(SpringBootCallingExternalApiApplication.class, args);
-	}
-
-	@RequestMapping ("/hello")
-	public String hello() {
-		return "Hello World";
 	}
 
 }
