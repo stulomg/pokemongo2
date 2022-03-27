@@ -14,5 +14,14 @@ public class AccountRepository {
                 + account.getProfileIconId()+", "+account.getRevisionDate()+", "+account.getSummonerLevel()+", '"+owner+"');";
         jdbcTemplate.update(sql);
     }
+    public void deleteAccount (String owner, String nombre){
+        String sql = "DELETE FROM \"Accounts\" WHERE name=? AND owner=?";
+        Object[] params = {nombre, owner};
+        int result = jdbcTemplate.update(sql, params);
+
+        if (result>  0) {
+            System.out.println("Delete successfully.");
+        }
+    }
 }
 
