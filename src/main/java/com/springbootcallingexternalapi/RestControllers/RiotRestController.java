@@ -13,12 +13,12 @@ public class RiotRestController {
     @Autowired
     RiotRequestorService riotRequestorService;
 
-    @RequestMapping(value =  "/call-riot/{account}",
+    @RequestMapping(value =  "/call-riot/{owner}/{account}",
                     method = RequestMethod.GET,
     produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> callRiot(@PathVariable String account) {
+    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) {
         try {
-            AccountBaseModel acc = riotRequestorService.getAccountFromRiot(account);
+            AccountBaseModel acc = riotRequestorService.getAccountFromRiot(account,owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
