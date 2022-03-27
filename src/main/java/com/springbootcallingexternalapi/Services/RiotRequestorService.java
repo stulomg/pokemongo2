@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,10 +18,10 @@ public class RiotRequestorService {
     public AccountBaseModel getAccountFromRiot(String account) throws AccountNotFoundException {
         String uri = "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + account;
 
+
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Riot-Token", "RGAPI-2bca1181-b630-46c7-9755-61cf3c024c6c");
-
+        headers.add("X-Riot-Token", "RGAPI-fd89ea75-a73e-47de-a8c3-204f25e2113d");
         HttpEntity<String> entity = new HttpEntity<>("body", headers);
         try {
             ResponseEntity<AccountBaseModel> response = restTemplate.exchange(uri, HttpMethod.GET, entity, AccountBaseModel.class);
@@ -29,4 +30,22 @@ public class RiotRequestorService {
             throw new AccountNotFoundException(account);
         }
     }
+    public String getLeague(String account) throws AccountNotFoundException {
+        try {
+            String id = getAccountFromRiot(account).getId();
+            String uri = "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("X-Riot-Token", "RGAPI-fd89ea75-a73e-47de-a8c3-204f25e2113d");
+            HttpEntity<String> entity = new HttpEntity<>("", headers);
+            ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET ,entity, String.class);
+            return response.getBody();
+        } catch (AccountNotFoundException e) {
+            throw e;
+        }
+        catch (RestClientException e1){
+            throw new AccountNotFoundException(account);
+        }
+    }
+
 }
