@@ -4,13 +4,18 @@ import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.Models.AccountModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClientException;
+
+import java.awt.print.Book;
+import java.util.List;
 
 @Repository
 public class AccountRepository {
@@ -43,6 +48,16 @@ public class AccountRepository {
         }
 
 
+    }
+
+    public List<AccountModel> retrieveAccountByOwner(String owner) {
+        String sql = "SELECT * FROM \"Accounts\" WHERE owner=?" ;
+        Object[] params = {owner};
+
+        List<AccountModel> listAccounts = jdbcTemplate.query(sql,params,
+                BeanPropertyRowMapper.newInstance(AccountModel.class));
+
+        return listAccounts;
     }
 }
 
