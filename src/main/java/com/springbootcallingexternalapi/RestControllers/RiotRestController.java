@@ -1,9 +1,11 @@
 package com.springbootcallingexternalapi.RestControllers;
 
+import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +18,14 @@ public class RiotRestController {
     @RequestMapping(value =  "/call-riot/{owner}/{account}",
                     method = RequestMethod.GET,
     produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) {
+    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) throws AccountDataException, AccountNotFoundException {
         try {
             AccountBaseModel acc = riotRequestorService.getAccountFromRiot(account,owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);
-        } catch (Exception e) {
+        } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (AccountDataException e1){
+            return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
     @GetMapping(value = "/call-riot/league/{account}")
@@ -31,6 +35,8 @@ public class RiotRestController {
             return new ResponseEntity<>(response,HttpStatus.OK);
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.FORBIDDEN);
+        } catch (AccountDataException e1) {
+            return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
