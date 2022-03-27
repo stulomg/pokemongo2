@@ -54,5 +54,4 @@ public class RiotRequestorService {
             throw new AccountNotFoundException(account);
         }
     }
-
 }
