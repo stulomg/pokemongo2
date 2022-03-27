@@ -1,5 +1,7 @@
 package com.springbootcallingexternalapi.Services;
 
+import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,7 @@ public class AccountService {
 
     @Autowired
     AccountRepository accountRepository;
-    public void deleteAccount (String owner, String nombre){
+    public void deleteAccount (String owner, String nombre) throws AccountOrOwnerNotFoundException {
         accountRepository.deleteAccount(owner, nombre);
     }
 }
