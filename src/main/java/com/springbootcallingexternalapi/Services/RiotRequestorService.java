@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.Services;
 
+import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
@@ -21,7 +22,7 @@ public class RiotRequestorService {
     @Autowired
     AccountRepository accountRepository;
 
-    public AccountBaseModel getAccountFromRiot(String account, String owner) throws AccountNotFoundException {
+    public AccountBaseModel getAccountFromRiot(String account, String owner) throws AccountNotFoundException, AccountDataException {
         String uri = "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + account;
 
 
@@ -37,7 +38,7 @@ public class RiotRequestorService {
             throw new AccountNotFoundException(account);
         }
     }
-    public String getLeague(String account) throws AccountNotFoundException {
+    public String getLeague(String account) throws AccountNotFoundException, AccountDataException {
         try {
             String id = getAccountFromRiot(account,"Kusi").getId();
             String uri = "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + id;
