@@ -59,5 +59,15 @@ public class AccountRepository {
 
         return listAccounts;
     }
+
+    public List<AccountModel> retrieveAccountByName(String name) {
+        String sql = "SELECT * FROM \"Accounts\" WHERE name=?" ;
+        Object[] params = {name};
+
+        List<AccountModel> listAccounts = jdbcTemplate.query(sql,params,
+                BeanPropertyRowMapper.newInstance(AccountModel.class));
+
+        return listAccounts;
+    }
 }
 
