@@ -26,8 +26,13 @@ public class AccountRestController {
         }
     }
 
-    @GetMapping(value = "/account/find/{owner}")
+    @GetMapping(value = "/account/find-by-owner/{owner}")
     public ResponseEntity<Object> retrieveAccountByOwner(@PathVariable String owner) {
         return new ResponseEntity<>(  accountService.retrieveAccountByOwner(owner) , HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/account/find-by-name/{name}")
+    public ResponseEntity<Object> retrieveAccountByName(@PathVariable String name) {
+        return new ResponseEntity<>(  accountService.retrieveAccountByName(name) , HttpStatus.OK);
     }
 }

@@ -24,4 +24,8 @@ public class AccountService {
     public List<AccountModel> retrieveAccountByOwner (String owner){
         return accountRepository.retrieveAccountByOwner(owner);
     }
+
+    public List<AccountModel> retrieveAccountByName (String name){
+        return accountRepository.retrieveAccountByName(name);
+    }
 }
