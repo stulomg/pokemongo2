@@ -1,6 +1,6 @@
 package com.springbootcallingexternalapi.Exceptions;
-public class OwnerNotFoundException extends Exception {
-    public OwnerNotFoundException(String account) {
+public class PlayerIDNotFoundException extends Exception {
+    public PlayerIDNotFoundException(String account) {
         super ("EL PROPIETARIO "+ account + " NO FUE ENCONTRADO, POR FAVOR RECTIFICAR");
     }
 }
