@@ -1,6 +1,5 @@
 package com.springbootcallingexternalapi.RestControllers;
 
-import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Services.AccountService;
