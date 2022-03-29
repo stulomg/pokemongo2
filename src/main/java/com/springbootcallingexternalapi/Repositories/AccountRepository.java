@@ -3,8 +3,10 @@ package com.springbootcallingexternalapi.Repositories;
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountDataUpdateException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.PlayerIDNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.AccountModel;
+import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -76,5 +78,14 @@ public class AccountRepository {
         return listAccounts;
 
     }
-}
+    public void insertLeagueInfo(LeagueInfoModel account, String owner) throws PlayerIDNotFoundException {
+        String sql = "INSERT INTO \"LeagueInfo\" VALUES ('" + account.getLeagueId() + "', '" + account.getQueueType() + "', '" + account.getRank() + "', '" + account.getLeaguePoints() + "', "
+                + account.getSummonerName() + ", " + account.getTier() + ", '" + owner + "');";
+        try{
+            jdbcTemplate.update(sql);
 
+        }catch (DataAccessException e){
+            throw new PlayerIDNotFoundException(account);
+        }
+    }
+}

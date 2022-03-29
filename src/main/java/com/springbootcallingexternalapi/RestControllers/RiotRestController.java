@@ -4,6 +4,7 @@ import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.PlayerIDNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -29,14 +30,15 @@ public class RiotRestController {
         }
     }
     @GetMapping(value = "/call-riot/league/{account}")
-    public ResponseEntity<Object> getLeague (@PathVariable String account){
-        try {
-            String response = riotRequestorService.getLeague(account);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (AccountNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
-        } catch (AccountDataException e1) {
-            return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
+        public ResponseEntity<Object> getLeague (@PathVariable String account)throws PlayerIDNotFoundException{
+            try {
+                LeagueInfoModel response = riotRequestorService.getLeague(account);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } catch (AccountNotFoundException e) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+            } catch (AccountDataException e1) {
+                return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
+            }
         }
     }
-}
+

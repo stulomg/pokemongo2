@@ -1,7 +1,11 @@
 package com.springbootcallingexternalapi.Exceptions;
 
+import com.springbootcallingexternalapi.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.Models.LeagueInfoModel;
+
+
 public class PlayerIDNotFoundException extends Exception {
-    public PlayerIDNotFoundException(String account) {
-        super ("EL PROPIETARIO "+ account + " NO FUE ENCONTRADO, POR FAVOR RECTIFICAR");
+    public PlayerIDNotFoundException(LeagueInfoModel account) {
+        super ("RIOT NO HA ENCONTRADO EL ID: "+ account.getId() + "POR FAVOR RECTIFICAR");
     }
 }
