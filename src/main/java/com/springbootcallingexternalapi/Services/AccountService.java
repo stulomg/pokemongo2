@@ -26,6 +26,7 @@ public class AccountService {
     }
 
     public void accountUpdate (AccountModel model){
+
         accountRepository.accountUpdate(model);
     }
 }

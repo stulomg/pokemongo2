@@ -29,9 +29,9 @@ public class AccountRestController {
         return new ResponseEntity<>(  accountService.retrieveAccountByOwner(owner) , HttpStatus.OK);
     }
 
-    @PutMapping(value = "/account/update/")
+    @PutMapping(value = "/account/update")
     public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model){
         accountService.accountUpdate(model);
-        return new ResponseEntity<>("Updated succesfully", HttpStatus.OK);
+        return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
     }
 }
