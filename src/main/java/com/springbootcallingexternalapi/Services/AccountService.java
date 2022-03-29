@@ -21,12 +21,18 @@ public class AccountService {
         accountRepository.deleteAccount(owner, nombre);
     }
 
-    public List<AccountModel> retrieveAccountByOwner (String owner){
+    public List<AccountModel> retrieveAccountByOwner(String owner) {
         return accountRepository.retrieveAccountByOwner(owner);
     }
 
-    public void accountUpdate (AccountModel model){
+
+    public void accountUpdate(AccountModel model) {
 
         accountRepository.accountUpdate(model);
+    }
+
+    public List<AccountModel> retrieveAccountByName(String name) {
+        return accountRepository.retrieveAccountByName(name);
+
     }
 }

@@ -53,14 +53,27 @@ public class AccountRepository {
         return listAccounts;
     }
 
+
     public void accountUpdate(AccountModel model) {
         String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?, \"summonerLevel\"=?, owner=? WHERE id=?";
-        Object[] params = {model.getName(),model.getAccountId(),model.getPuuid(),model.getProfileIconId(),model.getRevisionDate(), model.getSummonerLevel(),model.getOwner(),model.getId()};
+        Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(), model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
         int result = jdbcTemplate.update(sql, params);
 
         if (result == 0) {
 
         }
+
+    }
+
+    public List<AccountModel> retrieveAccountByName(String name) {
+        String sql = "SELECT * FROM \"Accounts\" WHERE name=?" ;
+        Object[] params = {name};
+
+        List<AccountModel> listAccounts = jdbcTemplate.query(sql,params,
+                BeanPropertyRowMapper.newInstance(AccountModel.class));
+
+        return listAccounts;
+
     }
 }
 
