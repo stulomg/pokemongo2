@@ -22,7 +22,7 @@ public class RiotRestController {
     produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) throws AccountDataException, AccountNotFoundException {
         try {
-            AccountBaseModel acc = riotRequestorService.getAccountFromRiot(account,owner);
+            AccountBaseModel acc = riotRequestorService.getAccountAndAssignToOwner(account,owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
