@@ -7,6 +7,9 @@ import com.springbootcallingexternalapi.Exceptions.PlayerIDNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
+import com.springbootcallingexternalapi.Services.RiotRequestorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -19,18 +22,18 @@ import java.util.List;
 public class AccountRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    Logger logger = LoggerFactory.getLogger(AccountRepository.class);
 
     public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException {
-        String sql = "INSERT INTO \"Accounts\" VALUES name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?, \"summonerLevel\",owner=?=?WHERE id=?";
-        Object[] params = {account.getName(),account.getAccountId(),account.getPuuid(),account.getProfileIconId(),account.getRevisionDate(), account.getSummonerLevel(),account.getId(),owner};
+
+        String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
+        Object[] params = {account.getId(),account.getAccountId(),account.getPuuid(),account.getName(),account.getProfileIconId(),account.getRevisionDate(), account.getSummonerLevel(),owner};
         try{
-
-            jdbcTemplate.update(sql);
-
+            jdbcTemplate.update(sql,params);
         }catch (DataAccessException e){
+            logger.info(e.getMessage());
             throw new AccountDataException(account);
         }
-
     }
 
     public void deleteAccount(String owner, String nombre) throws AccountOrOwnerNotFoundException {
@@ -43,7 +46,6 @@ public class AccountRepository {
         if (result == 0) {
             throw new AccountOrOwnerNotFoundException(nombre, owner);
         }
-
     }
 
     public List<AccountModel> retrieveAccountByOwner(String owner) {
@@ -55,7 +57,6 @@ public class AccountRepository {
 
         return listAccounts;
     }
-
 
     public void accountUpdate(AccountModel model) throws AccountDataUpdateException {
         String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?, \"summonerLevel\"=?, owner=? WHERE id=?";
@@ -78,9 +79,10 @@ public class AccountRepository {
         return listAccounts;
 
     }
+
     public void insertLeagueInfo(LeagueInfoModel account, String owner) throws PlayerIDNotFoundException {
-        String sql = "INSERT INTO \"LeagueInfo\" VALUES ('" + account.getLeagueId() + "', '" + account.getQueueType() + "', '" + account.getRank() + "', '" + account.getLeaguePoints() + "', "
-                + account.getSummonerName() + ", " + account.getTier() + ", '" + owner + "');";
+        String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
+
         try{
             jdbcTemplate.update(sql);
 

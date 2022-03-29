@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-254c3c45-05eb-427b-99aa-15b7980eabb4";
+    private static final String RIOT_TOKEN = "RGAPI-230e13c3-a99e-4d26-a4ea-a5fad90fab8e";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -51,15 +52,16 @@ public class RiotRequestorService {
             throw new AccountNotFoundException(account);
         }
     }
-    public LeagueInfoModel getLeague(String account) throws AccountNotFoundException, AccountDataException {
+    public LeagueInfoModel[] getLeague(String account) throws AccountNotFoundException, AccountDataException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
+            logger.info(id);
             String uri = "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + id;
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.add("X-Riot-Token", RIOT_TOKEN);
             HttpEntity<String> entity = new HttpEntity<>("", headers);
-            ResponseEntity<LeagueInfoModel> response = restTemplate.exchange(uri, HttpMethod.GET ,entity, LeagueInfoModel.class);
+            ResponseEntity<LeagueInfoModel[]> response = restTemplate.exchange(uri, HttpMethod.GET ,entity, LeagueInfoModel[].class);
             return response.getBody();
         } catch (AccountNotFoundException e) {
             throw e;
