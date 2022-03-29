@@ -1,20 +1,15 @@
 package com.springbootcallingexternalapi.Repositories;
 
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
-import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestClientException;
 
-import java.awt.print.Book;
 import java.util.List;
 
 @Repository
@@ -23,8 +18,8 @@ public class AccountRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException {
-        String sql = "INSERT INTO \"Accounts\" VALUES ('" + account.getId() + "', '" + account.getAccountId() + "', '" + account.getPuuid() + "', '" + account.getName() + "', "
-                + account.getProfileIconId() + ", " + account.getRevisionDate() + ", " + account.getSummonerLevel() + ", '" + owner + "');";
+        String sql = "INSERT INTO \"Accounts\" VALUES name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?, \"summonerLevel\",owner=?=?WHERE id=?";
+        Object[] params = {account.getName(),account.getAccountId(),account.getPuuid(),account.getProfileIconId(),account.getRevisionDate(), account.getSummonerLevel(),account.getId(),owner};
         try{
 
             jdbcTemplate.update(sql);
@@ -34,7 +29,6 @@ public class AccountRepository {
         }
 
     }
-
 
     public void deleteAccount(String owner, String nombre) throws AccountOrOwnerNotFoundException {
         String sql = "DELETE FROM \"Accounts\" WHERE name=? AND owner=?";
@@ -46,7 +40,6 @@ public class AccountRepository {
         if (result == 0) {
             throw new AccountOrOwnerNotFoundException(nombre, owner);
         }
-
 
     }
 
@@ -60,6 +53,18 @@ public class AccountRepository {
         return listAccounts;
     }
 
+
+    public void accountUpdate(AccountModel model) {
+        String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?, \"summonerLevel\"=?, owner=? WHERE id=?";
+        Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(), model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
+        int result = jdbcTemplate.update(sql, params);
+
+        if (result == 0) {
+
+        }
+
+    }
+
     public List<AccountModel> retrieveAccountByName(String name) {
         String sql = "SELECT * FROM \"Accounts\" WHERE name=?" ;
         Object[] params = {name};
@@ -68,6 +73,7 @@ public class AccountRepository {
                 BeanPropertyRowMapper.newInstance(AccountModel.class));
 
         return listAccounts;
+
     }
 }
 
