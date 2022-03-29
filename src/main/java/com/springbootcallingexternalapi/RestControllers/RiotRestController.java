@@ -4,9 +4,11 @@ import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.PlayerIDNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,4 +43,20 @@ public class RiotRestController {
             }
         }
     }
+    public ResponseEntity<Object> getLeague (@PathVariable String account){
+        try {
+            String response = riotRequestorService.getLeague(account);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (AccountNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        } catch (AccountDataException e1) {
+            return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @GetMapping (value = "call-riot/mastery/{account}/{championId}")
+    public ResponseEntity<Object> getMastery (@PathVariable String account, @PathVariable long championId) throws AccountNotFoundException {
+        MasteryInfoModel response = riotRequestorService.getMastery(account,championId);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+}
