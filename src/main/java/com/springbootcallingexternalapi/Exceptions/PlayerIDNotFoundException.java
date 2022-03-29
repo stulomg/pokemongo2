@@ -5,6 +5,6 @@ import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 
 public class PlayerIDNotFoundException extends Exception {
     public PlayerIDNotFoundException(LeagueInfoModel account) {
-        super ("RIOT NO HA ENCONTRADO EL ID: "+ account.getId() + "POR FAVOR RECTIFICAR");
+        super ("RIOT NO HA ENCONTRADO EL ID: "+ account.getSummonerName() + "POR FAVOR RECTIFICAR");
     }
 }

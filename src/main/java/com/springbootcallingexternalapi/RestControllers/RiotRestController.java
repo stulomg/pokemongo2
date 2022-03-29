@@ -18,34 +18,24 @@ public class RiotRestController {
     @Autowired
     RiotRequestorService riotRequestorService;
 
-    @RequestMapping(value =  "/call-riot/{owner}/{account}",
-                    method = RequestMethod.GET,
-    produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/call-riot/{account}/{owner}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) throws AccountDataException, AccountNotFoundException {
         try {
-            AccountBaseModel acc = riotRequestorService.getAccountAndAssignToOwner(account,owner);
+            AccountBaseModel acc = riotRequestorService.getAccountAndAssignToOwner(account, owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AccountDataException e1){
+        } catch (AccountDataException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping(value = "/call-riot/league/{account}")
-        public ResponseEntity<Object> getLeague (@PathVariable String account)throws PlayerIDNotFoundException{
-            try {
-                LeagueInfoModel response = riotRequestorService.getLeague(account);
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } catch (AccountNotFoundException e) {
-                return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
-            } catch (AccountDataException e1) {
-                return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-        }
-    }
-    public ResponseEntity<Object> getLeague (@PathVariable String account){
+    public ResponseEntity<Object> getLeague(@PathVariable String account) throws PlayerIDNotFoundException {
         try {
-            String response = riotRequestorService.getLeague(account);
+            LeagueInfoModel[] response = riotRequestorService.getLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
@@ -54,9 +44,9 @@ public class RiotRestController {
         }
     }
 
-    @GetMapping (value = "call-riot/mastery/{account}/{championId}")
-    public ResponseEntity<Object> getMastery (@PathVariable String account, @PathVariable long championId) throws AccountNotFoundException {
-        MasteryInfoModel response = riotRequestorService.getMastery(account,championId);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+    @GetMapping(value = "call-riot/mastery/{account}/{championId}")
+    public ResponseEntity<Object> getMastery(@PathVariable String account, @PathVariable long championId) throws AccountNotFoundException {
+        MasteryInfoModel response = riotRequestorService.getMastery(account, championId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
