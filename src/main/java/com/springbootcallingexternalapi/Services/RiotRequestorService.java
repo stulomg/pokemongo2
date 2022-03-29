@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
+
 @Service
 public class RiotRequestorService {
 
@@ -22,7 +24,15 @@ public class RiotRequestorService {
     @Autowired
     AccountRepository accountRepository;
 
-    public AccountBaseModel getAccountFromRiot(String account, String owner) throws AccountNotFoundException, AccountDataException {
+    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException {
+        ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account);
+        AccountBaseModel acc2 = Objects.requireNonNull(acc.getBody());
+        accountRepository.insertAccount(acc2,owner);
+
+        return acc2;
+    }
+
+    public  ResponseEntity<AccountBaseModel> getAccountFromRiot(String account) throws AccountNotFoundException {
         String uri = "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + account;
 
 
@@ -32,15 +42,15 @@ public class RiotRequestorService {
         HttpEntity<String> entity = new HttpEntity<>("body", headers);
         try {
             ResponseEntity<AccountBaseModel> response = restTemplate.exchange(uri, HttpMethod.GET, entity, AccountBaseModel.class);
-            accountRepository.insertAccount(response.getBody(),owner);
-            return response.getBody();
+            return response;
         } catch (RestClientException e) {
             throw new AccountNotFoundException(account);
         }
     }
+
     public String getLeague(String account) throws AccountNotFoundException, AccountDataException {
         try {
-            String id = getAccountFromRiot(account,"Kusi").getId();
+            String id = getAccountFromRiot(account).getBody().getId();
             String uri = "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + id;
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
