@@ -24,4 +24,8 @@ public class AccountService {
     public List<AccountModel> retrieveAccountByOwner (String owner){
         return accountRepository.retrieveAccountByOwner(owner);
     }
+
+    public void accountUpdate (AccountModel model){
+        accountRepository.accountUpdate(model);
+    }
 }
