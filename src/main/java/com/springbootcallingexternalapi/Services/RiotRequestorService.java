@@ -3,6 +3,7 @@ package com.springbootcallingexternalapi.Services;
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
+
 @Service
 public class RiotRequestorService {
+
+    private static final String RIOT_TOKEN = "RGAPI-254c3c45-05eb-427b-99aa-15b7980eabb4";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -38,7 +42,7 @@ public class RiotRequestorService {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Riot-Token", "RGAPI-c42f8fbb-bde0-4cd0-90dc-01afc96a91a4");
+        headers.add("X-Riot-Token", RIOT_TOKEN);
         HttpEntity<String> entity = new HttpEntity<>("body", headers);
         try {
             ResponseEntity<AccountBaseModel> response = restTemplate.exchange(uri, HttpMethod.GET, entity, AccountBaseModel.class);
@@ -54,7 +58,7 @@ public class RiotRequestorService {
             String uri = "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + id;
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
-            headers.add("X-Riot-Token", "RGAPI-fd89ea75-a73e-47de-a8c3-204f25e2113d");
+            headers.add("X-Riot-Token", RIOT_TOKEN);
             HttpEntity<String> entity = new HttpEntity<>("", headers);
             ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET ,entity, String.class);
             return response.getBody();
@@ -64,5 +68,16 @@ public class RiotRequestorService {
         catch (RestClientException e1){
             throw new AccountNotFoundException(account);
         }
+    }
+
+    public MasteryInfoModel getMastery (String account, long idChampion) throws AccountNotFoundException {
+        String id = getAccountFromRiot(account).getBody().getId();
+        String uri = "https://la1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + idChampion;
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Riot-Token", RIOT_TOKEN);
+        HttpEntity<String> entity = new HttpEntity<>("",headers);
+        ResponseEntity<MasteryInfoModel> response = restTemplate.exchange(uri, HttpMethod.GET , entity, MasteryInfoModel.class);
+        return response.getBody();
     }
 }

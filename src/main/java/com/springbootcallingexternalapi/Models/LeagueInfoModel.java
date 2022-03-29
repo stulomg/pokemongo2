@@ -12,9 +12,6 @@ public class LeagueInfoModel {
 
     private Integer leaguePoints;
 
-    {
-    }
-
     public LeagueInfoModel(String leagueId, String queueType, String tier, String rank, String summonerName, Integer leaguePoints) {
         this.leagueId = leagueId;
         this.queueType = queueType;
