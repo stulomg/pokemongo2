@@ -1,6 +1,5 @@
 package com.springbootcallingexternalapi.Exceptions;
 
-import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 
 
