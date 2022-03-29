@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.Services;
 
+import com.springbootcallingexternalapi.Exceptions.AccountDataUpdateException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
@@ -21,11 +22,18 @@ public class AccountService {
         accountRepository.deleteAccount(owner, nombre);
     }
 
-    public List<AccountModel> retrieveAccountByOwner (String owner){
+    public List<AccountModel> retrieveAccountByOwner(String owner) {
         return accountRepository.retrieveAccountByOwner(owner);
     }
 
-    public List<AccountModel> retrieveAccountByName (String name){
+
+    public void accountUpdate(AccountModel model) throws AccountDataUpdateException {
+
+        accountRepository.accountUpdate(model);
+    }
+
+    public List<AccountModel> retrieveAccountByName(String name) {
         return accountRepository.retrieveAccountByName(name);
+
     }
 }

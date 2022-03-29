@@ -1,15 +1,13 @@
 package com.springbootcallingexternalapi.RestControllers;
 
-import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.AccountDataUpdateException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
+import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AccountRestController {
@@ -31,8 +29,15 @@ public class AccountRestController {
         return new ResponseEntity<>(  accountService.retrieveAccountByOwner(owner) , HttpStatus.OK);
     }
 
+    @PutMapping(value = "/account/update")
+    public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model) throws AccountDataUpdateException {
+        accountService.accountUpdate(model);
+        return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
+    }
+
     @GetMapping(value = "/account/find-by-name/{name}")
     public ResponseEntity<Object> retrieveAccountByName(@PathVariable String name) {
         return new ResponseEntity<>(  accountService.retrieveAccountByName(name) , HttpStatus.OK);
     }
 }
+
