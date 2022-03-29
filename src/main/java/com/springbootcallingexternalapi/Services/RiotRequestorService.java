@@ -40,6 +40,7 @@ public class RiotRequestorService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Riot-Token", "RGAPI-230e13c3-a99e-4d26-a4ea-a5fad90fab8e");
+        headers.add("X-Riot-Token", "RGAPI-cfa76bd9-5230-447b-938f-baaa1eedce07");
         HttpEntity<String> entity = new HttpEntity<>("body", headers);
         try {
             ResponseEntity<AccountBaseModel> response = restTemplate.exchange(uri, HttpMethod.GET, entity, AccountBaseModel.class);
@@ -55,6 +56,7 @@ public class RiotRequestorService {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.add("X-Riot-Token", "RGAPI-230e13c3-a99e-4d26-a4ea-a5fad90fab8e");
+            headers.add("X-Riot-Token", "RGAPI-cfa76bd9-5230-447b-938f-baaa1eedce07");
             HttpEntity<String> entity = new HttpEntity<>("", headers);
             ResponseEntity<LeagueInfoModel> response = restTemplate.exchange(uri, HttpMethod.GET ,entity, LeagueInfoModel.class);
             return response.getBody();

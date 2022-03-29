@@ -1,6 +1,7 @@
 package com.springbootcallingexternalapi.Repositories;
 
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
+import com.springbootcallingexternalapi.Exceptions.AccountDataUpdateException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.PlayerIDNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
@@ -56,13 +57,13 @@ public class AccountRepository {
     }
 
 
-    public void accountUpdate(AccountModel model) {
+    public void accountUpdate(AccountModel model) throws AccountDataUpdateException {
         String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?, \"summonerLevel\"=?, owner=? WHERE id=?";
         Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(), model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
         int result = jdbcTemplate.update(sql, params);
 
         if (result == 0) {
-
+            throw new AccountDataUpdateException(model);
         }
 
     }

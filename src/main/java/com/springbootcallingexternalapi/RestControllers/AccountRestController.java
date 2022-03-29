@@ -1,6 +1,6 @@
 package com.springbootcallingexternalapi.RestControllers;
 
-import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.AccountDataUpdateException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Services.AccountService;
@@ -30,7 +30,7 @@ public class AccountRestController {
     }
 
     @PutMapping(value = "/account/update")
-    public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model){
+    public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model) throws AccountDataUpdateException {
         accountService.accountUpdate(model);
         return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
     }
