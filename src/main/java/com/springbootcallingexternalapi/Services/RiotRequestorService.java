@@ -38,7 +38,7 @@ public class RiotRequestorService {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Riot-Token", "RGAPI-c42f8fbb-bde0-4cd0-90dc-01afc96a91a4");
+        headers.add("X-Riot-Token", "RGAPI-cfa76bd9-5230-447b-938f-baaa1eedce07");
         HttpEntity<String> entity = new HttpEntity<>("body", headers);
         try {
             ResponseEntity<AccountBaseModel> response = restTemplate.exchange(uri, HttpMethod.GET, entity, AccountBaseModel.class);
@@ -54,7 +54,7 @@ public class RiotRequestorService {
             String uri = "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + id;
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
-            headers.add("X-Riot-Token", "RGAPI-fd89ea75-a73e-47de-a8c3-204f25e2113d");
+            headers.add("X-Riot-Token", "RGAPI-cfa76bd9-5230-447b-938f-baaa1eedce07");
             HttpEntity<String> entity = new HttpEntity<>("", headers);
             ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET ,entity, String.class);
             return response.getBody();
