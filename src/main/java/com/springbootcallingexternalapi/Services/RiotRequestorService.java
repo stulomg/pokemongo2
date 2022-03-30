@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.Services;
 
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.MasteryInfoModel;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class RiotRequestorService {
@@ -49,17 +52,23 @@ public class RiotRequestorService {
         }
     }
 
-    public LeagueInfoModel[] getLeague(String account) throws AccountNotFoundException, AccountDataException, SummonerIdNotFoundException {
+    public LeagueInfoModel getLeague(String account) throws AccountNotFoundException, AccountDataException, SummonerIdNotFoundException, QueueNotFoundException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/league/v4/entries/by-summoner/" + id;
+            String queueToFind = "RANKED_SOLO_5X5";
             ResponseEntity<LeagueInfoModel[]> response = requestToRiot(uri, HttpMethod.GET, LeagueInfoModel[].class);
-            logger.info(String.valueOf(response));
-            leagueRepository.insertLeagueInfo(response.getBody()[0]);
 
-            return response.getBody();
-        } catch (AccountNotFoundException e) {
-            throw e;
+            Optional<LeagueInfoModel> model = Arrays.stream(response.getBody())
+                    .filter(leagueInfoModel -> leagueInfoModel.getQueueType().equals(queueToFind) )
+                            .findFirst();
+
+            if(model.isPresent()) {
+                leagueRepository.insertLeagueInfo(model.get());
+                return model.get();
+            } else {
+                throw new QueueNotFoundException(queueToFind);
+            }
         } catch (RestClientException e1) {
             throw new AccountNotFoundException(account);
         }
