@@ -52,7 +52,7 @@ public class RiotRequestorService {
     public LeagueInfoModel[] getLeague(String account) throws AccountNotFoundException, AccountDataException, SummonerIdNotFoundException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
-            String uri = "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + id;
+            String uri = "/lol/league/v4/entries/by-summoner/" + id;
             ResponseEntity<LeagueInfoModel[]> response = requestToRiot(uri, HttpMethod.GET, LeagueInfoModel[].class);
             logger.info(String.valueOf(response));
             leagueRepository.insertLeagueInfo(response.getBody()[0]);
@@ -67,7 +67,7 @@ public class RiotRequestorService {
 
     public MasteryInfoModel getMastery(String account, long idChampion) throws AccountNotFoundException {
         String id = getAccountFromRiot(account).getBody().getId();
-        String uri = "https://la1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + idChampion;
+        String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + idChampion;
         return requestToRiot(uri, HttpMethod.GET, MasteryInfoModel.class).getBody();
     }
 
