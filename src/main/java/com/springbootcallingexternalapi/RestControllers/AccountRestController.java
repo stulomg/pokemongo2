@@ -39,5 +39,9 @@ public class AccountRestController {
     public ResponseEntity<Object> retrieveAccountByName(@PathVariable String name) {
         return new ResponseEntity<>(  accountService.retrieveAccountByName(name) , HttpStatus.OK);
     }
+    @GetMapping(value = "/account/find-division-history-by-name/{name}")
+    public ResponseEntity<Object> divisionHistoryByName(@PathVariable String name) {
+        return new ResponseEntity<>( accountService.retrieveLeagueInfoByName(name) , HttpStatus.OK);
+    }
 }
 

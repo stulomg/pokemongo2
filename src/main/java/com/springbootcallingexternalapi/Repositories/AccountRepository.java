@@ -7,7 +7,6 @@ import com.springbootcallingexternalapi.Exceptions.PlayerIDNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
-import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +78,15 @@ public class AccountRepository {
         return listAccounts;
 
     }
+    public List<LeagueInfoModel> retrieveLeagueInfoByName(String name){
+        String sql = "SELECT * FROM \"Accounts\" WHERE name=?" ;
+        Object[] params = {name};
+
+        List<LeagueInfoModel> listAccounts = jdbcTemplate.query(sql,params,
+                BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
+
+        return listAccounts;
+    }
 
     public void insertLeagueInfo(LeagueInfoModel account, String owner) throws PlayerIDNotFoundException {
         String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
@@ -90,4 +98,5 @@ public class AccountRepository {
             throw new PlayerIDNotFoundException(account);
         }
     }
+
 }

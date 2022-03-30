@@ -49,4 +49,5 @@ public class RiotRestController {
         MasteryInfoModel response = riotRequestorService.getMastery(account, championId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 }
