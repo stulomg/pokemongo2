@@ -6,6 +6,7 @@ import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
+import com.springbootcallingexternalapi.Repositories.ChampionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class RiotRequestorService {
 
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    ChampionService championService;
+
 
     public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account);
@@ -73,6 +77,7 @@ public class RiotRequestorService {
 
     public MasteryInfoModel getMastery (String account, long idChampion) throws AccountNotFoundException {
         String id = getAccountFromRiot(account).getBody().getId();
+        String championName = championService.retrieveChampionNameByChampionId(idChampion);
         String uri = "https://la1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + idChampion;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
