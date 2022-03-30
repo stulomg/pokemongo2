@@ -2,10 +2,12 @@ package com.springbootcallingexternalapi.Services;
 
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
+import com.springbootcallingexternalapi.Repositories.LeagueRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +30,13 @@ public class RiotRequestorService {
 
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    LeagueRepository leagueRepository;
 
     public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account);
         AccountBaseModel acc2 = Objects.requireNonNull(acc.getBody());
         accountRepository.insertAccount(acc2,owner);
-
         return acc2;
     }
 
@@ -52,7 +55,7 @@ public class RiotRequestorService {
             throw new AccountNotFoundException(account);
         }
     }
-    public LeagueInfoModel[] getLeague(String account) throws AccountNotFoundException, AccountDataException {
+    public LeagueInfoModel[] getLeague(String account) throws AccountNotFoundException, AccountDataException, SummonerIdNotFoundException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             logger.info(id);
@@ -62,6 +65,8 @@ public class RiotRequestorService {
             headers.add("X-Riot-Token", RIOT_TOKEN);
             HttpEntity<String> entity = new HttpEntity<>("", headers);
             ResponseEntity<LeagueInfoModel[]> response = restTemplate.exchange(uri, HttpMethod.GET ,entity, LeagueInfoModel[].class);
+            logger.info(String.valueOf(response));
+            leagueRepository.insertLeagueInfo(response.getBody()[0]);
             return response.getBody();
         } catch (AccountNotFoundException e) {
             throw e;
