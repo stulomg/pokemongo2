@@ -35,7 +35,6 @@ public class AccountRepository {
         }
     }
 
-
     public void deleteAccount(String owner, String nombre) throws AccountOrOwnerNotFoundException {
         String sql = "DELETE FROM \"Accounts\" WHERE name=? AND owner=?";
         Object[] params = {nombre, owner};
@@ -80,7 +79,7 @@ public class AccountRepository {
 
     }
     public List<LeagueInfoModel> retrieveLeagueInfoByName(String name){
-        String sql = "SELECT * FROM \"Accounts\" WHERE name=?" ;
+        String sql = "SELECT * FROM \"LeagueInfo\" WHERE name=?" ;
         Object[] params = {name};
 
         List<LeagueInfoModel> listAccounts = jdbcTemplate.query(sql,params,
@@ -89,14 +88,14 @@ public class AccountRepository {
         return listAccounts;
     }
 
-    public void insertLeagueInfo(LeagueInfoModel account, String owner) throws PlayerIDNotFoundException {
+    public void insertLeagueInfo(LeagueInfoModel account, String owner) throws SummonerIdNotFoundException {
         String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
 
         try{
             jdbcTemplate.update(sql);
 
         }catch (DataAccessException e){
-            throw new PlayerIDNotFoundException(account);
+            throw new SummonerIdNotFoundException(account);
         }
     }
 }
