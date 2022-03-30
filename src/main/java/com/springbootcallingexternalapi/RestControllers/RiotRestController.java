@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.RestControllers;
 
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.MasteryInfoModel;
@@ -34,10 +35,10 @@ public class RiotRestController {
     @GetMapping(value = "/call-riot/league/{account}")
     public ResponseEntity<Object> getLeague(@PathVariable String account) throws SummonerIdNotFoundException {
         try {
-            LeagueInfoModel[] response = riotRequestorService.getLeague(account);
+            LeagueInfoModel response = riotRequestorService.getLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (AccountNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        } catch (AccountNotFoundException | QueueNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (AccountDataException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
