@@ -3,11 +3,10 @@ package com.springbootcallingexternalapi.Repositories;
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountDataUpdateException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.PlayerIDNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
-import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +34,7 @@ public class AccountRepository {
             throw new AccountDataException(account);
         }
     }
+
 
     public void deleteAccount(String owner, String nombre) throws AccountOrOwnerNotFoundException {
         String sql = "DELETE FROM \"Accounts\" WHERE name=? AND owner=?";
@@ -80,14 +80,5 @@ public class AccountRepository {
 
     }
 
-    public void insertLeagueInfo(LeagueInfoModel account, String owner) throws PlayerIDNotFoundException {
-        String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
 
-        try{
-            jdbcTemplate.update(sql);
-
-        }catch (DataAccessException e){
-            throw new PlayerIDNotFoundException(account);
-        }
-    }
 }
