@@ -56,7 +56,7 @@ public class RiotRequestorService {
         }
     }
 
-    public LeagueInfoModel[] getLeague(String account) throws AccountNotFoundException, AccountDataException, SummonerIdNotFoundException {
+    public LeagueInfoModel getLeague(String account) throws AccountNotFoundException, AccountDataException, SummonerIdNotFoundException, QueueNotFoundException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/league/v4/entries/by-summoner/" + id;
