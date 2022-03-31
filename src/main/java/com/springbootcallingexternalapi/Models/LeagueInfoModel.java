@@ -11,8 +11,6 @@ public class LeagueInfoModel {
 
     private String summonerName;
 
-    private Integer leaguePoints;
-
     public LeagueInfoModel(String leagueId, String queueType, String tier, String rank, String summonerName, Integer leaguePoints) {
         this.leagueId = leagueId;
         this.queueType = queueType;
@@ -72,4 +70,7 @@ public class LeagueInfoModel {
     public void setLeaguePoints(Integer leaguePoints) {
         this.leaguePoints = leaguePoints;
     }
+
+    private Integer leaguePoints;
 }
+
