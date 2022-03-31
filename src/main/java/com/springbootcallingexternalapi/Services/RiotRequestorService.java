@@ -28,7 +28,7 @@ import java.util.Optional;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-4408688d-f6ce-404d-a8ed-304f4c459d03";
+    private static final String RIOT_TOKEN = "RGAPI-3bc67248-5617-4452-acd6-e0af764e05f1";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -60,9 +60,8 @@ public class RiotRequestorService {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/league/v4/entries/by-summoner/" + id;
-            String queueToFind = "RANKED_SOLO_5X5";
+            String queueToFind = "RANKED_SOLO_5x5";
             ResponseEntity<LeagueInfoModel[]> response = requestToRiot(uri, HttpMethod.GET, LeagueInfoModel[].class);
-
             Optional<LeagueInfoModel> model = Arrays.stream(response.getBody())
                     .filter(leagueInfoModel -> leagueInfoModel.getQueueType().equals(queueToFind) )
                             .findFirst();
@@ -100,4 +99,5 @@ public class RiotRequestorService {
 
         return restTemplate.exchange(finalUrl, method, entity, clazz);
     }
+
 }
