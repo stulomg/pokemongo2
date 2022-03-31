@@ -9,6 +9,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Repository
 public class LeagueRepository {
     @Autowired
@@ -16,8 +20,9 @@ public class LeagueRepository {
     Logger logger = LoggerFactory.getLogger(AccountRepository.class);
 
     public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws SummonerIdNotFoundException {
-        String sql = "INSERT INTO \"LeagueInfo\" VALUES(?,?,?,?,?,?)";
-        Object[] params = {leagueInfoModel.getLeagueId(),leagueInfoModel.getQueueType(),leagueInfoModel.getTier(),leagueInfoModel.getRank(),leagueInfoModel.getSummonerName(),leagueInfoModel.getLeaguePoints()};
+        Timestamp date = new Timestamp(System.currentTimeMillis());
+        String sql = "INSERT INTO \"LeagueInfo\" VALUES(?,?,?,?,?,?,?)";
+        Object[] params = {date,leagueInfoModel.getLeagueId(),leagueInfoModel.getQueueType(),leagueInfoModel.getTier(),leagueInfoModel.getRank(),leagueInfoModel.getSummonerName(),leagueInfoModel.getLeaguePoints()};
         try{
             jdbcTemplate.update(sql,params);
         }catch (DataAccessException e){
