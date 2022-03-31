@@ -1,7 +1,10 @@
 package com.springbootcallingexternalapi.Models;
-public class LeagueInfoModel {
 
-    private String leagueId;
+import java.sql.Timestamp;
+import java.util.Date;
+
+public class LeagueInfoModel {
+    private Timestamp date;
 
     private String queueType;
 
@@ -11,8 +14,8 @@ public class LeagueInfoModel {
 
     private String summonerName;
 
-    public LeagueInfoModel(String leagueId, String queueType, String tier, String rank, String summonerName, Integer leaguePoints) {
-        this.leagueId = leagueId;
+    public LeagueInfoModel(Timestamp date, String queueType, String tier, String rank, String summonerName, Integer leaguePoints) {
+        this.date = date;
         this.queueType = queueType;
         this.tier = tier;
         this.rank = rank;
@@ -23,12 +26,12 @@ public class LeagueInfoModel {
     public LeagueInfoModel() {
     }
 
-    public String getLeagueId() {
-        return leagueId;
+    public Timestamp getDate() {
+        return date;
     }
 
-    public void setLeagueId(String leagueId) {
-        this.leagueId = leagueId;
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 
     public String getQueueType() {
