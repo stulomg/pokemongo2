@@ -68,9 +68,8 @@ public class RiotRequestorService {
             String queueToFind = "RANKED_SOLO_5x5";
             ResponseEntity<LeagueInfoModel[]> response = requestToRiot(uri, HttpMethod.GET, LeagueInfoModel[].class);
             Optional<LeagueInfoModel> model = Arrays.stream(response.getBody())
-                    .filter(leagueInfoModel -> leagueInfoModel.getQueueType().equals(queueToFind) )
-                            .findFirst();
-
+                    .filter(leagueInfoModel -> leagueInfoModel.getQueueType().equals(queueToFind))
+                    .findFirst();
             if(model.isPresent()) {
                 leagueRepository.insertLeagueInfo(model.get());
                 return model.get();

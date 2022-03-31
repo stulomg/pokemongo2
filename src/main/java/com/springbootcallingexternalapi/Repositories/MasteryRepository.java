@@ -27,13 +27,17 @@ public class MasteryRepository {
 
     public void insertMasteryInfo (MasteryHistoryInfoModel masteryHistoryInfoModel){
 
-        String sql = "INSERT INTO \"AccountMasteryHistory\" VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO \"AccountMasteryHistory\" VALUES(?,?,?,?,?)";
         Object[] params = {masteryHistoryInfoModel.getTimestamp(),
                 masteryHistoryInfoModel.getChampionId(),
                 masteryHistoryInfoModel.getChampionName(),
                 masteryHistoryInfoModel.getChampionPoints(),
-                masteryHistoryInfoModel.getChampionLevel(),
-                masteryHistoryInfoModel.getAccount()} ;
-        jdbcTemplate.update(sql, params);
+                masteryHistoryInfoModel.getChampionLevel()};
+
+        try {
+            jdbcTemplate.update(sql, params);
+        }catch (DataAccessException e){
+            logger.info(e.getMessage());
+        }
     }
 }
