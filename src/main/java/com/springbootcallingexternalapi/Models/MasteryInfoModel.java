@@ -1,9 +1,6 @@
 package com.springbootcallingexternalapi.Models;
 
 public class MasteryInfoModel {
-    private String id;
-
-    private Integer summonerLevel;
 
     private String championId;
 
@@ -11,31 +8,13 @@ public class MasteryInfoModel {
 
     private String championPoints;
 
-    public MasteryInfoModel(String id, Integer summonerLevel, String championId, String championLevel, String championPoints) {
-        this.id = id;
-        this.summonerLevel = summonerLevel;
+    public MasteryInfoModel(String championId, String championLevel, String championPoints) {
         this.championId = championId;
         this.championLevel = championLevel;
         this.championPoints = championPoints;
     }
 
     public MasteryInfoModel() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Integer getSummonerLevel() {
-        return summonerLevel;
-    }
-
-    public void setSummonerLevel(Integer summonerLevel) {
-        this.summonerLevel = summonerLevel;
     }
 
     public String getChampionId() {

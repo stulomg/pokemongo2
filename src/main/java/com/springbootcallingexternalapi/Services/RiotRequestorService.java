@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.Services;
 
+import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
@@ -12,10 +13,10 @@ import com.springbootcallingexternalapi.Repositories.LeagueRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.*;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,6 +34,9 @@ public class RiotRequestorService {
 
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    ChampionService championService;
+
     @Autowired
     LeagueRepository leagueRepository;
 
@@ -74,10 +78,17 @@ public class RiotRequestorService {
         }
     }
 
-    public MasteryInfoModel getMastery(String account, long idChampion) throws AccountNotFoundException {
-        String id = getAccountFromRiot(account).getBody().getId();
-        String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + idChampion;
-        return requestToRiot(uri, HttpMethod.GET, MasteryInfoModel.class).getBody();
+    public MasteryInfoModel getMastery(String account, String championName) throws AccountNotFoundException, ChampionNotFoundException, ChampionMasteryNotFoundException {
+        try {
+            String id = getAccountFromRiot(account).getBody().getId();
+            Long championId = championService.retrieveChampionIdByChampionName(championName);
+            String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + championId;
+            return requestToRiot(uri, HttpMethod.GET, MasteryInfoModel.class).getBody();
+        }catch (EmptyResultDataAccessException e) {
+            throw new ChampionNotFoundException(championName);
+        }catch (HttpClientErrorException e1){
+            throw  new ChampionMasteryNotFoundException(championName);
+        }
     }
 
     private <T> ResponseEntity<T> requestToRiot(String uri, HttpMethod method, Class<T> clazz) {
@@ -90,4 +101,3 @@ public class RiotRequestorService {
         return restTemplate.exchange(finalUrl, method, entity, clazz);
     }
 }
-
