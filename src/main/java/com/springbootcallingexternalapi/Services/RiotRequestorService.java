@@ -6,10 +6,12 @@ import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
 import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.Repositories.LeagueRepository;
+import com.springbootcallingexternalapi.Repositories.MasteryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +22,16 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-3bc67248-5617-4452-acd6-e0af764e05f1";
+    private static final String RIOT_TOKEN = "RGAPI-5520c42e-7e04-4a71-b4ec-11c711f2477d";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -36,9 +39,10 @@ public class RiotRequestorService {
     AccountRepository accountRepository;
     @Autowired
     ChampionService championService;
-
     @Autowired
     LeagueRepository leagueRepository;
+    @Autowired
+    MasteryRepository masteryRepository;
 
     public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account);
@@ -52,6 +56,7 @@ public class RiotRequestorService {
         try {
             return requestToRiot(uri, HttpMethod.GET, AccountBaseModel.class);
         } catch (RestClientException e) {
+            logger.info(e.getMessage());
             throw new AccountNotFoundException(account);
         }
     }
@@ -77,12 +82,20 @@ public class RiotRequestorService {
         }
     }
 
-    public MasteryInfoModel getMastery(String account, String championName) throws AccountNotFoundException, ChampionNotFoundException, ChampionMasteryNotFoundException {
+    public MasteryHistoryInfoModel getMastery(String account, String championName) throws AccountNotFoundException, ChampionNotFoundException, ChampionMasteryNotFoundException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
+            Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
             Long championId = championService.retrieveChampionIdByChampionName(championName);
             String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + championId;
-            return requestToRiot(uri, HttpMethod.GET, MasteryInfoModel.class).getBody();
+            ResponseEntity<MasteryHistoryInfoModel> response = requestToRiot(uri, HttpMethod.GET, MasteryHistoryInfoModel.class);
+            MasteryHistoryInfoModel model = response.getBody();
+            model.setTimestamp(timeStamp);
+            model.setChampionName(championName);
+            model.setAccount(account);
+            masteryRepository.insertMasteryInfo(model);
+
+            return model;
         }catch (EmptyResultDataAccessException e) {
             throw new ChampionNotFoundException(championName);
         }catch (HttpClientErrorException e1){

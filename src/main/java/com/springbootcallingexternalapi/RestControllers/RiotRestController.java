@@ -6,6 +6,7 @@ import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
 import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Services.ChampionService;
@@ -51,9 +52,9 @@ public class RiotRestController {
     }
 
     @GetMapping(value = "call-riot/mastery/{account}/{championName}")
-    public ResponseEntity<Object> getMastery(@PathVariable String account, @PathVariable String championName){
+    public ResponseEntity<Object> getMastery(@PathVariable String account , @PathVariable String championName){
         try{
-            MasteryInfoModel response = riotRequestorService.getMastery(account, championName);
+            MasteryHistoryInfoModel response = riotRequestorService.getMastery(account , championName);
         return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (ChampionNotFoundException | ChampionMasteryNotFoundException | AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
