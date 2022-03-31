@@ -59,4 +59,5 @@ public class RiotRestController {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
     }
+
 }

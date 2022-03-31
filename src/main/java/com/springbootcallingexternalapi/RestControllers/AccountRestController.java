@@ -39,5 +39,6 @@ public class AccountRestController {
     public ResponseEntity<Object> retrieveAccountByName(@PathVariable String name) {
         return new ResponseEntity<>(  accountService.retrieveAccountByName(name) , HttpStatus.OK);
     }
+
 }
 

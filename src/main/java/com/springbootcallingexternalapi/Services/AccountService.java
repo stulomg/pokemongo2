@@ -3,6 +3,7 @@ package com.springbootcallingexternalapi.Services;
 import com.springbootcallingexternalapi.Exceptions.AccountDataUpdateException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountModel;
+import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,6 @@ public class AccountService {
         return accountRepository.retrieveAccountByOwner(owner);
     }
 
-
     public void accountUpdate(AccountModel model) throws AccountDataUpdateException {
 
         accountRepository.accountUpdate(model);
@@ -34,6 +34,7 @@ public class AccountService {
 
     public List<AccountModel> retrieveAccountByName(String name) {
         return accountRepository.retrieveAccountByName(name);
-
     }
+
 }
+

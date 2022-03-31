@@ -35,7 +35,6 @@ public class AccountRepository {
         }
     }
 
-
     public void deleteAccount(String owner, String nombre) throws AccountOrOwnerNotFoundException {
         String sql = "DELETE FROM \"Accounts\" WHERE name=? AND owner=?";
         Object[] params = {nombre, owner};
