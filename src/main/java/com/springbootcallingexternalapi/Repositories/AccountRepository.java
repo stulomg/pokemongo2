@@ -78,24 +78,6 @@ public class AccountRepository {
         return listAccounts;
 
     }
-    public List<LeagueInfoModel> retrieveLeagueInfoByName(String name){
-        String sql = "SELECT * FROM \"LeagueInfo\" WHERE name=?" ;
-        Object[] params = {name};
 
-        List<LeagueInfoModel> listAccounts = jdbcTemplate.query(sql,params,
-                BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
 
-        return listAccounts;
-    }
-
-    public void insertLeagueInfo(LeagueInfoModel account, String owner) throws SummonerIdNotFoundException {
-        String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
-
-        try{
-            jdbcTemplate.update(sql);
-
-        }catch (DataAccessException e){
-            throw new SummonerIdNotFoundException(account);
-        }
-    }
 }

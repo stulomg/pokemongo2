@@ -36,9 +36,5 @@ public class AccountService {
         return accountRepository.retrieveAccountByName(name);
     }
 
-    public List<LeagueInfoModel> retrieveLeagueInfoByName(String name){
-        return accountRepository.retrieveLeagueInfoByName(name);
-
-    }
 }
 
