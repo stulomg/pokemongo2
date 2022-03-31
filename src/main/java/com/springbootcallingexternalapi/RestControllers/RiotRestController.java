@@ -4,19 +4,25 @@ import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
+import com.springbootcallingexternalapi.Services.ChampionService;
 import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 public class RiotRestController {
 
     @Autowired
     RiotRequestorService riotRequestorService;
+    @Autowired
+    ChampionService championService;
 
     @RequestMapping(value = "/call-riot/{account}/{owner}",
             method = RequestMethod.GET,
@@ -44,9 +50,13 @@ public class RiotRestController {
         }
     }
 
-    @GetMapping(value = "call-riot/mastery/{account}/{championId}")
-    public ResponseEntity<Object> getMastery(@PathVariable String account, @PathVariable long championId) throws AccountNotFoundException {
-        MasteryInfoModel response = riotRequestorService.getMastery(account, championId);
+    @GetMapping(value = "call-riot/mastery/{account}/{championName}")
+    public ResponseEntity<Object> getMastery(@PathVariable String account, @PathVariable String championName){
+        try{
+            MasteryInfoModel response = riotRequestorService.getMastery(account, championName);
         return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (ChampionNotFoundException | ChampionMasteryNotFoundException | AccountNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
     }
 }
