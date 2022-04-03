@@ -2,18 +2,13 @@ package com.springbootcallingexternalapi.Repositories;
 
 import com.springbootcallingexternalapi.Exceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.ChampionNotFoundException;
-import com.springbootcallingexternalapi.Models.AccountModel;
-import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.List;
 
 @Repository
 public class ChampionRepository {

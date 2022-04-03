@@ -7,15 +7,12 @@ import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
-import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Services.ChampionService;
 import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 public class RiotRestController {

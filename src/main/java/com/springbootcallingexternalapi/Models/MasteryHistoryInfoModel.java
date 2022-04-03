@@ -1,7 +1,6 @@
 package com.springbootcallingexternalapi.Models;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class MasteryHistoryInfoModel {
 

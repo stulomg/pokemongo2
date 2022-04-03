@@ -1,7 +1,6 @@
 package com.springbootcallingexternalapi.Models;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class LeagueInfoModel {
     private Timestamp date;
@@ -13,6 +12,8 @@ public class LeagueInfoModel {
     private String rank;
 
     private String summonerName;
+
+    private Integer leaguePoints;
 
     public LeagueInfoModel(Timestamp date, String queueType, String tier, String rank, String summonerName, Integer leaguePoints) {
         this.date = date;
@@ -74,6 +75,5 @@ public class LeagueInfoModel {
         this.leaguePoints = leaguePoints;
     }
 
-    private Integer leaguePoints;
 }
 

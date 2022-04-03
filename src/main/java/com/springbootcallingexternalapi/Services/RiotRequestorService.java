@@ -7,7 +7,6 @@ import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
-import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.Repositories.LeagueRepository;
@@ -21,17 +20,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-5520c42e-7e04-4a71-b4ec-11c711f2477d";
+    private static final String RIOT_TOKEN = "RGAPI-484b867c-aa12-4974-ba0b-c514ada9b50f";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
