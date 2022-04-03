@@ -20,9 +20,7 @@ public class MasteryRestController {
         try {
             MasteryHistoryInfoModel response = riotRequestorService.getMastery(account,championName);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (ChampionNotFoundException e) {
-            e.printStackTrace();
-        } catch (ChampionMasteryNotFoundException e) {
+        } catch (ChampionNotFoundException | CharacterNotAllowedException | ChampionMasteryNotFoundException e) {
             e.printStackTrace();
         }
         return new ResponseEntity<>("New champion added successfully", HttpStatus.OK);
