@@ -6,6 +6,8 @@ import java.util.Date;
 public class LeagueInfoModel {
     private Timestamp date;
 
+    private String leagueId;
+
     private String queueType;
 
     private String tier;
@@ -14,8 +16,11 @@ public class LeagueInfoModel {
 
     private String summonerName;
 
-    public LeagueInfoModel(Timestamp date, String queueType, String tier, String rank, String summonerName, Integer leaguePoints) {
+    private int leaguePoints;
+
+    public LeagueInfoModel(Timestamp date, String leagueId, String queueType, String tier, String rank, String summonerName, int leaguePoints) {
         this.date = date;
+        this.leagueId = leagueId;
         this.queueType = queueType;
         this.tier = tier;
         this.rank = rank;
@@ -32,6 +37,14 @@ public class LeagueInfoModel {
 
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public String getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(String leagueId) {
+        this.leagueId = leagueId;
     }
 
     public String getQueueType() {
@@ -66,14 +79,11 @@ public class LeagueInfoModel {
         this.summonerName = summonerName;
     }
 
-    public Integer getLeaguePoints() {
+    public int getLeaguePoints() {
         return leaguePoints;
     }
 
-    public void setLeaguePoints(Integer leaguePoints) {
+    public void setLeaguePoints(int leaguePoints) {
         this.leaguePoints = leaguePoints;
     }
-
-    private Integer leaguePoints;
 }
-
