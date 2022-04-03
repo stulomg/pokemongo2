@@ -1,5 +1,4 @@
 package com.springbootcallingexternalapi.Services;
-
 import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
@@ -22,12 +21,14 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class RiotRequestorService {
 
+    private static final String RIOT_TOKEN = "RGAPI-0d87dbb8-a102-4601-b4ba-e34da73c25e9";
     private static final String RIOT_TOKEN = "RGAPI-484b867c-aa12-4974-ba0b-c514ada9b50f";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
@@ -78,11 +79,11 @@ public class RiotRequestorService {
         }
     }
 
-    public MasteryHistoryInfoModel getMastery(String account, String championName) throws AccountNotFoundException, ChampionNotFoundException, ChampionMasteryNotFoundException {
+    public MasteryHistoryInfoModel getMastery(String account, String championName) throws AccountNotFoundException, ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-            Long championId = championService.retrieveChampionIdByChampionName(championName);
+            Long championId = championService.retrieveChampionIdByChampionName(championName.toLowerCase(Locale.ROOT));
             String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + championId;
             ResponseEntity<MasteryHistoryInfoModel> response = requestToRiot(uri, HttpMethod.GET, MasteryHistoryInfoModel.class);
             MasteryHistoryInfoModel model = response.getBody();
@@ -90,12 +91,13 @@ public class RiotRequestorService {
             model.setChampionName(championName);
             model.setAccount(account);
             masteryRepository.insertMasteryInfo(model);
-
             return model;
         }catch (EmptyResultDataAccessException e) {
             throw new ChampionNotFoundException(championName);
         }catch (HttpClientErrorException e1){
             throw  new ChampionMasteryNotFoundException(championName);
+        } catch (CharacterNotAllowedException e) {
+            throw new CharacterNotAllowedException(championName);
         }
     }
 

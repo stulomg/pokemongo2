@@ -12,6 +12,7 @@ import com.springbootcallingexternalapi.Services.ChampionService;
 import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -49,13 +50,15 @@ public class RiotRestController {
     }
 
     @GetMapping(value = "call-riot/mastery/{account}/{championName}")
-    public ResponseEntity<Object> getMastery(@PathVariable String account , @PathVariable String championName){
+    public ResponseEntity<Object> getMastery(@PathVariable String account , @PathVariable String championName) throws CharacterNotAllowedException{
+
         try{
             MasteryHistoryInfoModel response = riotRequestorService.getMastery(account , championName);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (ChampionNotFoundException | ChampionMasteryNotFoundException | AccountNotFoundException e) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+            }catch (ChampionNotFoundException | ChampionMasteryNotFoundException | AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+            } catch (CharacterNotAllowedException e1) {
+            throw new CharacterNotAllowedException(championName);
         }
     }
-
 }
