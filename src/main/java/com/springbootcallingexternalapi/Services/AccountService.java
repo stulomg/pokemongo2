@@ -1,7 +1,6 @@
 package com.springbootcallingexternalapi.Services;
 
-import com.springbootcallingexternalapi.Exceptions.AccountDataUpdateException;
-import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
 import org.slf4j.Logger;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class AccountService {
@@ -18,21 +18,20 @@ public class AccountService {
     @Autowired
     AccountRepository accountRepository;
 
-    public void deleteAccount(String owner, String nombre) throws AccountOrOwnerNotFoundException {
-        accountRepository.deleteAccount(owner, nombre);
+    public void deleteAccount(String owner, String account) throws AccountOrOwnerNotFoundException, CharacterNotAllowedException {
+        accountRepository.deleteAccount(owner.toLowerCase(Locale.ROOT), account.toLowerCase(Locale.ROOT));
     }
 
-    public List<AccountModel> retrieveAccountByOwner(String owner) {
-        return accountRepository.retrieveAccountByOwner(owner);
+    public List<AccountModel> retrieveAccountByOwner(String owner) throws CharacterNotAllowedException, OwnerNotFoundException {
+        return accountRepository.retrieveAccountByOwner(owner.toLowerCase(Locale.ROOT));
     }
 
     public void accountUpdate(AccountModel model) throws AccountDataUpdateException {
-
         accountRepository.accountUpdate(model);
     }
 
-    public List<AccountModel> retrieveAccountByName(String name) {
-        return accountRepository.retrieveAccountByName(name);
+    public List<AccountModel> retrieveAccountByName(String name) throws CharacterNotAllowedException, NameNotFoundException {
+        return accountRepository.retrieveAccountByName(name.toLowerCase(Locale.ROOT));
     }
 
 }

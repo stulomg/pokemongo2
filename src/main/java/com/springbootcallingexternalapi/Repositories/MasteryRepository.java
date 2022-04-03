@@ -17,12 +17,13 @@ public class MasteryRepository {
 
     public void insertMasteryInfo (MasteryHistoryInfoModel masteryHistoryInfoModel){
 
-        String sql = "INSERT INTO \"AccountMasteryHistory\" VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO \"AccountMasteryHistory\" VALUES(?,?,?,?,?,?)";
         Object[] params = {masteryHistoryInfoModel.getTimestamp(),
                 masteryHistoryInfoModel.getChampionId(),
                 masteryHistoryInfoModel.getChampionName(),
                 masteryHistoryInfoModel.getChampionPoints(),
-                masteryHistoryInfoModel.getChampionLevel()};
+                masteryHistoryInfoModel.getChampionLevel(),
+                masteryHistoryInfoModel.getAccount()};
 
         try {
             jdbcTemplate.update(sql, params);
