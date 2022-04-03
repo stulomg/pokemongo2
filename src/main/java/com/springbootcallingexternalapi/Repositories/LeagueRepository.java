@@ -29,13 +29,12 @@ public class LeagueRepository {
             throw new SummonerIdNotFoundException(leagueInfoModel);
         }
     }
+
     public List<LeagueInfoModel> divisionHistory(String summonerName) {
-
-        String sql = "SELECT * FROM \"LeagueInfo\" WHERE \"summonerName\"=?" ;
+        String sql = "SELECT * FROM (SELECT * FROM \"LeagueInfo\" WHERE \"summonerName\"=? ORDER BY date DESC LIMIT 20) sub \n" + "ORDER BY date ASC;";
         Object[] params = {summonerName};
-        List<LeagueInfoModel> listLeagues = jdbcTemplate.query(sql,params,BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
 
-        return listLeagues;
+            return jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
 
     }
 }

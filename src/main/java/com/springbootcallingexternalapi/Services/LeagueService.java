@@ -11,9 +11,8 @@ public class LeagueService {
     LeagueRepository leagueRepository;
 
     public Object divisionHistory(String summonerName) {
-
-        return leagueRepository.divisionHistory(summonerName);
+            return leagueRepository.divisionHistory(summonerName);
+        }
     }
-}
 
 
