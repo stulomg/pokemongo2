@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 public class RiotRestController {
@@ -37,8 +38,8 @@ public class RiotRestController {
         }
     }
 
-    @GetMapping(value = "/call-riot/league/{account}")
-    public ResponseEntity<Object> getLeague(@PathVariable String account) throws SummonerIdNotFoundException {
+    @GetMapping(value = "/call-riot/league/soloq/{account}")
+    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) throws SummonerIdNotFoundException, BadEndpointException {
         try {
             LeagueInfoModel response = riotRequestorService.getLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -46,6 +47,8 @@ public class RiotRestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (AccountDataException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (HttpClientErrorException.NotFound e2){
+            return new ResponseEntity<>(e2.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -20,11 +20,11 @@ public class LeagueRepository {
 
     public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws SummonerIdNotFoundException {
         Timestamp date = new Timestamp(System.currentTimeMillis());
-        String sql = "INSERT INTO \"LeagueInfo\" VALUES(?,?,?,?,?,?)";
-        Object[] params = {date, leagueInfoModel.getQueueType(), leagueInfoModel.getTier(), leagueInfoModel.getRank(), leagueInfoModel.getSummonerName(), leagueInfoModel.getLeaguePoints()};
-        try {
-            jdbcTemplate.update(sql, params);
-        } catch (DataAccessException e) {
+        String sql = "INSERT INTO \"LeagueInfo\" VALUES(?,?,?,?,?,?,?)";
+        Object[] params = {date,leagueInfoModel.getLeagueId(),leagueInfoModel.getQueueType(),leagueInfoModel.getTier(),leagueInfoModel.getRank(),leagueInfoModel.getSummonerName(),leagueInfoModel.getLeaguePoints()};
+        try{
+            jdbcTemplate.update(sql,params);
+        }catch (DataAccessException e){
             logger.info(e.getMessage());
             throw new SummonerIdNotFoundException(leagueInfoModel);
         }

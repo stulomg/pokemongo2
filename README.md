@@ -17,15 +17,153 @@ You’ll start by editing this README file to learn how to edit a file in Bitbuc
 5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
 6. Go back to the **Source** page.
 
+## 1) CREATE DATABASES!
+
+Let's start with our DB(Database), we will use PostgreSQL, and we will use pgAdmin4 for browsing and testing the DB.
+
+1. Download pgAdmin4 and PostgreSQL.
+2. open pgAdmin4, put on your local password assigned.
+3. Click the **Databases** button and then Click **Schemas** -> **Tables** button.
+4. Insert the following sql query so you can create each one of the tables:
+
+
+**AccountMasteryHistory**:
+
+-- Table: public.AccountMasteryHistory
+
+-- DROP TABLE IF EXISTS public."AccountMasteryHistory";
+
+CREATE TABLE IF NOT EXISTS public."AccountMasteryHistory"
+(
+"timeStamp" timestamp without time zone NOT NULL,
+"championId" bigint NOT NULL,
+"championName" text COLLATE pg_catalog."default" NOT NULL,
+"championPoints" integer NOT NULL,
+"championLevel" integer NOT NULL,
+CONSTRAINT "AccountMasteryHistory_pkey" PRIMARY KEY ("timeStamp")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."AccountMasteryHistory"
+OWNER to postgres;
+
+**Accounts**:
+
+-- Table: public.Accounts
+
+-- DROP TABLE IF EXISTS public."Accounts";
+
+CREATE TABLE IF NOT EXISTS public."Accounts"
+(
+id text COLLATE pg_catalog."default" NOT NULL,
+"accountId" text COLLATE pg_catalog."default" NOT NULL,
+puuid text COLLATE pg_catalog."default" NOT NULL,
+name text COLLATE pg_catalog."default" NOT NULL,
+"profileIconId" integer NOT NULL,
+"revisionDate" bigint NOT NULL,
+"summonerLevel" integer NOT NULL,
+owner text COLLATE pg_catalog."default" NOT NULL,
+CONSTRAINT "AccountBaseModel_pkey" PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Accounts"
+OWNER to postgres;
+
+**ChampionMasteries**:
+
+-- Table: public.ChampionMasteries
+
+-- DROP TABLE IF EXISTS public."ChampionMasteries";
+
+CREATE TABLE IF NOT EXISTS public."ChampionMasteries"
+(
+id text COLLATE pg_catalog."default" NOT NULL,
+name text COLLATE pg_catalog."default" NOT NULL,
+"ChampionName" text COLLATE pg_catalog."default" NOT NULL,
+"ChampionMastery" integer NOT NULL,
+CONSTRAINT "ChampionMasteries_pkey" PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."ChampionMasteries"
+OWNER to postgres;
+
+**Champions**:
+
+-- Table: public.Champions
+
+-- DROP TABLE IF EXISTS public."Champions";
+
+CREATE TABLE IF NOT EXISTS public."Champions"
+(
+"ChampionId" bigint NOT NULL,
+"ChampionName" text COLLATE pg_catalog."default" NOT NULL,
+CONSTRAINT "Champions_pkey" PRIMARY KEY ("ChampionId")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Champions"
+OWNER to postgres;
+
+**LeagueInfo**:
+-- Table: public.LeagueInfo
+
+-- DROP TABLE IF EXISTS public."LeagueInfo";
+
+CREATE TABLE IF NOT EXISTS public."LeagueInfo"
+(
+date timestamp without time zone NOT NULL,
+"leagueId" text COLLATE pg_catalog."default" NOT NULL,
+"queueType" text COLLATE pg_catalog."default" NOT NULL,
+tier text COLLATE pg_catalog."default" NOT NULL,
+rank text COLLATE pg_catalog."default" NOT NULL,
+"summonerName" text COLLATE pg_catalog."default" NOT NULL,
+"LeaguePoints" integer NOT NULL,
+CONSTRAINT "LeagueInfo_pkey" PRIMARY KEY (date)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."LeagueInfo"
+OWNER to postgres;
+
+
+6. Now you have the required tables on your DB!.
+
 ---
 
-## Create a file
 
-Next, you’ll add a new file to this repository.
+## Our features!
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
+Our service offer several info about League of legends and Valorant stats!, so lets start with our League of legends features!.
+
+##League of legends
+*In here you can consult a variety of stats so lets put them one by one!*
+
+1. Consult the actual ELO or League of an account, take into account that you have to replace the word
+"summoner" with the summoner name you want to consult!, you can omit upper case and lower case since Riot will search for it
+automatically!.
+
+    Use the URL http://localhost:8080/call-riot/league/summoner
+
+
+2. Consult the general info of an account and assign it to an owner!, take into account that you have to replace the word
+   "summoner" with the summoner name you want to consult! and "owner" with your name(if you are allowed to register accounts!)
+
+   Use the URL: http://localhost:8080/call-riot/summoner/owner
+
+
+3. Consult the general info of an account and assign it to an owner!, take into account that you have to replace the word
+   "summoner" with the summoner name you want to consult! and "owner" with your name(if you are allowed to register accounts!)
+
+   Use the URL: http://localhost:8080/call-riot/summoner/owner
+
+
 4. Click **Commit** and then **Commit** again in the dialog.
 5. Go back to the **Source** page.
 

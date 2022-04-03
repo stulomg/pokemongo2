@@ -28,7 +28,7 @@ import java.util.Optional;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-0d87dbb8-a102-4601-b4ba-e34da73c25e9";
+    private static final String RIOT_TOKEN = "RGAPI-05cd3082-a93d-4b15-950a-0e625f51fa64";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -71,7 +71,7 @@ public class RiotRequestorService {
                 leagueRepository.insertLeagueInfo(model.get());
                 return model.get();
             } else {
-                throw new QueueNotFoundException(queueToFind);
+                throw new QueueNotFoundException("SOLO QUEUE");
             }
         } catch (RestClientException e1) {
             throw new AccountNotFoundException(account);
