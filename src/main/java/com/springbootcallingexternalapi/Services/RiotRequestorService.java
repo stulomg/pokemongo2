@@ -74,7 +74,7 @@ public class RiotRequestorService {
                 leagueRepository.insertLeagueInfo(model.get());
                 return model.get();
             } else {
-                throw new QueueNotFoundException(queueToFind);
+                throw new QueueNotFoundException("SOLO QUEUE");
             }
         } catch (RestClientException e1) {
             throw new AccountNotFoundException(account);
