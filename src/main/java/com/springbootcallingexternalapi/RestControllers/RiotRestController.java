@@ -53,7 +53,7 @@ public class RiotRestController {
     }
 
     @GetMapping(value = "call-riot/mastery/{account}/{championName}")
-    public ResponseEntity<Object> getMastery(@PathVariable String account , @PathVariable String championName) throws CharacterNotAllowedException,{
+    public ResponseEntity<Object> getMastery(@PathVariable String account , @PathVariable String championName) throws CharacterNotAllowedException{
 
         try{
             MasteryHistoryInfoModel response = riotRequestorService.getMastery(account , championName);
