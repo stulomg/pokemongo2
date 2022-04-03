@@ -2,7 +2,6 @@ package com.springbootcallingexternalapi.RestControllers;
 
 import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
-import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

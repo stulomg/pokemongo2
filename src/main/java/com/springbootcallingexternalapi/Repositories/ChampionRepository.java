@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
 import static com.springbootcallingexternalapi.Util.AlphaVerifier.isAlpha;
 
+
 @Repository
 public class ChampionRepository {
     @Autowired

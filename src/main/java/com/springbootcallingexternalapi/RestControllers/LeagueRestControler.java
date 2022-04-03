@@ -15,6 +15,9 @@ public class LeagueRestControler {
 
     @GetMapping(value = "/account/division-history/{summonerName}")
     public ResponseEntity<Object> divisionHistory(@PathVariable String summonerName) {
-        return new ResponseEntity<>( leagueService.divisionHistory(summonerName) , HttpStatus.OK);
+
+            return new ResponseEntity<>(leagueService.divisionHistory(summonerName), HttpStatus.OK);
+
     }
 }
+
