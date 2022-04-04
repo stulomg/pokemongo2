@@ -27,13 +27,13 @@ public class RiotRestController {
     @RequestMapping(value = "/call-riot/{account}/{owner}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) throws AccountDataException, AccountNotFoundException {
+    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner){
         try {
             AccountBaseModel acc = riotRequestorService.getAccountAndAssignToOwner(account, owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AccountDataException e1) {
+        } catch (AccountDataException | OwnerNotAllowed e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -53,7 +53,7 @@ public class RiotRestController {
     }
 
     @GetMapping(value = "call-riot/mastery/{account}/{championName}")
-    public ResponseEntity<Object> getMastery(@PathVariable String account , @PathVariable String championName) throws CharacterNotAllowedException{
+    public ResponseEntity<Object> getMastery(@PathVariable String account , @PathVariable String championName){
 
         try{
             MasteryHistoryInfoModel response = riotRequestorService.getMastery(account , championName);
@@ -61,7 +61,7 @@ public class RiotRestController {
             }catch (ChampionNotFoundException | ChampionMasteryNotFoundException | AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
             } catch (CharacterNotAllowedException e1) {
-            throw new CharacterNotAllowedException(championName);
+            return new ResponseEntity<>(e1.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 }
