@@ -26,7 +26,7 @@ public class AccountService {
         return accountRepository.retrieveAccountByOwner(owner.toLowerCase(Locale.ROOT));
     }
 
-    public void accountUpdate(AccountModel model) throws AccountDataUpdateException {
+    public void accountUpdate(AccountModel model) {
         accountRepository.accountUpdate(model);
     }
 

@@ -25,12 +25,12 @@ public class AccountRepository {
     public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowed {
 
         String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
-        Object[] params = {account.getId(),account.getAccountId(),account.getPuuid(),account.getName().toLowerCase(Locale.ROOT),account.getProfileIconId(),account.getRevisionDate(), account.getSummonerLevel(),owner.toLowerCase(Locale.ROOT)};
-        try{
+        Object[] params = {account.getId(), account.getAccountId(), account.getPuuid(), account.getName().toLowerCase(Locale.ROOT), account.getProfileIconId(), account.getRevisionDate(), account.getSummonerLevel(), owner.toLowerCase(Locale.ROOT)};
+        try {
             if (owner.equalsIgnoreCase("kusi") || owner.equalsIgnoreCase("stul")) {
                 jdbcTemplate.update(sql, params);
-            }else throw new OwnerNotAllowed(owner);
-        }catch (DataAccessException e){
+            } else throw new OwnerNotAllowed(owner);
+        } catch (DataAccessException e) {
             throw new AccountDataException(account);
         }
     }
@@ -46,13 +46,14 @@ public class AccountRepository {
             if (result == 0) {
                 throw new AccountOrOwnerNotFoundException(account, owner);
             }
-        }throw new CharacterNotAllowedException(owner, account);
+        }
+        throw new CharacterNotAllowedException(owner, account);
 
 
     }
 
     public List<AccountModel> retrieveAccountByOwner(String owner) throws CharacterNotAllowedException, OwnerNotFoundException {
-        String sql = "SELECT * FROM \"Accounts\" WHERE LOWER (owner)=?" ;
+        String sql = "SELECT * FROM \"Accounts\" WHERE LOWER (owner)=?";
         Object[] params = {owner};
 
         if (isAlpha(owner)) {
@@ -60,33 +61,29 @@ public class AccountRepository {
             List<AccountModel> listAccounts = jdbcTemplate.query(sql, params,
                     BeanPropertyRowMapper.newInstance(AccountModel.class));
             if (listAccounts.size() == 0) {
-                throw  new OwnerNotFoundException(owner);
-            }else return listAccounts;
-        }throw new CharacterNotAllowedException(owner);
+                throw new OwnerNotFoundException(owner);
+            } else return listAccounts;
+        }
+        throw new CharacterNotAllowedException(owner);
     }
 
-    public void accountUpdate(AccountModel model) throws AccountDataUpdateException {
+    public void accountUpdate(AccountModel model) {
         String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?, \"summonerLevel\"=?, owner=? WHERE id=?";
         Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(), model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
+
         int result = jdbcTemplate.update(sql, params);
-
-        if (result == 0) {
-            throw new AccountDataUpdateException(model);
-        }
-
     }
 
     public List<AccountModel> retrieveAccountByName(String name) throws CharacterNotAllowedException, NameNotFoundException {
-        String sql = "SELECT * FROM \"Accounts\" WHERE LOWER (name)=?" ;
+        String sql = "SELECT * FROM \"Accounts\" WHERE LOWER (name)=?";
         Object[] params = {name};
 
         if (isAlpha(name)) {
-            List<AccountModel> listAccounts = jdbcTemplate.query(sql, params,
-                    BeanPropertyRowMapper.newInstance(AccountModel.class));
-                if (listAccounts.size()==0){
-                    throw new NameNotFoundException(name);
-                }else return listAccounts;
-
-        }throw new CharacterNotAllowedException(name);
+            List<AccountModel> listAccounts = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(AccountModel.class));
+            if (listAccounts.size() == 0) {
+                throw new NameNotFoundException(name);
+            } else return listAccounts;
+        }
+        throw new CharacterNotAllowedException(name);
     }
 }

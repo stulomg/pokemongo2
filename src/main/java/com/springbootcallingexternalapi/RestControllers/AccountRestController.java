@@ -40,9 +40,10 @@ public class AccountRestController {
     }
 
     @PutMapping(value = "/account/update")
-    public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model) throws AccountDataUpdateException {
+    public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model) {
         accountService.accountUpdate(model);
-        return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
+
+            return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
     }
 
     @GetMapping(value = "/account/find-by-name/{name}")
