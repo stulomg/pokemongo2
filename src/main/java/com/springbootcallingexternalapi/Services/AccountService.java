@@ -33,6 +33,5 @@ public class AccountService {
     public List<AccountModel> retrieveAccountByName(String name) throws CharacterNotAllowedException, NameNotFoundException {
         return accountRepository.retrieveAccountByName(name.toLowerCase(Locale.ROOT));
     }
-
 }
 

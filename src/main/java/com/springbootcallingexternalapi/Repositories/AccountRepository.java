@@ -20,7 +20,6 @@ import static com.springbootcallingexternalapi.Util.AlphaVerifier.isAlpha;
 public class AccountRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    Logger logger = LoggerFactory.getLogger(AccountRepository.class);
 
     public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowed {
 
@@ -39,15 +38,13 @@ public class AccountRepository {
         String sql = "DELETE FROM \"Accounts\" WHERE LOWER (name)=? AND LOWER (owner)=?";
         Object[] params = {account, owner};
 
-
         if (isAlpha(owner, account)) {
             int result = jdbcTemplate.update(sql, params);
 
             if (result == 0) {
                 throw new AccountOrOwnerNotFoundException(account, owner);
             }
-        }
-        throw new CharacterNotAllowedException(owner, account);
+        }else throw new CharacterNotAllowedException(owner, account);
 
 
     }
@@ -70,8 +67,12 @@ public class AccountRepository {
     public void accountUpdate(AccountModel model) {
         String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?, \"summonerLevel\"=?, owner=? WHERE id=?";
         Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(), model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
-
         int result = jdbcTemplate.update(sql, params);
+
+        if (result == 0) {
+            throw new AccountDataUpdateException(model);
+        }
+
     }
 
     public List<AccountModel> retrieveAccountByName(String name) throws CharacterNotAllowedException, NameNotFoundException {
@@ -79,11 +80,12 @@ public class AccountRepository {
         Object[] params = {name};
 
         if (isAlpha(name)) {
-            List<AccountModel> listAccounts = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(AccountModel.class));
-            if (listAccounts.size() == 0) {
-                throw new NameNotFoundException(name);
-            } else return listAccounts;
-        }
-        throw new CharacterNotAllowedException(name);
+            List<AccountModel> listAccounts = jdbcTemplate.query(sql, params,
+                    BeanPropertyRowMapper.newInstance(AccountModel.class));
+                if (listAccounts.size()==0){
+                    throw new NameNotFoundException(name);
+                }else return listAccounts;
+
+        }else throw new CharacterNotAllowedException(name);
     }
 }
