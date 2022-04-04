@@ -31,6 +31,6 @@ public class ChampionRepository {
             } catch (HttpClientErrorException e1) {
                 throw new ChampionMasteryNotFoundException(championName);
             }
-        } throw new CharacterNotAllowedException(championName);
+        } else throw new CharacterNotAllowedException(championName);
     }
 }

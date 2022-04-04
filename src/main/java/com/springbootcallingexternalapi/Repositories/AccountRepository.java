@@ -20,7 +20,6 @@ import static com.springbootcallingexternalapi.Util.AlphaVerifier.isAlpha;
 public class AccountRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    Logger logger = LoggerFactory.getLogger(AccountRepository.class);
 
     public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowed {
 
@@ -39,7 +38,6 @@ public class AccountRepository {
         String sql = "DELETE FROM \"Accounts\" WHERE LOWER (name)=? AND LOWER (owner)=?";
         Object[] params = {account, owner};
 
-
         if (isAlpha(owner, account)) {
             int result = jdbcTemplate.update(sql, params);
 
@@ -47,8 +45,6 @@ public class AccountRepository {
                 throw new AccountOrOwnerNotFoundException(account, owner);
             }
         }throw new CharacterNotAllowedException(owner, account);
-
-
     }
 
     public List<AccountModel> retrieveAccountByOwner(String owner) throws CharacterNotAllowedException, OwnerNotFoundException {
@@ -73,7 +69,6 @@ public class AccountRepository {
         if (result == 0) {
             throw new AccountDataUpdateException(model);
         }
-
     }
 
     public List<AccountModel> retrieveAccountByName(String name) throws CharacterNotAllowedException, NameNotFoundException {
@@ -87,6 +82,6 @@ public class AccountRepository {
                     throw new NameNotFoundException(name);
                 }else return listAccounts;
 
-        }throw new CharacterNotAllowedException(name);
+        }else throw new CharacterNotAllowedException(name);
     }
 }

@@ -17,7 +17,6 @@ public class LeagueRestControler {
     public ResponseEntity<Object> divisionHistory(@PathVariable String summonerName) {
 
             return new ResponseEntity<>(leagueService.divisionHistory(summonerName), HttpStatus.OK);
-
     }
 }
 
