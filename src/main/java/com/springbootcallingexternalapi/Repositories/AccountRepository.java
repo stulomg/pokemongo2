@@ -69,11 +69,8 @@ public class AccountRepository {
         Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(), model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
         int result = jdbcTemplate.update(sql, params);
 
-        if (result == 0) {
-            throw new AccountDataUpdateException(model);
         }
 
-    }
 
     public List<AccountModel> retrieveAccountByName(String name) throws CharacterNotAllowedException, NameNotFoundException {
         String sql = "SELECT * FROM \"Accounts\" WHERE LOWER (name)=?";
