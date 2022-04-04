@@ -39,7 +39,7 @@ public class RiotRestController {
     }
 
     @GetMapping(value = "/call-riot/league/soloq/{account}")
-    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) throws SummonerIdNotFoundException, BadEndpointException {
+    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) throws SummonerIdNotFoundException {
         try {
             LeagueInfoModel response = riotRequestorService.getLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
