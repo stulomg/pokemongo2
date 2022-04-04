@@ -9,4 +9,6 @@ public class AlphaVerifier {
     public static boolean isAlpha(String s) {
         return p.matcher(s).find();
     }
+
+    public static boolean isAlpha (String owner, String account){return p.matcher(owner).find();}
 }

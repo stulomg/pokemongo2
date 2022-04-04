@@ -1,7 +1,6 @@
 package com.springbootcallingexternalapi.RestControllers;
 
-import com.springbootcallingexternalapi.Exceptions.AccountDataUpdateException;
-import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +20,23 @@ public class AccountRestController {
             return new ResponseEntity<>("Delete succesfully", HttpStatus.OK);
         } catch (AccountOrOwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (CharacterNotAllowedException e2) {
+            return new ResponseEntity<>(e2.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping(value = "/account/find-by-owner/{owner}")
-    public ResponseEntity<Object> retrieveAccountByOwner(@PathVariable String owner) {
-        return new ResponseEntity<>(  accountService.retrieveAccountByOwner(owner) , HttpStatus.OK);
+    public ResponseEntity<Object> retrieveAccountByOwner(@PathVariable String owner){
+        try {
+            return new ResponseEntity<>(  accountService.retrieveAccountByOwner(owner) , HttpStatus.OK);
+        }catch (CharacterNotAllowedException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }catch (OwnerNotFoundException e1){
+            return new ResponseEntity<>(e1.getMessage(),HttpStatus.NOT_FOUND);
+        }
+
+
+
     }
 
     @PutMapping(value = "/account/update")
@@ -36,8 +46,15 @@ public class AccountRestController {
     }
 
     @GetMapping(value = "/account/find-by-name/{name}")
-    public ResponseEntity<Object> retrieveAccountByName(@PathVariable String name) {
-        return new ResponseEntity<>(  accountService.retrieveAccountByName(name) , HttpStatus.OK);
+    public ResponseEntity<Object> retrieveAccountByName(@PathVariable String name){
+        try{
+            return new ResponseEntity<>(  accountService.retrieveAccountByName(name) , HttpStatus.OK);
+        }catch (CharacterNotAllowedException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }catch (NameNotFoundException e1){
+            return new ResponseEntity<>(e1.getMessage(),HttpStatus.NOT_FOUND);
+        }
+
     }
 
 }

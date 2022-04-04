@@ -13,9 +13,9 @@ public class AccountBaseModel {
 
     private Long revisionDate;
 
-    private Integer summonerLevel;
+    private Long summonerLevel;
 
-    public AccountBaseModel(String id, String accountId, String puuid, String name, Integer profileIconId, Long revisionDate, Integer summonerLevel) {
+    public AccountBaseModel(String id, String accountId, String puuid, String name, Integer profileIconId, Long revisionDate, Long summonerLevel) {
         this.id = id;
         this.accountId = accountId;
         this.puuid = puuid;
@@ -77,11 +77,11 @@ public class AccountBaseModel {
         this.revisionDate = revisionDate;
     }
 
-    public Integer getSummonerLevel() {
+    public Long getSummonerLevel() {
         return summonerLevel;
     }
 
-    public void setSummonerLevel(Integer summonerLevel) {
+    public void setSummonerLevel(Long summonerLevel) {
         this.summonerLevel = summonerLevel;
     }
 }

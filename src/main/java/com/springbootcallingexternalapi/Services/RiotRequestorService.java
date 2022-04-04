@@ -41,11 +41,13 @@ public class RiotRequestorService {
     @Autowired
     MasteryRepository masteryRepository;
 
-    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException {
-        ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account);
+    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, OwnerNotAllowed {
+        ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
         AccountBaseModel acc2 = Objects.requireNonNull(acc.getBody());
-        accountRepository.insertAccount(acc2,owner);
-        return acc2;
+
+            accountRepository.insertAccount(acc2, owner.toLowerCase(Locale.ROOT));
+            return acc2;
+
     }
 
     public ResponseEntity<AccountBaseModel> getAccountFromRiot(String account) throws AccountNotFoundException {
