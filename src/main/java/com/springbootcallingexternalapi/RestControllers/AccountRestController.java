@@ -1,6 +1,9 @@
 package com.springbootcallingexternalapi.RestControllers;
 
-import com.springbootcallingexternalapi.Exceptions.*;
+import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +16,10 @@ public class AccountRestController {
     @Autowired
     AccountService accountService;
 
-    @DeleteMapping(value = "/account/delete/{owner}/{nombre}")
-    public ResponseEntity<Object> deleteAccount(@PathVariable String owner, @PathVariable String nombre) {
+    @DeleteMapping(value = "/account/delete/{owner}/{account}")
+    public ResponseEntity<Object> deleteAccount(@PathVariable String owner, @PathVariable String account) {
         try {
-            accountService.deleteAccount(owner, nombre);
+            accountService.deleteAccount(owner, account);
             return new ResponseEntity<>("Delete succesfully", HttpStatus.OK);
         } catch (AccountOrOwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -26,13 +29,13 @@ public class AccountRestController {
     }
 
     @GetMapping(value = "/account/find-by-owner/{owner}")
-    public ResponseEntity<Object> retrieveAccountByOwner(@PathVariable String owner) {
+    public ResponseEntity<Object> retrieveAccountByOwner(@PathVariable String owner){
         try {
-            return new ResponseEntity<>(accountService.retrieveAccountByOwner(owner), HttpStatus.OK);
-        } catch (CharacterNotAllowedException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (OwnerNotFoundException e1) {
-            return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(  accountService.retrieveAccountByOwner(owner) , HttpStatus.OK);
+        }catch (CharacterNotAllowedException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }catch (OwnerNotFoundException e1){
+            return new ResponseEntity<>(e1.getMessage(),HttpStatus.NOT_FOUND);
         }
     }
 
@@ -43,13 +46,13 @@ public class AccountRestController {
     }
 
 
-    @GetMapping(value = "/account/find-by-name/{name}")
-    public ResponseEntity<Object> retrieveAccountByName(@PathVariable String name) {
+    @GetMapping(value = "/account/find-by-name/{AccountName}")
+    public ResponseEntity<Object> retrieveAccountByName(@PathVariable String account) {
         try {
-            return new ResponseEntity<>(accountService.retrieveAccountByName(name), HttpStatus.OK);
+            return new ResponseEntity<>(accountService.retrieveAccountByName(account), HttpStatus.OK);
         } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (NameNotFoundException e1) {
+        } catch (AccountNotFoundException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
     }

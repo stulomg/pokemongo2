@@ -1,7 +1,7 @@
 package com.springbootcallingexternalapi.Repositories;
-import com.springbootcallingexternalapi.Exceptions.ChampionMasteryNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.ChampionNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,8 @@ public class ChampionRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    Logger logger = LoggerFactory.getLogger(com.springbootcallingexternalapi.Repositories.ChampionRepository.class);
-
-    public Long retrieveChampionIdByChampionName(String championName) throws ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException {
+    public Long retrieveChampionIdByChampionName(String championName)
+            throws ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException {
         String sql = "SELECT \"ChampionId\" FROM \"Champions\" WHERE LOWER (\"ChampionName\")=?" ;
         Object[] params = {championName};
         if (isAlpha(championName)) {

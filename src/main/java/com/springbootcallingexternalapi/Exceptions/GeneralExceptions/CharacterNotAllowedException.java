@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.Exceptions;
+package com.springbootcallingexternalapi.Exceptions.GeneralExceptions;
 
 public class CharacterNotAllowedException extends Exception{
     public CharacterNotAllowedException(String name){

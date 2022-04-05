@@ -1,8 +1,8 @@
 package com.springbootcallingexternalapi.Services;
 
-import com.springbootcallingexternalapi.Exceptions.ChampionMasteryNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.ChampionNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Repositories.ChampionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

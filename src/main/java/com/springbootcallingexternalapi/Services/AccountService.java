@@ -1,10 +1,11 @@
 package com.springbootcallingexternalapi.Services;
 
-import com.springbootcallingexternalapi.Exceptions.*;
+import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,6 @@ import java.util.Locale;
 
 @Service
 public class AccountService {
-    Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
     @Autowired
     AccountRepository accountRepository;
@@ -30,8 +30,8 @@ public class AccountService {
         accountRepository.accountUpdate(model);
     }
 
-    public List<AccountModel> retrieveAccountByName(String name) throws CharacterNotAllowedException, NameNotFoundException {
-        return accountRepository.retrieveAccountByName(name.toLowerCase(Locale.ROOT));
+    public List<AccountModel> retrieveAccountByName(String name) throws CharacterNotAllowedException, AccountNotFoundException {
+        return accountRepository.retrieveAccountByAccountName(name.toLowerCase(Locale.ROOT));
     }
 }
 

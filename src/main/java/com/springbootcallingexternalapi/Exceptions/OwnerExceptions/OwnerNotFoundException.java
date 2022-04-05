@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.Exceptions;
+package com.springbootcallingexternalapi.Exceptions.OwnerExceptions;
 
 public class OwnerNotFoundException extends Exception{
     public OwnerNotFoundException(String owner) {
