@@ -38,13 +38,10 @@ public class AccountRestController {
 
     @PutMapping(value = "/account/update")
     public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model){
-        try {
             accountService.accountUpdate(model);
             return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
-        } catch (AccountDataUpdateException e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
-    }
+
 
     @GetMapping(value = "/account/find-by-name/{name}")
     public ResponseEntity<Object> retrieveAccountByName(@PathVariable String name){
