@@ -1,10 +1,13 @@
 package com.springbootcallingexternalapi.Repositories;
 
 import com.springbootcallingexternalapi.Exceptions.*;
+import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountDataException;
+import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowed;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.AccountModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -21,17 +24,19 @@ public class AccountRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowed {
+    public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowed, CharacterNotAllowedException {
 
         String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
         Object[] params = {account.getId(), account.getAccountId(), account.getPuuid(), account.getName().toLowerCase(Locale.ROOT), account.getProfileIconId(), account.getRevisionDate(), account.getSummonerLevel(), owner.toLowerCase(Locale.ROOT)};
-        try {
-            if (owner.equalsIgnoreCase("kusi") || owner.equalsIgnoreCase("stul")) {
-                jdbcTemplate.update(sql, params);
-            } else throw new OwnerNotAllowed(owner);
-        } catch (DataAccessException e) {
-            throw new AccountDataException(account);
-        }
+        if (isAlpha(owner)) {
+            try {
+                if (owner.equalsIgnoreCase("kusi") || owner.equalsIgnoreCase("stul")) {
+                    jdbcTemplate.update(sql, params);
+                } else throw new OwnerNotAllowed(owner);
+            } catch (DataAccessException e) {
+                throw new AccountDataException(account);
+            }
+        } else throw new CharacterNotAllowedException(owner);
     }
 
     public void deleteAccount(String owner, String account) throws AccountOrOwnerNotFoundException, CharacterNotAllowedException {
@@ -44,7 +49,7 @@ public class AccountRepository {
             if (result == 0) {
                 throw new AccountOrOwnerNotFoundException(account, owner);
             }
-        }else throw new CharacterNotAllowedException(owner, account);
+        } else throw new CharacterNotAllowedException(owner, account);
 
 
     }
@@ -64,25 +69,28 @@ public class AccountRepository {
         throw new CharacterNotAllowedException(owner);
     }
 
+    //Agregar excepcion para el error NOTNULL en los campos de la base de datos
     public void accountUpdate(AccountModel model) {
-        String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?, \"summonerLevel\"=?, owner=? WHERE id=?";
-        Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(), model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
-        int result = jdbcTemplate.update(sql, params);
+        String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?," +
+                " \"summonerLevel\"=?, owner=? WHERE id=?";
+        Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(),
+                model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
 
-        }
+        jdbcTemplate.update(sql, params);
+    }
 
 
-    public List<AccountModel> retrieveAccountByName(String name) throws CharacterNotAllowedException, NameNotFoundException {
+    public List<AccountModel> retrieveAccountByAccountName(String account) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "SELECT * FROM \"Accounts\" WHERE LOWER (name)=?";
-        Object[] params = {name};
+        Object[] params = {account};
 
-        if (isAlpha(name)) {
+        if (isAlpha(account)) {
             List<AccountModel> listAccounts = jdbcTemplate.query(sql, params,
                     BeanPropertyRowMapper.newInstance(AccountModel.class));
-                if (listAccounts.size()==0){
-                    throw new NameNotFoundException(name);
-                }else return listAccounts;
+            if (listAccounts.size() == 0) {
+                throw new AccountNotFoundException(account);
+            } else return listAccounts;
 
-        }else throw new CharacterNotAllowedException(name);
+        } else throw new CharacterNotAllowedException(account);
     }
 }

@@ -1,10 +1,9 @@
 package com.springbootcallingexternalapi.Repositories;
 
-import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountDataException;
+import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -20,9 +19,8 @@ public class MasteryRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    Logger logger = LoggerFactory.getLogger(MasteryRepository.class);
 
-    public void insertMasteryInfo (MasteryHistoryInfoModel masteryHistoryInfoModel){
+    public void insertMasteryInfo(MasteryHistoryInfoModel masteryHistoryInfoModel) throws AccountDataException {
 
         String sql = "INSERT INTO \"AccountMasteryHistory\" VALUES(?,?,?,?,?,?)";
         Object[] params = {masteryHistoryInfoModel.getTimestamp(),
@@ -35,7 +33,7 @@ public class MasteryRepository {
         try {
             jdbcTemplate.update(sql, params);
         }catch (DataAccessException e){
-            logger.info(e.getMessage());
+            throw new AccountDataException(masteryHistoryInfoModel);
         }
     }
 
@@ -44,11 +42,11 @@ public class MasteryRepository {
         Object[] params = {account};
 
         if(isAlpha (account)){
-            List<MasteryHistoryInfoModel> lisMastery = jdbcTemplate.query(sql,params,
+            List<MasteryHistoryInfoModel> listMastery = jdbcTemplate.query(sql, params,
                     BeanPropertyRowMapper.newInstance(MasteryHistoryInfoModel.class));
-            if (account.length() == 0){
+            if (account.length() == 0) {
                 throw new AccountNotFoundException(account);
-            }else return lisMastery;
+            } else return listMastery;
         }else throw new CharacterNotAllowedException(account);
     }
 }
