@@ -35,7 +35,7 @@ import java.util.Optional;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-b30c2a3b-fdd8-41a3-9999-a2f74d5ff92c";
+    private static final String RIOT_TOKEN = "RGAPI-70cec9c6-6fdd-4f2a-aa14-e3fbb6759836";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -48,7 +48,7 @@ public class RiotRequestorService {
     @Autowired
     MasteryRepository masteryRepository;
 
-    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, OwnerNotAllowed {
+    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, OwnerNotAllowed, CharacterNotAllowedException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
         AccountBaseModel acc2 = Objects.requireNonNull(acc.getBody());
 

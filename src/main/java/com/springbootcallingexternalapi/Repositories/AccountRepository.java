@@ -24,17 +24,19 @@ public class AccountRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowed {
+    public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowed, CharacterNotAllowedException {
 
         String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
         Object[] params = {account.getId(), account.getAccountId(), account.getPuuid(), account.getName().toLowerCase(Locale.ROOT), account.getProfileIconId(), account.getRevisionDate(), account.getSummonerLevel(), owner.toLowerCase(Locale.ROOT)};
-        try {
-            if (owner.equalsIgnoreCase("kusi") || owner.equalsIgnoreCase("stul")) {
-                jdbcTemplate.update(sql, params);
-            } else throw new OwnerNotAllowed(owner);
-        } catch (DataAccessException e) {
-            throw new AccountDataException(account);
-        }
+        if (isAlpha(owner)) {
+            try {
+                if (owner.equalsIgnoreCase("kusi") || owner.equalsIgnoreCase("stul")) {
+                    jdbcTemplate.update(sql, params);
+                } else throw new OwnerNotAllowed(owner);
+            } catch (DataAccessException e) {
+                throw new AccountDataException(account);
+            }
+        } else throw new CharacterNotAllowedException(owner);
     }
 
     public void deleteAccount(String owner, String account) throws AccountOrOwnerNotFoundException, CharacterNotAllowedException {
@@ -67,6 +69,7 @@ public class AccountRepository {
         throw new CharacterNotAllowedException(owner);
     }
 
+    //Agregar excepcion para el error NOTNULL en los campos de la base de datos
     public void accountUpdate(AccountModel model) {
         String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?," +
                 " \"summonerLevel\"=?, owner=? WHERE id=?";
