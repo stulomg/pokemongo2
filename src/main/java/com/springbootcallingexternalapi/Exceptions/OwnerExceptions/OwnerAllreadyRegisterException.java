@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.Exceptions;
+package com.springbootcallingexternalapi.Exceptions.OwnerExceptions;
 
 import com.springbootcallingexternalapi.Models.OwnerModel;
 
