@@ -34,16 +34,14 @@ public class AccountRestController {
         }catch (OwnerNotFoundException e1){
             return new ResponseEntity<>(e1.getMessage(),HttpStatus.NOT_FOUND);
         }
-
-
-
     }
 
     @PutMapping(value = "/account/update")
-    public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model) throws AccountDataUpdateException {
-        accountService.accountUpdate(model);
-        return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
-    }
+    public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model){
+            accountService.accountUpdate(model);
+            return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
+        }
+
 
     @GetMapping(value = "/account/find-by-name/{name}")
     public ResponseEntity<Object> retrieveAccountByName(@PathVariable String name){
@@ -54,8 +52,6 @@ public class AccountRestController {
         }catch (NameNotFoundException e1){
             return new ResponseEntity<>(e1.getMessage(),HttpStatus.NOT_FOUND);
         }
-
     }
-
 }
 

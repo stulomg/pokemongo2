@@ -1,5 +1,7 @@
 package com.springbootcallingexternalapi.Repositories;
 
+import com.springbootcallingexternalapi.Exceptions.*;
+import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Exceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
@@ -7,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -35,11 +39,16 @@ public class LeagueRepository {
         }else throw new CharacterNotAllowedException(leagueInfoModel.getSummonerName());
     }
 
-    public List<LeagueInfoModel> divisionHistory(String summonerName) {
+    public List<LeagueInfoModel> divisionHistory(String summonerName) throws SummoneCharacterNotAllowedException, SummonernameNotFoundException {
         String sql = "SELECT * FROM (SELECT * FROM \"LeagueInfo\" WHERE \"summonerName\"=? ORDER BY date DESC LIMIT 20) sub \n" + "ORDER BY date ASC;";
         Object[] params = {summonerName};
 
-            return jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
-
+        if (isAlpha(summonerName)) {
+            List<LeagueInfoModel> listOfLeagues = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
+            if (listOfLeagues.size() == 0) {
+                throw new SummonernameNotFoundException(summonerName);
+            } else return listOfLeagues;
+        }
+        throw new SummoneCharacterNotAllowedException(summonerName);
     }
 }
