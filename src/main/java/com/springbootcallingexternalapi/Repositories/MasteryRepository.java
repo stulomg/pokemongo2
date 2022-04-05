@@ -39,8 +39,8 @@ public class MasteryRepository {
         }
     }
 
-    public List<MasteryHistoryInfoModel> AccountMastery (String account) throws AccountNotFoundException, CharacterNotAllowedException {
-        String sql = "SELECT * FROM \"AccountMasteryHistory\" WHERE LOWER (Account)=?";
+    public List<MasteryHistoryInfoModel> AccountMasteryHistory (String account) throws AccountNotFoundException, CharacterNotAllowedException {
+        String sql = "SELECT \"Account\",\"championPoints\",\"championName\",\"championId\",\"championLevel\",\"timeStamp\" FROM \"AccountMasteryHistory\" WHERE LOWER (\"Account\")=? ORDER BY \"championName\" ";
         Object[] params = {account};
 
         if(isAlpha (account)){
