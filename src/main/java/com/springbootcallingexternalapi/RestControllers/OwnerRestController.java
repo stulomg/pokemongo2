@@ -1,6 +1,6 @@
 package com.springbootcallingexternalapi.RestControllers;
 
-import com.springbootcallingexternalapi.Exceptions.OwnerAllreadyRegisterException;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerAllreadyRegisterException;
 import com.springbootcallingexternalapi.Models.OwnerModel;
 import com.springbootcallingexternalapi.Services.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;

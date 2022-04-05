@@ -1,6 +1,7 @@
 package com.springbootcallingexternalapi.RestControllers;
 
-import com.springbootcallingexternalapi.Exceptions.*;
+import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Services.LeagueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,14 +15,14 @@ public class LeagueRestControler {
     @Autowired
     LeagueService leagueService;
 
-    @GetMapping(value = "/account/division-history/{summonerName}")
-    public ResponseEntity<Object> divisionHistory(@PathVariable String summonerName) {
+    @GetMapping(value = "/account/division-history/{account}")
+    public ResponseEntity<Object> divisionHistory(@PathVariable String account) {
 
         try {
-            return new ResponseEntity<>(leagueService.divisionHistory(summonerName), HttpStatus.OK);
-        } catch (SummoneCharacterNotAllowedException e) {
+            return new ResponseEntity<>(leagueService.divisionHistory(account), HttpStatus.OK);
+        } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (SummonernameNotFoundException e1) {
+        } catch (AccountNotFoundException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
     }

@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.Exceptions;
+package com.springbootcallingexternalapi.Exceptions.ChampionsExceptions;
 
 public class ChampionMasteryNotFoundException extends Exception {
     public ChampionMasteryNotFoundException(String championName) {

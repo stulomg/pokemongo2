@@ -1,14 +1,11 @@
 package com.springbootcallingexternalapi.Services;
 
 
-import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.CharacterNotAllowedException;
-import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
+import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Repositories.MasteryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class MasteryService {

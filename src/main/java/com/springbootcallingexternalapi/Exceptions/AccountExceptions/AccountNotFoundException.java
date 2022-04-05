@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.Exceptions;
+package com.springbootcallingexternalapi.Exceptions.AccountExceptions;
 
 public class AccountNotFoundException extends Exception {
     public AccountNotFoundException(String account) {
