@@ -140,32 +140,68 @@ OWNER to postgres;
 
 ## Our features!
 
-Our service offer several info about League of legends and Valorant stats!, so lets start with our League of legends features!.
+Our service offer a lot of info about League of legends and Valorant stats!, using localhost and urls! so, lets start with our League of legends features!.
 
-##League of legends
+##LEAGUE OF LEGENDS
 *In here you can consult a variety of stats so lets put them one by one!*
+##Account
+1. First!, you can create your Owner, so you can register accounts!.
 
-1. Consult the actual ELO or League of an account, take into account that you have to replace the word
-"summoner" with the summoner name you want to consult!, you can omit upper case and lower case since Riot will search for it
-automatically!.
-
-    Use the URL http://localhost:8080/call-riot/league/summoner
+   Use the URL: http://localhost:8080/account/create
 
 
 2. Consult the general info of an account and assign it to an owner!, take into account that you have to replace the word
-   "summoner" with the summoner name you want to consult! and "owner" with your name(if you are allowed to register accounts!)
+      "account" with the summoner name you want to consult! and "owner" with your name.(if you are allowed to register accounts!)
 
-   Use the URL: http://localhost:8080/call-riot/summoner/owner
-
-
-3. Consult the general info of an account and assign it to an owner!, take into account that you have to replace the word
-   "summoner" with the summoner name you want to consult! and "owner" with your name(if you are allowed to register accounts!)
-
-   Use the URL: http://localhost:8080/call-riot/summoner/owner
+   Use the URL: http://localhost:8080/call-riot/{account}/{owner}
 
 
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
+3. Consult an account based only on the account name!, take into account that you have to replace the word
+   "AccountName" with the summoner name you want to consult!.
+
+   Use the URL: http://localhost:8080/account/find-by-name/{AccountName}
+
+
+4. Consult the accounts that are assigned to an owner!, take into account that you have to replace the word
+   "owner" with the name that you registered before.
+
+   Use the URL: http://localhost:8080/account/find-by-owner/{owner}
+
+
+5. Update an account!.
+
+   Use the URL: http://localhost:8080/account/update
+
+
+6. Delete an account!, remember to replace "owner" and "account" as instructed before.
+
+Use the URL: http://localhost:8080/account/delete/{owner}/{account}
+
+##Elo, Actual Division, League Points(LP), Mastery with specific champions
+1. Consult the actual ELO or League of an account, take into account that you have to replace the word
+"account" with the summoner name you want to consult!, you can omit upper case and lower case since Riot will search for it
+automatically!.
+
+   Use the URL http://localhost:8080/call-riot/league/soloq/{account}
+
+
+3. Consult the division history of an account, take into account that you have to replace the word
+   "account" with the summoner name you want to consult!.
+
+   Use the URL: http://localhost:8080/account/division-history/{account}
+
+
+6. Consult the mastery of an account with a specific champion!, take into account that you have to replace the word
+   "account" with the summoner name you want to consult and "championName" with the champion name you want to get!.
+
+   Use the URL: http://localhost:8080/call-riot/mastery/{account}/{championName}
+
+
+7. Consult the mastery history of an account, take into account that you have to replace the word
+   "account" with the summoner name you want to consult!.
+
+   Use the URL: http://localhost:8080/account/masteryHistory/{account}
+
 
 Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
 

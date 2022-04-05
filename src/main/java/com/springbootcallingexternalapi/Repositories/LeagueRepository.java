@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.Repositories;
 
+import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.*;
@@ -23,24 +24,15 @@ public class LeagueRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws AccountNotFoundException {
-    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws SummonerNotFoundException, CharacterNotAllowedException {
+    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws AccountNotFoundException, CharacterNotAllowedException, AccountDataException {
         Timestamp date = new Timestamp(System.currentTimeMillis());
         String sql = "INSERT INTO \"LeagueInfo\" VALUES(?,?,?,?,?,?,?)";
-        Object[] params = {date, leagueInfoModel.getLeagueId(), leagueInfoModel.getQueueType(), leagueInfoModel.getTier(),
-                leagueInfoModel.getRank(), leagueInfoModel.getSummonerName(), leagueInfoModel.getLeaguePoints()};
-        try {
-            jdbcTemplate.update(sql, params);
-        } catch (DataAccessException e) {
-            throw new AccountNotFoundException(leagueInfoModel.getSummonerName());
-        }
         Object[] params = {date,leagueInfoModel.getLeagueId(),leagueInfoModel.getQueueType(),leagueInfoModel.getTier(),leagueInfoModel.getRank(),leagueInfoModel.getSummonerName(),leagueInfoModel.getLeaguePoints()};
         if (isAlpha(leagueInfoModel.getSummonerName())) {
             try {
                 jdbcTemplate.update(sql, params);
             } catch (DataAccessException e) {
-                logger.info(e.getMessage());
-                throw new SummonerNotFoundException(leagueInfoModel);
+                throw new AccountDataException(leagueInfoModel);
             }
         }else throw new CharacterNotAllowedException(leagueInfoModel.getSummonerName());
     }
