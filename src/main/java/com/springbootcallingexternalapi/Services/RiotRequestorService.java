@@ -3,7 +3,7 @@ import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
@@ -60,7 +60,7 @@ public class RiotRequestorService {
         }
     }
 
-    public LeagueInfoModel getLeague(String account) throws AccountNotFoundException, AccountDataException, SummonerIdNotFoundException, QueueNotFoundException {
+    public LeagueInfoModel getLeague(String account) throws AccountNotFoundException, AccountDataException, SummonerNotFoundException, QueueNotFoundException, CharacterNotAllowedException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/league/v4/entries/by-summoner/" + id;

@@ -1,6 +1,7 @@
 package com.springbootcallingexternalapi.Repositories;
 
-import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,22 +13,26 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.util.List;
 
+import static com.springbootcallingexternalapi.Util.AlphaVerifier.isAlpha;
+
 @Repository
 public class LeagueRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     Logger logger = LoggerFactory.getLogger(AccountRepository.class);
 
-    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws SummonerIdNotFoundException {
+    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws SummonerNotFoundException, CharacterNotAllowedException {
         Timestamp date = new Timestamp(System.currentTimeMillis());
         String sql = "INSERT INTO \"LeagueInfo\" VALUES(?,?,?,?,?,?,?)";
         Object[] params = {date,leagueInfoModel.getLeagueId(),leagueInfoModel.getQueueType(),leagueInfoModel.getTier(),leagueInfoModel.getRank(),leagueInfoModel.getSummonerName(),leagueInfoModel.getLeaguePoints()};
-        try{
-            jdbcTemplate.update(sql,params);
-        }catch (DataAccessException e){
-            logger.info(e.getMessage());
-            throw new SummonerIdNotFoundException(leagueInfoModel);
-        }
+        if (isAlpha(leagueInfoModel.getSummonerName())) {
+            try {
+                jdbcTemplate.update(sql, params);
+            } catch (DataAccessException e) {
+                logger.info(e.getMessage());
+                throw new SummonerNotFoundException(leagueInfoModel);
+            }
+        }else throw new CharacterNotAllowedException(leagueInfoModel.getSummonerName());
     }
 
     public List<LeagueInfoModel> divisionHistory(String summonerName) {

@@ -3,7 +3,7 @@ package com.springbootcallingexternalapi.RestControllers;
 import com.springbootcallingexternalapi.Exceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.SummonerIdNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
@@ -12,9 +12,7 @@ import com.springbootcallingexternalapi.Services.ChampionService;
 import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 public class RiotRestController {
@@ -43,12 +41,10 @@ public class RiotRestController {
         try {
             LeagueInfoModel response = riotRequestorService.getLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (AccountNotFoundException | QueueNotFoundException |SummonerIdNotFoundException e) {
+        } catch (AccountNotFoundException | QueueNotFoundException | SummonerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AccountDataException e1) {
+        } catch (AccountDataException | CharacterNotAllowedException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (HttpClientErrorException.NotFound e2){
-            return new ResponseEntity<>(e2.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
