@@ -5,7 +5,7 @@ import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotF
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.*;
 import com.springbootcallingexternalapi.Models.AccountModel;
-import com.springbootcallingexternalapi.Exceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
