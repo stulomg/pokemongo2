@@ -53,7 +53,7 @@ public class RiotRestController {
         }
     }
 
-    @GetMapping(value = "call-riot/mastery/{account}/{championName}")
+    @GetMapping(value = "/call-riot/mastery/{account}/{championName}")
     public ResponseEntity<Object> getMastery(@PathVariable String account, @PathVariable String championName) {
 
         try {
