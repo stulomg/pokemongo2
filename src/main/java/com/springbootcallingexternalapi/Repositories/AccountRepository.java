@@ -41,11 +41,11 @@ public class AccountRepository {
 
     public void deleteAccount(String owner, String account) throws AccountOrOwnerNotFoundException, CharacterNotAllowedException {
         String sql = "DELETE FROM \"Accounts\" WHERE LOWER (name)=? AND LOWER (owner)=?";
-        Object[] params = {account, owner};
+        Object[] params = {account.toLowerCase(Locale.ROOT), owner.toLowerCase(Locale.ROOT)};
 
         if (isAlpha(owner, account)) {
             int result = jdbcTemplate.update(sql, params);
-
+            System.out.println(result);
             if (result == 0) {
                 throw new AccountOrOwnerNotFoundException(account, owner);
             }
