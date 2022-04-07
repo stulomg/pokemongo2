@@ -7,7 +7,6 @@ import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionN
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowed;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
@@ -68,7 +67,7 @@ public class RiotRequestorService {
         }
     }
 
-    public LeagueInfoModel getLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
+    public LeagueInfoModel getSoloqLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/league/v4/entries/by-summoner/" + id;
@@ -77,9 +76,12 @@ public class RiotRequestorService {
             Optional<LeagueInfoModel> model = Arrays.stream(response.getBody())
                     .filter(leagueInfoModel -> leagueInfoModel.getQueueType().equals(queueToFind))
                     .findFirst();
+
             if (model.isPresent()) {
-                leagueRepository.insertLeagueInfo(model.get());
-                return model.get();
+                LeagueInfoModel lim = model.get();
+                lim.setDate(new Timestamp(System.currentTimeMillis()));
+                leagueRepository.insertLeagueInfo(lim);
+                return lim;
             } else {
                 throw new QueueNotFoundException(queueToFind);
             }

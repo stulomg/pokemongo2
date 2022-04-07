@@ -24,7 +24,7 @@ public class AccountRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowed, CharacterNotAllowedException {
+    public void  insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowed, CharacterNotAllowedException {
 
         String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
         Object[] params = {account.getId(), account.getAccountId(), account.getPuuid(), account.getName().toLowerCase(Locale.ROOT), account.getProfileIconId(), account.getRevisionDate(), account.getSummonerLevel(), owner.toLowerCase(Locale.ROOT)};

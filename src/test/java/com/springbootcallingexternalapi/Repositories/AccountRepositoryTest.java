@@ -26,6 +26,7 @@ import java.util.Locale;
 @SpringBootTest(classes= AccountRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
+
 public class AccountRepositoryTest {
 
     @Autowired

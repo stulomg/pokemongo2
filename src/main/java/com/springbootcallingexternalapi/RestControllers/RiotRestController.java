@@ -45,7 +45,7 @@ public class RiotRestController {
     @GetMapping(value = "/call-riot/league/soloq/{account}")
     public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) throws SummonerNotFoundException, CharacterNotAllowedException {
         try {
-            LeagueInfoModel response = riotRequestorService.getLeague(account);
+            LeagueInfoModel response = riotRequestorService.getSoloqLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AccountNotFoundException | QueueNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
