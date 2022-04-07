@@ -44,7 +44,7 @@ public class MasteryRepository {
         if(isAlpha (account)){
             List<MasteryHistoryInfoModel> listMastery = jdbcTemplate.query(sql, params,
                     BeanPropertyRowMapper.newInstance(MasteryHistoryInfoModel.class));
-            if (account.length() == 0) {
+            if (listMastery.size() == 0) {
                 throw new AccountNotFoundException(account);
             } else return listMastery;
         }else throw new CharacterNotAllowedException(account);
