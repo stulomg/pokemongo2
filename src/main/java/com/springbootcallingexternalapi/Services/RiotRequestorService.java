@@ -78,8 +78,10 @@ public class RiotRequestorService {
                     .filter(leagueInfoModel -> leagueInfoModel.getQueueType().equals(queueToFind))
                     .findFirst();
             if (model.isPresent()) {
-                leagueRepository.insertLeagueInfo(model.get());
-                return model.get();
+                LeagueInfoModel lim = model.get();
+                lim.setDate(new Timestamp(System.currentTimeMillis()));
+                leagueRepository.insertLeagueInfo(lim);
+                return lim;
             } else {
                 throw new QueueNotFoundException(queueToFind);
             }

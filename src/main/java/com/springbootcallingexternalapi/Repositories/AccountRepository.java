@@ -76,7 +76,7 @@ public class AccountRepository {
         Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(),
                 model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
 
-        jdbcTemplate.update(sql, params);
+       int result = jdbcTemplate.update(sql, params);
     }
 
 
