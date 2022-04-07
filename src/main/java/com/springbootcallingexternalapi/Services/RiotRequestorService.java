@@ -5,9 +5,8 @@ import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotF
 import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
-import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowed;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
-import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
@@ -36,7 +35,7 @@ import java.util.Optional;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-70cec9c6-6fdd-4f2a-aa14-e3fbb6759836";
+    private static final String RIOT_TOKEN = "RGAPI-793d631d-3722-457f-8be4-6e260957fa3d";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -49,7 +48,7 @@ public class RiotRequestorService {
     @Autowired
     MasteryRepository masteryRepository;
 
-    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, OwnerNotAllowed, CharacterNotAllowedException {
+    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, OwnerNotAllowedException, CharacterNotAllowedException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
         AccountBaseModel acc2 = Objects.requireNonNull(acc.getBody());
 
@@ -68,7 +67,7 @@ public class RiotRequestorService {
         }
     }
 
-    public LeagueInfoModel getLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
+    public LeagueInfoModel getSoloqLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/league/v4/entries/by-summoner/" + id;
@@ -77,6 +76,7 @@ public class RiotRequestorService {
             Optional<LeagueInfoModel> model = Arrays.stream(response.getBody())
                     .filter(leagueInfoModel -> leagueInfoModel.getQueueType().equals(queueToFind))
                     .findFirst();
+
             if (model.isPresent()) {
                 LeagueInfoModel lim = model.get();
                 lim.setDate(new Timestamp(System.currentTimeMillis()));

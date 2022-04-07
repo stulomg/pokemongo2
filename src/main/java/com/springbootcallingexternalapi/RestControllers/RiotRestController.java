@@ -5,7 +5,7 @@ import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotF
 import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
-import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowed;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
@@ -37,7 +37,7 @@ public class RiotRestController {
             return new ResponseEntity<>(acc, HttpStatus.OK);
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AccountDataException | OwnerNotAllowed | CharacterNotAllowedException e1) {
+        } catch (AccountDataException | OwnerNotAllowedException | CharacterNotAllowedException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -45,7 +45,7 @@ public class RiotRestController {
     @GetMapping(value = "/call-riot/league/soloq/{account}")
     public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) throws SummonerNotFoundException, CharacterNotAllowedException {
         try {
-            LeagueInfoModel response = riotRequestorService.getLeague(account);
+            LeagueInfoModel response = riotRequestorService.getSoloqLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AccountNotFoundException | QueueNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
