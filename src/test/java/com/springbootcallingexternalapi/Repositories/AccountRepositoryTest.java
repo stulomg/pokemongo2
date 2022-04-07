@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(classes= AccountRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
+
 public class AccountRepositoryTest {
 
     @Autowired
