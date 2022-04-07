@@ -7,6 +7,7 @@ import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionN
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowed;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
@@ -36,13 +37,13 @@ public class RiotRestController {
             return new ResponseEntity<>(acc, HttpStatus.OK);
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AccountDataException | OwnerNotAllowed e1) {
+        } catch (AccountDataException | OwnerNotAllowed | CharacterNotAllowedException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping(value = "/call-riot/league/soloq/{account}")
-    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account){
+    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) throws SummonerNotFoundException, CharacterNotAllowedException {
         try {
             LeagueInfoModel response = riotRequestorService.getLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -53,7 +54,7 @@ public class RiotRestController {
         }
     }
 
-    @GetMapping(value = "call-riot/mastery/{account}/{championName}")
+    @GetMapping(value = "/call-riot/mastery/{account}/{championName}")
     public ResponseEntity<Object> getMastery(@PathVariable String account, @PathVariable String championName) {
 
         try {

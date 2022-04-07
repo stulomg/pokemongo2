@@ -7,6 +7,7 @@ import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionN
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowed;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
+import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
@@ -35,7 +36,7 @@ import java.util.Optional;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-b30c2a3b-fdd8-41a3-9999-a2f74d5ff92c";
+    private static final String RIOT_TOKEN = "RGAPI-70cec9c6-6fdd-4f2a-aa14-e3fbb6759836";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -48,7 +49,7 @@ public class RiotRequestorService {
     @Autowired
     MasteryRepository masteryRepository;
 
-    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, OwnerNotAllowed {
+    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, OwnerNotAllowed, CharacterNotAllowedException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
         AccountBaseModel acc2 = Objects.requireNonNull(acc.getBody());
 
@@ -67,7 +68,7 @@ public class RiotRequestorService {
         }
     }
 
-    public LeagueInfoModel getLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException {
+    public LeagueInfoModel getLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/league/v4/entries/by-summoner/" + id;

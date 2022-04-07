@@ -23,8 +23,7 @@ public class ChampionRepository {
         Object[] params = {championName};
         if (isAlpha(championName)) {
             try {
-                Long championId = jdbcTemplate.queryForObject(sql, params, Long.class);
-                return championId;
+                return jdbcTemplate.queryForObject(sql, params, Long.class);
             } catch (EmptyResultDataAccessException e) {
                 throw new ChampionNotFoundException(championName);
             } catch (HttpClientErrorException e1) {

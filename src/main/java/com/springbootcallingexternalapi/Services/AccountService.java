@@ -19,7 +19,7 @@ public class AccountService {
     AccountRepository accountRepository;
 
     public void deleteAccount(String owner, String account) throws AccountOrOwnerNotFoundException, CharacterNotAllowedException {
-        accountRepository.deleteAccount(owner.toLowerCase(Locale.ROOT), account.toLowerCase(Locale.ROOT));
+        accountRepository.deleteAccount(owner, account);
     }
 
     public List<AccountModel> retrieveAccountByOwner(String owner) throws CharacterNotAllowedException, OwnerNotFoundException {
