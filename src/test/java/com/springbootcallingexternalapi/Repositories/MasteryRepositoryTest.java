@@ -4,9 +4,7 @@ package com.springbootcallingexternalapi.Repositories;
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
-import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
-import com.springbootcallingexternalapi.Models.MasteryInfoModel;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,7 +79,7 @@ public class MasteryRepositoryTest {
     }
 
     @Test
-    void AccountDataExceptionEnInsertMasteryHistory (){
+    void accountDataExceptionEnInsertMasteryHistory() throws AccountDataException {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
@@ -92,6 +90,7 @@ public class MasteryRepositoryTest {
                 Timestamp.valueOf("2007-09-23 10:10:10.0"),
                 "stul"
         );
+        repository.insertMasteryInfo(basemodel);
         Exception exception = assertThrows(AccountDataException.class,() -> repository.insertMasteryInfo(basemodel));
 
         String expectedMessage = "LOS DATOS INGRESADOS PARA LA CUENTA ";
@@ -101,7 +100,7 @@ public class MasteryRepositoryTest {
     }
 
     @Test
-    void TraerExitosamenteAccounMasteryHistoryCasoDefault () throws AccountDataException, CharacterNotAllowedException, AccountNotFoundException {
+    void traerExitosamenteAccounMasteryHistoryCasoDefault() throws AccountDataException, CharacterNotAllowedException, AccountNotFoundException {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
@@ -138,7 +137,7 @@ public class MasteryRepositoryTest {
     }
 
     @Test
-    void AccountNotFoundExceptionEnAccountMasteryHistory () throws AccountDataException {
+    void accountNotFoundExceptionEnAccountMasteryHistory() throws AccountDataException {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
@@ -161,7 +160,7 @@ public class MasteryRepositoryTest {
     }
 
     @Test
-    void CharacterNotAllowedEnAccountMasteryHistory () throws AccountDataException {
+    void characterNotAllowedEnAccountMasteryHistory() throws AccountDataException {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
