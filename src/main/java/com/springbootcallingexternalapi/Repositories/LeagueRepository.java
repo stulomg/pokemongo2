@@ -39,7 +39,7 @@ public class LeagueRepository {
     }
 
     public List<LeagueInfoModel> divisionHistory(String account) throws CharacterNotAllowedException, AccountNotFoundException {
-        String sql = "SELECT * FROM (SELECT * FROM \"LeagueInfo\" WHERE \"summonerName\"=? ORDER BY date DESC LIMIT 20) sub \n" + "ORDER BY date ASC;";
+        String sql = "(SELECT * FROM \"LeagueInfo\" WHERE \"summonerName\"=? ORDER BY date DESC LIMIT 20) sub \n" + "ORDER BY date ASC;";
         Object[] params = {account};
 
         if (isAlpha(account)) {

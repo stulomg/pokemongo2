@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
@@ -19,16 +20,17 @@ public class ChampionRepository {
 
     public Long retrieveChampionIdByChampionName(String championName)
             throws ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException {
-        String sql = "SELECT \"ChampionId\" FROM \"Champions\" WHERE LOWER (\"ChampionName\")=?" ;
+        String sql = "SELECT \"ChampionId\" FROM \"Champions\" WHERE LOWER (\"ChampionName\")=?";
         Object[] params = {championName};
         if (isAlpha(championName)) {
             try {
-                return jdbcTemplate.queryForObject(sql, params, Long.class);
+                return jdbcTemplate.queryForObject(sql, params,Long.class);
             } catch (EmptyResultDataAccessException e) {
                 throw new ChampionNotFoundException(championName);
             } catch (HttpClientErrorException e1) {
                 throw new ChampionMasteryNotFoundException(championName);
             }
         } else throw new CharacterNotAllowedException(championName);
+
     }
 }
