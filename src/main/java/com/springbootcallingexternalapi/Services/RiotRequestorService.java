@@ -35,7 +35,7 @@ import java.util.Optional;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-793d631d-3722-457f-8be4-6e260957fa3d";
+    private static final String RIOT_TOKEN = "RGAPI-9304436d-d44f-4230-be36-b9b11d290dac";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -52,8 +52,8 @@ public class RiotRequestorService {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
         AccountBaseModel acc2 = Objects.requireNonNull(acc.getBody());
 
-            accountRepository.insertAccount(acc2, owner.toLowerCase(Locale.ROOT));
-            return acc2;
+        accountRepository.insertAccount(acc2, owner.toLowerCase(Locale.ROOT));
+        return acc2;
 
     }
 
@@ -94,7 +94,7 @@ public class RiotRequestorService {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-            Long championId = championService.retrieveChampionIdByChampionName(championName.toLowerCase(Locale.ROOT));
+            Long championId = championService.retrieveChampionIdByChampionName(championName);
             String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + championId;
             ResponseEntity<MasteryHistoryInfoModel> response = requestToRiot(uri, HttpMethod.GET, MasteryHistoryInfoModel.class);
             MasteryHistoryInfoModel model = response.getBody();
@@ -103,10 +103,10 @@ public class RiotRequestorService {
             model.setAccount(account);
             masteryRepository.insertMasteryInfo(model);
             return model;
-        }catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ChampionNotFoundException(championName);
-        }catch (HttpClientErrorException e1){
-            throw  new ChampionMasteryNotFoundException(championName);
+        } catch (HttpClientErrorException e1) {
+            throw new ChampionMasteryNotFoundException(championName);
         } catch (CharacterNotAllowedException e) {
             throw new CharacterNotAllowedException(championName);
         }
