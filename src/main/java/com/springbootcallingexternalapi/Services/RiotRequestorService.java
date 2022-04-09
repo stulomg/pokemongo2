@@ -7,9 +7,7 @@ import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionN
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
-import com.springbootcallingexternalapi.Models.AccountBaseModel;
-import com.springbootcallingexternalapi.Models.LeagueInfoModel;
-import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
+import com.springbootcallingexternalapi.Models.*;
 import com.springbootcallingexternalapi.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.Repositories.LeagueRepository;
 import com.springbootcallingexternalapi.Repositories.MasteryRepository;
@@ -35,7 +33,7 @@ import java.util.Optional;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-9304436d-d44f-4230-be36-b9b11d290dac";
+    private static final String RIOT_TOKEN = "RGAPI-793d631d-3722-457f-8be4-6e260957fa3d";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -121,4 +119,20 @@ public class RiotRequestorService {
 
         return restTemplate.exchange(finalUrl, method, entity, clazz);
     }
+
+    public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException {
+
+        String id = getAccountFromRiot(account).getBody().getId();
+        String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
+        ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
+        return response.getBody();
+    }
+
+    public Object serverStatus (){
+        String uri = "/lol/status/v4/platform-data";
+        ResponseEntity<Object> response = requestToRiot(uri, HttpMethod.GET,Object.class);
+
+        return response.getBody();
+    }
 }
+
