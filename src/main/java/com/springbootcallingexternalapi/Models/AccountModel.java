@@ -1,6 +1,7 @@
 package com.springbootcallingexternalapi.Models;
 
 public class AccountModel {
+
     private String id;
 
     private String accountId;
