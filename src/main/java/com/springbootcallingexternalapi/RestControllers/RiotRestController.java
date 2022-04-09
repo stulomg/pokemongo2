@@ -7,9 +7,7 @@ import com.springbootcallingexternalapi.Exceptions.ChampionsExceptions.ChampionN
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
-import com.springbootcallingexternalapi.Models.AccountBaseModel;
-import com.springbootcallingexternalapi.Models.LeagueInfoModel;
-import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
+import com.springbootcallingexternalapi.Models.*;
 import com.springbootcallingexternalapi.Services.ChampionService;
 import com.springbootcallingexternalapi.Services.RiotRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ public class RiotRestController {
     @RequestMapping(value = "/call-riot/{account}/{owner}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner){
+    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) {
         try {
             AccountBaseModel acc = riotRequestorService.getAccountAndAssignToOwner(account, owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);
@@ -42,7 +40,7 @@ public class RiotRestController {
     }
 
     @GetMapping(value = "/call-riot/league/soloq/{account}")
-    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account){
+    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) {
         try {
             LeagueInfoModel response = riotRequestorService.getLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -64,5 +62,17 @@ public class RiotRestController {
         } catch (CharacterNotAllowedException | AccountDataException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping(value = "/call-riot/live/match/{account}")
+    public ResponseEntity<Object> getLiveMatch(@PathVariable String account) throws AccountNotFoundException {
+        CurrentGameInfoBaseModel response = riotRequestorService.getLiveMatch(account);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/call-riot/server/status")
+    public ResponseEntity<Object> serverStatus (){
+        Object response = riotRequestorService.serverStatus();
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
