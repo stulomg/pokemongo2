@@ -3,6 +3,8 @@ package com.springbootcallingexternalapi.Repositories;
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowedException;
+import com.springbootcallingexternalapi.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
@@ -19,6 +21,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.sql.Timestamp;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(classes = LeagueRepository.class)
 @ExtendWith(SpringExtension.class)
@@ -94,6 +99,30 @@ public class LeagueRepositoryTest {
             Assertions.assertEquals(15, leagueInfoModels.size());
         }
 
+    @Test
+    void ownerNotAllowedExceptionEnDivisionHistory() throws CharacterNotAllowedException, AccountDataException, OwnerNotAllowedException, InterruptedException, AccountNotFoundException {
+        for (int i = 0; i < 15; i++) {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Thread.sleep(100);
+            LeagueInfoModel leagueInfoModel = new LeagueInfoModel(
+                    timestamp,
+                    "LeagueID",
+                    "QueueType",
+                    "Tier",
+                    "Rank",
+                    "SummonerName",
+                    58);
+
+            repository.insertLeagueInfo(leagueInfoModel);
+
+            Exception exception = assertThrows(OwnerNotAllowedException.class, () -> repository.insertLeagueInfo(leagueInfoModel));
+
+            String expectedMessage = " is not allowed for this api";
+            String actualMessage = exception.getMessage();
+
+            assertTrue(actualMessage.contains(expectedMessage));
+        }
+    }
 
     @Test
     void insertarExitosamenteCasoDefault() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
@@ -158,7 +187,6 @@ public class LeagueRepositoryTest {
                     "I",
                     null,
                     76
-
             );
             repository.insertLeagueInfo(baseModel);
         });

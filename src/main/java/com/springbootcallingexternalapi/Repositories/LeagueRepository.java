@@ -35,7 +35,7 @@ public class LeagueRepository {
             } catch (DataAccessException e) {
                 throw new AccountDataException(leagueInfoModel);
             }
-        }else throw new CharacterNotAllowedException(leagueInfoModel.getSummonerName());
+        } else throw new CharacterNotAllowedException(leagueInfoModel.getSummonerName());
     }
 
     public List<LeagueInfoModel> divisionHistory(String account) throws CharacterNotAllowedException, AccountNotFoundException {
@@ -50,4 +50,14 @@ public class LeagueRepository {
         }
         throw new CharacterNotAllowedException(account);
     }
+
+    public List<LeagueInfoModel> divisionComparison(String account) {
+        String sql = "select * from \"LeagueInfo\" order by \"date\" desc;";
+        Object[] params = {account};
+
+        List<LeagueInfoModel> listOfLeagues = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
+
+        return listOfLeagues;
+    }
 }
+

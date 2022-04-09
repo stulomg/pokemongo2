@@ -35,7 +35,7 @@ import java.util.Optional;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-793d631d-3722-457f-8be4-6e260957fa3d";
+    private static final String RIOT_TOKEN = "RGAPI-c93b58f7-6654-4a57-b6f8-33d7dcf1534f";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 

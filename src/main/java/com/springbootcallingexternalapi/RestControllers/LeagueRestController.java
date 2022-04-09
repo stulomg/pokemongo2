@@ -26,5 +26,9 @@ public class LeagueRestController {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-}
 
+    @GetMapping(value = "/account/division-comparison")
+    public ResponseEntity<Object> divisionComparison(@PathVariable String account) {
+        return new ResponseEntity<>(leagueService.divisionComparison(account), HttpStatus.OK);
+    }
+}
