@@ -20,7 +20,7 @@ public class AccountRestController {
     public ResponseEntity<Object> deleteAccount(@PathVariable String owner, @PathVariable String account) {
         try {
             accountService.deleteAccount(owner, account);
-            return new ResponseEntity<>("Delete succesfully", HttpStatus.OK);
+            return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
         } catch (AccountOrOwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (CharacterNotAllowedException e2) {

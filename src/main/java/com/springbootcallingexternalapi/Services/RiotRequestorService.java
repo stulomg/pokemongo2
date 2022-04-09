@@ -33,7 +33,7 @@ import java.util.Optional;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-0251d4b5-35ec-4938-ab8d-e37a55e9c8df";
+    private static final String RIOT_TOKEN = "RGAPI-793d631d-3722-457f-8be4-6e260957fa3d";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -65,7 +65,7 @@ public class RiotRequestorService {
         }
     }
 
-    public LeagueInfoModel getLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException {
+    public LeagueInfoModel getSoloqLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/league/v4/entries/by-summoner/" + id;
@@ -74,9 +74,12 @@ public class RiotRequestorService {
             Optional<LeagueInfoModel> model = Arrays.stream(response.getBody())
                     .filter(leagueInfoModel -> leagueInfoModel.getQueueType().equals(queueToFind))
                     .findFirst();
+
             if (model.isPresent()) {
-                leagueRepository.insertLeagueInfo(model.get());
-                return model.get();
+                LeagueInfoModel lim = model.get();
+                lim.setDate(new Timestamp(System.currentTimeMillis()));
+                leagueRepository.insertLeagueInfo(lim);
+                return lim;
             } else {
                 throw new QueueNotFoundException(queueToFind);
             }
@@ -89,7 +92,7 @@ public class RiotRequestorService {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-            Long championId = championService.retrieveChampionIdByChampionName(championName.toLowerCase(Locale.ROOT));
+            Long championId = championService.retrieveChampionIdByChampionName(championName);
             String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + championId;
             ResponseEntity<MasteryHistoryInfoModel> response = requestToRiot(uri, HttpMethod.GET, MasteryHistoryInfoModel.class);
             MasteryHistoryInfoModel model = response.getBody();

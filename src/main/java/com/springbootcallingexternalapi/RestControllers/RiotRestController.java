@@ -8,8 +8,14 @@ import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNo
 import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.Models.*;
+import com.springbootcallingexternalapi.Exceptions.SummonerNotFoundException;
+import com.springbootcallingexternalapi.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.Models.LeagueInfoModel;
+import com.springbootcallingexternalapi.Models.MasteryHistoryInfoModel;
 import com.springbootcallingexternalapi.Services.ChampionService;
 import com.springbootcallingexternalapi.Services.RiotRequestorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +25,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 public class RiotRestController {
+    Logger logger = LoggerFactory.getLogger(RiotRestController.class);
 
     @Autowired
     RiotRequestorService riotRequestorService;
@@ -40,9 +47,9 @@ public class RiotRestController {
     }
 
     @GetMapping(value = "/call-riot/league/soloq/{account}")
-    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) {
+    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) throws SummonerNotFoundException, CharacterNotAllowedException {
         try {
-            LeagueInfoModel response = riotRequestorService.getLeague(account);
+            LeagueInfoModel response = riotRequestorService.getSoloqLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AccountNotFoundException | QueueNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -60,6 +67,7 @@ public class RiotRestController {
         } catch (ChampionNotFoundException | ChampionMasteryNotFoundException | AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (CharacterNotAllowedException | AccountDataException e1) {
+            logger.info(e1.getMessage());
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

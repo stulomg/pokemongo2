@@ -13,8 +13,8 @@ public class LeagueService {
     LeagueRepository leagueRepository;
 
     public Object divisionHistory(String account) throws CharacterNotAllowedException, AccountNotFoundException {
-            return leagueRepository.divisionHistory(account);
-        }
+        return leagueRepository.divisionHistory(account);
     }
+}
 
 
