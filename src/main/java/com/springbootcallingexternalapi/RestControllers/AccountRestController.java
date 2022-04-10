@@ -52,7 +52,7 @@ public class AccountRestController {
     }
 
 
-    @GetMapping(value = "/account/find-by-name/{AccountName}")
+    @GetMapping(value = "/account/find-by-name/{account}")
     public ResponseEntity<Object> retrieveAccountByName(@PathVariable String account) {
         try {
             return new ResponseEntity<>(accountService.retrieveAccountByName(account), HttpStatus.OK);

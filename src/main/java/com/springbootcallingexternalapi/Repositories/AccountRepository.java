@@ -47,7 +47,7 @@ public class AccountRepository {
             int result = jdbcTemplate.update(sql, params);
             System.out.println(result);
             if (result == 0) {
-                throw new AccountOrOwnerNotFoundException(account, owner);
+                throw new AccountOrOwnerNotFoundException(owner, account);
             }
         } else throw new CharacterNotAllowedException(owner, account);
 
