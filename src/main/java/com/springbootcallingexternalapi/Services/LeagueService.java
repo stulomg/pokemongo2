@@ -15,6 +15,8 @@ public class LeagueService {
     public Object divisionHistory(String account) throws CharacterNotAllowedException, AccountNotFoundException {
         return leagueRepository.divisionHistory(account);
     }
+    public Object divisionComparison(String account){
+        return leagueRepository.divisionComparison(account);
+    }
 }
-
 

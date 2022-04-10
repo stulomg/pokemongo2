@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.Services;
 
+import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
@@ -26,7 +27,7 @@ public class AccountService {
         return accountRepository.retrieveAccountByOwner(owner.toLowerCase(Locale.ROOT));
     }
 
-    public void accountUpdate(AccountModel model) {
+    public void accountUpdate(AccountModel model) throws CharacterNotAllowedException, AccountNotFoundException {
         accountRepository.accountUpdate(model);
     }
 
