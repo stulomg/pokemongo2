@@ -43,7 +43,6 @@ public class ChampionRepositoryTest {
         this.jdbcTemplate = jdbcTemplate;
         repository = new ChampionRepository();
         ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
-
     }
 
 
