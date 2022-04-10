@@ -73,9 +73,15 @@ public class RiotRestController {
     }
 
     @GetMapping(value = "/call-riot/live/match/{account}")
-    public ResponseEntity<Object> getLiveMatch(@PathVariable String account) throws AccountNotFoundException {
-        CurrentGameInfoBaseModel response = riotRequestorService.getLiveMatch(account);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Object> getLiveMatch(@PathVariable String account){
+        try {
+            CurrentGameInfoBaseModel response = riotRequestorService.getLiveMatch(account);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (CharacterNotAllowedException e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }catch (AccountNotFoundException e1){
+            return new ResponseEntity<>(e1.getMessage(),HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping(value = "/call-riot/server/status")
@@ -83,4 +89,5 @@ public class RiotRestController {
         Object response = riotRequestorService.serverStatus();
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
+
 }

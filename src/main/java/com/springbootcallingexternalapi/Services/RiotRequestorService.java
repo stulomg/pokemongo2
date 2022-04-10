@@ -30,6 +30,8 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.springbootcallingexternalapi.Util.AlphaVerifier.isAlpha;
+
 @Service
 public class RiotRequestorService {
 
@@ -120,12 +122,14 @@ public class RiotRequestorService {
         return restTemplate.exchange(finalUrl, method, entity, clazz);
     }
 
-    public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException {
+    public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
 
-        String id = getAccountFromRiot(account).getBody().getId();
-        String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
-        ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
-        return response.getBody();
+        if(isAlpha(account)) {
+            String id = getAccountFromRiot(account).getBody().getId();
+            String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
+            ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
+            return response.getBody();
+        }else throw new CharacterNotAllowedException(account);
     }
 
     public Object serverStatus (){
