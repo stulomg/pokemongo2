@@ -18,7 +18,7 @@ public class LeagueInfoModel {
 
     private Integer leaguePoints;
 
-    public LeagueInfoModel(Timestamp date,String leagueId, String queueType, String tier, String rank, String summonerName, Integer leaguePoints) {
+    public LeagueInfoModel(Timestamp date, String leagueId, String queueType, String tier, String rank, String summonerName, Integer leaguePoints) {
         this.date = date;
         this.leagueId = leagueId;
         this.queueType = queueType;
@@ -71,9 +71,7 @@ public class LeagueInfoModel {
         this.rank = rank;
     }
 
-    public String getSummonerName() {
-        return summonerName;
-    }
+    public String getSummonerName() {return summonerName;}
 
     public void setSummonerName(String summonerName) {
         this.summonerName = summonerName;
