@@ -20,7 +20,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
-
 import java.util.List;
 import java.util.Locale;
 
@@ -28,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-@SpringBootTest(classes= AccountRepository.class)
+@SpringBootTest(classes = AccountRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
 
@@ -36,12 +35,10 @@ public class AccountRepositoryTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-
     private AccountRepository repository;
 
     @Autowired
-    public AccountRepositoryTest(JdbcTemplate jdbcTemplate){
+    public AccountRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         repository = new AccountRepository();
         ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
@@ -49,7 +46,7 @@ public class AccountRepositoryTest {
     }
 
     @BeforeEach
-    void setup(){
+    void setup() {
         jdbcTemplate.execute("TRUNCATE TABLE \"Accounts\"");
     }
 
@@ -66,19 +63,19 @@ public class AccountRepositoryTest {
                 "Soyeon Lover",
                 4864,
                 1648276400000L,
-                109L
-        );
+                109L);
 
         //Owner Standard
-        String owner  = "kusi";
+        String owner = "kusi";
 
-        AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        AccountModel modelo = new AccountModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
                 4864,
                 1648276400000L,
-                109,
+                109L,
                 owner);
 
 
@@ -162,9 +159,81 @@ public class AccountRepositoryTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
+
+    @Test
+    void updateExitosoCasoDefault() throws CharacterNotAllowedException, AccountNotFoundException, AccountDataException, OwnerNotAllowedException {
+        //given
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                4864,
+                1648276400000L,
+                109L
+        );
+        String owner = "kusi";
+
+        AccountModel model = new AccountModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "STULMEMITO",
+                "F46S5D4F",
+                "stulesunmeme",
+                1567,
+                1324654564L,
+                999L,
+                owner);
+
+        repository.insertAccount(baseModel, owner);
+        //When
+        repository.accountUpdate(model);
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Accounts\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
+        //Then
+        Assertions.assertEquals(1,resultSet.size());
+        Assertions.assertEquals(baseModel.getId(),resultSet.get(0).getId());
+        Assertions.assertEquals(model.getAccountId(),resultSet.get(0).getAccountId());
+        Assertions.assertEquals(model.getPuuid(),resultSet.get(0).getPuuid());
+        Assertions.assertEquals(model.getName(),resultSet.get(0).getName());
+        Assertions.assertEquals(model.getProfileIconId(),resultSet.get(0).getProfileIconId());
+        Assertions.assertEquals(model.getRevisionDate(),resultSet.get(0).getRevisionDate());
+        Assertions.assertEquals(model.getSummonerLevel(),resultSet.get(0).getSummonerLevel());
+        Assertions.assertEquals(owner,resultSet.get(0).getOwner());
+    }
+    @Test
+    void accountNotFoundExceptionEnAccountUpdate() {
+        String owner = "kusi";
+
+        AccountModel model = new AccountModel(
+                "",
+                "STULMEMITO",
+                "F46S5D4F",
+                "stulesunmeme",
+                1567,
+                1324654564L,
+                999L,
+                owner);
+
+        Assertions.assertThrows(AccountNotFoundException.class,()-> repository.accountUpdate(model));
+    }
+
+    @Test
+    void characterNotAllowedAccountUpdate(){
+        String owner = "kusi";
+
+        AccountModel model = new AccountModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "STULMEMITO",
+                "F46S5D4F",
+                "stule*sunmeme",
+                1567,
+                1324654564L,
+                999L,
+                owner);
+
+        Assertions.assertThrows(CharacterNotAllowedException.class,()->repository.accountUpdate(model));
+    }
     @Test
     void eliminarExitosamenteDeleteAccountCasoDefault() throws AccountOrOwnerNotFoundException, CharacterNotAllowedException, AccountDataException, OwnerNotAllowedException {
-
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -178,11 +247,11 @@ public class AccountRepositoryTest {
 
         String owner = "kusi";
 
-        repository.insertAccount(baseModel,owner);
-        repository.deleteAccount(owner,baseModel.getName());
+        repository.insertAccount(baseModel, owner);
+        repository.deleteAccount(owner, baseModel.getName());
 
         List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Accounts\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
-        Assertions.assertEquals(0,resultSet.size());
+        Assertions.assertEquals(0, resultSet.size());
     }
 
     @Test
@@ -249,7 +318,7 @@ public class AccountRepositoryTest {
                 "Soyeon Lover",
                 4864,
                 1648276400000L,
-                109,
+                109L,
                 owner);
 
         repository.insertAccount(baseModel,owner);
@@ -319,7 +388,7 @@ public class AccountRepositoryTest {
                 "Soyeon Lover",
                 4864,
                 1648276400000L,
-                109,
+                109L,
                 owner);
 
         repository.insertAccount(baseModel,owner);

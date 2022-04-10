@@ -69,14 +69,18 @@ public class AccountRepository {
         throw new CharacterNotAllowedException(owner);
     }
 
-    //Agregar excepcion para el error NOTNULL en los campos de la base de datos
-    public void accountUpdate(AccountModel model) {
+    public void accountUpdate(AccountModel model) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?," +
                 " \"summonerLevel\"=?, owner=? WHERE id=?";
         Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(),
                 model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
-
-        jdbcTemplate.update(sql, params);
+        if (isAlpha(model.getName())) {
+       int result = jdbcTemplate.update(sql, params);
+            if (result == 0) {
+                throw new AccountNotFoundException(model.getName());
+            } else return;
+        }
+        throw new CharacterNotAllowedException(model.getName());
     }
 
 
