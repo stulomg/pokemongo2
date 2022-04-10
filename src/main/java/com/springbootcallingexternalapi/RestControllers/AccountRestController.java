@@ -45,8 +45,8 @@ public class AccountRestController {
     public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model) {
         try {
             accountService.accountUpdate(model);
-        } catch ( AccountDataException e) {
-           return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        } catch (AccountNotFoundException | CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
     }

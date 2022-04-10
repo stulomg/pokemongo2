@@ -69,7 +69,7 @@ public class AccountRepository {
         throw new CharacterNotAllowedException(owner);
     }
 
-    public void accountUpdate(AccountModel model) throws AccountDataException{
+    public void accountUpdate(AccountModel model) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?," +
                 " \"summonerLevel\"=?, owner=? WHERE id=?";
         Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(),
@@ -77,9 +77,10 @@ public class AccountRepository {
         if (isAlpha(model.getName())) {
        int result = jdbcTemplate.update(sql, params);
             if (result == 0) {
-                throw new AccountDataException(new AccountBaseModel());
-            }
+                throw new AccountNotFoundException(model.getName());
+            } else return;
         }
+        throw new CharacterNotAllowedException(model.getName());
     }
 
 

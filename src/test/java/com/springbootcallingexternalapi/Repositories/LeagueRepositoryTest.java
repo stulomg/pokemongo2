@@ -100,29 +100,18 @@ public class LeagueRepositoryTest {
         }
 
     @Test
-    void ownerNotAllowedExceptionEnDivisionHistory() throws CharacterNotAllowedException, AccountDataException, OwnerNotAllowedException, InterruptedException, AccountNotFoundException {
-        for (int i = 0; i < 15; i++) {
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            Thread.sleep(100);
-            LeagueInfoModel leagueInfoModel = new LeagueInfoModel(
-                    timestamp,
-                    "LeagueID",
-                    "QueueType",
-                    "Tier",
-                    "Rank",
-                    "SummonerName",
-                    58);
+    void accountNotFoundExceptionEnDivisionHistory() {
 
-            repository.insertLeagueInfo(leagueInfoModel);
-
-            Exception exception = assertThrows(OwnerNotAllowedException.class, () -> repository.insertLeagueInfo(leagueInfoModel));
-
-            String expectedMessage = " is not allowed for this api";
-            String actualMessage = exception.getMessage();
-
-            assertTrue(actualMessage.contains(expectedMessage));
+       Assertions.assertThrows(AccountNotFoundException.class,()-> repository.divisionHistory("Summoner"));
         }
-    }
+
+    @Test
+    void characterNotAllowedDivisionHistory(){
+        //GIVEN
+
+            Assertions.assertThrows(CharacterNotAllowedException.class,()->repository.divisionHistory("Summ*oner"));
+        }
+
 
     @Test
     void insertarExitosamenteCasoDefault() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {

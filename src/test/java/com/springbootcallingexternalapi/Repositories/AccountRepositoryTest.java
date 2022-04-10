@@ -184,7 +184,7 @@ public class AccountRepositoryTest {
 
 
     @Test
-    void updateExitosoCasoDefault() throws CharacterNotAllowedException, OwnerNotAllowedException, AccountDataException, OwnerNotAllowedException, OwnerNotFoundException {
+    void updateExitosoCasoDefault() throws CharacterNotAllowedException, AccountNotFoundException, AccountDataException, OwnerNotAllowedException {
         //given
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -201,7 +201,7 @@ public class AccountRepositoryTest {
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "STULMEMITO",
                 "F46S5D4F",
-                "stulesunmeme123",
+                "stulesunmeme",
                 1567,
                 1324654564L,
                 999L,
@@ -221,48 +221,39 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(model.getRevisionDate(),resultSet.get(0).getRevisionDate());
         Assertions.assertEquals(model.getSummonerLevel(),resultSet.get(0).getSummonerLevel());
         Assertions.assertEquals(owner,resultSet.get(0).getOwner());
-
     }
     @Test
-    void characterNotAllowedExceptionEnUpdateCuenta() {
-        String owner = "<<kusi";
-
-        AccountModel model = new AccountModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "STULMEMITO",
-                "F46S5D4F",
-                "stulesunmeme123",
-                1567,
-                1324654564L,
-                999L,
-                owner);
-
-        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.accountUpdate(model));
-
-        String expectedMessage = " has characters not allowed";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-    @Test
-    void accountDataExceptionEnUpdateCuenta() {
+    void accountNotFoundExceptionEnDivisionHistory() {
         String owner = "kusi";
+
         AccountModel model = new AccountModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "",
                 "STULMEMITO",
                 "F46S5D4F",
-                "stulesunmeme123",
+                "stulesunmeme",
                 1567,
                 1324654564L,
                 999L,
                 owner);
 
-        Exception exception = assertThrows(AccountDataException.class, () -> repository.accountUpdate(model));
+        Assertions.assertThrows(AccountNotFoundException.class,()-> repository.accountUpdate(model));
+    }
 
-        String expectedMessage = " NO SON VALIDOS, POR FAVOR RECTIFICAR";
-        String actualMessage = exception.getMessage();
+    @Test
+    void characterNotAllowedDivisionHistory(){
+        String owner = "kusi";
 
-        assertTrue(actualMessage.contains(expectedMessage));
+        AccountModel model = new AccountModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "STULMEMITO",
+                "F46S5D4F",
+                "stule*sunmeme",
+                1567,
+                1324654564L,
+                999L,
+                owner);
+
+        Assertions.assertThrows(CharacterNotAllowedException.class,()->repository.accountUpdate(model));
     }
 
     @Test

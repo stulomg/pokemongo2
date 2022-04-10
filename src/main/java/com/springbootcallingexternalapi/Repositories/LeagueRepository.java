@@ -19,7 +19,7 @@ public class LeagueRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws AccountNotFoundException, CharacterNotAllowedException, AccountDataException {
+    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws CharacterNotAllowedException, AccountDataException {
 
         String sql = "INSERT INTO \"LeagueInfo\" VALUES(?,?,?,?,?,?,?)";
         Object[] params = {leagueInfoModel.getDate(),
@@ -39,7 +39,7 @@ public class LeagueRepository {
     }
 
     public List<LeagueInfoModel> divisionHistory(String account) throws CharacterNotAllowedException, AccountNotFoundException {
-        String sql = "(SELECT * FROM \"LeagueInfo\" WHERE \"summonerName\"=? ORDER BY date DESC LIMIT 20) sub \n" + "ORDER BY date ASC;";
+        String sql = "SELECT * FROM \"LeagueInfo\" WHERE \"summonerName\"=? ORDER BY date DESC LIMIT 20";
         Object[] params = {account};
 
         if (isAlpha(account)) {
@@ -52,11 +52,10 @@ public class LeagueRepository {
     }
 
     public List<LeagueInfoModel> divisionComparison(String account) {
-        String sql = "select * from \"LeagueInfo\" order by \"date\" desc;";
+        String sql = "SELECT DISTINCT ON (\"summonerName\") \"date\", \"summonerName\" =?, \"tier\", \"rank\",\"LeaguePoints\" FROM \"LeagueInfo\" ORDER BY \"summonerName\", \"date\" DESC";
         Object[] params = {account};
 
-        List<LeagueInfoModel> listOfLeagues = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
+            return jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
 
-        return listOfLeagues;
     }
 }
