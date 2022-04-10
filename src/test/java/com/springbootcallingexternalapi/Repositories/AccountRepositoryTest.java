@@ -159,29 +159,6 @@ public class AccountRepositoryTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-    @Test
-    void eliminarExitosamenteDeleteAccountCasoDefault() throws AccountOrOwnerNotFoundException, CharacterNotAllowedException, AccountDataException, OwnerNotAllowedException {
-
-
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Soyeon Lover",
-                4864,
-                1648276400000L,
-                109L
-        );
-
-        String owner = "kusi";
-
-        repository.insertAccount(baseModel, owner);
-        repository.deleteAccount(owner, baseModel.getName());
-
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Accounts\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
-        Assertions.assertEquals(0, resultSet.size());
-    }
-
 
     @Test
     void updateExitosoCasoDefault() throws CharacterNotAllowedException, AccountNotFoundException, AccountDataException, OwnerNotAllowedException {
@@ -223,7 +200,7 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(owner,resultSet.get(0).getOwner());
     }
     @Test
-    void accountNotFoundExceptionEnDivisionHistory() {
+    void accountNotFoundExceptionEnAccountUpdate() {
         String owner = "kusi";
 
         AccountModel model = new AccountModel(
@@ -240,7 +217,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void characterNotAllowedDivisionHistory(){
+    void characterNotAllowedAccountUpdate(){
         String owner = "kusi";
 
         AccountModel model = new AccountModel(
@@ -254,6 +231,27 @@ public class AccountRepositoryTest {
                 owner);
 
         Assertions.assertThrows(CharacterNotAllowedException.class,()->repository.accountUpdate(model));
+    }
+    @Test
+    void eliminarExitosamenteDeleteAccountCasoDefault() throws AccountOrOwnerNotFoundException, CharacterNotAllowedException, AccountDataException, OwnerNotAllowedException {
+
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                4864,
+                1648276400000L,
+                109L
+        );
+
+        String owner = "kusi";
+
+        repository.insertAccount(baseModel, owner);
+        repository.deleteAccount(owner, baseModel.getName());
+
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Accounts\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
+        Assertions.assertEquals(0, resultSet.size());
     }
 
     @Test

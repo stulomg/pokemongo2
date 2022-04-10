@@ -54,6 +54,8 @@ public class LeagueRepository {
     public List<LeagueInfoModel> divisionComparison(String account) {
         String sql = "SELECT DISTINCT ON (\"summonerName\") \"date\", \"summonerName\" =?, \"tier\", \"rank\",\"LeaguePoints\" FROM \"LeagueInfo\" ORDER BY \"summonerName\", \"date\" DESC";
         Object[] params = {account};
+        String sql2 = "SELECT * FROM \"LeagueInfo\"";
+        Object [] params2 = {account};
 
             return jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
 
