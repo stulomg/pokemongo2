@@ -9,4 +9,5 @@ public class CharacterNotAllowedException extends Exception{
     public CharacterNotAllowedException (String name, String account){
         super(name + " or " + account + " has characters not allowed");
     }
+
 }

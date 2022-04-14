@@ -10,5 +10,5 @@ public class AlphaVerifier {
         return p.matcher(s).find();
     }
 
-    public static boolean isAlpha (String owner, String account){return p.matcher(owner).find();}
+    public static boolean isAlpha (String owner, String account){return p.matcher(owner).find() || p.matcher(account).find();}
 }

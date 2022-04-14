@@ -35,82 +35,86 @@ public class LeagueRepositoryTest {
     private LeagueRepository repository;
 
 
-        @Autowired
-        public LeagueRepositoryTest(JdbcTemplate jdbcTemplate) {
-            this.jdbcTemplate = jdbcTemplate;
-            repository = new LeagueRepository();
-            ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
+    @Autowired
+    public LeagueRepositoryTest(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        repository = new LeagueRepository();
+        ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
+    }
+
+    @BeforeEach
+    void setup() {
+        jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
+    }
+
+
+    @Test
+    void insertLeagueInfo() {
+    }
+
+    @Test
+    void divisionHistoryCasoDefault() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
+
+
+        for (int i = 0; i < 21; i++) {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Thread.sleep(100);
+            LeagueInfoModel model = new LeagueInfoModel(
+                    timestamp,
+                    "id1",
+                    "RANKED_SOLO_5x5",
+                    "PLATINUM",
+                    "II",
+                    "Soyeon Lover",
+                    63,
+                    52,
+                    "s");
+            repository.insertLeagueInfo(model, model.getOwner());
         }
 
-        @BeforeEach
-        void setup() {
-            jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
+        List<LeagueInfoModel> leagueInfoModels = repository.divisionHistory("Soyeon Lover");
+        Assertions.assertEquals(20, leagueInfoModels.size());
+        for (int i = 0; i < leagueInfoModels.size() - 1; i++) {
+            Assertions.assertTrue(leagueInfoModels.get(i).getDate().after(leagueInfoModels.get(i + 1).getDate()));
         }
+    }
 
+    @Test
+    void divisionHistoryCasoMenosDeVente() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
 
-        @Test
-        void insertLeagueInfo() {
+        for (int i = 0; i < 15; i++) {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Thread.sleep(100);
+            LeagueInfoModel leagueInfoModel = new LeagueInfoModel(
+                    timestamp,
+                    "LeagueID",
+                    "QueueType",
+                    "Tier",
+                    "Rank",
+                    "SummonerName",
+                    58,
+                    5,
+                    "s");
+
+            repository.insertLeagueInfo(leagueInfoModel, leagueInfoModel.getOwner());
+
         }
-
-        @Test
-        void divisionHistoryCasoDefault() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
-
-
-            for (int i = 0; i < 21; i++) {
-                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                Thread.sleep(100);
-                LeagueInfoModel model = new LeagueInfoModel(
-                        timestamp,
-                        "id1",
-                        "RANKED_SOLO_5x5",
-                        "PLATINUM",
-                        "II",
-                        "Soyeon Lover",
-                        63);
-                repository.insertLeagueInfo(model);
-            }
-
-            List<LeagueInfoModel> leagueInfoModels = repository.divisionHistory("Soyeon Lover");
-            Assertions.assertEquals(20, leagueInfoModels.size());
-            for (int i = 0; i < leagueInfoModels.size() - 1; i++) {
-                Assertions.assertTrue(leagueInfoModels.get(i).getDate().after(leagueInfoModels.get(i + 1).getDate()));
-            }
-        }
-
-        @Test
-        void divisionHistoryCasoMenosDeVente() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
-
-            for (int i = 0; i < 15; i++) {
-                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                Thread.sleep(100);
-                LeagueInfoModel leagueInfoModel = new LeagueInfoModel(
-                        timestamp,
-                        "LeagueID",
-                        "QueueType",
-                        "Tier",
-                        "Rank",
-                        "SummonerName",
-                        58);
-
-                repository.insertLeagueInfo(leagueInfoModel);
-
-            }
-            List<LeagueInfoModel> leagueInfoModels = repository.divisionHistory("SummonerName");
-            Assertions.assertEquals(15, leagueInfoModels.size());
-        }
+        List<LeagueInfoModel> leagueInfoModels = repository.divisionHistory("SummonerName");
+        Assertions.assertEquals(15, leagueInfoModels.size());
+    }
 
     @Test
     void accountNotFoundExceptionEnDivisionHistory() {
 
-       Assertions.assertThrows(AccountNotFoundException.class,()-> repository.divisionHistory("Summoner"));
-        }
+        Assertions.assertThrows(AccountNotFoundException.class, () -> repository.divisionHistory("Summoner"));
+    }
 
     @Test
-    void characterNotAllowedDivisionHistory(){
+    void characterNotAllowedDivisionHistory() {
         //GIVEN
 
-            Assertions.assertThrows(CharacterNotAllowedException.class,()->repository.divisionHistory("Summ*oner"));
-        }
+        Assertions.assertThrows(CharacterNotAllowedException.class, () -> repository.divisionHistory("Summ*oner"));
+    }
 
 
     @Test
@@ -123,12 +127,13 @@ public class LeagueRepositoryTest {
                 "PLATINUM",
                 "I",
                 "Darkclaw",
-                76
-
+                76,
+                5,
+                "s"
         );
 
         //WHEN
-        repository.insertLeagueInfo(baseModel);
+        repository.insertLeagueInfo(baseModel, baseModel.getOwner());
         //THEN
         List<LeagueInfoModel> resultSet = jdbcTemplate.query("SELECT * FROM \"LeagueInfo\"", BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
         Assertions.assertEquals(1, resultSet.size());
@@ -155,10 +160,12 @@ public class LeagueRepositoryTest {
                     "PLATINUM",
                     "I",
                     "Dark/*claw",
-                    76
+                    76,
+                    5,
+                    "s"
             );
             //WHEN IS PROVED BY THE FUNCTION
-            repository.insertLeagueInfo(baseModel);
+            repository.insertLeagueInfo(baseModel, baseModel.getOwner());
         });
         List<LeagueInfoModel> resultSet = jdbcTemplate.query("SELECT * FROM \"LeagueInfo\"", BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
         Assertions.assertEquals(0, resultSet.size());
@@ -175,14 +182,16 @@ public class LeagueRepositoryTest {
                     "PLATINUM",
                     "I",
                     null,
-                    76
+                    76,
+                    5,
+                    "s"
             );
-            repository.insertLeagueInfo(baseModel);
+            repository.insertLeagueInfo(baseModel, baseModel.getOwner());
         });
     }
 
     @Test
-    void insertarConErrorEnBaseDeDatos() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException{
+    void insertarConErrorEnBaseDeDatos() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
         //given
         Assertions.assertThrows(AccountDataException.class, () -> {
             LeagueInfoModel baseModel = new LeagueInfoModel(
@@ -192,11 +201,13 @@ public class LeagueRepositoryTest {
                     "PLATINUM",
                     "I",
                     "Darkclaw",
-                    76
+                    76,
+                    5,
+                    "s"
 
             );
-            repository.insertLeagueInfo(baseModel);
-            repository.insertLeagueInfo(baseModel);
+            repository.insertLeagueInfo(baseModel, baseModel.getOwner());
+            repository.insertLeagueInfo(baseModel, baseModel.getOwner());
         });
     }
 }

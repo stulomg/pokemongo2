@@ -2,6 +2,8 @@ package com.springbootcallingexternalapi.RestControllers;
 
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedExceptionOwner;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.Services.LeagueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,7 @@ public class LeagueRestController {
     @Autowired
     LeagueService leagueService;
 
-    @GetMapping(value = "/account/division-history/{account}")
+    @GetMapping(value = "/account/division-history/{account}/{owner}")
     public ResponseEntity<Object> divisionHistory(@PathVariable String account) {
 
         try {
@@ -26,8 +28,12 @@ public class LeagueRestController {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping(value = "/account/division-comparison/{account}")
-    public ResponseEntity<Object> divisionComparison(@PathVariable String account){
-        return new ResponseEntity<>(leagueService.divisionComparison(account), HttpStatus.OK);
+    @GetMapping(value = "/account/division-comparison/{owner}/{owner2}")
+    public ResponseEntity<Object> divisionComparison(@PathVariable String owner, @PathVariable String owner2) {
+        try {
+            return new ResponseEntity<>(leagueService.getMaxDivision(owner,owner2), HttpStatus.OK);
+        } catch (OwnerNotFoundException | CharacterNotAllowedExceptionOwner e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

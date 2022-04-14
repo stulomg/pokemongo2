@@ -18,7 +18,12 @@ public class LeagueInfoModel {
 
     private Integer leaguePoints;
 
-    public LeagueInfoModel(Timestamp date, String leagueId, String queueType, String tier, String rank, String summonerName, Integer leaguePoints) {
+    private Integer elo;
+
+    private String owner;
+
+
+    public LeagueInfoModel(Timestamp date, String leagueId, String queueType, String tier, String rank, String summonerName, Integer leaguePoints, Integer elo, String owner) {
         this.date = date;
         this.leagueId = leagueId;
         this.queueType = queueType;
@@ -26,6 +31,9 @@ public class LeagueInfoModel {
         this.rank = rank;
         this.summonerName = summonerName;
         this.leaguePoints = leaguePoints;
+        this.elo = elo;
+        this.owner = owner;
+
     }
 
     public LeagueInfoModel() {
@@ -71,7 +79,9 @@ public class LeagueInfoModel {
         this.rank = rank;
     }
 
-    public String getSummonerName() {return summonerName;}
+    public String getSummonerName() {
+        return summonerName;
+    }
 
     public void setSummonerName(String summonerName) {
         this.summonerName = summonerName;
@@ -85,4 +95,19 @@ public class LeagueInfoModel {
         this.leaguePoints = leaguePoints;
     }
 
+    public Integer getElo() {
+        return elo;
+    }
+
+    public void setElo(Integer elo) {
+        this.elo = elo;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 }
