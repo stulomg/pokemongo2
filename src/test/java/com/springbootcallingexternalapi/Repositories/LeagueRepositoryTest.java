@@ -3,8 +3,11 @@ package com.springbootcallingexternalapi.Repositories;
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedExceptionOwner;
 import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.Models.AccountModel;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
@@ -209,5 +212,48 @@ public class LeagueRepositoryTest {
             repository.insertLeagueInfo(baseModel, baseModel.getOwner());
             repository.insertLeagueInfo(baseModel, baseModel.getOwner());
         });
+    }
+
+    @Test
+    void maxDivisionCasoDefoult() throws CharacterNotAllowedException, AccountDataException, CharacterNotAllowedExceptionOwner, OwnerNotFoundException {
+
+        LeagueInfoModel baseModel = new LeagueInfoModel(
+                Timestamp.valueOf("2022-03-30 22:25:28.744"),
+                "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
+                "RANKED_SOLO_5x5",
+                "PLATINUM",
+                "I",
+                "Darkclaw",
+                76,
+                5476,
+                "stul");
+
+        repository.insertLeagueInfo(baseModel, baseModel.getOwner());
+        repository.getMaxDivision(baseModel.getOwner(), baseModel.getOwner());
+
+        List<LeagueInfoModel> resultSet = jdbcTemplate.query("SELECT * FROM \"LeagueInfo\"", BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
+        Assertions.assertEquals(1, resultSet.size());
+        LeagueInfoModel result = resultSet.get(0);
+
+        Assertions.assertEquals(baseModel.getDate(), result.getDate());
+        Assertions.assertEquals(baseModel.getLeagueId(), result.getLeagueId());
+        Assertions.assertEquals(baseModel.getQueueType(), result.getQueueType());
+        Assertions.assertEquals(baseModel.getTier(), result.getTier());
+        Assertions.assertEquals(baseModel.getRank(), result.getRank());
+        Assertions.assertEquals(baseModel.getSummonerName(), result.getSummonerName());
+        Assertions.assertEquals(baseModel.getLeaguePoints(), result.getLeaguePoints());
+        Assertions.assertEquals(baseModel.getElo(), result.getElo());
+        Assertions.assertEquals(baseModel.getOwner(), result.getOwner());
+    }
+    @Test
+    void accountNotFoundMaxDivision() {
+
+        Assertions.assertThrows(OwnerNotFoundException.class, () -> repository.getMaxDivision("Owner","Owner"));
+    }
+
+    @Test
+    void characterNotAllowedMaxDivision() {
+
+        Assertions.assertThrows(CharacterNotAllowedExceptionOwner.class, () -> repository.getMaxDivision("O*ner","O*ner"));
     }
 }
