@@ -59,16 +59,13 @@ public class LeagueRepository {
     }
 
     public List<LeagueInfoModel> getMaxDivision(String owner, String owner2) throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner {
-        String sql = "SELECT  \"summonerName\", MAX (\"Elo\") FROM \"LeagueInfo\" WHERE owner =? or owner =? GROUP BY \"summonerName\" LIMIT 1";
+        String sql = "SELECT  \"summonerName\", MAX (\"Elo\")  AS \"Elo\" FROM \"LeagueInfo\" WHERE owner =? or owner =? GROUP BY \"summonerName\" LIMIT 1";
         Object[] params = {owner, owner2};
 
         if (isAlpha(owner) && isAlpha(owner2)){
-            try {
-                List<LeagueInfoModel> listMaxDivision = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
-                return listMaxDivision;
-            } catch (EmptyResultDataAccessException e) {
-                throw new OwnerNotFoundException(owner, owner2);
-            }
+           List <LeagueInfoModel> infoList= jdbcTemplate.queryForList(sql, params, LeagueInfoModel.class);
+           if (infoList.isEmpty()) throw  new OwnerNotFoundException(owner,owner2);
+           return infoList;
         }
      else throw new CharacterNotAllowedExceptionOwner(owner,owner2);
     }

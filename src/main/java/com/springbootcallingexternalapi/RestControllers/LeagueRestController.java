@@ -28,7 +28,7 @@ public class LeagueRestController {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping(value = "/account/division-comparison/{owner}/{owner2}")
+    @GetMapping(value = "/account/max-division/{owner}/{owner2}")
     public ResponseEntity<Object> divisionComparison(@PathVariable String owner, @PathVariable String owner2) {
         try {
             return new ResponseEntity<>(leagueService.getMaxDivision(owner,owner2), HttpStatus.OK);
