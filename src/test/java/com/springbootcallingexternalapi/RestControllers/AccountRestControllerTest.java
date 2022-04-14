@@ -127,7 +127,7 @@ public class AccountRestControllerTest {
                 "Soyeon Lover",
                 4864,
                 1648276400000L,
-                109,
+                109L,
                 owner);
 
         accountRepository.insertAccount(baseModel,owner);

@@ -62,7 +62,7 @@ public class LeagueRepository {
         String sql = "SELECT  \"summonerName\", MAX (\"Elo\") FROM \"LeagueInfo\" WHERE owner =? or owner =? GROUP BY \"summonerName\" LIMIT 1";
         Object[] params = {owner, owner2};
 
-        if (isAlpha(owner, owner2)) {
+        if (isAlpha(owner) && isAlpha(owner2)){
             try {
                 List<LeagueInfoModel> listMaxDivision = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
                 return listMaxDivision;
