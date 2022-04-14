@@ -58,15 +58,16 @@ public class LeagueRestControllerTest {
                     "PLATINUM",
                     "II",
                     "Soyeon Lover",
-                    63);
-            repository.insertLeagueInfo(model);
+                    63,
+                    5,
+                    "s");
+            repository.insertLeagueInfo(model, model.getOwner());
         }
 
         List<LeagueInfoModel> leagueInfoModels = repository.divisionHistory("Soyeon Lover");
         Assertions.assertEquals(20, leagueInfoModels.size());
         for (int i = 0; i < leagueInfoModels.size() - 1; i++) {
             Assertions.assertTrue(leagueInfoModels.get(i).getDate().after(leagueInfoModels.get(i + 1).getDate()));
-
         }
     }
 }

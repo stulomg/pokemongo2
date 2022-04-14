@@ -3,9 +3,12 @@ package com.springbootcallingexternalapi.Repositories;
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.Exceptions.GeneralExceptions.CharacterNotAllowedExceptionOwner;
+import com.springbootcallingexternalapi.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.Models.LeagueInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,16 +22,20 @@ public class LeagueRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws CharacterNotAllowedException, AccountDataException {
+    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel, String owner) throws CharacterNotAllowedException, AccountDataException {
 
-        String sql = "INSERT INTO \"LeagueInfo\" VALUES(?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO \"LeagueInfo\" VALUES(?,?,?,?,?,?,?,?,?)";
         Object[] params = {leagueInfoModel.getDate(),
                 leagueInfoModel.getLeagueId(),
                 leagueInfoModel.getQueueType(),
                 leagueInfoModel.getTier(),
                 leagueInfoModel.getRank(),
                 leagueInfoModel.getSummonerName(),
-                leagueInfoModel.getLeaguePoints()};
+                leagueInfoModel.getLeaguePoints(),
+                leagueInfoModel.getElo(),
+                owner
+        };
+
         if (isAlpha(leagueInfoModel.getSummonerName())) {
             try {
                 jdbcTemplate.update(sql, params);
@@ -39,7 +46,7 @@ public class LeagueRepository {
     }
 
     public List<LeagueInfoModel> divisionHistory(String account) throws CharacterNotAllowedException, AccountNotFoundException {
-        String sql = "SELECT * FROM \"LeagueInfo\" WHERE \"summonerName\"=? ORDER BY date DESC LIMIT 20";
+        String sql = "SELECT * FROM \"LeagueInfo\" WHERE \"summonerName\"=? ORDER BY \"date\" DESC LIMIT 20";
         Object[] params = {account};
 
         if (isAlpha(account)) {
@@ -51,13 +58,18 @@ public class LeagueRepository {
         throw new CharacterNotAllowedException(account);
     }
 
-    public List<LeagueInfoModel> divisionComparison(String account) {
-        String sql = "SELECT DISTINCT ON (\"summonerName\") \"date\", \"summonerName\" =?, \"tier\", \"rank\",\"LeaguePoints\" FROM \"LeagueInfo\" ORDER BY \"summonerName\", \"date\" DESC";
-        Object[] params = {account};
-        String sql2 = "SELECT * FROM \"LeagueInfo\"";
-        Object [] params2 = {account};
+    public List<LeagueInfoModel> getMaxDivision(String owner, String owner2) throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner {
+        String sql = "SELECT  \"summonerName\", MAX (\"Elo\") FROM \"LeagueInfo\" WHERE owner =? or owner =? GROUP BY \"summonerName\" LIMIT 1";
+        Object[] params = {owner, owner2};
 
-            return jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
-
+        if (isAlpha(owner, owner2)) {
+            try {
+                List<LeagueInfoModel> listMaxDivision = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
+                return listMaxDivision;
+            } catch (EmptyResultDataAccessException e) {
+                throw new OwnerNotFoundException(owner, owner2);
+            }
+        }
+     else throw new CharacterNotAllowedExceptionOwner(owner,owner2);
     }
 }

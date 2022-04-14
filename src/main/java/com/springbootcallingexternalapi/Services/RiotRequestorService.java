@@ -35,7 +35,7 @@ import static com.springbootcallingexternalapi.Util.AlphaVerifier.isAlpha;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-57c9b5e8-4220-4661-8884-d467de5d4f53";
+    private static final String RIOT_TOKEN = "RGAPI-2eb8a742-be02-41ed-a547-7cccdb6014fb";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -44,7 +44,7 @@ public class RiotRequestorService {
     @Autowired
     ChampionService championService;
     @Autowired
-    LeagueRepository leagueRepository;
+    LeagueService leagueService;
     @Autowired
     MasteryRepository masteryRepository;
 
@@ -67,7 +67,7 @@ public class RiotRequestorService {
         }
     }
 
-    public LeagueInfoModel getSoloqLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
+    public LeagueInfoModel getSoloqLeague(String account,String owner) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/league/v4/entries/by-summoner/" + id;
@@ -79,8 +79,8 @@ public class RiotRequestorService {
 
             if (model.isPresent()) {
                 LeagueInfoModel lim = model.get();
-                lim.setDate(new Timestamp(System.currentTimeMillis()));
-                leagueRepository.insertLeagueInfo(lim);
+                lim.setOwner(owner);
+                leagueService.insertLeagueInfo(lim);
                 return lim;
             } else {
                 throw new QueueNotFoundException(queueToFind);
