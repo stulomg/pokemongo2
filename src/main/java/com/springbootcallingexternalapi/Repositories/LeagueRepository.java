@@ -51,6 +51,7 @@ public class LeagueRepository {
         throw new CharacterNotAllowedException(account);
     }
 
+
     public List<LeagueInfoModel> divisionComparison(String account) {
         String sql = "SELECT DISTINCT ON (\"summonerName\") \"date\", \"summonerName\" =?, \"tier\", \"rank\",\"LeaguePoints\" FROM \"LeagueInfo\" ORDER BY \"summonerName\", \"date\" DESC";
         Object[] params = {account};
