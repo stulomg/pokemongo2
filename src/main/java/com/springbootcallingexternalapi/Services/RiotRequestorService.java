@@ -35,7 +35,7 @@ import static com.springbootcallingexternalapi.Util.AlphaVerifier.isAlpha;
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-f425cf6d-c63c-49d3-8628-20fec00b2361";
+    private static final String RIOT_TOKEN = "RGAPI-f425cf6d-c63c-49d3-8628-20fec00b2361 ";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
