@@ -1,27 +1,27 @@
 package com.springbootcallingexternalapi.Models;
 
+import java.sql.Timestamp;
+
 public class MostPopularModel {
-    private String account;
-
+    private String Account;
     private String championName;
-
-    private int championPoints;
-
-    public MostPopularModel(String account, String championName, int championPoints) {
-        this.account = account;
-        this.championName = championName;
-        this.championPoints = championPoints;
-    }
+    private Timestamp date;
 
     public MostPopularModel() {
     }
 
+    public MostPopularModel(String account, String championName, Timestamp date) {
+        Account = account;
+        this.championName = championName;
+        this.date = date;
+    }
+
     public String getAccount() {
-        return account;
+        return Account;
     }
 
     public void setAccount(String account) {
-        this.account = account;
+        Account = account;
     }
 
     public String getChampionName() {
@@ -32,11 +32,11 @@ public class MostPopularModel {
         this.championName = championName;
     }
 
-    public int getChampionPoints() {
-        return championPoints;
+    public Timestamp getDate() {
+        return date;
     }
 
-    public void setChampionPoints(int championPoints) {
-        this.championPoints = championPoints;
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 }
