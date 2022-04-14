@@ -63,7 +63,7 @@ public class LeagueRepository {
         Object[] params = {owner, owner2};
 
         if (isAlpha(owner) && isAlpha(owner2)){
-           List <LeagueInfoModel> infoList= jdbcTemplate.queryForList(sql, params, LeagueInfoModel.class);
+           List <LeagueInfoModel> infoList= jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
            if (infoList.isEmpty()) throw  new OwnerNotFoundException(owner,owner2);
            return infoList;
         }
