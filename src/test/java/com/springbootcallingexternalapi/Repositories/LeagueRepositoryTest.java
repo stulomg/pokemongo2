@@ -217,7 +217,7 @@ public class LeagueRepositoryTest {
     @Test
     void maxDivisionCasoDefoult() throws CharacterNotAllowedException, AccountDataException, CharacterNotAllowedExceptionOwner, OwnerNotFoundException {
 
-        LeagueInfoModel baseModel = new LeagueInfoModel(
+        LeagueInfoModel infoModel = new LeagueInfoModel(
                 Timestamp.valueOf("2022-03-30 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
@@ -228,22 +228,29 @@ public class LeagueRepositoryTest {
                 5476,
                 "stul");
 
-        repository.insertLeagueInfo(baseModel, baseModel.getOwner());
-        repository.getMaxDivision(baseModel.getOwner(), baseModel.getOwner());
+        LeagueInfoModel infoModel2 = new LeagueInfoModel(
+                Timestamp.valueOf("2022-04-30 22:25:28.744"),
+                "a2e93031-cf37-4b92-ae32-23b348340525",
+                "RANKED_SOLO_5x5",
+                "PLATINUM",
+                "II",
+                "Raino",
+                60,
+                5560,
+                "stul");
 
-        List<LeagueInfoModel> resultSet = jdbcTemplate.query("SELECT * FROM \"LeagueInfo\"", BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
+        repository.insertLeagueInfo(infoModel, infoModel.getOwner());
+        repository.insertLeagueInfo(infoModel2, infoModel2.getOwner());
+
+        List<LeagueInfoModel> resultSet = repository.getMaxDivision(infoModel2.getOwner(), infoModel2.getOwner());
         Assertions.assertEquals(1, resultSet.size());
         LeagueInfoModel result = resultSet.get(0);
 
-        Assertions.assertEquals(baseModel.getDate(), result.getDate());
-        Assertions.assertEquals(baseModel.getLeagueId(), result.getLeagueId());
-        Assertions.assertEquals(baseModel.getQueueType(), result.getQueueType());
-        Assertions.assertEquals(baseModel.getTier(), result.getTier());
-        Assertions.assertEquals(baseModel.getRank(), result.getRank());
-        Assertions.assertEquals(baseModel.getSummonerName(), result.getSummonerName());
-        Assertions.assertEquals(baseModel.getLeaguePoints(), result.getLeaguePoints());
-        Assertions.assertEquals(baseModel.getElo(), result.getElo());
-        Assertions.assertEquals(baseModel.getOwner(), result.getOwner());
+        Assertions.assertEquals(infoModel2.getDate(), result.getDate());
+        Assertions.assertEquals(infoModel2.getTier(), result.getTier());
+        Assertions.assertEquals(infoModel2.getRank(), result.getRank());
+        Assertions.assertEquals(infoModel2.getSummonerName(), result.getSummonerName());
+
     }
     @Test
     void accountNotFoundMaxDivision() {
