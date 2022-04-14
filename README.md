@@ -1,22 +1,3 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
-
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
-
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
-
----
-
-## Edit a file
-
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
-
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: 
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
-
 ## 1) CREATE DATABASES!
 
 Let's start with our DB(Database), we will use PostgreSQL, and we will use pgAdmin4 for browsing and testing the DB.
@@ -25,6 +6,45 @@ Let's start with our DB(Database), we will use PostgreSQL, and we will use pgAdm
 2. open pgAdmin4, put on your local password assigned.
 3. Click the **Databases** button and then Click **Schemas** -> **Tables** button.
 4. Insert the following sql query so you can create each one of the tables:
+
+
+Our service offer a lot of info about League of legends and Valorant stats!, using localhost and urls! so, lets start with our League of legends features!.
+But first of all, the port that you have to use is: "http://localhost:8080", so check if is avaliable for this api.
+Dont Forget that this api works with a RIOT_TOKEN. Get yourse here: "https://developer.riotgames.com" login and insert it into com.springbootcallingexternalapi.Services.RiotRequestorService
+
+
+
+##LEAGUE OF LEGENDS
+*In here you can consult a variety of stats so lets put them one by one!*
+
+**Check Live Match**
+
+This function consult the live match for an account.
+The url that provide this function is:
+"/call-riot/live/match/{account}"
+
+where "{account}" is the SummonerName that you want to consult
+
+**Server Status**
+
+This function consult the status of your regional server.
+The url that provide this function is:
+"/call-riot/server/status"
+
+**Winner Winner Chicken Dinner**
+
+This function consults who is winning the competition between 2 owners
+We define "winner" who reached the highes elo during the season
+The url that provide this function is:
+"/account/division-comparison/{owner1}/{owner2}"
+
+**Most popular player with his most popular champion**
+
+This function consults who is the most popular player and get the most popular champion for this player
+The url that provide this function is:
+"/loldata/mostpopular"
+
+-------------------------------------------------------------------------------------------------------------------
 
 
 **AccountMasteryHistory**:
@@ -202,18 +222,3 @@ automatically!.
 
    Use the URL: http://localhost:8080/account/masteryHistory/{account}
 
-
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
-
----
-
-## Clone a repository
-
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
-
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
-
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).

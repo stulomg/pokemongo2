@@ -1,6 +1,7 @@
 package com.springbootcallingexternalapi.RestControllers;
 
-import com.springbootcallingexternalapi.Exceptions.AccountExceptions.AccountDataException;
+import com.springbootcallingexternalapi.Exceptions.MostPopularExceptions.DBException;
+import com.springbootcallingexternalapi.Exceptions.MostPopularExceptions.NoDataException;
 import com.springbootcallingexternalapi.Services.MostPopularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +14,13 @@ public class MostPopularRestController {
     @Autowired
     MostPopularService mostPopularService;
 
-    @GetMapping(value = "/leaguedata/mostpopular")
+    @GetMapping(value = "/loldata/mostpopular")
     public ResponseEntity<Object> getMostPopular(){
-        return new ResponseEntity<Object>("ayuda",HttpStatus.OK);
-
-
+        try {
+            return new ResponseEntity<>(mostPopularService.mostpopularRepository(),HttpStatus.OK);
+        } catch (NoDataException | DBException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
