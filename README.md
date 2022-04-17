@@ -10,7 +10,7 @@ Let's start with our DB(Database), we will use PostgreSQL, and we will use pgAdm
 
 Our service offer a lot of info about League of legends and Valorant stats!, using localhost and urls! so, lets start with our League of legends features!.
 But first of all, the port that you have to use is: "http://localhost:8080", so check if is avaliable for this api.
-Dont Forget that this api works with a RIOT_TOKEN. Get yourse here: "https://developer.riotgames.com" login and insert it into com.springbootcallingexternalapi.Services.RiotRequestorService
+Dont Forget that this api works with a RIOT_TOKEN. Get yours here: "https://developer.riotgames.com" login and insert it into com.springbootcallingexternalapi.Services.RiotRequestorService
 
 
 

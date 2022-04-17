@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
@@ -11,7 +12,6 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepository;
 import org.slf4j.Logger;
@@ -28,17 +28,15 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
 
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-f425cf6d-c63c-49d3-8628-20fec00b2361 ";
+    private static final String RIOT_TOKEN = "RGAPI-0351a659-d170-48d4-9df8-715ab5759ee5";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -124,22 +122,38 @@ public class RiotRequestorService {
 
         return restTemplate.exchange(finalUrl, method, entity, clazz);
     }
+    private <T> ResponseEntity<T> requestToRiot2(String uri, HttpMethod method, Class<T> clazz) {
+        String finalUrl = "https://americas.api.riotgames.com" + uri;
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Riot-Token", RIOT_TOKEN);
+        HttpEntity<String> entity = new HttpEntity<>("", headers);
+
+        return restTemplate.exchange(finalUrl, method, entity, clazz);
+    }
 
     public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
 
-        if(isAlpha(account)) {
+        if (isAlpha(account)) {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
             ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
             return response.getBody();
-        }else throw new CharacterNotAllowedException(account);
+        } else throw new CharacterNotAllowedException(account);
     }
 
-    public Object serverStatus (){
+    public Object serverStatus() {
         String uri = "/lol/status/v4/platform-data";
-        ResponseEntity<Object> response = requestToRiot(uri, HttpMethod.GET,Object.class);
+        ResponseEntity<Object> response = requestToRiot(uri, HttpMethod.GET, Object.class);
 
         return response.getBody();
     }
-}
 
+    public Object[] getListMatches (String account) throws AccountNotFoundException {
+        String puuid = getAccountFromRiot(account).getBody().getPuuid();
+        String uri = "/lol/match/v5/matches/by-puuid/"+ puuid +"/ids?queue=420&start=0&count=50";
+
+        ResponseEntity<Object[]> response = requestToRiot2(uri, HttpMethod.GET, Object[].class);
+        return response.getBody();
+    }
+}
