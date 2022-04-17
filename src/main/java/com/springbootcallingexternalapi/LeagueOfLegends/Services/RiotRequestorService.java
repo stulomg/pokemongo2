@@ -149,11 +149,29 @@ public class RiotRequestorService {
         return response.getBody();
     }
 
-    public Object[] getListMatches (String account) throws AccountNotFoundException {
+    public List<Object> getListMatches (String account) throws AccountNotFoundException {
         String puuid = getAccountFromRiot(account).getBody().getPuuid();
         String uri = "/lol/match/v5/matches/by-puuid/"+ puuid +"/ids?queue=420&start=0&count=50";
 
-        ResponseEntity<Object[]> response = requestToRiot2(uri, HttpMethod.GET, Object[].class);
-        return response.getBody();
+        ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
+        List<String> listMatches = response.getBody();
+
+        List<Object> list = new ArrayList<Object>();
+
+        for (int i = 0; i <listMatches.size() ; i++) {
+
+            String elemento = listMatches.get(i);
+
+            list.add(getListData(elemento));
+        }
+
+        return list;
+    }
+
+    public ResponseEntity<Object> getListData (String matchId){
+
+        String uri = "/lol/match/v5/matches/" + matchId;
+        ResponseEntity<Object> response = requestToRiot2(uri, HttpMethod.GET,Object.class);
+        return response;
     }
 }
