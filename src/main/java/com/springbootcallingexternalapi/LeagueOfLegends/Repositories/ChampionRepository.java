@@ -17,7 +17,7 @@ public class ChampionRepository {
 
     public Long retrieveChampionIdByChampionName(String championName)
             throws ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException {
-        String sql = "SELECT \"ChampionId\" FROM \"Champions\" WHERE LOWER (\"ChampionName\")=?";
+        String sql = "SELECT \"ChampionId\" FROM \"Champion\" WHERE LOWER (\"ChampionName\")=?";
         Object[] params = {championName};
         if (isAlpha(championName)) {
             try {
