@@ -8,7 +8,6 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
@@ -90,4 +89,10 @@ public class RiotRestController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+    @GetMapping (value = "/call-riot/matches/{account}")
+
+    public ResponseEntity<Object> getMatches(@PathVariable String account) throws AccountNotFoundException {
+        Object response = riotRequestorService.getListMatches(account);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 }
