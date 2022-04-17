@@ -1,6 +1,5 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
@@ -29,14 +28,13 @@ import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
 
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-0351a659-d170-48d4-9df8-715ab5759ee5";
+    private static final String RIOT_TOKEN = "RGAPI-27d53b17-f80a-422d-81a8-e025d8e1ec28";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -149,11 +147,29 @@ public class RiotRequestorService {
         return response.getBody();
     }
 
-    public Object[] getListMatches (String account) throws AccountNotFoundException {
+    public List<Object> getListMatches (String account) throws AccountNotFoundException {
         String puuid = getAccountFromRiot(account).getBody().getPuuid();
         String uri = "/lol/match/v5/matches/by-puuid/"+ puuid +"/ids?queue=420&start=0&count=50";
 
-        ResponseEntity<Object[]> response = requestToRiot2(uri, HttpMethod.GET, Object[].class);
-        return response.getBody();
+        ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
+        List<String> listMatches = response.getBody();
+
+        List<Object> list = new ArrayList<Object>();
+
+        for (int i = 0; i <listMatches.size() ; i++) {
+
+            String elemento = listMatches.get(i);
+
+            list.add(getListData(elemento));
+        }
+
+        return list;
+    }
+
+    public ResponseEntity<Object> getListData (String matchId){
+
+        String uri = "/lol/match/v5/matches/" + matchId;
+        ResponseEntity<Object> response = requestToRiot2(uri, HttpMethod.GET,Object.class);
+        return response;
     }
 }
