@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS public."LeagueInfo"
     rank text COLLATE pg_catalog."default" NOT NULL,
     "summonerName" text COLLATE pg_catalog."default" NOT NULL,
     "LeaguePoints" integer NOT NULL,
+    "Elo" integer NOT NULL,
+    owner text COLLATE pg_catalog."default",
     CONSTRAINT "LeagueInfo_pkey" PRIMARY KEY (date)
 )
 

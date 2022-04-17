@@ -41,13 +41,13 @@ public class AccountRestControllerTest {
 
     @BeforeEach
     void setup(){
-        jdbcTemplate.execute("TRUNCATE TABLE \"Accounts\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
     }
 
     @Test
     public void deleteExitosamenteCasoDefault() throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Accounts\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -68,14 +68,14 @@ public class AccountRestControllerTest {
 
         Assertions.assertEquals("Delete successfully",content);
 
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Accounts\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
         Assertions.assertEquals(0,resultSet.size());
     }
 
     @Test
     public void accountOrOwnerNotFoundExceptionEnDeleteAccount() throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Accounts\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -102,7 +102,7 @@ public class AccountRestControllerTest {
     @Test
     public void retrieveAccountByOwnerExitosamenteCasoDefault () throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Accounts\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -129,7 +129,7 @@ public class AccountRestControllerTest {
 
         mockMvc.perform(get("/account/find-by-owner/kusi")).andExpect(status().isOk()).andReturn();
 
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT FROM \"Accounts\" WHERE LOWER (owner)='kusi'", BeanPropertyRowMapper.newInstance(AccountModel.class));
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT FROM \"Account\" WHERE LOWER (owner)='kusi'", BeanPropertyRowMapper.newInstance(AccountModel.class));
         Assertions.assertEquals(1, resultSet.size());
     }
 
@@ -142,7 +142,7 @@ public class AccountRestControllerTest {
     @Test
     public void ownerNotFoundExceptionEnRetrieveAccountByOwner () throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Accounts\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -163,7 +163,7 @@ public class AccountRestControllerTest {
     @Test
     public void retrieveAccountByNameExitosamenteCasoDefault () throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Accounts\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -191,7 +191,7 @@ public class AccountRestControllerTest {
 
         mockMvc.perform(get("/account/find-by-name/soyeon lover")).andExpect(status().isOk()).andReturn();
 
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT FROM \"Accounts\" WHERE LOWER (name) ='soyeon lover'",BeanPropertyRowMapper.newInstance(AccountModel.class));
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT FROM \"Account\" WHERE LOWER (name) ='soyeon lover'",BeanPropertyRowMapper.newInstance(AccountModel.class));
         Assertions.assertEquals(1, resultSet.size());
     }
 
@@ -204,7 +204,7 @@ public class AccountRestControllerTest {
     @Test
     public void accountNotFoundExceptionEnRetrieveAccountByName () throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Accounts\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",

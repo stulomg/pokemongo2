@@ -1,3 +1,5 @@
+TRUNCATE TABLE "Champion";
+
 INSERT INTO "Champion" ("ChampionId", "ChampionName")
 VALUES
 (266,'Aatrox'),
