@@ -27,7 +27,7 @@ public class AccountRepository {
 
     public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowedException, CharacterNotAllowedException {
 
-        String sql = "INSERT INTO \"Accounts\" VALUES(?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO \"Account\" VALUES(?,?,?,?,?,?,?,?)";
         Object[] params = {account.getId(), account.getAccountId(), account.getPuuid(), account.getName().toLowerCase(Locale.ROOT), account.getProfileIconId(), account.getRevisionDate(), account.getSummonerLevel(), owner.toLowerCase(Locale.ROOT)};
         if (isAlpha(owner)) {
             try {
@@ -41,7 +41,7 @@ public class AccountRepository {
     }
 
     public void deleteAccount(String owner, String account) throws AccountOrOwnerNotFoundException, CharacterNotAllowedException {
-        String sql = "DELETE FROM \"Accounts\" WHERE LOWER (name)=? AND LOWER (owner)=?";
+        String sql = "DELETE FROM \"Account\" WHERE LOWER (name)=? AND LOWER (owner)=?";
         Object[] params = {account.toLowerCase(Locale.ROOT), owner.toLowerCase(Locale.ROOT)};
 
         if (isAlpha(owner) && isAlpha(account)) {
@@ -56,7 +56,7 @@ public class AccountRepository {
     }
 
     public List<AccountModel> retrieveAccountByOwner(String owner) throws CharacterNotAllowedException, OwnerNotFoundException {
-        String sql = "SELECT * FROM \"Accounts\" WHERE LOWER (owner)=?";
+        String sql = "SELECT * FROM \"Account\" WHERE LOWER (owner)=?";
         Object[] params = {owner};
 
         if (isAlpha(owner)) {
@@ -71,7 +71,7 @@ public class AccountRepository {
     }
 
     public void accountUpdate(AccountModel model) throws CharacterNotAllowedException, AccountNotFoundException {
-        String sql = "UPDATE \"Accounts\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?," +
+        String sql = "UPDATE \"Account\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?," +
                 " \"summonerLevel\"=?, owner=? WHERE id=?";
         Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(),
                 model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
@@ -86,7 +86,7 @@ public class AccountRepository {
 
 
     public List<AccountModel> retrieveAccountByAccountName(String account) throws CharacterNotAllowedException, AccountNotFoundException {
-        String sql = "SELECT * FROM \"Accounts\" WHERE LOWER (name)=?";
+        String sql = "SELECT * FROM \"Account\" WHERE LOWER (name)=?";
         Object[] params = {account};
 
         if (isAlpha(account)) {

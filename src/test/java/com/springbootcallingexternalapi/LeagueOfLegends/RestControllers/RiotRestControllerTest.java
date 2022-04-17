@@ -36,7 +36,7 @@ public class RiotRestControllerTest {
     @Test
     public void callRiotExitosamenteCasoDefautl() throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Accounts\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
