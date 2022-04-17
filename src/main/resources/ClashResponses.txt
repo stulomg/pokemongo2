@@ -1,0 +1,95 @@
+/lol/clash/v1/players/by-summoner/{summonerId}
+
+Response: 
+
+[
+    {
+        "summonerId": "1S1HEJI3r_WXyKKWYK5Ke1EZpMwizcF6ntciLxvWENyNnhk",
+        "teamId": "2559537",
+        "position": "MIDDLE",
+        "role": "MEMBER"
+    }
+]
+
+---------------------------------------------------------------
+/lol/clash/v1/teams/{teamId}
+
+Response:
+
+{
+    "id": "2559537",
+    "tournamentId": 2803,
+    "name": "Lagrimas y risas",
+    "iconId": 7,
+    "tier": 1,
+    "captain": "C1vd0rZ2wP_QB4ITDolRg3j4UyHmzFc7hK8UkDKCa7IVBw",
+    "abbreviation": "jin",
+    "players": [
+        {
+            "summonerId": "AkNC60GpLAwQCKf41R0kpBM8D_QIDTrkMrN76Bvs2CFzGCI",
+            "position": "UTILITY",
+            "role": "MEMBER"
+        },
+        {
+            "summonerId": "1S1HEJI3r_WXyKKWYK5Ke1EZpMwizcF6ntciLxvWENyNnhk",
+            "position": "MIDDLE",
+            "role": "MEMBER"
+        },
+        {
+            "summonerId": "lDDmX6ji2FqtQCulNzEOe8Hq1YdBxNvxE7ByPC43FYfZTg",
+            "position": "TOP",
+            "role": "MEMBER"
+        },
+        {
+            "summonerId": "8QjCzyQqAyqZ5m1bg9CEp5zrIuCyJzT4WKy3ZPzYYrmoFvo70dp8yQibkw",
+            "position": "JUNGLE",
+            "role": "MEMBER"
+        },
+        {
+            "summonerId": "C1vd0rZ2wP_QB4ITDolRg3j4UyHmzFc7hK8UkDKCa7IVBw",
+            "position": "BOTTOM",
+            "role": "CAPTAIN"
+        }
+    ]
+}
+
+-----------------------------------------------------------------------
+/lol/clash/v1/tournaments/by-team/{teamId}
+
+Response:
+
+{
+    "id": 2803,
+    "themeId": 11,
+    "nameKey": "piltover",
+    "nameKeySecondary": "day_1",
+    "schedule": [
+        {
+            "id": 2783,
+            "registrationTime": 1650150000000,
+            "startTime": 1650157200000,
+            "cancelled": false
+        }
+    ]
+}
+
+------------------------------------------------------------------------
+/lol/clash/v1/tournaments/{tournamentId}
+
+Response:
+
+{
+    "id": 2803,
+    "themeId": 11,
+    "nameKey": "piltover",
+    "nameKeySecondary": "day_1",
+    "schedule": [
+        {
+            "id": 2783,
+            "registrationTime": 1650150000000,
+            "startTime": 1650157200000,
+            "cancelled": false
+        }
+    ]
+}
+
