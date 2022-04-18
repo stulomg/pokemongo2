@@ -49,7 +49,7 @@ public class AccountRepositoryTest {
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.execute("TRUNCATE TABLE \"Accounts\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
     }
 
     @Test
@@ -85,7 +85,7 @@ public class AccountRepositoryTest {
         repository.insertAccount(baseModel, owner);
 
         //THEN INSERT PROPERLY AND PERSIST THE DATA IN THE DATABASE.
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Accounts\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
         Assertions.assertEquals(1, resultSet.size());
         AccountModel result = resultSet.get(0);
 
@@ -189,7 +189,7 @@ public class AccountRepositoryTest {
         repository.insertAccount(baseModel, owner);
         //When
         repository.accountUpdate(model);
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Accounts\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
         //Then
         Assertions.assertEquals(1, resultSet.size());
         Assertions.assertEquals(baseModel.getId(), resultSet.get(0).getId());
@@ -254,7 +254,7 @@ public class AccountRepositoryTest {
         repository.insertAccount(baseModel, owner);
         repository.deleteAccount(owner, baseModel.getName());
 
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Accounts\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
         Assertions.assertEquals(0, resultSet.size());
     }
 

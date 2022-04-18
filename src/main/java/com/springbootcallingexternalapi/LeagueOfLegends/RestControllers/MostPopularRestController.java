@@ -18,7 +18,7 @@ public class MostPopularRestController {
     public ResponseEntity<Object> getMostPopular(){
         try {
             return new ResponseEntity<>(mostPopularService.mostpopularRepository(),HttpStatus.OK);
-        } catch (NoDataException | DBException e) {
+        } catch (NoDataException e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
