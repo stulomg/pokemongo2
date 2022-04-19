@@ -28,11 +28,11 @@ public class JwtProvider {
                 .compact();
     }
     public String getUserNameFromtoken(String token){
-        return  Jwts.parser().setSigningKey(secret).parseClaimsJwt(token).getBody().getSubject();
+        return  Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
     public boolean validateToken(String token){
         try{
-            Jwts.parser().setSigningKey(secret).parseClaimsJwt(token);
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
         }catch (MalformedJwtException e){
             logger.error("token mal formado");

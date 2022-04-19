@@ -67,7 +67,7 @@ public class UserController {
             roles.add(roleService.getByRoleName(RoleName.ROLE_ADMIN).get());
         }
         user.setRoles(roles);
-        userService.InsertUser(user);
+        userService.save(user);
         return new ResponseEntity(new Message("Usuario guardado"),HttpStatus.CREATED);
     }
 

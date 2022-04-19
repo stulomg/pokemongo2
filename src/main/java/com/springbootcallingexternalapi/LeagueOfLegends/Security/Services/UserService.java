@@ -1,7 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Security.Services;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Security.Models.User;
-import com.springbootcallingexternalapi.LeagueOfLegends.Security.Repositories.NewUserRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Security.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +14,7 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    NewUserRepository newUserRepository;
+
 
     public Optional<User> getByUserName(String userName){
         return userRepository.findByUserName(userName);
@@ -29,8 +27,5 @@ public class UserService {
     }
     public void save(User user){
         userRepository.save(user);
-    }
-    public void InsertUser(User user)  {
-        newUserRepository.insertUser(user);
     }
 }
