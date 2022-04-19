@@ -1,4 +1,9 @@
 TRUNCATE TABLE "Champion";
+TRUNCATE TABLE "role" RESTART IDENTITY CASCADE;
+
+INSERT INTO "role" ("role_name")
+VALUES
+('ROLE_ADMIN'),('ROLE_USER');
 
 INSERT INTO "Champion" ("ChampionId", "ChampionName")
 VALUES

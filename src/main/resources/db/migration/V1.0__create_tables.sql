@@ -88,3 +88,67 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."Champion"
     OWNER to postgres;
+
+-- Table: public.role
+
+-- DROP TABLE IF EXISTS public.role;
+
+-- --------------------------------------------------------------
+-- Tabla : Role
+-- --------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.role
+(
+    id serial NOT NULL ,
+    role_name character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT role_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.role
+    OWNER to postgres;
+
+-- --------------------------------------------------------------
+-- Tabla : User
+-- --------------------------------------------------------------
+-- Table: public.user
+
+-- DROP TABLE IF EXISTS public."user";
+
+CREATE TABLE IF NOT EXISTS public."user"
+(
+    id serial NOT NULL ,
+    name character varying(255) COLLATE pg_catalog."default",
+    user_name character varying(255) COLLATE pg_catalog."default",
+    email character varying(255) COLLATE pg_catalog."default",
+    password character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT user_pkey PRIMARY KEY (id),
+    CONSTRAINT uk_lqjrcobrh9jc8wpcar64q1bfh UNIQUE (user_name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."user"
+    OWNER to postgres;
+-- --------------------------------------------------------------
+-- Tabla : user_rol
+-- --------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.user_role
+(
+    user_id integer NOT NULL,
+    role_id integer NOT NULL,
+    CONSTRAINT user_role_pkey PRIMARY KEY (user_id, role_id),
+    CONSTRAINT fk6c4lt3635uhrcn2lxcf5edl92 FOREIGN KEY (user_id)
+        REFERENCES public."user" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkje05j8n9jg14gbosrflgjcjk FOREIGN KEY (role_id)
+        REFERENCES public.role (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.user_role
+    OWNER to postgres;
