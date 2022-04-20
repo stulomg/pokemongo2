@@ -19,8 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.Calendar;
 
 @RestController
 public class RiotRestController {
@@ -84,9 +87,10 @@ public class RiotRestController {
     }
 
     @GetMapping(value = "/call-riot/server/status")
-    public ResponseEntity<Object> serverStatus (){
+
+    public ResponseEntity<Object> serverStatus () {
         Object response = riotRequestorService.serverStatus();
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping (value = "/call-riot/matches/{account}")

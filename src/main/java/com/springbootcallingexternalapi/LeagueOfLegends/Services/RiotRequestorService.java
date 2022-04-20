@@ -1,6 +1,5 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
@@ -17,26 +16,29 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepo
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
 
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-f528ebf7-c352-4dc4-9004-0dd2d538616a";
+    private static final String RIOT_TOKEN = "RGAPI-5feaf179-577e-4eac-9f0d-7227a2be1f51";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -141,15 +143,19 @@ public class RiotRequestorService {
             return response.getBody();
         } else throw new CharacterNotAllowedException(account);
     }
-
+    @Scheduled(cron = " 0 0 */2 * * ?")
     public Object serverStatus() {
+
         String uri = "/lol/status/v4/platform-data";
         ResponseEntity<Object> response = requestToRiot(uri, HttpMethod.GET, Object.class);
+        System.out.println("ff");
 
         return response.getBody();
+
     }
 
     public List<Object> getListMatches (String account) throws AccountNotFoundException {
+
         String puuid = getAccountFromRiot(account).getBody().getPuuid();
         String uri = "/lol/match/v5/matches/by-puuid/"+ puuid +"/ids?queue=420&start=0&count=2";
 
