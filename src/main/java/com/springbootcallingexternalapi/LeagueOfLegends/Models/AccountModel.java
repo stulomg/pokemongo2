@@ -3,30 +3,23 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import javax.persistence.*;
 
-@Entity
+
 public class AccountModel {
-    @Id
+
     private String id;
 
-    @Column(nullable = false)
     private String accountId;
 
-    @Column(nullable = false)
     private String puuid;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private Integer profileIconId;
 
-    @Column(nullable = false)
     private Long revisionDate;
 
-    @Column(nullable = false)
     private Long summonerLevel;
 
-    @Column(nullable = false)
     private String owner;
 
     public AccountModel(String id, String accountId, String puuid, String name, Integer profileIconId, Long revisionDate, Long summonerLevel, String owner) {
