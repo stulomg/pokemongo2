@@ -32,7 +32,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-095a835c-fe34-4868-878e-8b75fafed5c8";
+    private static final String RIOT_TOKEN = "RGAPI-dda07e6d-d74c-40cb-8466-35210572dcfe";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -120,6 +120,7 @@ public class RiotRequestorService {
 
         return restTemplate.exchange(finalUrl, method, entity, clazz);
     }
+
     private <T> ResponseEntity<T> requestToRiot2(String uri, HttpMethod method, Class<T> clazz) {
         String finalUrl = "https://americas.api.riotgames.com" + uri;
         RestTemplate restTemplate = new RestTemplate();
@@ -132,14 +133,10 @@ public class RiotRequestorService {
 
     public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
 
-        System.out.println("Hola Mundo");
         if (isAlpha(account)) {
             String id = getAccountFromRiot(account).getBody().getId();
-            System.out.println("Hola Mundo 2");
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
-            System.out.println(uri);
             ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
-            System.out.println(response.getBody());
 
             return response.getBody();
         } else throw new CharacterNotAllowedException(account);
@@ -152,42 +149,49 @@ public class RiotRequestorService {
         return response.getBody();
     }
 
-    public List<Object> getListMatches (String account) throws AccountNotFoundException {
+    public List<Object> getListMatches(String account) throws AccountNotFoundException {
         String puuid = getAccountFromRiot(account).getBody().getPuuid();
-        String uri = "/lol/match/v5/matches/by-puuid/"+ puuid +"/ids?queue=420&start=0&count=5";
+        String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=420&start=0&count=5";
 
         ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
         List<String> listMatches = response.getBody();
 
         List<Object> list = new ArrayList<Object>();
 
-        for (int i = 0; i <listMatches.size() ; i++) {
+        for (int i = 0; i < listMatches.size(); i++) {
 
             String elemento = listMatches.get(i);
 
             GameSuperMetaDataModel response2 = getListData(elemento).getBody();
-
 
             GameDataModel[] response3 = response2.getInfo().getParticipants();
             Optional<GameDataModel> model = Arrays.stream(response3)
                     .filter(GameDataModel -> GameDataModel.getSummonerName().equals(account))
                     .findFirst();
 
-                    GameDataModel lim = model.get();
+            GameDataModel lim = model.get();
 
-                    matchRepository.insertMatchData(lim);
-                    list.add(model);
+            matchRepository.insertMatchData(lim);
+            list.add(model);
         }
-
 
         return list;
     }
 
-    public ResponseEntity<GameSuperMetaDataModel> getListData (String matchId){
+    public ResponseEntity<GameSuperMetaDataModel> getListData(String matchId) {
 
         String uri = "/lol/match/v5/matches/" + matchId;
-        ResponseEntity<GameSuperMetaDataModel> response = requestToRiot2(uri, HttpMethod.GET,GameSuperMetaDataModel.class);
+        ResponseEntity<GameSuperMetaDataModel> response = requestToRiot2(uri, HttpMethod.GET, GameSuperMetaDataModel.class);
 
         return response;
     }
+
+    public ResponseEntity<Object> getAccountForClash(String account) throws AccountNotFoundException {
+        String id = getAccountFromRiot(account).getBody().getId();
+        String uri = "/lol/clash/v1/players/by-summoner/" + id;
+
+        ResponseEntity<Object> response = requestToRiot(uri,HttpMethod.GET,Object.class);
+        return response;
+    }
+
 }
