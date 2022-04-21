@@ -19,12 +19,15 @@ public class GameDataModel {
 
     private String individualPosition;
 
-    public GameDataModel(String championName, String summonerName, boolean win, String teamPosition, String individualPosition) {
+    private int championPoints;
+
+    public GameDataModel(String championName, String summonerName, boolean win, String teamPosition, String individualPosition, int championPoints) {
         this.championName = championName;
         this.summonerName = summonerName;
         this.win = win;
         this.teamPosition = teamPosition;
         this.individualPosition = individualPosition;
+        this.championPoints = championPoints;
     }
 
     public GameDataModel() {
@@ -68,5 +71,13 @@ public class GameDataModel {
 
     public void setIndividualPosition(String individualPosition) {
         this.individualPosition = individualPosition;
+    }
+
+    public int getChampionPoints() {
+        return championPoints;
+    }
+
+    public void setChampionPoints(int championPoints) {
+        this.championPoints = championPoints;
     }
 }

@@ -89,3 +89,28 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public."Champion"
     OWNER to postgres;
 
+ -- --------------------------------------------------------------
+ -- Tabla : Champion
+ -- --------------------------------------------------------------
+
+-- Table: public.Match
+
+-- DROP TABLE IF EXISTS public."Match";
+
+CREATE TABLE IF NOT EXISTS public."Match"
+(
+    id integer serial NOT NULL,
+    "championName" text COLLATE pg_catalog."default" NOT NULL,
+    "summonerName" text COLLATE pg_catalog."default" NOT NULL,
+    win boolean NOT NULL,
+    "teamPosition" text COLLATE pg_catalog."default" NOT NULL,
+    "individualPosition" text COLLATE pg_catalog."default" NOT NULL,
+    "championPoints" integer,
+    CONSTRAINT "Match_pkey" PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Match"
+    OWNER to postgres;
+
