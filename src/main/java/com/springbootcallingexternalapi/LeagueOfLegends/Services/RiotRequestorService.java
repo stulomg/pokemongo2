@@ -93,7 +93,7 @@ public class RiotRequestorService {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-            Long championId = championService.retrieveChampionIdByChampionName(championName);
+            Long championId = championService.retrieveChampionIdByChampionName(championName.toLowerCase(Locale.ROOT));
             String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + championId;
             ResponseEntity<MasteryHistoryInfoModel> response = requestToRiot(uri, HttpMethod.GET, MasteryHistoryInfoModel.class);
             MasteryHistoryInfoModel model = response.getBody();
@@ -149,7 +149,7 @@ public class RiotRequestorService {
         return response.getBody();
     }
 
-    public List<Object> getListMatches(String account) throws AccountNotFoundException {
+    public List<Object> getListMatches(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
         String puuid = getAccountFromRiot(account).getBody().getPuuid();
         String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=420&start=0&count=5";
 
@@ -170,8 +170,11 @@ public class RiotRequestorService {
                     .findFirst();
 
             GameDataModel lim = model.get();
+            int championpoints = getMastery(account,lim.getChampionName()).getChampionPoints();
+            lim.setChampionPoints(championpoints);
 
             matchRepository.insertMatchData(lim);
+
             list.add(model);
         }
 
