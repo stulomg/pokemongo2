@@ -89,9 +89,9 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public."Champion"
     OWNER to postgres;
 
- -- --------------------------------------------------------------
- -- Tabla : Champion
- -- --------------------------------------------------------------
+-- --------------------------------------------------------------
+-- Tabla : Match
+-- --------------------------------------------------------------
 
 -- Table: public.Match
 
@@ -99,7 +99,7 @@ ALTER TABLE IF EXISTS public."Champion"
 
 CREATE TABLE IF NOT EXISTS public."Match"
 (
-    id integer serial NOT NULL,
+    id serial NOT NULL,
     "championName" text COLLATE pg_catalog."default" NOT NULL,
     "summonerName" text COLLATE pg_catalog."default" NOT NULL,
     win boolean NOT NULL,
