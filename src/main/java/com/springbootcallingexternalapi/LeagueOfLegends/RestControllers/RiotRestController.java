@@ -19,8 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.Calendar;
 
 @RestController
 public class RiotRestController {
@@ -72,27 +75,35 @@ public class RiotRestController {
     }
 
     @GetMapping(value = "/call-riot/live/match/{account}")
-    public ResponseEntity<Object> getLiveMatch(@PathVariable String account){
+    public ResponseEntity<Object> getLiveMatch(@PathVariable String account) {
         try {
             CurrentGameInfoBaseModel response = riotRequestorService.getLiveMatch(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (CharacterNotAllowedException e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }catch (AccountNotFoundException e1){
-            return new ResponseEntity<>(e1.getMessage(),HttpStatus.NOT_FOUND);
+        } catch (CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (AccountNotFoundException e1) {
+            return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping(value = "/call-riot/server/status")
-    public ResponseEntity<Object> serverStatus (){
+
+    public ResponseEntity<Object> serverStatus() {
         Object response = riotRequestorService.serverStatus();
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping (value = "/call-riot/matches/{account}")
+    @GetMapping(value = "/call-riot/matches/{account}")
 
     public ResponseEntity<Object> getMatches(@PathVariable String account) throws AccountNotFoundException {
         Object response = riotRequestorService.getListMatches(account);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/call-riot/clash/{account}")
+
+    public ResponseEntity<Object> getAccountForClash(@PathVariable String account) throws AccountNotFoundException {
+        Object response = riotRequestorService.getAccountForClash(account);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

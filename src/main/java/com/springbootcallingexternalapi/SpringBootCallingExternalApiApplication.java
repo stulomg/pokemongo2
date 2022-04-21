@@ -7,11 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
 import javax.sql.DataSource;
 
 import static org.springframework.context.annotation.FilterType.CUSTOM;
 
 @Configuration
+@EnableScheduling
 @SpringBootApplication()
 @ComponentScan(excludeFilters={@ComponentScan.Filter(type=CUSTOM,classes= TypeExcludeFilter.class),})
 public class SpringBootCallingExternalApiApplication {
