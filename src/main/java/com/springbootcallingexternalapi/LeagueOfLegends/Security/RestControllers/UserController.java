@@ -1,6 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Security.RestControllers;
 
 
+
 import com.springbootcallingexternalapi.LeagueOfLegends.Security.Enums.RoleName;
 import com.springbootcallingexternalapi.LeagueOfLegends.Security.JWT.JwtProvider;
 import com.springbootcallingexternalapi.LeagueOfLegends.Security.Models.Role;
@@ -23,9 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
-import java.security.Security;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,14 +47,15 @@ public class UserController {
     @PostMapping("/newUser")
     public ResponseEntity<?> newUser(@Valid @RequestBody NewUser newUser, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity(new Message("Campos mal puestos o email invalido"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("incomplete information, it is needed in this order: name, userName, email, password"), HttpStatus.BAD_REQUEST);
         }
         if (userService.existsByUserName(newUser.getUserName())) {
-            return new ResponseEntity(new Message("Este Nombre ya existe"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Username already registered"),HttpStatus.BAD_REQUEST);
         }
         if (userService.existsByEmail(newUser.getEmail())) {
-            return new ResponseEntity(new Message("Este Email ya existe"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Email already registered"),HttpStatus.BAD_REQUEST);
         }
+
         User user =
                 new User(newUser.getName(),
                         newUser.getUserName(),
@@ -68,13 +68,13 @@ public class UserController {
         }
         user.setRoles(roles);
         userService.save(user);
-        return new ResponseEntity(new Message("Usuario guardado"),HttpStatus.CREATED);
+        return new ResponseEntity(new Message("New registered user"),HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity(new Message("Campos mal puestos "), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("incomplete information, it is needed in this order: userName, password"), HttpStatus.BAD_REQUEST);
         }
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUserName(),loginUser.getPassword()));
@@ -82,6 +82,8 @@ public class UserController {
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         JwtDto jwtDto = new JwtDto(jwt,userDetails.getUsername(),userDetails.getAuthorities());
-        return new ResponseEntity(jwtDto,HttpStatus.OK);
+
+        return new ResponseEntity<>(jwtDto,HttpStatus.OK);
+
     }
 }

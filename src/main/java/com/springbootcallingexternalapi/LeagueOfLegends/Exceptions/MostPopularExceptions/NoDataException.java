@@ -3,6 +3,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularE
 public class NoDataException extends Exception {
 
     public NoDataException(){
-        super("No existen datos suficientes para realizar la consulta ");
+        super("There is not enough data to perform the query");
     }
 }
