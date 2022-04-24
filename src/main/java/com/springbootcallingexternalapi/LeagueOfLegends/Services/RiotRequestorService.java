@@ -2,8 +2,8 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
@@ -150,6 +150,7 @@ public class RiotRequestorService {
     }
 
     public List<Object> getListMatches(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
+
         String puuid = getAccountFromRiot(account).getBody().getPuuid();
         String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=420&start=0&count=5";
 
@@ -189,12 +190,32 @@ public class RiotRequestorService {
         return response;
     }
 
-    public ResponseEntity<Object> getAccountForClash(String account) throws AccountNotFoundException {
+    public ResponseEntity<TeamAccountsMetaData> getAccountsForClash(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
         String id = getAccountFromRiot(account).getBody().getId();
         String uri = "/lol/clash/v1/players/by-summoner/" + id;
 
-        ResponseEntity<Object> response = requestToRiot(uri,HttpMethod.GET,Object.class);
+        ResponseEntity<AccountForClashData> response = requestToRiot(uri,HttpMethod.GET,AccountForClashData.class);
+        String teamId = response.getBody().getTeamId();
+
+        ResponseEntity<TeamAccountsMetaData> response2 = getClashParticipantsByTeamId(teamId);
+
+        List<Object> clashSummoners  = new ArrayList<>();
+
+
+
+        return response2;
+    }
+
+    private ResponseEntity<TeamAccountsMetaData> getClashParticipantsByTeamId (String teamId){
+        String uri = "/lol/clash/v1/teams/" + teamId;
+
+        ResponseEntity<TeamAccountsMetaData> response = requestToRiot(uri,HttpMethod.GET,TeamAccountsMetaData.class);
         return response;
     }
 
+    private String getSummonerNameBySummonerId (String summonerId){
+       String uri = "/lol/summoner/v4/summoners/" + summonerId;
+
+        return requestToRiot(uri,HttpMethod.GET,String.class).toString();
+    }
 }
