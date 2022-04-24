@@ -11,6 +11,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MatchRepository;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.ServerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
@@ -46,6 +48,8 @@ public class RiotRequestorService {
     MasteryRepository masteryRepository;
     @Autowired
     MatchRepository matchRepository;
+    @Autowired
+    ServerRepository serverRepository;
 
     public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, OwnerNotAllowedException, CharacterNotAllowedException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
@@ -141,10 +145,16 @@ public class RiotRequestorService {
             return response.getBody();
         } else throw new CharacterNotAllowedException(account);
     }
-
+    @Scheduled(cron = " 0 0 */2 * * ?")
     public Object serverStatus() {
         String uri = "/lol/status/v4/platform-data";
-        ResponseEntity<Object> response = requestToRiot(uri, HttpMethod.GET, Object.class);
+        ResponseEntity<MaintenancesStatusModel> response = requestToRiot(uri, HttpMethod.GET, MaintenancesStatusModel.class);
+        MaintenancesStatusModel model = response.getBody();
+        model.getName();
+        model.getLocales();
+        model.getMaintenances();
+        model.getIncidents();
+        serverRepository.insertServerStatus(model);
 
         return response.getBody();
     }
