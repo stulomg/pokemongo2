@@ -1,14 +1,14 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-public class RecommendedRole {
+public class RecommendedRoleModel {
     private String summonerName ;
     private String recommendPosition ;
     private Integer gamesPlayed ;
 
-    public RecommendedRole() {
+    public RecommendedRoleModel() {
     }
 
-    public RecommendedRole(String summonerName, String recommendPosition, Integer gamesPlayed) {
+    public RecommendedRoleModel(String summonerName, String recommendPosition, Integer gamesPlayed) {
         this.summonerName = summonerName;
         this.recommendPosition = recommendPosition;
         this.gamesPlayed = gamesPlayed;

@@ -1,7 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.NoDataException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRole;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.RecommendedRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +13,9 @@ import java.util.List;
 public class RecommendedRoleService {
     @Autowired
     RecommendedRoleRepository recommendedRoleRepository;
-    public List<RecommendedRole> recommendedRoleRepository(String account1, String account2, String account3, String account4, String account5) throws NoDataException {
-        List<RecommendedRole> recommendedRoleFinal = new ArrayList<>();
-        List<RecommendedRole> listSumRole = recommendedRoleRepository.recommendedRole(account1,account2,account3,account4,account5);
+    public List<RecommendedRoleModel> recommendedRoleRepository(String account1, String account2, String account3, String account4, String account5) throws NoDataException {
+        List<RecommendedRoleModel> recommendedRoleModelFinal = new ArrayList<>();
+        List<RecommendedRoleModel> listSumRole = recommendedRoleRepository.recommendedRole(account1,account2,account3,account4,account5);
         int maxRole1 = 0 ;
         int maxRole2 = 0 ;
         int maxRole3 = 0 ;
@@ -70,61 +70,61 @@ public class RecommendedRoleService {
         }
 
         if (contador1 != -1) {
-            recommendedRoleFinal.add(listSumRole.get(contador1));
+            recommendedRoleModelFinal.add(listSumRole.get(contador1));
         }else if (contador1 == -1){
-            RecommendedRole noData = new RecommendedRole(
+            RecommendedRoleModel noData = new RecommendedRoleModel(
                     "",
                     "not enough information",
                     0
             );
             noData.setSummonerName(account1);
-            recommendedRoleFinal.add(noData);
+            recommendedRoleModelFinal.add(noData);
         }
         if (contador2 != -1) {
-            recommendedRoleFinal.add(listSumRole.get(contador2));
+            recommendedRoleModelFinal.add(listSumRole.get(contador2));
         }else if (contador2 == -1){
-            RecommendedRole noData = new RecommendedRole(
+            RecommendedRoleModel noData = new RecommendedRoleModel(
                     "",
                     "not enough information",
                     0
             );
             noData.setSummonerName(account2);
-            recommendedRoleFinal.add(noData);
+            recommendedRoleModelFinal.add(noData);
         }
         if (contador3 != -1) {
-            recommendedRoleFinal.add(listSumRole.get(contador3));
+            recommendedRoleModelFinal.add(listSumRole.get(contador3));
         }else if (contador3 == -1){
-            RecommendedRole noData = new RecommendedRole(
+            RecommendedRoleModel noData = new RecommendedRoleModel(
                     "",
                     "not enough information",
                     0
             );
             noData.setSummonerName(account3);
-            recommendedRoleFinal.add(noData);
+            recommendedRoleModelFinal.add(noData);
         }
         if (contador4 != -1) {
-            recommendedRoleFinal.add(listSumRole.get(contador4));
+            recommendedRoleModelFinal.add(listSumRole.get(contador4));
         }else if (contador4 == -1){
-            RecommendedRole noData = new RecommendedRole(
+            RecommendedRoleModel noData = new RecommendedRoleModel(
                     "",
                     "not enough information",
                     0
             );
             noData.setSummonerName(account4);
-            recommendedRoleFinal.add(noData);
+            recommendedRoleModelFinal.add(noData);
         }
         if (contador5 != -1) {
-            recommendedRoleFinal.add(listSumRole.get(contador5));
+            recommendedRoleModelFinal.add(listSumRole.get(contador5));
         }else if (contador5 == -1){
-            RecommendedRole noData = new RecommendedRole(
+            RecommendedRoleModel noData = new RecommendedRoleModel(
                     "",
                     "not enough information",
                     0
             );
             noData.setSummonerName(account5);
-            recommendedRoleFinal.add(noData);
+            recommendedRoleModelFinal.add(noData);
         }
-        return recommendedRoleFinal;
+        return recommendedRoleModelFinal;
     }
 
 }
