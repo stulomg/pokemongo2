@@ -102,8 +102,12 @@ public class RiotRestController {
 
     @GetMapping(value = "/call-riot/clash/{account}")
 
-    public ResponseEntity<Object> getAccountForClash(@PathVariable String account) throws AccountNotFoundException {
-        Object response = riotRequestorService.getAccountForClash(account);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Object> getAccountForClash(@PathVariable String account) {
+        try {
+            Object response = riotRequestorService.getAccountForClash(account);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (AccountNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 }
