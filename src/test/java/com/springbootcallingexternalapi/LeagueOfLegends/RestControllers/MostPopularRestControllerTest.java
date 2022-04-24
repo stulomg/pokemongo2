@@ -6,15 +6,14 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInf
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MostPopularModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.LeagueRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepository;
-import org.junit.Assert;
+import com.springbootcallingexternalapi.LeagueOfLegends.Security.dto.NewUser;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,8 +21,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.sql.Timestamp;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -47,6 +46,7 @@ class MostPopularRestControllerTest {
     void setUp() {
         objectMapper = new ObjectMapper();
     }
+
 
     @Test
     void getMostPopular() throws Exception {
@@ -103,5 +103,8 @@ class MostPopularRestControllerTest {
         jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
         //mockMvc.perform(MockMvcRequestBuilders.get("/loldata/mostpopular")).andExpect(status().isBadRequest());
     }
+
 }
+
+
 
