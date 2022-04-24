@@ -218,6 +218,4 @@ public class RiotRequestorService {
 
         return requestToRiot(uri,HttpMethod.GET,String.class).toString();
     }
-
-
 }
