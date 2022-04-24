@@ -50,7 +50,7 @@ The url that provide this function is:
 **Clash**
 
 Here we divide the functions into 3 parts with 3 different endpoints. 
-The first one is: "/call-riot/clash/{account}" : this endpoint brings us the clash players and what position do they have.
+- The first one is: "/call-riot/clash/{account}" : this endpoint brings us the clash players and what position do they have.
 As there is no clash at this time, the endpoint does not give an answer, but this is the response it should give:
 
 
@@ -88,7 +88,9 @@ As there is no clash at this time, the endpoint does not give an answer, but thi
 "position": "BOTTOM",
 "role": "CAPTAIN"
 
+- The second endpoint is: /loldata/clash/recommendedRole/{account1}/{account2}/{account3}/{account4}/{account5}
 
+this endpoint is based on the winRate of each player to indicate the best lane for the clash.
 
 
 
