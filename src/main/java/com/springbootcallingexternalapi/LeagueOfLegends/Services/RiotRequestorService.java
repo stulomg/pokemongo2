@@ -32,7 +32,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-d37c9447-b245-44f4-8417-df778b8b9d55";
+    private static final String RIOT_TOKEN = "RGAPI-40439a6f-c540-4cd9-91a4-48b315ffe25f";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -190,7 +190,7 @@ public class RiotRequestorService {
         return response;
     }
 
-    public ResponseEntity<TeamAccountsMetaData> getAccountsForClash(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
+    public ResponseEntity<TeamAccountsMetaData> getAccountsForClash (String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
         String id = getAccountFromRiot(account).getBody().getId();
         String uri = "/lol/clash/v1/players/by-summoner/" + id;
 
