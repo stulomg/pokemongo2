@@ -16,11 +16,10 @@ public class RecommendedRoleRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<RecommendedRole> recommendedRole(String account1,String account2,String account3,String account4,String account5) throws NoDataException {
-        String sql = "SELECT \"summonerName\",\"teamPosition\" ,COUNT(\"teamPosition\") AS mRole\n" +
+        String sql = "SELECT \"summonerName\",\"teamPosition\" AS recommendPosition ,COUNT(\"teamPosition\") AS gamesPlayed\n" +
                 "FROM \"Match\" \n" +
                 "WHERE \"summonerName\" =? OR \"summonerName\" =? OR \"summonerName\" =? OR \"summonerName\" =? OR \"summonerName\" =? \n" +
-                "GROUP BY \"summonerName\",\"teamPosition\" \n" +
-                "ORDER BY COUNT(\"summonerName\") ";
+                "GROUP BY \"summonerName\",\"teamPosition\"";
         Object[] params = {account1, account2, account3, account4, account5};
 
         List<RecommendedRole> recommendedRole = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(RecommendedRole.class));

@@ -2,16 +2,16 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class RecommendedRole {
     private String summonerName ;
-    private String teamPosition ;
-    private Integer mrole ;
+    private String recommendPosition ;
+    private Integer gamesPlayed ;
 
     public RecommendedRole() {
     }
 
-    public RecommendedRole(String summonerName, String teamPosition, Integer mrole) {
+    public RecommendedRole(String summonerName, String recommendPosition, Integer gamesPlayed) {
         this.summonerName = summonerName;
-        this.teamPosition = teamPosition;
-        this.mrole = mrole;
+        this.recommendPosition = recommendPosition;
+        this.gamesPlayed = gamesPlayed;
     }
 
     public String getSummonerName() {
@@ -22,19 +22,19 @@ public class RecommendedRole {
         this.summonerName = summonerName;
     }
 
-    public String getTeamPosition() {
-        return teamPosition;
+    public String getRecommendPosition() {
+        return recommendPosition;
     }
 
-    public void setTeamPosition(String teamPosition) {
-        this.teamPosition = teamPosition;
+    public void setRecommendPosition(String recommendPosition) {
+        this.recommendPosition = recommendPosition;
     }
 
-    public Integer getMrole() {
-        return mrole;
+    public Integer getGamesPlayed() {
+        return gamesPlayed;
     }
 
-    public void setMrole(Integer mrole) {
-        this.mrole = mrole;
+    public void setGamesPlayed(Integer gamesPlayed) {
+        this.gamesPlayed = gamesPlayed;
     }
 }
