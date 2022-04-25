@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Locale;
 
 @Repository
 public class RecommendedRoleRepository {
@@ -19,7 +20,7 @@ public class RecommendedRoleRepository {
                 "FROM \"Match\" \n" +
                 "WHERE \"summonerName\" =? OR \"summonerName\" =? OR \"summonerName\" =? OR \"summonerName\" =? OR \"summonerName\" =? \n" +
                 "GROUP BY \"summonerName\",\"teamPosition\"";
-        Object[] params = {account1, account2, account3, account4, account5};
+        Object[] params = {account1.toLowerCase(Locale.ROOT), account2.toLowerCase(Locale.ROOT), account3.toLowerCase(Locale.ROOT), account4.toLowerCase(Locale.ROOT), account5.toLowerCase(Locale.ROOT)};
 
         List<RecommendedRoleModel> recommendedRoleModel = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(RecommendedRoleModel.class));
         if (recommendedRoleModel.isEmpty()) {
