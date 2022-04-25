@@ -114,3 +114,28 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public."Match"
     OWNER to postgres;
 
+-- --------------------------------------------------------------
+-- Tabla : ServerStatus
+-- --------------------------------------------------------------
+
+
+-- Table: public.ServerStatus
+
+-- DROP TABLE IF EXISTS public."ServerStatus";
+
+CREATE TABLE IF NOT EXISTS public."ServerStatus"
+(
+    id serial NOT NULL,
+    name text COLLATE pg_catalog."default" NOT NULL,
+    locales text[] COLLATE pg_catalog."default" NOT NULL,
+    maintenances text[] COLLATE pg_catalog."default" NOT NULL,
+    incidents text[] COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "ServerStatus_pkey" PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."ServerStatus"
+    OWNER to postgres;
+
+

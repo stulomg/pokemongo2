@@ -6,6 +6,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedExceptionOwner;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaintenancesStatusModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -61,11 +62,12 @@ public class LeagueRepository {
         String sql = "SELECT  \"summonerName\", \"tier\",\"rank\",\"date\" FROM \"LeagueInfo\" WHERE owner =? or owner =? GROUP BY \"summonerName\", \"tier\", \"rank\",\"date\" ORDER BY  MAX (\"Elo\") DESC  LIMIT 1";
         Object[] params = {owner, owner2};
 
-        if (isAlpha(owner) && isAlpha(owner2)){
-           List <LeagueInfoModel> infoList= jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
-           if (infoList.isEmpty()) throw  new OwnerNotFoundException(owner,owner2);
-           return infoList;
-        }
-     else throw new CharacterNotAllowedExceptionOwner(owner,owner2);
+        if (isAlpha(owner) && isAlpha(owner2)) {
+            List<LeagueInfoModel> infoList = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
+            if (infoList.isEmpty()) throw new OwnerNotFoundException(owner, owner2);
+            return infoList;
+        } else throw new CharacterNotAllowedExceptionOwner(owner, owner2);
     }
 }
+
+

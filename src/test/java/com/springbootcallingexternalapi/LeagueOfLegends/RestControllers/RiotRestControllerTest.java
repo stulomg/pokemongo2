@@ -180,6 +180,10 @@ public class RiotRestControllerTest {
         // CurrentGameInfoBaseModel modelo = riotRequestorService.getLiveMatch("Darkclaw");
         // Assertions.assertEquals(platformDataModel,modelo);
     }
+    @Test
+    public void serverStatusCasoDefault() throws Exception {
 
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status")).andExpect(status().isOk()).andReturn();
 
+    }
 }
