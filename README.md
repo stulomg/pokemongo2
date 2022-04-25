@@ -1,4 +1,6 @@
 ## 1) CREATE DATABASES!
+First of all we need to create de database with the name: "StulGames"
+
 For our project we implement that the databases are executed automatically.
 In order to create them correctly, it is necessary to add annotations (#) to the flyway lines in the application.properties folder,
 immediately execute the program, then remove them and run the program again.
