@@ -1,55 +1,38 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameParticipantModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.PlatformDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
-import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.client.ExpectedCount;
-import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
-
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
 
-
-import java.net.URI;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith(MockitoExtension.class)
 public class RiotRestControllerTest {
 
     @Autowired
@@ -61,24 +44,8 @@ public class RiotRestControllerTest {
     @Autowired
     AccountRepository accountRepository;
 
-    // Autowired
-    // private RiotRequestorService riotRequestorService;
+    private static final String RIOT_TOKEN = "RGAPI-ed63d84e-cbf8-44eb-80db-2171e9c1a864";
 
-    @Mock
-    private RestTemplate restTemplate;
-
-   @InjectMocks
-   private RiotRequestorService riotRequestorService1 = new RiotRequestorService();
-
-
-    private MockRestServiceServer mockServer;
-    private ObjectMapper mapper = new ObjectMapper();
-
-    @BeforeEach
-    public void init(){
-        RestTemplate restTemplate = new RestTemplate();
-        mockServer = MockRestServiceServer.createServer(restTemplate);
-    }
 
 
     @Test
@@ -136,50 +103,48 @@ public class RiotRestControllerTest {
 
 
     @Test
-    public void LiveMatchExitosoCasoDefault() throws JsonProcessingException, URISyntaxException, CharacterNotAllowedException, AccountNotFoundException {
+    public void LiveMatchExitosoCasoDefault() throws Exception {
+
+        RestTemplate restTemplate = mock(RestTemplate.class);
+
+       String result = Files.readString(Path.of("C:\\Users\\Stul\\Documents\\riot\\src\\test\\java\\com\\springbootcallingexternalapi\\LeagueOfLegends\\RestControllers\\LiveGameRiotResponse.txt"));
+        System.out.println(result);
 
         CurrentGameParticipantModel participant1 = new CurrentGameParticipantModel(
                 100L,
                 4L,
-                7L,
-                81L,
-                "DarkClaw"
+                3L,
+                202L,
+                "Hauries"
         );
 
         CurrentGameParticipantModel participant2 = new CurrentGameParticipantModel(
                 200L,
                 4L,
-                12L,
-                420L,
-                "Vantiax"
+                3L,
+                202L,
+                "Pepito"
         );
 
-        CurrentGameParticipantModel[] participants = {participant1, participant2};
+        CurrentGameParticipantModel[] participants = new CurrentGameParticipantModel[];
 
-        CurrentGameInfoBaseModel platformDataModel = new CurrentGameInfoBaseModel(
+        CurrentGameInfoBaseModel currentGameInfoBaseModel = new CurrentGameInfoBaseModel(
                 11L,
                 "CLASSIC",
                 "MATCHED_GAME",
-                participants
+
         );
 
-        Mockito.when(restTemplate.getForEntity("https://la1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/859p-3luPoNXveKakUo2mj7RQoBwuYE2PWIgJZx4SGZt",
-                CurrentGameInfoBaseModel.class)).thenReturn(new ResponseEntity(platformDataModel,HttpStatus.OK));
-
-        CurrentGameInfoBaseModel currentGameInfoBaseModel = riotRequestorService1.getLiveMatch("Darkclaw");
-        Assertions.assertEquals(platformDataModel,currentGameInfoBaseModel);
 
 
 
-        /* mockServer.expect(ExpectedCount.once(), requestTo(new URI("https://la1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/859p-3luPoNXveKakUo2mj7RQoBwuYE2PWIgJZx4SGZt")))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(HttpStatus.OK)
-                .body(mapper.writeValueAsString(platformDataModel))
-                ); */
 
-        // CurrentGameInfoBaseModel modelo = riotRequestorService.getLiveMatch("Darkclaw");
-        // Assertions.assertEquals(platformDataModel,modelo);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Riot-Token", RIOT_TOKEN);
+        HttpEntity<String> entity = new HttpEntity<>("", headers);
+
+        when(restTemplate.exchange("https://la1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w", HttpMethod.GET,entity, CurrentGameInfoBaseModel.class)).thenReturn(ResponseEntity.of()));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/live/match/Hauries")).andExpect(status().isOk());
     }
-
-
 }
