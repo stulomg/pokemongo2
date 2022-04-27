@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
+package com.springbootcallingexternalapi.LeagueOfLegends.Security.RestControllers;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
