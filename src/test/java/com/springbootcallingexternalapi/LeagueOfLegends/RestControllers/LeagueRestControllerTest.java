@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LeagueRestControllerTest {
+public class  LeagueRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
