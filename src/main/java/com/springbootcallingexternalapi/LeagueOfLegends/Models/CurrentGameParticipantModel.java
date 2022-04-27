@@ -2,15 +2,26 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class CurrentGameParticipantModel {
 
-  private Long teamId;
+    private Long teamId;
 
-  private Long spell1Id;
+    private Long spell1Id;
 
-  private Long spell2Id;
+    private Long spell2Id;
 
-  private Long championId;
+    private Long championId;
 
-  private String summonerName;
+    private String summonerName;
+
+    @Override
+    public String toString() {
+        return "CurrentGameParticipantModel{" +
+                "teamId=" + teamId +
+                ", spell1Id=" + spell1Id +
+                ", spell2Id=" + spell2Id +
+                ", championId=" + championId +
+                ", summonerName='" + summonerName + '\'' +
+                '}';
+    }
 
     public CurrentGameParticipantModel(Long teamId, Long spell1Id, Long spell2Id, Long championId, String summonerName) {
         this.teamId = teamId;

@@ -1,14 +1,18 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameParticipantModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,8 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Optional;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -38,6 +40,12 @@ public class RiotRestControllerTest {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @MockBean
+    RestTemplate restTemplate;
+
+    @InjectMocks
+    RiotRequestorService riotRequestorService;
 
     private static final String RIOT_TOKEN = "RGAPI-329a974c-12b6-4300-b223-d25605a17063";
 
@@ -100,7 +108,6 @@ public class RiotRestControllerTest {
     @Test
     public void LiveMatchExitosoCasoDefault() throws Exception {
 
-        RestTemplate restTemplate = mock(RestTemplate.class);
 
         CurrentGameParticipantModel participant1 = new CurrentGameParticipantModel(
                 100L,
@@ -139,8 +146,8 @@ public class RiotRestControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/live/match/hauries")).andExpect(status().isOk()).andReturn();
 
-        String response = mvcResult.getResponse().getContentAsString();
+        CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class) ;
 
-        Assertions.assertEquals(fakecurrentGameInfoBaseModel,response);
+        Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(),response.toString());
     }
 }
