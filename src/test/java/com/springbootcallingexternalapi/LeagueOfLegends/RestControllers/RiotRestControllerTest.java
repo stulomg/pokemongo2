@@ -147,7 +147,14 @@ public class RiotRestControllerTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/live/match/hauries")).andExpect(status().isOk()).andReturn();
 
         CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class) ;
+       }
+
+    @Test
+    public void serverStatusCasoDefault() throws Exception {
 
         Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(),response.toString());
+    }
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status")).andExpect(status().isOk()).andReturn();
+
     }
 }

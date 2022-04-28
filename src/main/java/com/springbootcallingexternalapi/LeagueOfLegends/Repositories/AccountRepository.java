@@ -28,7 +28,13 @@ public class AccountRepository {
     public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowedException, CharacterNotAllowedException {
 
         String sql = "INSERT INTO \"Account\" VALUES(?,?,?,?,?,?,?,?)";
-        Object[] params = {account.getId(), account.getAccountId(), account.getPuuid(), account.getName().toLowerCase(Locale.ROOT), account.getProfileIconId(), account.getRevisionDate(), account.getSummonerLevel(), owner.toLowerCase(Locale.ROOT)};
+        Object[] params = {account.getId(),
+                account.getAccountId(), account.getPuuid(),
+                account.getName().toLowerCase(Locale.ROOT),
+                account.getProfileIconId(), account.getRevisionDate(),
+                account.getSummonerLevel(),
+                owner.toLowerCase(Locale.ROOT)};
+
         if (isAlpha(owner)) {
             try {
                 if (owner.equalsIgnoreCase("kusi") || owner.equalsIgnoreCase("stul")) {
@@ -76,7 +82,7 @@ public class AccountRepository {
         Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(),
                 model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
         if (isAlpha(model.getName())) {
-       int result = jdbcTemplate.update(sql, params);
+            int result = jdbcTemplate.update(sql, params);
             if (result == 0) {
                 throw new AccountNotFoundException(model.getName());
             } else return;
