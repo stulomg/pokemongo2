@@ -6,6 +6,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBa
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameParticipantModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,7 +47,7 @@ public class RiotRestControllerTest {
     @InjectMocks
     RiotRequestorService riotRequestorService;
 
-    private static final String RIOT_TOKEN = "RGAPI-329a974c-12b6-4300-b223-d25605a17063";
+    private static final String RIOT_TOKEN = "RGAPI-79946558-9657-463a-96b0-9299627eab1e";
 
 
 
@@ -141,13 +143,11 @@ public class RiotRestControllerTest {
         when(restTemplate.exchange("https://la1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w", HttpMethod.GET,entity, CurrentGameInfoBaseModel.class))
                 .thenReturn(ResponseEntity.of(Optional.of(fakecurrentGameInfoBaseModel)));
 
+
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/live/match/hauries")).andExpect(status().isOk()).andReturn();
 
         CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class) ;
-       }
 
-    @Test
-    public void serverStatusCasoDefault(){
-
+        Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(),response.toString());
     }
 }
