@@ -34,7 +34,7 @@ public class  LeagueRestControllerTest {
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
     }
 
     @Test

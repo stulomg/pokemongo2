@@ -34,7 +34,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-aad1a0a7-8d8a-4334-8006-9795b369dba2";
+    private static final String RIOT_TOKEN = "RGAPI-7825d6b3-b6af-4d5e-83bf-70e73e817daa";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -147,16 +147,17 @@ public class RiotRequestorService {
     }
     @Scheduled(cron = " 0 0 */2 * * ?")
     public Object serverStatus() {
-        String uri = "/lol/status/v4/platform-data";
-        ResponseEntity<MaintenancesStatusModel> response = requestToRiot(uri, HttpMethod.GET, MaintenancesStatusModel.class);
-        MaintenancesStatusModel model = response.getBody();
-        model.getName();
-        model.getLocales();
-        model.getMaintenances();
-        model.getIncidents();
-        serverRepository.insertServerStatus(model);
 
-        return response.getBody();
+            String uri = "/lol/status/v4/platform-data";
+            ResponseEntity<MaintenancesStatusModel> response = requestToRiot(uri, HttpMethod.GET, MaintenancesStatusModel.class);
+            MaintenancesStatusModel model = response.getBody();
+            model.getName();
+            model.getLocales();
+            model.getMaintenances();
+            model.getIncidents();
+            serverRepository.insertServerStatus(model);
+
+            return response.getBody();
     }
 
     public List<Object> getListMatches(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {

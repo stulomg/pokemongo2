@@ -86,8 +86,9 @@ public class RiotRestController {
     @GetMapping(value = "/call-riot/server/status")
 
     public ResponseEntity<Object> serverStatus() {
-        Object response = riotRequestorService.serverStatus();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+
+            Object response = riotRequestorService.serverStatus();
+            return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "/call-riot/matches/{account}")
