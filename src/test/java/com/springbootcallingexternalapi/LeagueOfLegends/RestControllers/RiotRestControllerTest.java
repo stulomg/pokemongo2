@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,11 +42,12 @@ public class RiotRestControllerTest {
 
     @MockBean
     RestTemplate restTemplate;
-
+    
     @InjectMocks
     RiotRequestorService riotRequestorService;
 
-    private static final String RIOT_TOKEN = "RGAPI-79946558-9657-463a-96b0-9299627eab1e";
+    private static final String RIOT_TOKEN = "RGAPI-f05609c6-9ee3-4f3f-b80f-ca4b8994ccf1";
+
 
 
 
@@ -134,19 +134,31 @@ public class RiotRestControllerTest {
                 participants
         );
 
+        AccountBaseModel model =  new AccountBaseModel(
+                "asdjkas",
+                "uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w",
+                "jahdfjadshf",
+                "Hauries",
+                108,
+                2853L,
+                108L
+        );
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Riot-Token", RIOT_TOKEN);
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 
-        System.out.println(entity);
+
+        when(restTemplate.exchange("https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/hauries", HttpMethod.GET,entity,AccountBaseModel.class))
+                .thenReturn(ResponseEntity.of(Optional.of(model)));
+
         when(restTemplate.exchange("https://la1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w", HttpMethod.GET,entity, CurrentGameInfoBaseModel.class))
                 .thenReturn(ResponseEntity.of(Optional.of(fakecurrentGameInfoBaseModel)));
 
-
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/live/match/hauries")).andExpect(status().isOk()).andReturn();
 
-        CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class) ;
+        CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class);
 
         Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(),response.toString());
     }

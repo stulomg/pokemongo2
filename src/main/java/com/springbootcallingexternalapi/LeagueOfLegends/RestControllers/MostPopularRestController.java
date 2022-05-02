@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.RestControllers;
+package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.DBException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.NoDataException;
