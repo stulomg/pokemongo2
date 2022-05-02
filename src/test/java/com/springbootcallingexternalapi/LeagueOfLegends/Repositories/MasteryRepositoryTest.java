@@ -24,9 +24,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest (classes = MasteryRepository.class)
+@SpringBootTest(classes = MasteryRepository.class)
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration (classes = SpringBootCallingExternalApiApplication.class)
+@ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
 public class MasteryRepositoryTest {
 
     @Autowired
@@ -35,14 +35,16 @@ public class MasteryRepositoryTest {
     private MasteryRepository repository;
 
     @Autowired
-    public MasteryRepositoryTest(JdbcTemplate jdbcTemplate){
+    public MasteryRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         repository = new MasteryRepository();
         ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
     }
 
     @BeforeEach
-    void setup (){jdbcTemplate.execute("TRUNCATE TABLE \"AccountMasteryHistory\"");}
+    void setup() {
+        jdbcTemplate.execute("TRUNCATE TABLE \"AccountMasteryHistory\"");
+    }
 
     @Test
     void insertMasteryInfoExitosamenteCasoDefault() throws AccountDataException {
@@ -91,7 +93,7 @@ public class MasteryRepositoryTest {
                 "stul"
         );
         repository.insertMasteryInfo(basemodel);
-        Exception exception = assertThrows(AccountDataException.class,() -> repository.insertMasteryInfo(basemodel));
+        Exception exception = assertThrows(AccountDataException.class, () -> repository.insertMasteryInfo(basemodel));
 
         String expectedMessage = "LOS DATOS INGRESADOS PARA LA CUENTA ";
         String actualMessage = exception.getMessage();
@@ -151,7 +153,7 @@ public class MasteryRepositoryTest {
         repository.insertMasteryInfo(basemodel);
         String account = "pepito";
 
-        Exception exception = assertThrows(AccountNotFoundException.class,() -> repository.AccountMasteryHistory(account));
+        Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.AccountMasteryHistory(account));
 
         String expectedMessage = " NO FUE ENCONTRADA, POR FAVOR RECTIFICAR";
         String actualMessage = exception.getMessage();
@@ -172,9 +174,9 @@ public class MasteryRepositoryTest {
                 "stul"
         );
         repository.insertMasteryInfo(basemodel);
-        String account ="<<<";
+        String account = "<<<";
 
-        Exception exception = assertThrows(CharacterNotAllowedException.class,() -> repository.AccountMasteryHistory(account));
+        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.AccountMasteryHistory(account));
 
         String expectedMessage = " has characters not allowed";
         String actualMessage = exception.getMessage();

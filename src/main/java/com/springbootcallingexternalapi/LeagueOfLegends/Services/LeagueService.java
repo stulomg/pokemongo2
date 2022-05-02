@@ -18,7 +18,7 @@ public class LeagueService {
     @Autowired
     LeagueRepository leagueRepository;
 
-    public  void insertLeagueInfo (LeagueInfoModel leagueInfoModel) throws CharacterNotAllowedException, AccountDataException {
+    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws CharacterNotAllowedException, AccountDataException {
         leagueInfoModel.setElo(calculateElo(leagueInfoModel.getTier(), leagueInfoModel.getRank(), leagueInfoModel.getLeaguePoints()));
         leagueInfoModel.setDate(new Timestamp(System.currentTimeMillis()));
         leagueRepository.insertLeagueInfo(leagueInfoModel, leagueInfoModel.getOwner());
@@ -37,7 +37,7 @@ public class LeagueService {
     private int calculateElo(String tier, String rank, int points) {
         int tierValue = getTierValue(tier);
         int rankValue = getRankValue(rank);
-        return tierValue+rankValue+points;
+        return tierValue + rankValue + points;
 
     }
 
@@ -46,7 +46,7 @@ public class LeagueService {
 
         int v = 0;
 
-        if (tier == null|| tier == "") {
+        if (tier == null || tier == "") {
             return v;
         }
 

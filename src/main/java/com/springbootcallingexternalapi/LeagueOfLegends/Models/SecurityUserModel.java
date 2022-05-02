@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Models;
+package com.springbootcallingexternalapi.LeagueOfLegends.Security.Models;
 
 import org.springframework.lang.NonNull;
 

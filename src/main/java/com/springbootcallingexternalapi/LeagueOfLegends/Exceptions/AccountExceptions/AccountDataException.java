@@ -8,8 +8,8 @@ public class AccountDataException extends Exception{
         super ("LOS DATOS INGRESADOS PARA LA CUENTA "+ account.getName() +" NO SON VALIDOS, POR FAVOR RECTIFICAR");
     }
 
-    public AccountDataException (MasteryHistoryInfoModel account){
-        super ("LOS DATOS INGRESADOS PARA LA CUENTA "+ account.getAccount() +" NO SON VALIDOS, POR FAVOR RECTIFICAR");
+    public AccountDataException(MasteryHistoryInfoModel account) {
+        super("LOS DATOS INGRESADOS PARA LA CUENTA " + account.getAccount() + " NO SON VALIDOS, POR FAVOR RECTIFICAR");
     }
 
     public AccountDataException(LeagueInfoModel account) {

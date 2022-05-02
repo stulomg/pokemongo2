@@ -249,15 +249,16 @@ public class LeagueRepositoryTest {
         Assertions.assertEquals(infoModel2.getSummonerName(), result.getSummonerName());
 
     }
+
     @Test
     void accountNotFoundMaxDivision() {
 
-        Assertions.assertThrows(OwnerNotFoundException.class, () -> repository.getMaxDivision("Owner","Owner"));
+        Assertions.assertThrows(OwnerNotFoundException.class, () -> repository.getMaxDivision("Owner", "Owner"));
     }
 
     @Test
     void characterNotAllowedMaxDivision() {
 
-        Assertions.assertThrows(CharacterNotAllowedExceptionOwner.class, () -> repository.getMaxDivision("O*ner","O*ner"));
+        Assertions.assertThrows(CharacterNotAllowedExceptionOwner.class, () -> repository.getMaxDivision("O*ner", "O*ner"));
     }
 }

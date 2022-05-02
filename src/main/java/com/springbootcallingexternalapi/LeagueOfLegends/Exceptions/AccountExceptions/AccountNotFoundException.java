@@ -2,6 +2,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcep
 
 public class AccountNotFoundException extends Exception {
     public AccountNotFoundException(String account) {
-        super ("LA CUENTA "+ account + " NO FUE ENCONTRADA, POR FAVOR RECTIFICAR");
+        super("LA CUENTA " + account + " NO FUE ENCONTRADA, POR FAVOR RECTIFICAR");
     }
 }
