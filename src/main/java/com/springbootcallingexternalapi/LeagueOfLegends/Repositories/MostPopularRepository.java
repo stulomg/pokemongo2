@@ -1,17 +1,13 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.DBException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.NoDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MostPopularModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
 
 @Repository
 public class MostPopularRepository {
@@ -31,9 +27,5 @@ public class MostPopularRepository {
             }else  {
                 return popularAccout;
             }
-
-
-
-
     }
 }

@@ -5,7 +5,6 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepository;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

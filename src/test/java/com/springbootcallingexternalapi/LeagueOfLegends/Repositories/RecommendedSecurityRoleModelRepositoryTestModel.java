@@ -2,7 +2,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.NoDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.MostPopularModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RecommendedRoleService;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
@@ -22,7 +21,7 @@ import java.util.List;
 @SpringBootTest(classes = RecommendedRoleRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
-class RecommendedRoleModelRepositoryTest {
+class RecommendedSecurityRoleModelRepositoryTestModel {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

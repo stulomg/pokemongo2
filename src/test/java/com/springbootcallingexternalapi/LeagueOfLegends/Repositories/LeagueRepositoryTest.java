@@ -6,7 +6,6 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedExceptionOwner;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.LeagueRepository;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

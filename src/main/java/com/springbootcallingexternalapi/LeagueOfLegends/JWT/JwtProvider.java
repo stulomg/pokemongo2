@@ -1,6 +1,6 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.JWT;
+package com.springbootcallingexternalapi.LeagueOfLegends.JWT;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Security.Models.UserMain;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityUserMainModel;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +20,8 @@ public class JwtProvider {
     private int expiration;
 
     public String generateToken(Authentication authentication){
-        UserMain userMain = (UserMain) authentication.getPrincipal();
-        return "Bearer "+Jwts.builder().setSubject(userMain.getUsername())
+        SecurityUserMainModel securityUserMainModel = (SecurityUserMainModel) authentication.getPrincipal();
+        return "Bearer "+Jwts.builder().setSubject(securityUserMainModel.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime()+ expiration*1000))
                 .signWith(SignatureAlgorithm.HS512,secret)

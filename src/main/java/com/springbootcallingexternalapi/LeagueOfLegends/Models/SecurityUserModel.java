@@ -1,35 +1,36 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.Models;
+package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "user", schema = "public")
-public class User {
+public class SecurityUserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NonNull
+    @NotNull
     private String name;
-    @NonNull
+    @NotNull
     @Column(unique = true)
     private String userName;
-    @NonNull
+    @NotNull
     private String email;
-    @NonNull
+    @NotNull
     private String password;
-    @NonNull
+    @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id") , inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<SecurityRoleModel> securityRoleModels = new HashSet<>();
 
-    public User() {
+    public SecurityUserModel() {
     }
 
-    public User(@NonNull String name, @NonNull String userName, @NonNull String email, @NonNull String password) {
+    public SecurityUserModel(@NotNull String name, @NotNull String userName, @NotNull String email, @NotNull String password) {
         this.name = name;
         this.userName = userName;
         this.email = email;
@@ -44,48 +45,48 @@ public class User {
         this.id = id;
     }
 
-    @NonNull
+    @NotNull
     public String getName() {
         return name;
     }
 
-    public void setName(@NonNull String name) {
+    public void setName(@NotNull String name) {
         this.name = name;
     }
 
-    @NonNull
+    @NotNull
     public String getUserName() {
         return userName;
     }
 
-    public void setUserName(@NonNull String userName) {
+    public void setUserName(@NotNull String userName) {
         this.userName = userName;
     }
 
-    @NonNull
+    @NotNull
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(@NonNull String email) {
+    public void setEmail(@NotNull String email) {
         this.email = email;
     }
 
-    @NonNull
+    @NotNull
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(@NonNull String password) {
+    public void setPassword(@NotNull String password) {
         this.password = password;
     }
 
-    @NonNull
-    public Set<Role> getRoles() {
-        return roles;
+    @NotNull
+    public Set<SecurityRoleModel> getRoles() {
+        return securityRoleModels;
     }
 
-    public void setRoles(@NonNull Set<Role> roles) {
-        this.roles = roles;
+    public void setRoles(@NotNull Set<SecurityRoleModel> securityRoleModels) {
+        this.securityRoleModels = securityRoleModels;
     }
 }

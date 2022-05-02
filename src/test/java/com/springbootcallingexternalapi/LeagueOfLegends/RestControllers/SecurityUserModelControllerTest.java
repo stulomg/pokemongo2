@@ -1,10 +1,8 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.RestControllers;
+package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
-import com.springbootcallingexternalapi.LeagueOfLegends.Security.Models.User;
-import com.springbootcallingexternalapi.LeagueOfLegends.Security.Repositories.UserRepository;
-import com.springbootcallingexternalapi.LeagueOfLegends.Security.dto.NewUser;
+
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityUserModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.SecurityUserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -16,24 +14,21 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerTest {
+class SecurityUserModelControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    UserRepository userRepository;
+    SecurityUserRepository securityUserRepository;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -47,21 +42,21 @@ class UserControllerTest {
     void newUser() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"user\" RESTART IDENTITY CASCADE");
 
-        User newUser = new User(
+        SecurityUserModel newUser = new SecurityUserModel(
                 "test",
                 "test",
                 "test@gmail.com",
                 passwordEncoder.encode("12345")
         );
-        User user = new User(
+        SecurityUserModel user = new SecurityUserModel(
                 "test",
                 "test",
                 "test@gmail.com",
                 passwordEncoder.encode("12345")
         );
 
-        userRepository.save(newUser);
-        List<User> resultSet = jdbcTemplate.query("SELECT * FROM \"user\"", BeanPropertyRowMapper.newInstance(User.class));
+        securityUserRepository.save(newUser);
+        List<SecurityUserModel> resultSet = jdbcTemplate.query("SELECT * FROM \"user\"", BeanPropertyRowMapper.newInstance(SecurityUserModel.class));
         Assertions.assertEquals(1,resultSet.size());
 
         Assertions.assertEquals(user.getName(),resultSet.get(0).getName());
