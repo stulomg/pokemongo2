@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.dto;
+package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import org.springframework.security.core.GrantedAuthority;
 

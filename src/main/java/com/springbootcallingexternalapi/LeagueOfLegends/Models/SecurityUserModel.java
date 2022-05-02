@@ -1,6 +1,6 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.Models;
+package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-import org.springframework.lang.NonNull;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityRoleModel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
