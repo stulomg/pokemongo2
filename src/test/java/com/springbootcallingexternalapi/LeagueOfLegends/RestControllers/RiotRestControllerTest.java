@@ -1,6 +1,11 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameParticipantModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
@@ -15,6 +20,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,7 +32,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
+import java.net.URISyntaxException;
+
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -40,7 +52,6 @@ public class RiotRestControllerTest {
 
     @Autowired
     AccountRepository accountRepository;
-
 
     // Autowired
     // private RiotRequestorService riotRequestorService;

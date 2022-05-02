@@ -1,12 +1,13 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.Models;
+package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Security.Enums.RoleName;
+import com.springbootcallingexternalapi.LeagueOfLegends.Enums.RoleName;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 
 @Entity
-public class Role {
+@Table(name = "role" , schema = "public")
+public class SecurityRoleModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -14,10 +15,10 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RoleName roleName;
 
-    public Role() {
+    public SecurityRoleModel() {
     }
 
-    public Role(RoleName roleName) {
+    public SecurityRoleModel(RoleName roleName) {
         this.roleName = roleName;
     }
 
