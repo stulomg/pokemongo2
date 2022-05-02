@@ -239,11 +239,11 @@ public class RiotRequestorService {
         ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
         List<String> listMatches = response.getBody();
 
+        List<String> listParticipants = new ArrayList<>();
+
         for (int i = 0; i < listMatches.size(); i++) {
 
             String elemento = listMatches.get(i);
-
-            GameSuperMetaDataModel response2 = getListData(elemento).getBody();
 
             /*GameDataModel[] response3 = response2.getInfo().getParticipants();
             Optional<GameDataModel> model = Arrays.stream(response3)
