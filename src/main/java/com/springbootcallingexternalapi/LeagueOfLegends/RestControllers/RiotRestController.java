@@ -87,8 +87,8 @@ public class RiotRestController {
 
     public ResponseEntity<Object> serverStatus() {
 
-            Object response = riotRequestorService.serverStatus();
-            return new ResponseEntity<>(response, HttpStatus.OK);
+        Object response = riotRequestorService.serverStatus();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "/call-riot/matches/{account}")
@@ -107,7 +107,7 @@ public class RiotRestController {
         } catch (AccountNotFoundException | ChampionNotFoundException | AccountDataException | ChampionMasteryNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (CharacterNotAllowedException e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

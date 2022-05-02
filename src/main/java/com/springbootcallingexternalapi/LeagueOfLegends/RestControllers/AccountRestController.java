@@ -29,13 +29,13 @@ public class AccountRestController {
     }
 
     @GetMapping(value = "/account/find-by-owner/{owner}")
-    public ResponseEntity<Object> retrieveAccountByOwner(@PathVariable String owner){
+    public ResponseEntity<Object> retrieveAccountByOwner(@PathVariable String owner) {
         try {
-            return new ResponseEntity<>(  accountService.retrieveAccountByOwner(owner) , HttpStatus.OK);
-        }catch (CharacterNotAllowedException e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }catch (OwnerNotFoundException e1){
-            return new ResponseEntity<>(e1.getMessage(),HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(accountService.retrieveAccountByOwner(owner), HttpStatus.OK);
+        } catch (CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (OwnerNotFoundException e1) {
+            return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -44,7 +44,7 @@ public class AccountRestController {
         try {
             accountService.accountUpdate(model);
         } catch (AccountNotFoundException | CharacterNotAllowedException e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
     }

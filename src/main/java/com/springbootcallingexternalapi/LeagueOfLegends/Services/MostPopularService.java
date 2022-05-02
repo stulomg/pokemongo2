@@ -13,6 +13,7 @@ import java.util.List;
 public class MostPopularService {
     @Autowired
     MostPopularRepository mostPopularRepository;
+
     public List<MostPopularModel> mostpopularRepository() throws NoDataException {
         return mostPopularRepository.popularAccount();
     }

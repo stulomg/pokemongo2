@@ -21,7 +21,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.Optional;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,15 +42,14 @@ public class RiotRestControllerTest {
     AccountRepository accountRepository;
 
 
-
     // Autowired
     // private RiotRequestorService riotRequestorService;
 
     @MockBean
     RestTemplate restTemplate;
 
-   @InjectMocks
-   private RiotRequestorService riotRequestorService1 = new RiotRequestorService();
+    @InjectMocks
+    private RiotRequestorService riotRequestorService1 = new RiotRequestorService();
 
     private static final String RIOT_TOKEN = "RGAPI-7825d6b3-b6af-4d5e-83bf-70e73e817daa";
 
@@ -57,7 +58,7 @@ public class RiotRestControllerTest {
     private ObjectMapper mapper = new ObjectMapper();
 
     @BeforeEach
-    public void init(){
+    public void init() {
         RestTemplate restTemplate = new RestTemplate();
         mockServer = MockRestServiceServer.createServer(restTemplate);
     }
@@ -89,13 +90,13 @@ public class RiotRestControllerTest {
     }
 
     @Test
-    public void championNotFoundExceptionEnGetMastery () throws Exception {
+    public void championNotFoundExceptionEnGetMastery() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/stul/urfsito")).andExpect(status().isNotFound());
     }
 
     @Test
-    public void championMasteryNotFoundExceptionEnGetMastery () throws Exception {
+    public void championMasteryNotFoundExceptionEnGetMastery() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/stul/renata glasc")).andExpect(status().isNotFound());
     }
@@ -112,14 +113,14 @@ public class RiotRestControllerTest {
     }
 
     @Test
-    public void accountDataExceptionEnGetMastery(){
+    public void accountDataExceptionEnGetMastery() {
         //no se como hacerlo
     }
 
     @Test
     public void serverStatusDefault() throws Exception {
 
-      mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status")).andExpect(status().isOk()).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status")).andExpect(status().isOk()).andReturn();
 
     }
 
@@ -136,6 +137,7 @@ public class RiotRestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status*")).andExpect(status().isBadRequest()).andReturn();
 
     }
+
     @Test
     public void LiveMatchExitosoCasoDefault() throws Exception {
 
@@ -165,7 +167,7 @@ public class RiotRestControllerTest {
                 participants
         );
 
-        AccountBaseModel model =  new AccountBaseModel(
+        AccountBaseModel model = new AccountBaseModel(
                 "asdjkas",
                 "uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w",
                 "jahdfjadshf",
@@ -181,16 +183,16 @@ public class RiotRestControllerTest {
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 
 
-        when(restTemplate.exchange("https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/hauries", HttpMethod.GET,entity,AccountBaseModel.class))
+        when(restTemplate.exchange("https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/hauries", HttpMethod.GET, entity, AccountBaseModel.class))
                 .thenReturn(ResponseEntity.of(Optional.of(model)));
 
-        when(restTemplate.exchange("https://la1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w", HttpMethod.GET,entity, CurrentGameInfoBaseModel.class))
+        when(restTemplate.exchange("https://la1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w", HttpMethod.GET, entity, CurrentGameInfoBaseModel.class))
                 .thenReturn(ResponseEntity.of(Optional.of(fakecurrentGameInfoBaseModel)));
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/live/match/hauries")).andExpect(status().isOk()).andReturn();
 
         CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class);
 
-        Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(),response.toString());
+        Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(), response.toString());
     }
 }

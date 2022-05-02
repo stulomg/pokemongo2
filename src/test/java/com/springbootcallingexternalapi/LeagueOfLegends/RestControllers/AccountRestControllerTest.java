@@ -40,7 +40,7 @@ public class AccountRestControllerTest {
 
 
     @BeforeEach
-    void setup(){
+    void setup() {
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
     }
 
@@ -60,16 +60,16 @@ public class AccountRestControllerTest {
         );
 
         String owner = "kusi";
-        accountRepository.insertAccount(baseModel,owner);
+        accountRepository.insertAccount(baseModel, owner);
 
         MvcResult mvcResult = mockMvc.perform(delete("/account/delete/kusi/soyeon lover")).andExpect(status().isOk()).andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
 
-        Assertions.assertEquals("Delete successfully",content);
+        Assertions.assertEquals("Delete successfully", content);
 
         List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
-        Assertions.assertEquals(0,resultSet.size());
+        Assertions.assertEquals(0, resultSet.size());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class AccountRestControllerTest {
         );
 
         String owner = "kusi";
-        accountRepository.insertAccount(baseModel,owner);
+        accountRepository.insertAccount(baseModel, owner);
 
         mockMvc.perform(delete("/account/delete/kusarin/soyeon lover")).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA: soyeon lover, VINCULADA AL USUARIO: kusarin NO FUE ENCONTRADA, PORFAVOR RECTIFICAR."));
     }
@@ -100,7 +100,7 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void retrieveAccountByOwnerExitosamenteCasoDefault () throws Exception {
+    public void retrieveAccountByOwnerExitosamenteCasoDefault() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
@@ -125,7 +125,7 @@ public class AccountRestControllerTest {
                 109L,
                 owner);
 
-        accountRepository.insertAccount(baseModel,owner);
+        accountRepository.insertAccount(baseModel, owner);
 
         mockMvc.perform(get("/account/find-by-owner/kusi")).andExpect(status().isOk()).andReturn();
 
@@ -134,13 +134,13 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void characterNotAllowedExceptionEnRetrieveAccountByOwner () throws Exception {
+    public void characterNotAllowedExceptionEnRetrieveAccountByOwner() throws Exception {
 
         mockMvc.perform(get("/account/find-by-owner/<<kusi")).andExpect(status().isBadRequest()).andExpect(content().string("<<kusi has characters not allowed"));
     }
 
     @Test
-    public void ownerNotFoundExceptionEnRetrieveAccountByOwner () throws Exception {
+    public void ownerNotFoundExceptionEnRetrieveAccountByOwner() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
@@ -155,13 +155,13 @@ public class AccountRestControllerTest {
         );
 
         String owner = "kusi";
-        accountRepository.insertAccount(baseModel,owner);
+        accountRepository.insertAccount(baseModel, owner);
 
         mockMvc.perform(get("/account/find-by-owner/kusarin")).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin NO FUE ENCONTRADO, POR FAVOR RECTIFICAR"));
     }
 
     @Test
-    public void retrieveAccountByNameExitosamenteCasoDefault () throws Exception {
+    public void retrieveAccountByNameExitosamenteCasoDefault() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
@@ -175,7 +175,7 @@ public class AccountRestControllerTest {
                 109L
         );
 
-        String owner  = "kusi";
+        String owner = "kusi";
         String account = baseModel.getName();
 
         AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -191,18 +191,18 @@ public class AccountRestControllerTest {
 
         mockMvc.perform(get("/account/find-by-name/soyeon lover")).andExpect(status().isOk()).andReturn();
 
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT FROM \"Account\" WHERE LOWER (name) ='soyeon lover'",BeanPropertyRowMapper.newInstance(AccountModel.class));
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT FROM \"Account\" WHERE LOWER (name) ='soyeon lover'", BeanPropertyRowMapper.newInstance(AccountModel.class));
         Assertions.assertEquals(1, resultSet.size());
     }
 
     @Test
-    public void characterNotAllowedExceptionEnRetrieveAccountByName () throws Exception {
+    public void characterNotAllowedExceptionEnRetrieveAccountByName() throws Exception {
 
         mockMvc.perform(get("/account/find-by-name/soyeon<<<lover")).andExpect(status().isBadRequest()).andExpect(content().string("soyeon<<<lover has characters not allowed"));
     }
 
     @Test
-    public void accountNotFoundExceptionEnRetrieveAccountByName () throws Exception {
+    public void accountNotFoundExceptionEnRetrieveAccountByName() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
 
@@ -216,9 +216,9 @@ public class AccountRestControllerTest {
                 109L
         );
 
-                       String owner = "kusi";
+        String owner = "kusi";
 
-        accountRepository.insertAccount(baseModel,owner);
+        accountRepository.insertAccount(baseModel, owner);
 
         mockMvc.perform(get("/account/find-by-name/stulinpinguin")).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA stulinpinguin NO FUE ENCONTRADA, POR FAVOR RECTIFICAR"));
     }

@@ -42,7 +42,6 @@ class UserControllerTest {
     PasswordEncoder passwordEncoder;
 
 
-
     @Test
     void newUser() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"user\" RESTART IDENTITY CASCADE");
@@ -62,11 +61,11 @@ class UserControllerTest {
 
         userRepository.save(newUser);
         List<User> resultSet = jdbcTemplate.query("SELECT * FROM \"user\"", BeanPropertyRowMapper.newInstance(User.class));
-        Assertions.assertEquals(1,resultSet.size());
+        Assertions.assertEquals(1, resultSet.size());
 
-        Assertions.assertEquals(user.getName(),resultSet.get(0).getName());
-        Assertions.assertEquals(user.getUserName(),resultSet.get(0).getUserName());
-        Assertions.assertEquals(user.getEmail(),resultSet.get(0).getEmail());
+        Assertions.assertEquals(user.getName(), resultSet.get(0).getName());
+        Assertions.assertEquals(user.getUserName(), resultSet.get(0).getUserName());
+        Assertions.assertEquals(user.getEmail(), resultSet.get(0).getEmail());
     }
 
     @Test

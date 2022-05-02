@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(classes = MostPopularRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
-
 class MostPopularRepositoryTest {
 
     @Autowired
@@ -41,15 +40,17 @@ class MostPopularRepositoryTest {
 
 
     @Autowired
-    public MostPopularRepositoryTest(JdbcTemplate jdbcTemplate){
+    public MostPopularRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         repositoryMaster = new MasteryRepository();
         ReflectionTestUtils.setField(repositoryMaster, "jdbcTemplate", jdbcTemplate);
     }
+
     @BeforeEach
     void setup() {
         jdbcTemplate.execute("TRUNCATE TABLE \"AccountMasteryHistory\"");
     }
+
     @BeforeEach
     void setup2() {
         jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
@@ -184,7 +185,6 @@ class MostPopularRepositoryTest {
 
         Assertions.assertThrows(NoDataException.class, () -> repositoryMost.popularAccount());
     }
-
 
 
 }

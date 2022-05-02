@@ -1,4 +1,5 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
+
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
@@ -7,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
+
 import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
 
 
@@ -21,7 +23,7 @@ public class ChampionRepository {
         Object[] params = {championName};
         if (isAlpha(championName)) {
             try {
-                return jdbcTemplate.queryForObject(sql, params,Long.class);
+                return jdbcTemplate.queryForObject(sql, params, Long.class);
             } catch (EmptyResultDataAccessException e) {
                 throw new ChampionNotFoundException(championName);
             } catch (HttpClientErrorException e1) {

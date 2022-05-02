@@ -1,6 +1,5 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;

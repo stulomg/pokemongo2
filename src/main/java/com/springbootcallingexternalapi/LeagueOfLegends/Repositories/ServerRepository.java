@@ -12,14 +12,14 @@ public class ServerRepository {
 
     public void insertServerStatus(MaintenancesStatusModel maintenancesStatusModel) {
 
-            String sql = "INSERT INTO \"ServerStatus\" (\"name\",\"locales\",\"maintenances\",\"incidents\") VALUES(?,?,?,?)";
-            Object[] params = {
-                    maintenancesStatusModel.getName(),
-                    maintenancesStatusModel.getLocales(),
-                    maintenancesStatusModel.getMaintenances(),
-                    maintenancesStatusModel.getIncidents()
-            };
+        String sql = "INSERT INTO \"ServerStatus\" (\"name\",\"locales\",\"maintenances\",\"incidents\") VALUES(?,?,?,?)";
+        Object[] params = {
+                maintenancesStatusModel.getName(),
+                maintenancesStatusModel.getLocales(),
+                maintenancesStatusModel.getMaintenances(),
+                maintenancesStatusModel.getIncidents()
+        };
 
-            jdbcTemplate.update(sql, params);
+        jdbcTemplate.update(sql, params);
     }
 }

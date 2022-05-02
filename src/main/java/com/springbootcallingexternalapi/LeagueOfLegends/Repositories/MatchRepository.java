@@ -14,7 +14,7 @@ public class MatchRepository {
     public void insertMatchData(GameDataModel gamedata) {
 
         String sql = "INSERT INTO \"Match\" (\"championName\",\"summonerName\",\"win\",\"teamPosition\",\"individualPosition\",\"championPoints\") VALUES (?,?,?,?,?,?)";
-        Object[] params = {gamedata.getChampionName(),gamedata.getSummonerName(),gamedata.isWin(),gamedata.getTeamPosition(),gamedata.getIndividualPosition(),gamedata.getChampionPoints()};
+        Object[] params = {gamedata.getChampionName(), gamedata.getSummonerName(), gamedata.isWin(), gamedata.getTeamPosition(), gamedata.getIndividualPosition(), gamedata.getChampionPoints()};
         jdbcTemplate.update(sql, params);
     }
 

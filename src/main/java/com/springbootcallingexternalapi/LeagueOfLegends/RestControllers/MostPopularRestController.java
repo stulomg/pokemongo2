@@ -15,11 +15,11 @@ public class MostPopularRestController {
     MostPopularService mostPopularService;
 
     @GetMapping(value = "/loldata/mostpopular")
-    public ResponseEntity<Object> getMostPopular(){
+    public ResponseEntity<Object> getMostPopular() {
         try {
-            return new ResponseEntity<>(mostPopularService.mostpopularRepository(),HttpStatus.OK);
+            return new ResponseEntity<>(mostPopularService.mostpopularRepository(), HttpStatus.OK);
         } catch (NoDataException e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 

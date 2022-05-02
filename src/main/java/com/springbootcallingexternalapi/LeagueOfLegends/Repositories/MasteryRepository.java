@@ -32,21 +32,21 @@ public class MasteryRepository {
 
         try {
             jdbcTemplate.update(sql, params);
-        }catch (DataAccessException e){
+        } catch (DataAccessException e) {
             throw new AccountDataException(masteryHistoryInfoModel);
         }
     }
 
-    public List<MasteryHistoryInfoModel> AccountMasteryHistory (String account) throws AccountNotFoundException, CharacterNotAllowedException {
+    public List<MasteryHistoryInfoModel> AccountMasteryHistory(String account) throws AccountNotFoundException, CharacterNotAllowedException {
         String sql = "SELECT \"Account\",\"championPoints\",\"championName\",\"championId\",\"championLevel\",\"timeStamp\" FROM \"AccountMasteryHistory\" WHERE LOWER (\"Account\")=? ORDER BY \"championName\" ";
         Object[] params = {account};
 
-        if(isAlpha (account)){
+        if (isAlpha(account)) {
             List<MasteryHistoryInfoModel> listMastery = jdbcTemplate.query(sql, params,
                     BeanPropertyRowMapper.newInstance(MasteryHistoryInfoModel.class));
             if (listMastery.size() == 0) {
                 throw new AccountNotFoundException(account);
             } else return listMastery;
-        }else throw new CharacterNotAllowedException(account);
+        } else throw new CharacterNotAllowedException(account);
     }
 }
