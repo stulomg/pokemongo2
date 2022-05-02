@@ -21,7 +21,7 @@ import java.util.List;
 @SpringBootTest(classes = RecommendedRoleRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
-class RecommendedSecurityRoleModelRepositoryTestModel {
+class RecommendedRoleModelRepositoryTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
