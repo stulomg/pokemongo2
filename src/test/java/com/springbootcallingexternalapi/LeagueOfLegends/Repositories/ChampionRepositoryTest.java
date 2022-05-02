@@ -16,7 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-@SpringBootTest(classes= ChampionRepository.class)
+@SpringBootTest(classes = ChampionRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
 
@@ -24,13 +24,13 @@ public class ChampionRepositoryTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     private ChampionRepository repository;
+
     @Autowired
-    public ChampionRepositoryTest(JdbcTemplate jdbcTemplate){
+    public ChampionRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         repository = new ChampionRepository();
         ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
     }
-
 
 
     @Test
@@ -46,13 +46,12 @@ public class ChampionRepositoryTest {
         //Account with all data
 
 
-
         //WHEN TRYING TO INSERT IT INTO THE DATABASE AND RETRIEVING THE RESULTS
         repository.retrieveChampionIdByChampionName(championNameGiven);
         //THEN INSERT PROPERLY AND PERSIST THE DATA IN THE DATABASE.
 
         Long result = repository.retrieveChampionIdByChampionName(championNameGiven);
-        Assertions.assertEquals(champioIdExpected,result.toString());
+        Assertions.assertEquals(champioIdExpected, result.toString());
 
 
     }
@@ -68,8 +67,9 @@ public class ChampionRepositoryTest {
             repository.retrieveChampionIdByChampionName(championNameGiven);
         });
     }
+
     @Test
-    void solicitarConChampionInexistente() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException{
+    void solicitarConChampionInexistente() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
         //given
         Assertions.assertThrows(ChampionNotFoundException.class, () -> {
             String championNameGiven = new String(

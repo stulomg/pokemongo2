@@ -12,15 +12,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
 import java.sql.Timestamp;
 import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class  LeagueRestControllerTest {
+public class LeagueRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,7 +36,7 @@ public class  LeagueRestControllerTest {
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
     }
 
     @Test
@@ -62,6 +64,7 @@ public class  LeagueRestControllerTest {
             Assertions.assertTrue(leagueInfoModels.get(i).getDate().after(leagueInfoModels.get(i + 1).getDate()));
         }
     }
+
     @Test
     void maxDivision() throws Exception {
 

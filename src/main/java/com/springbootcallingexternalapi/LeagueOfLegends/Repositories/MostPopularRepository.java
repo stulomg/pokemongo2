@@ -25,14 +25,12 @@ public class MostPopularRepository {
                 "GROUP BY \"championName\",\"Account\"\n" +
                 "ORDER BY MAX(\"championPoints\")- MIN(\"championPoints\") DESC LIMIT 1";
 
-            List<MostPopularModel>  popularAccout= jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(MostPopularModel.class));
-            if (popularAccout.isEmpty()){
-                throw new NoDataException();
-            }else  {
-                return popularAccout;
-            }
-
-
+        List<MostPopularModel> popularAccout = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(MostPopularModel.class));
+        if (popularAccout.isEmpty()) {
+            throw new NoDataException();
+        } else {
+            return popularAccout;
+        }
 
 
     }

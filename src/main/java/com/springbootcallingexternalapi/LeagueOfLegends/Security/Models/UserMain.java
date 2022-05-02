@@ -24,10 +24,10 @@ public class UserMain implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserMain build(User user){
+    public static UserMain build(User user) {
         List<GrantedAuthority> authorities =
                 user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRoleName().name())).collect(Collectors.toList());
-        return new UserMain(user.getName(),user.getUserName(),user.getEmail(),user.getPassword(),authorities);
+        return new UserMain(user.getName(), user.getUserName(), user.getEmail(), user.getPassword(), authorities);
     }
 
     @Override

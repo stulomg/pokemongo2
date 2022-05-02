@@ -18,11 +18,11 @@ public class ChampionService {
     public Long retrieveChampionIdByChampionName(String championName) throws ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException {
         try {
             return championRepository.retrieveChampionIdByChampionName(championName);
-        }catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ChampionNotFoundException(championName);
-        }catch (HttpClientErrorException e1){
-            throw  new ChampionMasteryNotFoundException(championName);
-        }catch (CharacterNotAllowedException e2){
+        } catch (HttpClientErrorException e1) {
+            throw new ChampionMasteryNotFoundException(championName);
+        } catch (CharacterNotAllowedException e2) {
             throw new CharacterNotAllowedException(championName);
         }
     }

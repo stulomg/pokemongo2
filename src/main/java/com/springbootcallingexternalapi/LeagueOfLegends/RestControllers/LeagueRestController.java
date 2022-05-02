@@ -28,13 +28,14 @@ public class LeagueRestController {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping(value = "/account/max-division/{owner}/{owner2}")
     public ResponseEntity<Object> divisionComparison(@PathVariable String owner, @PathVariable String owner2) {
         try {
-            return new ResponseEntity<>(leagueService.getMaxDivision(owner,owner2), HttpStatus.OK);
-        } catch ( CharacterNotAllowedExceptionOwner e) {
+            return new ResponseEntity<>(leagueService.getMaxDivision(owner, owner2), HttpStatus.OK);
+        } catch (CharacterNotAllowedExceptionOwner e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }catch (OwnerNotFoundException e){
+        } catch (OwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }

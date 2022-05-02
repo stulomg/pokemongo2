@@ -175,6 +175,7 @@ class MostPopularRestControllerTest {
         Assertions.assertEquals(espectedResult.getDate(), mostPopular[0].getDate());
 
     }
+
     @Test
     public void NoDataException() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"AccountMasteryHistory\"");

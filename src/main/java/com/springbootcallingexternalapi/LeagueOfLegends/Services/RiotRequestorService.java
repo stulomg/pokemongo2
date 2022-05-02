@@ -34,7 +34,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-40439a6f-c540-4cd9-91a4-48b315ffe25f";
+    private static final String RIOT_TOKEN = "RGAPI-7825d6b3-b6af-4d5e-83bf-70e73e817daa";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -145,8 +145,10 @@ public class RiotRequestorService {
             return response.getBody();
         } else throw new CharacterNotAllowedException(account);
     }
+
     @Scheduled(cron = " 0 0 */2 * * ?")
     public Object serverStatus() {
+
         String uri = "/lol/status/v4/platform-data";
         ResponseEntity<MaintenancesStatusModel> response = requestToRiot(uri, HttpMethod.GET, MaintenancesStatusModel.class);
         MaintenancesStatusModel model = response.getBody();
@@ -181,7 +183,7 @@ public class RiotRequestorService {
                     .findFirst();
 
             GameDataModel lim = model.get();
-            int championpoints = getMastery(account,lim.getChampionName()).getChampionPoints();
+            int championpoints = getMastery(account, lim.getChampionName()).getChampionPoints();
             lim.setChampionPoints(championpoints);
 
             matchRepository.insertMatchData(lim);
@@ -200,32 +202,31 @@ public class RiotRequestorService {
         return response;
     }
 
-    public ResponseEntity<TeamAccountsMetaData> getAccountsForClash (String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
+    public ResponseEntity<TeamAccountsMetaData> getAccountsForClash(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
         String id = getAccountFromRiot(account).getBody().getId();
         String uri = "/lol/clash/v1/players/by-summoner/" + id;
 
-        ResponseEntity<AccountForClashData> response = requestToRiot(uri,HttpMethod.GET,AccountForClashData.class);
+        ResponseEntity<AccountForClashData> response = requestToRiot(uri, HttpMethod.GET, AccountForClashData.class);
         String teamId = response.getBody().getTeamId();
 
         ResponseEntity<TeamAccountsMetaData> response2 = getClashParticipantsByTeamId(teamId);
 
-        List<Object> clashSummoners  = new ArrayList<>();
-
+        List<Object> clashSummoners = new ArrayList<>();
 
 
         return response2;
     }
 
-    private ResponseEntity<TeamAccountsMetaData> getClashParticipantsByTeamId (String teamId){
+    private ResponseEntity<TeamAccountsMetaData> getClashParticipantsByTeamId(String teamId) {
         String uri = "/lol/clash/v1/teams/" + teamId;
 
-        ResponseEntity<TeamAccountsMetaData> response = requestToRiot(uri,HttpMethod.GET,TeamAccountsMetaData.class);
+        ResponseEntity<TeamAccountsMetaData> response = requestToRiot(uri, HttpMethod.GET, TeamAccountsMetaData.class);
         return response;
     }
 
-    private String getSummonerNameBySummonerId (String summonerId){
-       String uri = "/lol/summoner/v4/summoners/" + summonerId;
+    private String getSummonerNameBySummonerId(String summonerId) {
+        String uri = "/lol/summoner/v4/summoners/" + summonerId;
 
-        return requestToRiot(uri,HttpMethod.GET,String.class).toString();
+        return requestToRiot(uri, HttpMethod.GET, String.class).toString();
     }
 }
