@@ -13,7 +13,7 @@ public class MasteryService {
     @Autowired
     MasteryRepository masteryRepository;
 
-    public Object AccountMasteryHistory (String account) throws CharacterNotAllowedException, AccountNotFoundException {
-       return masteryRepository.AccountMasteryHistory(account);
+    public Object AccountMasteryHistory(String account) throws CharacterNotAllowedException, AccountNotFoundException {
+        return masteryRepository.AccountMasteryHistory(account);
     }
 }

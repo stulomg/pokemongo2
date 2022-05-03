@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(classes = MostPopularRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
-
 class MostPopularRepositoryTest {
 
     @Autowired
@@ -41,15 +40,17 @@ class MostPopularRepositoryTest {
 
 
     @Autowired
-    public MostPopularRepositoryTest(JdbcTemplate jdbcTemplate){
+    public MostPopularRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         repositoryMaster = new MasteryRepository();
         ReflectionTestUtils.setField(repositoryMaster, "jdbcTemplate", jdbcTemplate);
     }
+
     @BeforeEach
     void setup() {
         jdbcTemplate.execute("TRUNCATE TABLE \"AccountMasteryHistory\"");
     }
+
     @BeforeEach
     void setup2() {
         jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
@@ -58,7 +59,7 @@ class MostPopularRepositoryTest {
     @Test
     void mostPopularCaseDefault() throws AccountDataException, CharacterNotAllowedException, NoDataException {
         LeagueInfoModel infoModel = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-01 22:25:28.744"),
+                Timestamp.valueOf("2022-04-21 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -69,7 +70,7 @@ class MostPopularRepositoryTest {
                 "stul"
         );
         LeagueInfoModel infoModel2 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-02 22:25:28.744"),
+                Timestamp.valueOf("2022-04-22 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -80,7 +81,7 @@ class MostPopularRepositoryTest {
                 "stul"
         );
         LeagueInfoModel infoModel3 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-03 22:25:28.744"),
+                Timestamp.valueOf("2022-04-23 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -91,7 +92,7 @@ class MostPopularRepositoryTest {
                 "stul"
         );
         LeagueInfoModel infoModel4 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-01 23:25:28.744"),
+                Timestamp.valueOf("2022-04-21 23:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -102,7 +103,7 @@ class MostPopularRepositoryTest {
                 "kusi"
         );
         LeagueInfoModel infoModel5 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-06 22:25:28.744"),
+                Timestamp.valueOf("2022-04-24 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -117,7 +118,7 @@ class MostPopularRepositoryTest {
                 81L,
                 7,
                 250,
-                Timestamp.valueOf("2022-03-20 22:25:28.744"),
+                Timestamp.valueOf("2022-04-24 22:25:28.744"),
                 "vantiax"
         );
         MasteryHistoryInfoModel masteryModel2 = new MasteryHistoryInfoModel(
@@ -125,7 +126,7 @@ class MostPopularRepositoryTest {
                 81L,
                 7,
                 156000,
-                Timestamp.valueOf("2022-03-28 22:25:28.744"),
+                Timestamp.valueOf("2022-04-25 22:25:28.744"),
                 "vantiax"
         );
         MasteryHistoryInfoModel masteryModel3 = new MasteryHistoryInfoModel(
@@ -133,7 +134,7 @@ class MostPopularRepositoryTest {
                 81L,
                 7,
                 20000,
-                Timestamp.valueOf("2022-04-01 22:25:28.744"),
+                Timestamp.valueOf("2022-04-26 22:25:28.744"),
                 "vantiax"
         );
         MasteryHistoryInfoModel masteryModel4 = new MasteryHistoryInfoModel(
@@ -141,7 +142,7 @@ class MostPopularRepositoryTest {
                 81L,
                 7,
                 155000,
-                Timestamp.valueOf("2022-04-06 22:25:28.744"),
+                Timestamp.valueOf("2022-04-27 22:25:28.744"),
                 "vantiax"
         );
         MasteryHistoryInfoModel masteryModel5 = new MasteryHistoryInfoModel(
@@ -149,13 +150,14 @@ class MostPopularRepositoryTest {
                 81L,
                 7,
                 450000,
-                Timestamp.valueOf("2022-04-07 22:25:28.744"),
+                Timestamp.valueOf("2022-04-28 22:25:28.744"),
                 "vantiax"
         );
         MostPopularModel espectedResult = new MostPopularModel(
                 "vantiax",
                 "vladimir",
-                Timestamp.valueOf("2022-04-01 00:00:00")
+                "Apr 21"
+                //Timestamp.valueOf("2022-04-01 00:00:00")
         );
 
         repositoryLegue.insertLeagueInfo(infoModel, infoModel.getOwner());
@@ -183,7 +185,6 @@ class MostPopularRepositoryTest {
 
         Assertions.assertThrows(NoDataException.class, () -> repositoryMost.popularAccount());
     }
-
 
 
 }

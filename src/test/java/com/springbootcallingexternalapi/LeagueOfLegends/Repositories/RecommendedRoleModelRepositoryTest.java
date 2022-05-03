@@ -112,7 +112,7 @@ class RecommendedRoleModelRepositoryTest {
         matchRepository.insertMatchData(dataModel4);
         matchRepository.insertMatchData(dataModel5);
 
-        List<RecommendedRoleModel> resultSet = recommendedRoleService.recommendedRoleRepository("vantiax","stul","kusara","raino","darkclaw");
+        List<RecommendedRoleModel> resultSet = recommendedRoleService.recommendedRoleRepository("vantiax", "stul", "kusara", "raino", "darkclaw");
         Assertions.assertEquals(5, resultSet.size());
         RecommendedRoleModel result = resultSet.get(0);
         RecommendedRoleModel result2 = resultSet.get(1);
@@ -145,6 +145,6 @@ class RecommendedRoleModelRepositoryTest {
     @Test
     void NoDataException() {
 
-        Assertions.assertThrows(NoDataException.class, () -> recommendedRoleRepository.recommendedRole("vantiax","stul","kusara","darkclaw","raino"));
+        Assertions.assertThrows(NoDataException.class, () -> recommendedRoleRepository.recommendedRole("vantiax", "stul", "kusara", "darkclaw", "raino"));
     }
 }

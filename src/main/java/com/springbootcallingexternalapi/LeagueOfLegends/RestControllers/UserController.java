@@ -1,7 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 
-
 import com.springbootcallingexternalapi.LeagueOfLegends.Security.Enums.RoleName;
 import com.springbootcallingexternalapi.LeagueOfLegends.Security.JWT.JwtProvider;
 import com.springbootcallingexternalapi.LeagueOfLegends.Security.Models.Role;
@@ -45,15 +44,15 @@ public class UserController {
     JwtProvider jwtProvider;
 
     @PostMapping("/newUser")
-    public ResponseEntity<?> newUser(@Valid @RequestBody NewUser newUser, BindingResult bindingResult){
+    public ResponseEntity<?> newUser(@Valid @RequestBody NewUser newUser, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(new Message("incomplete information, it is needed in this order: name, userName, email, password"), HttpStatus.BAD_REQUEST);
         }
         if (userService.existsByUserName(newUser.getUserName())) {
-            return new ResponseEntity(new Message("Username already registered"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Username already registered"), HttpStatus.BAD_REQUEST);
         }
         if (userService.existsByEmail(newUser.getEmail())) {
-            return new ResponseEntity(new Message("Email already registered"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Email already registered"), HttpStatus.BAD_REQUEST);
         }
 
         User user =
@@ -68,22 +67,22 @@ public class UserController {
         }
         user.setRoles(roles);
         userService.save(user);
-        return new ResponseEntity(new Message("New registered user"),HttpStatus.CREATED);
+        return new ResponseEntity(new Message("New registered user"), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult){
+    public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(new Message("incomplete information, it is needed in this order: userName, password"), HttpStatus.BAD_REQUEST);
         }
         Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUserName(),loginUser.getPassword()));
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUserName(), loginUser.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        JwtDto jwtDto = new JwtDto(jwt,userDetails.getUsername(),userDetails.getAuthorities());
+        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
 
-        return new ResponseEntity<>(jwtDto,HttpStatus.OK);
+        return new ResponseEntity<>(jwtDto, HttpStatus.OK);
 
     }
 }
