@@ -34,7 +34,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-f05609c6-9ee3-4f3f-b80f-ca4b8994ccf1";
+    private static final String RIOT_TOKEN = "RGAPI-179ba0a3-d7f6-44aa-af9a-ae2df3aef427";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -117,7 +117,7 @@ public class RiotRequestorService {
         }
     }
 
-    private <T> ResponseEntity<T> requestToRiot(String uri, HttpMethod method, Class<T> clazz) {
+    public <T> ResponseEntity<T> requestToRiot(String uri, HttpMethod method, Class<T> clazz) {
         String finalUrl = "https://la1.api.riotgames.com" + uri;
 
         HttpHeaders headers = new HttpHeaders();
@@ -140,7 +140,9 @@ public class RiotRequestorService {
     public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
 
         if (isAlpha(account)) {
-            String id = getAccountFromRiot(account).getBody().getId();
+
+            ResponseEntity <AccountBaseModel> response2 = getAccountFromRiot(account);
+            String id = response2.getBody().getId();
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
             ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
 

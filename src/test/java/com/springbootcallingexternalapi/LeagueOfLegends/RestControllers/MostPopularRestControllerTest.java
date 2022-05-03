@@ -59,7 +59,7 @@ class MostPopularRestControllerTest {
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
                 "I",
-                "vantiax",
+                "DarkclawCarreame",
                 76,
                 5476,
                 "stul"
@@ -70,10 +70,10 @@ class MostPopularRestControllerTest {
                 7,
                 250,
                 Timestamp.valueOf("2022-03-20 22:25:28.744"),
-                "vantiax"
+                "DarkclawCarreame"
         );
         MostPopularModel espectedResult = new MostPopularModel(
-                "vantiax",
+                "DarkclawCarreame",
                 "viktor",
                 Timestamp.valueOf("2022-04-01 00:00:00")
         );
