@@ -104,7 +104,7 @@ public class LeagueRestControllerTest {
     @Test
     void maxDivisionAccountNotFount() throws Exception {
 
-        mockMvc.perform(get("/account/max-division/kusarin/manuelin")).andExpect(status().isBadRequest()).andExpect(content().string("EL OWNER kusarin Y EL OWNER manuelin NO FUERON ENCONTRADOS, POR FAVOR RECTIFICAR"));
+        mockMvc.perform(get("/account/max-division/kusarin/manuelin")).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin Y EL OWNER manuelin NO FUERON ENCONTRADOS, POR FAVOR RECTIFICAR"));
     }
 
     @Test
