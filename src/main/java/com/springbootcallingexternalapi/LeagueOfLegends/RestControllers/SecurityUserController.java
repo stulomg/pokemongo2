@@ -41,20 +41,4 @@ public class SecurityUserController {
         return new ResponseEntity<>(securityUserService.login(securityLoginUserModel), HttpStatus.OK);
     }
 
-
-    public String generateToken() {
-        SecurityNewUserModel dataNewUser = new SecurityNewUserModel(
-                "test",
-                "test",
-                "test@gmail.com",
-                "12345"
-        );
-        SecurityLoginUserModel user = new SecurityLoginUserModel(
-                "test",
-                "12345"
-        );
-        securityUserService.newUser(dataNewUser);
-        SecurityJwtDtoModel res = securityUserService.login(user);
-        return res.getToken();
-    }
 }

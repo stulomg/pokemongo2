@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.LeagueRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepository;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,8 +45,7 @@ class MostPopularRestControllerTest {
     private MasteryRepository repositoryMaster;
 
     @Autowired
-    private SecurityUserController securityUserController;
-
+    private SecurityUserService securityUserService;
 
     ObjectMapper objectMapper;
     @BeforeEach
@@ -170,8 +170,7 @@ class MostPopularRestControllerTest {
         repositoryMaster.insertMasteryInfo(masteryModel4);
         repositoryMaster.insertMasteryInfo(masteryModel5);
 
-        String token = securityUserController.generateToken();
-
+        String token = securityUserService.generateToken();
         MvcResult mvcResult = mockMvc.perform(get("/loldata/mostpopular").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
@@ -186,7 +185,8 @@ class MostPopularRestControllerTest {
     public void NoDataException() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"AccountMasteryHistory\"");
         jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
-        mockMvc.perform(get("/loldata/mostpopular")).andExpect(status().isNotFound()).andExpect(content().string("There is not enough data to perform the query"));
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/loldata/mostpopular").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("There is not enough data to perform the query"));
 
     }
 
