@@ -16,6 +16,13 @@ public class SecurityNewUserModel {
     private String password;
     private Set<String> roles = new HashSet<>();
 
+    public SecurityNewUserModel(String name, String userName, String email, String password) {
+        this.name = name;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getName() {
         return name;
     }
