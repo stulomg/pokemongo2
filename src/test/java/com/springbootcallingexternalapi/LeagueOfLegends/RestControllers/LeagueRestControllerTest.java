@@ -104,12 +104,12 @@ public class LeagueRestControllerTest {
     @Test
     void maxDivisionAccountNotFount() throws Exception {
 
-        mockMvc.perform(get("/account/max-division/kusarin/stul")).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin Y EL OWNER stul NO FUERON ENCONTRADOS, POR FAVOR RECTIFICAR"));
+        mockMvc.perform(get("/account/max-division/kusarin/manuelin")).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin Y EL OWNER manuelin NO FUERON ENCONTRADOS, POR FAVOR RECTIFICAR"));
     }
 
     @Test
     public void maxDivisionCharacterNotAllowedException() throws Exception {
 
-        mockMvc.perform(get("/account/max-division/kusi>>/stul")).andExpect(status().isBadRequest()).andExpect(content().string("kusi>> or stul has characters not allowed"));
+        mockMvc.perform(get("/account/max-division/kusi>>/Darkclaw")).andExpect(status().isBadRequest()).andExpect(content().string("kusi>> or Darkclaw has characters not allowed"));
     }
 }
