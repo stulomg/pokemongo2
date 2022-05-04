@@ -7,6 +7,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.SecurityRoleRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.SecurityUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,8 @@ public class SecurityUserService {
     AuthenticationManager authenticationManager;
     @Autowired//login
     JwtProvider jwtProvider;
+    @Autowired// generateToken
+    JdbcTemplate jdbcTemplate;
 
 
     public Optional<SecurityUserModel> getByUserName(String userName) {
@@ -78,5 +81,22 @@ public class SecurityUserService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         SecurityJwtDtoModel securityJwtDtoModel = new SecurityJwtDtoModel(jwt, userDetails.getUsername(), userDetails.getAuthorities());
         return securityJwtDtoModel;
+    }
+
+    public String generateToken() {
+        jdbcTemplate.execute("TRUNCATE TABLE \"user\" RESTART IDENTITY CASCADE");
+        SecurityNewUserModel dataNewUser = new SecurityNewUserModel(
+                "test",
+                "test",
+                "test@gmail.com",
+                "12345"
+        );
+        SecurityLoginUserModel user = new SecurityLoginUserModel(
+                "test",
+                "12345"
+        );
+        newUser(dataNewUser);
+        SecurityJwtDtoModel res = login(user);
+        return res.getToken();
     }
 }

@@ -3,6 +3,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.LeagueRepository;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,8 @@ public class LeagueRestControllerTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private SecurityUserService securityUserService;
 
     @BeforeEach
     void setup() {
@@ -93,7 +96,8 @@ public class LeagueRestControllerTest {
         repository.insertLeagueInfo(infoModel, infoModel.getOwner());
         repository.insertLeagueInfo(infoModel2, infoModel2.getOwner());
 
-        MvcResult mvcResult = mockMvc.perform(get("/account/max-division/kusi/stul")).andExpect(status().isOk()).andReturn();
+        String token = securityUserService.generateToken();
+        MvcResult mvcResult = mockMvc.perform(get("/account/max-division/kusi/stul").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
         LeagueInfoModel[] leagueInfoModel = new ObjectMapper().readValue(response, LeagueInfoModel[].class);
@@ -103,13 +107,13 @@ public class LeagueRestControllerTest {
 
     @Test
     void maxDivisionAccountNotFount() throws Exception {
-
-        mockMvc.perform(get("/account/max-division/kusarin/manuelin")).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin Y EL OWNER manuelin NO FUERON ENCONTRADOS, POR FAVOR RECTIFICAR"));
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/max-division/kusarin/manuelin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin Y EL OWNER manuelin NO FUERON ENCONTRADOS, POR FAVOR RECTIFICAR"));
     }
 
     @Test
     public void maxDivisionCharacterNotAllowedException() throws Exception {
-
-        mockMvc.perform(get("/account/max-division/kusi>>/Darkclaw")).andExpect(status().isBadRequest()).andExpect(content().string("kusi>> or Darkclaw has characters not allowed"));
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/max-division/kusi>>/Darkclaw").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("kusi>> or Darkclaw has characters not allowed"));
     }
 }
