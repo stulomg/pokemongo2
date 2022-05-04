@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.JWT;
+package com.springbootcallingexternalapi.LeagueOfLegends.JWT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
-import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 @Component
@@ -30,6 +29,5 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         byte[] body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("message", "Unauthorized"));
         response.getOutputStream().write(body);
-        //response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
     }
 }

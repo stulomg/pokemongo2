@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.dto;
+package com.springbootcallingexternalapi.LeagueOfLegends.Util;
 
 public class Message {
     private String message;

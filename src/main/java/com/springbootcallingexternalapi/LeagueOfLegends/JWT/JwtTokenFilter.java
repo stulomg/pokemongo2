@@ -1,5 +1,6 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.JWT;
+package com.springbootcallingexternalapi.LeagueOfLegends.JWT;
 
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     JwtProvider jwtProvider;
     @Autowired
-    UserDetailsService userDetailsService;
+    SecurityUserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

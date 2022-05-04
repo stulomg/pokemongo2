@@ -6,8 +6,6 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInf
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MostPopularModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.LeagueRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepository;
-import com.springbootcallingexternalapi.LeagueOfLegends.Security.dto.NewUser;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +20,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.sql.Timestamp;
 
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 

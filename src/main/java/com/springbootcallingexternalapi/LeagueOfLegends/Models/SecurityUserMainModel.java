@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.Models;
+package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UserMain implements UserDetails {
+public class SecurityUserMainModel implements UserDetails {
 
     private String name;
     private String userName;
@@ -16,7 +16,7 @@ public class UserMain implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserMain(String name, String userName, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public SecurityUserMainModel(String name, String userName, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.name = name;
         this.userName = userName;
         this.email = email;
@@ -24,10 +24,10 @@ public class UserMain implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserMain build(User user) {
+    public static SecurityUserMainModel build(SecurityUserModel user){
         List<GrantedAuthority> authorities =
                 user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRoleName().name())).collect(Collectors.toList());
-        return new UserMain(user.getName(), user.getUserName(), user.getEmail(), user.getPassword(), authorities);
+        return new SecurityUserMainModel(user.getName(),user.getUserName(),user.getEmail(),user.getPassword(),authorities);
     }
 
     @Override

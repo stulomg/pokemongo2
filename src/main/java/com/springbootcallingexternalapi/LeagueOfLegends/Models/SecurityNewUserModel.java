@@ -1,11 +1,11 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.dto;
+package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
-public class NewUser {
+public class SecurityNewUserModel {
     @NotBlank
     private String name;
     @NotBlank
