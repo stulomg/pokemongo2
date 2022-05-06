@@ -3,6 +3,7 @@ package com.springbootcallingexternalapi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.TypeExcludeFilter;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import static org.springframework.context.annotation.FilterType.CUSTOM;
 @EnableScheduling
 @SpringBootApplication()
 @ComponentScan(excludeFilters={@ComponentScan.Filter(type=CUSTOM,classes= TypeExcludeFilter.class),})
+@EnableCaching
 public class SpringBootCallingExternalApiApplication {
 
 	public static void main(String[] args) {
