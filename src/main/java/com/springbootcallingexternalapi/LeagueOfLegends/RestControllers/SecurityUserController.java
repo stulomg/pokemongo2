@@ -6,6 +6,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityLoginUser
 import com.springbootcallingexternalapi.LeagueOfLegends.Util.Message;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityNewUserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,7 @@ public class SecurityUserController {
     }
 
     @PostMapping("/login")
+    @Cacheable(value="logins", key = "#securityLoginUserModel.userName")
     public ResponseEntity<SecurityJwtDtoModel> login(@Valid @RequestBody SecurityLoginUserModel securityLoginUserModel) {
         return new ResponseEntity<>(securityUserService.login(securityLoginUserModel), HttpStatus.OK);
     }
