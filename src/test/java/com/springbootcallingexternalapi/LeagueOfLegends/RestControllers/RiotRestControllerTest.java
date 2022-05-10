@@ -1,9 +1,13 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameParticipantModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -50,8 +54,6 @@ public class RiotRestControllerTest {
 
     @Autowired
     private SecurityUserService securityUserService;
-
-    private static final String RIOT_TOKEN = "RGAPI-179ba0a3-d7f6-44aa-af9a-ae2df3aef427";
 
     @Test
     public void callRiotExitosamenteCasoDefautl() throws Exception {
