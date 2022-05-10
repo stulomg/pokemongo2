@@ -1,8 +1,8 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security;
+package com.springbootcallingexternalapi.LeagueOfLegends;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Security.JWT.JwtEntryPoint;
-import com.springbootcallingexternalapi.LeagueOfLegends.Security.JWT.JwtTokenFilter;
-import com.springbootcallingexternalapi.LeagueOfLegends.Security.Services.UserDetailsServiceImpl;
+import com.springbootcallingexternalapi.LeagueOfLegends.JWT.JwtEntryPoint;
+import com.springbootcallingexternalapi.LeagueOfLegends.JWT.JwtTokenFilter;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class Mainsecurity extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    SecurityUserDetailsServiceImpl userDetailsService;
     @Autowired
     JwtEntryPoint jwtEntryPoint;
 
@@ -57,9 +57,6 @@ public class Mainsecurity extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/account/**").permitAll()
-                .antMatchers("/loldata/**").permitAll()
-                .antMatchers("/call-riot/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)

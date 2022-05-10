@@ -49,6 +49,8 @@ public class RiotRequestorService {
     @Autowired
     MatchRepository matchRepository;
     @Autowired
+    RestTemplate restTemplate;
+    @Autowired
     ServerRepository serverRepository;
 
     public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, OwnerNotAllowedException, CharacterNotAllowedException {
@@ -65,7 +67,6 @@ public class RiotRequestorService {
         try {
             return requestToRiot(uri, HttpMethod.GET, AccountBaseModel.class);
         } catch (RestClientException e) {
-            logger.info(e.getMessage());
             throw new AccountNotFoundException(account);
         }
     }
@@ -115,9 +116,8 @@ public class RiotRequestorService {
         }
     }
 
-    private <T> ResponseEntity<T> requestToRiot(String uri, HttpMethod method, Class<T> clazz) {
+    public <T> ResponseEntity<T> requestToRiot(String uri, HttpMethod method, Class<T> clazz) {
         String finalUrl = "https://la1.api.riotgames.com" + uri;
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Riot-Token", RIOT_TOKEN);
         HttpEntity<String> entity = new HttpEntity<>("", headers);
@@ -127,7 +127,6 @@ public class RiotRequestorService {
 
     private <T> ResponseEntity<T> requestToRiot2(String uri, HttpMethod method, Class<T> clazz) {
         String finalUrl = "https://americas.api.riotgames.com" + uri;
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Riot-Token", RIOT_TOKEN);
         HttpEntity<String> entity = new HttpEntity<>("", headers);
@@ -138,7 +137,8 @@ public class RiotRequestorService {
     public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
 
         if (isAlpha(account)) {
-            String id = getAccountFromRiot(account).getBody().getId();
+            ResponseEntity <AccountBaseModel> response2 = getAccountFromRiot(account);
+            String id = response2.getBody().getId();
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
             ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
 
@@ -183,7 +183,7 @@ public class RiotRequestorService {
                     .findFirst();
 
             GameDataModel lim = model.get();
-            int championpoints = getMastery(account, lim.getChampionName()).getChampionPoints();
+            int championpoints = getMastery(account,lim.getChampionName()).getChampionPoints();
             lim.setChampionPoints(championpoints);
 
             matchRepository.insertMatchData(lim);
@@ -198,35 +198,61 @@ public class RiotRequestorService {
 
         String uri = "/lol/match/v5/matches/" + matchId;
         ResponseEntity<GameSuperMetaDataModel> response = requestToRiot2(uri, HttpMethod.GET, GameSuperMetaDataModel.class);
-
         return response;
     }
 
-    public ResponseEntity<TeamAccountsMetaData> getAccountsForClash(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
+    public ResponseEntity<TeamAccountsMetaData> getAccountsForClash (String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
         String id = getAccountFromRiot(account).getBody().getId();
         String uri = "/lol/clash/v1/players/by-summoner/" + id;
 
-        ResponseEntity<AccountForClashData> response = requestToRiot(uri, HttpMethod.GET, AccountForClashData.class);
+        ResponseEntity<AccountForClashData> response = requestToRiot(uri,HttpMethod.GET,AccountForClashData.class);
         String teamId = response.getBody().getTeamId();
 
         ResponseEntity<TeamAccountsMetaData> response2 = getClashParticipantsByTeamId(teamId);
 
-        List<Object> clashSummoners = new ArrayList<>();
-
+        List<Object> clashSummoners  = new ArrayList<>();
 
         return response2;
     }
 
-    private ResponseEntity<TeamAccountsMetaData> getClashParticipantsByTeamId(String teamId) {
+    private ResponseEntity<TeamAccountsMetaData> getClashParticipantsByTeamId (String teamId){
         String uri = "/lol/clash/v1/teams/" + teamId;
 
-        ResponseEntity<TeamAccountsMetaData> response = requestToRiot(uri, HttpMethod.GET, TeamAccountsMetaData.class);
+        ResponseEntity<TeamAccountsMetaData> response = requestToRiot(uri,HttpMethod.GET,TeamAccountsMetaData.class);
         return response;
     }
 
-    private String getSummonerNameBySummonerId(String summonerId) {
-        String uri = "/lol/summoner/v4/summoners/" + summonerId;
+    private String getSummonerNameBySummonerId (String summonerId){
+       String uri = "/lol/summoner/v4/summoners/" + summonerId;
 
-        return requestToRiot(uri, HttpMethod.GET, String.class).toString();
+        return requestToRiot(uri,HttpMethod.GET,String.class).toString();
+    }
+
+    public Object fillTablePlayersRelationship(String account) throws ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, AccountNotFoundException {
+
+
+        String puuid = getAccountFromRiot(account).getBody().getPuuid();
+        String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=420&start=0&count=20";
+
+        ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
+        List<String> listMatches = response.getBody();
+
+        List<String> listParticipants = new ArrayList<>();
+
+        for (int i = 0; i < listMatches.size(); i++) {
+
+            String elemento = listMatches.get(i);
+
+            /*GameDataModel[] response3 = response2.getInfo().getParticipants();
+            Optional<GameDataModel> model = Arrays.stream(response3)
+                    .filter(GameDataModel::getSummonerName);*/
+
+            //GameDataModel lim = model.get();
+
+        //matchrepository
+
+
+    }
+        return uri;
     }
 }

@@ -1,12 +1,17 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.dto;
+package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import javax.validation.constraints.NotBlank;
 
-public class LoginUser {
+public class SecurityLoginUserModel {
     @NotBlank
     private String userName;
     @NotBlank
     private String password;
+
+    public SecurityLoginUserModel(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
 
     public String getUserName() {
         return userName;

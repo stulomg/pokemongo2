@@ -1,11 +1,11 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Security.dto;
+package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
-public class NewUser {
+public class SecurityNewUserModel {
     @NotBlank
     private String name;
     @NotBlank
@@ -15,6 +15,13 @@ public class NewUser {
     @NotBlank
     private String password;
     private Set<String> roles = new HashSet<>();
+
+    public SecurityNewUserModel(String name, String userName, String email, String password) {
+        this.name = name;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
 
     public String getName() {
         return name;

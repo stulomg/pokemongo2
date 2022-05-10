@@ -1,11 +1,9 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith(MockitoExtension.class)
 public class RiotRestControllerTest {
 
     @Autowired
@@ -51,16 +48,10 @@ public class RiotRestControllerTest {
 
     private static final String RIOT_TOKEN = "RGAPI-61e95a26-6132-4673-8a4a-afc4e53fe6b7";
 
+    @Autowired
+    private SecurityUserService securityUserService;
 
-    private MockRestServiceServer mockServer;
-    private ObjectMapper mapper = new ObjectMapper();
-
-    @BeforeEach
-    public void init() {
-        RestTemplate restTemplate = new RestTemplate();
-        mockServer = MockRestServiceServer.createServer(restTemplate);
-    }
-
+    private static final String RIOT_TOKEN = "RGAPI-179ba0a3-d7f6-44aa-af9a-ae2df3aef427";
 
     @Test
     public void callRiotExitosamenteCasoDefautl() throws Exception {
@@ -76,38 +67,39 @@ public class RiotRestControllerTest {
                 1648276400000L,
                 109L
         );
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/stul/stul")).andExpect(status().isOk()).andReturn();
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/Darkclaw/stul").header("authorization", token)).andExpect(status().isOk()).andReturn();
     }
 
     @Test
     public void getMasteryExitosamenteCasoDefautl() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/stul/ezreal")).andExpect(status().isOk()).andReturn();
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Darkclaw/evelynn").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
     }
 
     @Test
     public void championNotFoundExceptionEnGetMastery() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/stul/urfsito")).andExpect(status().isNotFound());
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/stul/urfsito").header("authorization", token)).andExpect(status().isNotFound());
     }
 
     @Test
     public void championMasteryNotFoundExceptionEnGetMastery() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/stul/renata glasc")).andExpect(status().isNotFound());
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/stul/renata glasc").header("authorization", token)).andExpect(status().isNotFound());
     }
 
     @Test
     public void accountNotFoundExceptionEnGetMastery() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/pepitoalimañaquetienemañajaja/ezreal")).andExpect(status().isNotFound());
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/pepitoalimañaquetienemañajaja/ezreal").header("authorization", token)).andExpect(status().isNotFound());
     }
 
     @Test
     public void characterNotAllowedExceptionEnGetMastery() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/stul/ez<<real")).andExpect(status().isBadRequest());
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Darkclaw/ez<<real").header("authorization", token)).andExpect(status().isBadRequest());
     }
 
     @Test
@@ -117,22 +109,22 @@ public class RiotRestControllerTest {
 
     @Test
     public void serverStatusDefault() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status")).andExpect(status().isOk()).andReturn();
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
     }
 
     @Test
     public void serverStatusNotFound() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/")).andExpect(status().isNotFound()).andReturn();
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/").header("authorization", token)).andExpect(status().isNotFound()).andReturn();
 
     }
 
     @Test
     public void serverStatusCharacterNotAllowed() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status*")).andExpect(status().isBadRequest()).andReturn();
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status*").header("authorization", token)).andExpect(status().isBadRequest()).andReturn();
 
     }
 
