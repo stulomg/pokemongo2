@@ -21,9 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.Optional;
-
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,7 +49,7 @@ public class RiotRestControllerTest {
     @InjectMocks
     private RiotRequestorService riotRequestorService1 = new RiotRequestorService();
 
-    private static final String RIOT_TOKEN = "RGAPI-7825d6b3-b6af-4d5e-83bf-70e73e817daa";
+    private static final String RIOT_TOKEN = "RGAPI-61e95a26-6132-4673-8a4a-afc4e53fe6b7";
 
 
     private MockRestServiceServer mockServer;
