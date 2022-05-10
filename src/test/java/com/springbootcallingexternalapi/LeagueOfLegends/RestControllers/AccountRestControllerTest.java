@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,12 +58,10 @@ public class AccountRestControllerTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "soyeon lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
 
-        String owner = "kusi";
+        Integer owner = 1;
         accountRepository.insertAccount(baseModel, owner);
 
         String token = securityUserService.generateToken();
@@ -86,12 +85,10 @@ public class AccountRestControllerTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "soyeon lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
 
-        String owner = "kusi";
+        Integer owner = 1;
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
         mockMvc.perform(delete("/account/delete/kusarin/soyeon lover").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA: soyeon lover, VINCULADA AL USUARIO: kusarin NO FUE ENCONTRADA, PORFAVOR RECTIFICAR."));
@@ -113,20 +110,16 @@ public class AccountRestControllerTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
 
-        String owner = ("Kusi").toLowerCase(Locale.ROOT);
+        Integer owner = 1;
 
         AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
                 1648276400000L,
-                109L,
                 owner);
 
         accountRepository.insertAccount(baseModel, owner);
@@ -153,12 +146,10 @@ public class AccountRestControllerTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "soyeon lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
 
-        String owner = "kusi";
+        Integer owner = 1;
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/account/find-by-owner/kusarin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin NO FUE ENCONTRADO, POR FAVOR RECTIFICAR"));
@@ -174,21 +165,17 @@ public class AccountRestControllerTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 ("Soyeon Lover").toLowerCase(Locale.ROOT),
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
 
-        String owner = "kusi";
+        Integer owner = 1;
         String account = baseModel.getName();
 
         AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
                 1648276400000L,
-                109L,
                 owner);
 
         accountRepository.insertAccount(baseModel, owner);
@@ -215,12 +202,10 @@ public class AccountRestControllerTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "soyeon lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
 
-        String owner = "kusi";
+        Integer owner = 1;
 
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();

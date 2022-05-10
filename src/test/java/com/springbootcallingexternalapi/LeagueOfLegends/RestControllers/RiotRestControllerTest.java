@@ -46,9 +46,7 @@ public class RiotRestControllerTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "soyeon lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/Darkclaw/stul").header("authorization", token)).andExpect(status().isOk()).andReturn();

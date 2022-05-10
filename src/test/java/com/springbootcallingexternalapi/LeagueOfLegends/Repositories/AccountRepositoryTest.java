@@ -62,21 +62,17 @@ public class AccountRepositoryTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
-                1648276400000L,
-                109L);
+                1648276400000L);
 
         //Owner Standard
-        String owner = "kusi";
+        Integer owner = 1;
 
         AccountModel modelo = new AccountModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
                 1648276400000L,
-                109L,
                 owner);
 
 
@@ -91,24 +87,20 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(modelo.getAccountId(), result.getAccountId());
         Assertions.assertEquals(modelo.getId(), result.getId());
         Assertions.assertEquals(modelo.getName().toLowerCase(Locale.ROOT), result.getName());
-        Assertions.assertEquals(modelo.getOwner().toLowerCase(Locale.ROOT), result.getOwner());
+        Assertions.assertEquals(modelo.getOwner(), result.getOwner());
         Assertions.assertEquals(modelo.getPuuid(), result.getPuuid());
-        Assertions.assertEquals(modelo.getSummonerLevel(), result.getSummonerLevel());
         Assertions.assertEquals(modelo.getRevisionDate(), result.getRevisionDate());
-        Assertions.assertEquals(modelo.getProfileIconId(), result.getProfileIconId());
     }
 
     @Test
     void characterNotAllowedExceptionEnInsertarCuenta() {
-        String owner = "ku<<<";
+        Integer owner = 5;
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
         Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.insertAccount(baseModel, owner));
 
@@ -120,15 +112,13 @@ public class AccountRepositoryTest {
 
     @Test
     void accountDataExceptionEnInsertarCuenta() throws CharacterNotAllowedException, AccountDataException, OwnerNotAllowedException {
-        String owner = "kusi";
+        Integer owner = 1;
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
         repository.insertAccount(baseModel, owner);
         Exception exception = assertThrows(AccountDataException.class, () -> repository.insertAccount(baseModel, owner));
@@ -141,15 +131,13 @@ public class AccountRepositoryTest {
 
     @Test
     void ownerNotAllowedExceptionEnInsertarCuenta() {
-        String owner = "pepito";
+        Integer owner = 100;
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
 
         Exception exception = assertThrows(OwnerNotAllowedException.class, () -> repository.insertAccount(baseModel, owner));
@@ -169,20 +157,16 @@ public class AccountRepositoryTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
-        String owner = "kusi";
+        Integer owner = 1;
 
         AccountModel model = new AccountModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "STULMEMITO",
                 "F46S5D4F",
                 "stulesunmeme",
-                1567,
                 1324654564L,
-                999L,
                 owner);
 
         repository.insertAccount(baseModel, owner);
@@ -195,24 +179,20 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(model.getAccountId(), resultSet.get(0).getAccountId());
         Assertions.assertEquals(model.getPuuid(), resultSet.get(0).getPuuid());
         Assertions.assertEquals(model.getName(), resultSet.get(0).getName());
-        Assertions.assertEquals(model.getProfileIconId(), resultSet.get(0).getProfileIconId());
         Assertions.assertEquals(model.getRevisionDate(), resultSet.get(0).getRevisionDate());
-        Assertions.assertEquals(model.getSummonerLevel(), resultSet.get(0).getSummonerLevel());
         Assertions.assertEquals(owner, resultSet.get(0).getOwner());
     }
 
     @Test
     void accountNotFoundExceptionEnAccountUpdate() {
-        String owner = "kusi";
+        Integer owner = 1;
 
         AccountModel model = new AccountModel(
                 "",
                 "STULMEMITO",
                 "F46S5D4F",
                 "stulesunmeme",
-                1567,
                 1324654564L,
-                999L,
                 owner);
 
         Assertions.assertThrows(AccountNotFoundException.class, () -> repository.accountUpdate(model));
@@ -220,16 +200,14 @@ public class AccountRepositoryTest {
 
     @Test
     void characterNotAllowedAccountUpdate() {
-        String owner = "kusi";
+        Integer owner = 1;
 
         AccountModel model = new AccountModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "STULMEMITO",
                 "F46S5D4F",
                 "stule*sunmeme",
-                1567,
                 1324654564L,
-                999L,
                 owner);
 
         Assertions.assertThrows(CharacterNotAllowedException.class, () -> repository.accountUpdate(model));
@@ -243,15 +221,13 @@ public class AccountRepositoryTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
-
-        String owner = "kusi";
+        Integer owner = 1;
+        String owner2 = "kusi";
 
         repository.insertAccount(baseModel, owner);
-        repository.deleteAccount(owner, baseModel.getName());
+        repository.deleteAccount(owner2, baseModel.getName());
 
         List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
         Assertions.assertEquals(0, resultSet.size());
@@ -264,9 +240,7 @@ public class AccountRepositoryTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
         String owner = "pepito";
 
@@ -286,9 +260,7 @@ public class AccountRepositoryTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "<<<",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
         String owner = "<<<<";
 
@@ -308,36 +280,30 @@ public class AccountRepositoryTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
-
-        String owner = ("Kusi").toLowerCase(Locale.ROOT);
+        Integer owner =1;
+        String owner2 = ("Kusi").toLowerCase(Locale.ROOT);
 
         AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
                 1648276400000L,
-                109L,
                 owner);
 
         repository.insertAccount(baseModel, owner);
 
-        List<AccountModel> resultSet = repository.retrieveAccountByOwner(owner);
+        List<AccountModel> resultSet = repository.retrieveAccountByOwner(owner2);
         Assertions.assertEquals(1, resultSet.size());
         AccountModel result = resultSet.get(0);
 
         Assertions.assertEquals(modelo.getAccountId(), result.getAccountId());
         Assertions.assertEquals(modelo.getId(), result.getId());
         Assertions.assertEquals(modelo.getName().toLowerCase(Locale.ROOT), result.getName());
-        Assertions.assertEquals(modelo.getOwner().toLowerCase(Locale.ROOT), result.getOwner());
+        Assertions.assertEquals(modelo.getOwner(), result.getOwner());
         Assertions.assertEquals(modelo.getPuuid(), result.getPuuid());
-        Assertions.assertEquals(modelo.getSummonerLevel(), result.getSummonerLevel());
         Assertions.assertEquals(modelo.getRevisionDate(), result.getRevisionDate());
-        Assertions.assertEquals(modelo.getProfileIconId(), result.getProfileIconId());
     }
 
     @Test
@@ -378,20 +344,16 @@ public class AccountRepositoryTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 ("Soyeon Lover").toLowerCase(Locale.ROOT),
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
 
-        String owner = "kusi";
+        Integer owner = 1;
 
         AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
-                4864,
                 1648276400000L,
-                109L,
                 owner);
 
         repository.insertAccount(baseModel, owner);
@@ -403,11 +365,9 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(modelo.getAccountId(), result.getAccountId());
         Assertions.assertEquals(modelo.getId(), result.getId());
         Assertions.assertEquals(modelo.getName().toLowerCase(Locale.ROOT), result.getName());
-        Assertions.assertEquals(modelo.getOwner().toLowerCase(Locale.ROOT), result.getOwner());
+        Assertions.assertEquals(modelo.getOwner(), result.getOwner());
         Assertions.assertEquals(modelo.getPuuid(), result.getPuuid());
-        Assertions.assertEquals(modelo.getSummonerLevel(), result.getSummonerLevel());
         Assertions.assertEquals(modelo.getRevisionDate(), result.getRevisionDate());
-        Assertions.assertEquals(modelo.getProfileIconId(), result.getProfileIconId());
     }
 
     @Test
@@ -418,9 +378,7 @@ public class AccountRepositoryTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "<<<<",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
 
         Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.retrieveAccountByAccountName(baseModel.getName()));
@@ -439,9 +397,7 @@ public class AccountRepositoryTest {
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "pepito pro",
-                4864,
-                1648276400000L,
-                109L
+                1648276400000L
         );
 
         Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.retrieveAccountByAccountName(baseModel.getName()));

@@ -6,12 +6,10 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptio
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepository;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MatchRepository;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.ServerRepository;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +32,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-179ba0a3-d7f6-44aa-af9a-ae2df3aef427";
+    private static final String RIOT_TOKEN = "RGAPI-ee5b1e25-a70d-42e1-abca-400972d0da8f";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -45,6 +43,8 @@ public class RiotRequestorService {
     @Autowired
     LeagueService leagueService;
     @Autowired
+    OwnerRepository ownerRepository;
+    @Autowired
     MasteryRepository masteryRepository;
     @Autowired
     MatchRepository matchRepository;
@@ -53,11 +53,12 @@ public class RiotRequestorService {
     @Autowired
     ServerRepository serverRepository;
 
-    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, OwnerNotAllowedException, CharacterNotAllowedException {
+    public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, CharacterNotAllowedException, OwnerNotFoundException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
         AccountBaseModel acc2 = Objects.requireNonNull(acc.getBody());
+        Long ownerID = ownerRepository.retrieveOwnerIdByOwnerName(owner.toLowerCase(Locale.ROOT));
 
-        accountRepository.insertAccount(acc2, owner.toLowerCase(Locale.ROOT));
+        accountRepository.insertAccount(acc2, Math.toIntExact(ownerID));
         return acc2;
 
     }

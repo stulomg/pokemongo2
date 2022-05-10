@@ -24,25 +24,22 @@ public class AccountRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void insertAccount(AccountBaseModel account, String owner) throws AccountDataException, OwnerNotAllowedException, CharacterNotAllowedException {
+    public void insertAccount(AccountBaseModel account, Integer owner) throws AccountDataException {
 
-        String sql = "INSERT INTO \"Account\" VALUES(?,?,?,?,?,?,?,?)";
-        Object[] params = {account.getId(),
-                account.getAccountId(), account.getPuuid(),
-                account.getName().toLowerCase(Locale.ROOT),
-                account.getProfileIconId(), account.getRevisionDate(),
-                account.getSummonerLevel(),
-                owner.toLowerCase(Locale.ROOT)};
-
-        if (isAlpha(owner)) {
+        String sql = "INSERT INTO public.\"Account\"(id, puuid, accountid, \"revisionDate\", \"Owner\", name) VALUES (?, ?, ?, ?, ?, ?);";
+        Object[] params = {
+                account.getId(),
+                account.getPuuid(),
+                account.getAccountId(),
+                account.getRevisionDate(),
+                owner,
+                account.getName().toLowerCase(Locale.ROOT)};
             try {
-                if (owner.equalsIgnoreCase("kusi") || owner.equalsIgnoreCase("stul")) {
-                    jdbcTemplate.update(sql, params);
-                } else throw new OwnerNotAllowedException(owner);
+                jdbcTemplate.update(sql, params);
             } catch (DataAccessException e) {
                 throw new AccountDataException(account);
             }
-        } else throw new CharacterNotAllowedException(owner);
+
     }
 
     public void deleteAccount(String owner, String account) throws AccountOrOwnerNotFoundException, CharacterNotAllowedException {
@@ -76,10 +73,10 @@ public class AccountRepository {
     }
 
     public void accountUpdate(AccountModel model) throws CharacterNotAllowedException, AccountNotFoundException {
-        String sql = "UPDATE \"Account\" SET name=?, \"accountId\"=?, puuid=?, \"profileIconId\"=?, \"revisionDate\"=?," +
-                " \"summonerLevel\"=?, owner=? WHERE id=?";
-        Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(), model.getProfileIconId(),
-                model.getRevisionDate(), model.getSummonerLevel(), model.getOwner(), model.getId()};
+        String sql = "UPDATE \"Account\" SET name=?, \"accountId\"=?, puuid=?,\"revisionDate\"=?," +
+                " owner=? WHERE id=?";
+        Object[] params = {model.getName(), model.getAccountId(), model.getPuuid(),
+                model.getRevisionDate(), model.getOwner(), model.getId()};
         if (isAlpha(model.getName())) {
             int result = jdbcTemplate.update(sql, params);
             if (result == 0) {

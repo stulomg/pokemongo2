@@ -1,4 +1,24 @@
 -- --------------------------------------------------------------
+-- Tabla : Owner
+-- --------------------------------------------------------------
+-- Table: public.Owner
+
+-- DROP TABLE IF EXISTS public."Owner";
+
+CREATE TABLE IF NOT EXISTS public."Owner"
+(
+    id serial NOT NULL,
+    name text COLLATE pg_catalog."default",
+    CONSTRAINT "Owner_pkey" PRIMARY KEY (id),
+    CONSTRAINT "UK_Owner" UNIQUE (name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Owner"
+    OWNER to postgres;
+
+-- --------------------------------------------------------------
 -- Tabla : Account
 -- --------------------------------------------------------------
 -- Table: public.Account

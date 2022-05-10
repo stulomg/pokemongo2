@@ -75,9 +75,7 @@ public class LiveMatchRiotRestTest {
                 "jsdfhaskdfh",
                 "jahdfjadshf",
                 "Hauries",
-                108,
-                2853L,
-                108L
+                2853L
         );
 
         doReturn(ResponseEntity.of(Optional.of(model))).when(riotRequestorService).getAccountFromRiot("hauries");

@@ -1,8 +1,10 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,24 +13,21 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
 
-
 @Repository
-public class ChampionRepository {
+public class OwnerRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public Long retrieveChampionIdByChampionName(String championName) throws ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException {
-        String sql = "SELECT \"ChampionId\" FROM \"Champion\" WHERE LOWER (\"ChampionName\")=?";
-        Object[] params = {championName};
-        if (isAlpha(championName)) {
+    public Long retrieveOwnerIdByOwnerName(String owner) throws  CharacterNotAllowedException, OwnerNotFoundException {
+        String sql = "SELECT \"id\" FROM \"Owner\" WHERE LOWER(\"name\")=?";
+        Object[] params = {owner};
+        if (isAlpha(owner)) {
             try {
                 return jdbcTemplate.queryForObject(sql, params, Long.class);
             } catch (EmptyResultDataAccessException e) {
-                throw new ChampionNotFoundException(championName);
-            } catch (HttpClientErrorException e1) {
-                throw new ChampionMasteryNotFoundException(championName);
+                throw new OwnerNotFoundException(owner);
             }
-        } else throw new CharacterNotAllowedException(championName);
+        } else throw new CharacterNotAllowedException(owner);
 
     }
 }
