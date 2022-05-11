@@ -25,6 +25,8 @@ public class AccountRestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (CharacterNotAllowedException e2) {
             return new ResponseEntity<>(e2.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (OwnerNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -44,6 +46,8 @@ public class AccountRestController {
         try {
             accountService.accountUpdate(model);
         } catch (AccountNotFoundException | CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (OwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Updated successfully", HttpStatus.OK);

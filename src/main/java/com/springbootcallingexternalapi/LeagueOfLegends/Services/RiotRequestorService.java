@@ -1,6 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
@@ -10,14 +11,14 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptio
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.*;
+import com.springbootcallingexternalapi.LeagueOfLegends.Util.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -32,7 +33,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-ee5b1e25-a70d-42e1-abca-400972d0da8f";
+    private static final String RIOT_TOKEN = "RGAPI-d0cb32df-0eb8-42b4-a6b8-d9934ba67fb3";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -57,8 +58,11 @@ public class RiotRequestorService {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
         AccountBaseModel acc2 = Objects.requireNonNull(acc.getBody());
         Long ownerID = ownerRepository.retrieveOwnerIdByOwnerName(owner.toLowerCase(Locale.ROOT));
-
-        accountRepository.insertAccount(acc2, Math.toIntExact(ownerID));
+        try {
+            accountRepository.insertAccount(acc2, Math.toIntExact(ownerID));
+        }catch (AccountExistsException e){
+            accountRepository.accountUpdateExisting(acc2, Math.toIntExact(ownerID));
+        }
         return acc2;
 
     }

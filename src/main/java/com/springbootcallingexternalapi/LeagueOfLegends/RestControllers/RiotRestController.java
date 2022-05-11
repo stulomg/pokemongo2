@@ -35,7 +35,7 @@ public class RiotRestController {
     @RequestMapping(value = "/call-riot/{account}/{owner}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) {
+    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) throws CharacterNotAllowedException, AccountDataException, OwnerNotFoundException, AccountNotFoundException {
         try {
             AccountBaseModel acc = riotRequestorService.getAccountAndAssignToOwner(account, owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);

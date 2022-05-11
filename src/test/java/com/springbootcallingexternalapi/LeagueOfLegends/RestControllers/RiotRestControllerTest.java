@@ -162,9 +162,7 @@ public class RiotRestControllerTest {
                 "uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w",
                 "jahdfjadshf",
                 "Hauries",
-                108,
-                2853L,
-                108L
+                2853L
         );
 
 

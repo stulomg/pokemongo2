@@ -18,6 +18,8 @@ public class AccountModel {
 
     private Integer owner;
 
+    private String ownerName;
+
     public AccountModel(String id, String accountId, String puuid, String name, Long revisionDate, Integer owner) {
         this.id = id;
         this.accountId = accountId;
@@ -25,6 +27,15 @@ public class AccountModel {
         this.name = name;
         this.revisionDate = revisionDate;
         this.owner = owner;
+    }
+
+    public AccountModel(String id, String accountId, String puuid, String name, Long revisionDate, String ownerName) {
+        this.id = id;
+        this.accountId = accountId;
+        this.puuid = puuid;
+        this.name = name;
+        this.revisionDate = revisionDate;
+        this.ownerName = ownerName;
     }
 
     public AccountModel() {
@@ -76,5 +87,13 @@ public class AccountModel {
 
     public void setOwner(Integer owner) {
         this.owner = owner;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }
