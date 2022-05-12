@@ -4,6 +4,8 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountOrOwnerNotFoundException;
@@ -12,9 +14,11 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Locale;
@@ -115,5 +119,18 @@ public class AccountRepository {
             } else return listAccounts;
 
         } else throw new CharacterNotAllowedException(account);
+    }
+
+    public Long retrieveAccountIdByAccountName(String accountName) throws  CharacterNotAllowedException, AccountNotFoundException {
+        String sql = "SELECT \"id_BD\" FROM \"Account\" WHERE LOWER(\"name\")=?;";
+        Object[] params = {accountName};
+        if (isAlpha(accountName)) {
+            try {
+                return jdbcTemplate.queryForObject(sql, params, Long.class);
+            } catch (EmptyResultDataAccessException e) {
+                throw new AccountNotFoundException(accountName);
+            }
+        } else throw new CharacterNotAllowedException(accountName);
+
     }
 }

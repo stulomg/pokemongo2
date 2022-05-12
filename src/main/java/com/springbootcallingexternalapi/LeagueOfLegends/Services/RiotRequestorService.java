@@ -107,9 +107,9 @@ public class RiotRequestorService {
             String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + championId;
             ResponseEntity<MasteryHistoryInfoModel> response = requestToRiot(uri, HttpMethod.GET, MasteryHistoryInfoModel.class);
             MasteryHistoryInfoModel model = response.getBody();
-            model.setTimestamp(timeStamp);
-            model.setChampionName(championName);
-            model.setAccount(account);
+            model.setDate(timeStamp);
+            Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
+            model.setAccount(accountID);
             masteryRepository.insertMasteryInfo(model);
             return model;
         } catch (EmptyResultDataAccessException e) {
