@@ -60,6 +60,7 @@ public class Mainsecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/account/**").permitAll()
                 .antMatchers("/loldata/**").permitAll()
                 .antMatchers("/call-riot/**").permitAll()
+                .antMatchers("/call-twitter/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
