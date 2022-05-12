@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -116,4 +117,5 @@ public class LeagueRestControllerTest {
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/account/max-division/kusi>>/Darkclaw").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("kusi>> or Darkclaw has characters not allowed"));
     }
+
 }

@@ -9,22 +9,22 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorSe
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.*;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.Optional;
+
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -40,17 +40,13 @@ public class RiotRestControllerTest {
     @Autowired
     AccountRepository accountRepository;
 
-
-    // Autowired
-    // private RiotRequestorService riotRequestorService;
-
     @MockBean
     RestTemplate restTemplate;
 
     @InjectMocks
     private RiotRequestorService riotRequestorService1 = new RiotRequestorService();
 
-    private static final String RIOT_TOKEN = "RGAPI-61e95a26-6132-4673-8a4a-afc4e53fe6b7";
+    private static final String RIOT_TOKEN = "RGAPI-0937f4b6-0dc8-4223-b520-59065bfa0897";
 
     @Autowired
     private SecurityUserService securityUserService;
@@ -64,7 +60,7 @@ public class RiotRestControllerTest {
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "soyeon lover",
+                "Darkclaw",
                 4864,
                 1648276400000L,
                 109L
@@ -119,7 +115,7 @@ public class RiotRestControllerTest {
     @Test
     public void serverStatusNotFound() throws Exception {
         String token = securityUserService.generateToken();
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/").header("authorization", token)).andExpect(status().isNotFound()).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/statu").header("authorization", token)).andExpect(status().isNotFound()).andReturn();
 
     }
 
@@ -132,7 +128,6 @@ public class RiotRestControllerTest {
 
     @Test
     public void LiveMatchExitosoCasoDefault() throws Exception {
-
 
         CurrentGameParticipantModel participant1 = new CurrentGameParticipantModel(
                 100L,
@@ -169,11 +164,9 @@ public class RiotRestControllerTest {
                 108L
         );
 
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Riot-Token", RIOT_TOKEN);
         HttpEntity<String> entity = new HttpEntity<>("", headers);
-
 
         when(restTemplate.exchange("https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/hauries", HttpMethod.GET, entity, AccountBaseModel.class))
                 .thenReturn(ResponseEntity.of(Optional.of(model)));
@@ -186,5 +179,11 @@ public class RiotRestControllerTest {
         CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class);
 
         Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(), response.toString());
+    }
+
+    @Test
+    public void clashDefaultCase() throws Exception {
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/call-riot/clash/Darkclaw").header("authorization", token)).andExpect(status().isOk()).andReturn();
     }
 }
