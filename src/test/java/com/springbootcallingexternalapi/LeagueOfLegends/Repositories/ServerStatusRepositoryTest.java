@@ -2,15 +2,18 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaintenancesStatusModel;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
+import java.util.List;
 
 @SpringBootTest(classes = ServerRepository.class)
 @ExtendWith(SpringExtension.class)
@@ -34,11 +37,22 @@ public class ServerStatusRepositoryTest {
     }
 
     @Test
-    void insertsuccessfully() {
+    void insertSuccessfully() {
+        String[] locales = {"en_us"};
+        String[] maintenances = {};
+        String[] incidents = {};
 
         MaintenancesStatusModel model = new MaintenancesStatusModel(
-
+                "",
+                locales,
+                maintenances,
+                incidents
         );
+        repository.insertServerStatus(model);
+
+        List<MaintenancesStatusModel> resultSet = jdbcTemplate.query("SELECT * FROM \"ServerStatus\"", BeanPropertyRowMapper.newInstance(MaintenancesStatusModel.class));
+        Assertions.assertEquals(1, resultSet.size());
+
 
     }
 }

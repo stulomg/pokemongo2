@@ -5,27 +5,21 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameParticipantModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
-
 
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,6 +32,9 @@ public class LiveMatchRiotRestTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private SecurityUserService securityUserService;
 
     @SpyBean
     private RiotRequestorService riotRequestorService;
@@ -73,7 +70,7 @@ public class LiveMatchRiotRestTest {
                 participants
         );
 
-        AccountBaseModel model =  new AccountBaseModel(
+        AccountBaseModel model = new AccountBaseModel(
                 "uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w",
                 "jsdfhaskdfh",
                 "jahdfjadshf",
@@ -87,10 +84,12 @@ public class LiveMatchRiotRestTest {
 
         doReturn(ResponseEntity.of(Optional.of(fakecurrentGameInfoBaseModel))).when(riotRequestorService).requestToRiot("/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w", HttpMethod.GET, CurrentGameInfoBaseModel.class);
 
-       MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/live/match/hauries")).andExpect(status().isOk()).andReturn();
+        String token = securityUserService.generateToken();
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/live/match/hauries").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
         CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class);
 
-        Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(),response.toString());
+        Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(), response.toString());
     }
 }

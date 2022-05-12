@@ -1,22 +1,26 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.MostPopularModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.LeagueRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepository;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.sql.Timestamp;
 
@@ -33,18 +37,21 @@ class MostPopularRestControllerTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
     @Autowired
     private LeagueRepository repositoryLegue;
+
     @Autowired
     private MasteryRepository repositoryMaster;
 
-    ObjectMapper objectMapper;
+    @Autowired
+    private SecurityUserService securityUserService;
 
+    ObjectMapper objectMapper;
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
     }
-
 
     @Test
     void getMostPopular() throws Exception {
@@ -163,7 +170,8 @@ class MostPopularRestControllerTest {
         repositoryMaster.insertMasteryInfo(masteryModel4);
         repositoryMaster.insertMasteryInfo(masteryModel5);
 
-        MvcResult mvcResult = mockMvc.perform(get("/loldata/mostpopular")).andExpect(status().isOk()).andReturn();
+        String token = securityUserService.generateToken();
+        MvcResult mvcResult = mockMvc.perform(get("/loldata/mostpopular").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
         MostPopularModel[] mostPopular = new ObjectMapper().readValue(response, MostPopularModel[].class);
@@ -177,7 +185,8 @@ class MostPopularRestControllerTest {
     public void NoDataException() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"AccountMasteryHistory\"");
         jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
-        mockMvc.perform(get("/loldata/mostpopular")).andExpect(status().isNotFound()).andExpect(content().string("There is not enough data to perform the query"));
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/loldata/mostpopular").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("There is not enough data to perform the query"));
 
     }
 

@@ -93,8 +93,15 @@ public class RiotRestController {
 
     @GetMapping(value = "/call-riot/matches/{account}")
 
-    public ResponseEntity<Object> getMatches(@PathVariable String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
-        Object response = riotRequestorService.getListMatches(account);
+    public ResponseEntity<Object> getMatches(@PathVariable String account) {
+        Object response = null;
+        try {
+            response = riotRequestorService.getListMatches(account);
+        } catch (AccountNotFoundException | ChampionNotFoundException | AccountDataException | ChampionMasteryNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

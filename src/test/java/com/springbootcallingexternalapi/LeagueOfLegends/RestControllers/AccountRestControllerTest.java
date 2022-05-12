@@ -3,6 +3,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.List;
 import java.util.Locale;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +37,9 @@ public class AccountRestControllerTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private SecurityUserService securityUserService;
 
 
     @BeforeEach
@@ -62,7 +65,8 @@ public class AccountRestControllerTest {
         String owner = "kusi";
         accountRepository.insertAccount(baseModel, owner);
 
-        MvcResult mvcResult = mockMvc.perform(delete("/account/delete/kusi/soyeon lover")).andExpect(status().isOk()).andReturn();
+        String token = securityUserService.generateToken();
+        MvcResult mvcResult = mockMvc.perform(delete("/account/delete/kusi/soyeon lover").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
 
@@ -89,14 +93,14 @@ public class AccountRestControllerTest {
 
         String owner = "kusi";
         accountRepository.insertAccount(baseModel, owner);
-
-        mockMvc.perform(delete("/account/delete/kusarin/soyeon lover")).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA: soyeon lover, VINCULADA AL USUARIO: kusarin NO FUE ENCONTRADA, PORFAVOR RECTIFICAR."));
+        String token = securityUserService.generateToken();
+        mockMvc.perform(delete("/account/delete/kusarin/soyeon lover").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA: soyeon lover, VINCULADA AL USUARIO: kusarin NO FUE ENCONTRADA, PORFAVOR RECTIFICAR."));
     }
 
     @Test
     public void characterNotAllowedExceptionEnDeleteAccount() throws Exception {
-
-        mockMvc.perform(delete("/account/delete/<<kusi/soyeon lover")).andExpect(status().isBadRequest()).andExpect(content().string("<<kusi or soyeon lover has characters not allowed"));
+        String token = securityUserService.generateToken();
+        mockMvc.perform(delete("/account/delete/<<kusi/soyeon lover").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("<<kusi or soyeon lover has characters not allowed"));
     }
 
     @Test
@@ -126,8 +130,8 @@ public class AccountRestControllerTest {
                 owner);
 
         accountRepository.insertAccount(baseModel, owner);
-
-        mockMvc.perform(get("/account/find-by-owner/kusi")).andExpect(status().isOk()).andReturn();
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/find-by-owner/kusi").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
         List<AccountModel> resultSet = jdbcTemplate.query("SELECT FROM \"Account\" WHERE LOWER (owner)='kusi'", BeanPropertyRowMapper.newInstance(AccountModel.class));
         Assertions.assertEquals(1, resultSet.size());
@@ -135,8 +139,8 @@ public class AccountRestControllerTest {
 
     @Test
     public void characterNotAllowedExceptionEnRetrieveAccountByOwner() throws Exception {
-
-        mockMvc.perform(get("/account/find-by-owner/<<kusi")).andExpect(status().isBadRequest()).andExpect(content().string("<<kusi has characters not allowed"));
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/find-by-owner/<<kusi").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("<<kusi has characters not allowed"));
     }
 
     @Test
@@ -156,8 +160,8 @@ public class AccountRestControllerTest {
 
         String owner = "kusi";
         accountRepository.insertAccount(baseModel, owner);
-
-        mockMvc.perform(get("/account/find-by-owner/kusarin")).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin NO FUE ENCONTRADO, POR FAVOR RECTIFICAR"));
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/find-by-owner/kusarin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin NO FUE ENCONTRADO, POR FAVOR RECTIFICAR"));
     }
 
     @Test
@@ -188,8 +192,8 @@ public class AccountRestControllerTest {
                 owner);
 
         accountRepository.insertAccount(baseModel, owner);
-
-        mockMvc.perform(get("/account/find-by-name/soyeon lover")).andExpect(status().isOk()).andReturn();
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/find-by-name/soyeon lover").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
         List<AccountModel> resultSet = jdbcTemplate.query("SELECT FROM \"Account\" WHERE LOWER (name) ='soyeon lover'", BeanPropertyRowMapper.newInstance(AccountModel.class));
         Assertions.assertEquals(1, resultSet.size());
@@ -197,8 +201,8 @@ public class AccountRestControllerTest {
 
     @Test
     public void characterNotAllowedExceptionEnRetrieveAccountByName() throws Exception {
-
-        mockMvc.perform(get("/account/find-by-name/soyeon<<<lover")).andExpect(status().isBadRequest()).andExpect(content().string("soyeon<<<lover has characters not allowed"));
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/find-by-name/soyeon<<<lover").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("soyeon<<<lover has characters not allowed"));
     }
 
     @Test
@@ -219,7 +223,7 @@ public class AccountRestControllerTest {
         String owner = "kusi";
 
         accountRepository.insertAccount(baseModel, owner);
-
-        mockMvc.perform(get("/account/find-by-name/stulinpinguin")).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA stulinpinguin NO FUE ENCONTRADA, POR FAVOR RECTIFICAR"));
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/find-by-name/stulinpinguin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA stulinpinguin NO FUE ENCONTRADA, POR FAVOR RECTIFICAR"));
     }
 }
