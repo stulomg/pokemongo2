@@ -34,7 +34,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-179ba0a3-d7f6-44aa-af9a-ae2df3aef427";
+    private static final String RIOT_TOKEN = "RGAPI-4f603a9b-fe4f-4913-a488-75874fecf920";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
