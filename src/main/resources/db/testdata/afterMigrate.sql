@@ -1,4 +1,5 @@
 TRUNCATE TABLE "Champion";
+TRUNCATE TABLE "TwitterHashtag";
 TRUNCATE TABLE "role" RESTART IDENTITY CASCADE;
 TRUNCATE TABLE "user" RESTART IDENTITY CASCADE;
 
@@ -173,5 +174,4 @@ VALUES
 ('#RiotGames'),
 ('#RitoGames'),
 ('#Valorant'),
-('#LeagueOfLegends');
-
+('#LeagueOfLegends')
