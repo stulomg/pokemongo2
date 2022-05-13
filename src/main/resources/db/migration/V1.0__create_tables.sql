@@ -138,4 +138,23 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public."ServerStatus"
     OWNER to postgres;
 
+-- --------------------------------------------------------------
+-- Tabla : TwitterHashtag
+-- --------------------------------------------------------------
 
+-- Table: public.TwitterHashtag
+
+-- DROP TABLE IF EXISTS public."TwitterHashtag";
+
+CREATE TABLE IF NOT EXISTS public."TwitterHashtag"
+(
+    id serial NOT NULL,
+    "hashtagName" text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "TwitterHashtag_pkey" PRIMARY KEY (id),
+    CONSTRAINT "UK_hashtagName" UNIQUE ("hashtagName")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."TwitterHashtag"
+    OWNER to postgres;
