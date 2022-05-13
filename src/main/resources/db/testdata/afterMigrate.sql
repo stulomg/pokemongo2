@@ -166,4 +166,12 @@ VALUES
 (115,'Ziggs'),
 (26,'Zilean'),
 (142,'Zoe'),
-(143,'Zyra')
+(143,'Zyra');
+
+INSERT INTO "TwitterHashtag"("hashtagName")
+VALUES
+('#RiotGames'),
+('#RitoGames'),
+('#Valorant'),
+('#LeagueOfLegends');
+
