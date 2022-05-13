@@ -16,4 +16,8 @@ public class AccountDataException extends Exception{
         super ("LOS DATOS INGRESADOS PARA LA CUENTA "+ account.getSummonerName() +" NO SON VALIDOS, POR FAVOR RECTIFICAR");
     }
 
+    public AccountDataException(String account) {
+        super ("LOS DATOS INGRESADOS PARA LA CUENTA "+ account +" NO SON VALIDOS, POR FAVOR RECTIFICAR");
+    }
+
 }

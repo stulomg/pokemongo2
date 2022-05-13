@@ -15,6 +15,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.ServerRepos
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -137,7 +138,7 @@ public class RiotRequestorService {
     public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
 
         if (isAlpha(account)) {
-            ResponseEntity <AccountBaseModel> response2 = getAccountFromRiot(account);
+            ResponseEntity<AccountBaseModel> response2 = getAccountFromRiot(account);
             String id = response2.getBody().getId();
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
             ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
@@ -183,7 +184,7 @@ public class RiotRequestorService {
                     .findFirst();
 
             GameDataModel lim = model.get();
-            int championpoints = getMastery(account,lim.getChampionName()).getChampionPoints();
+            int championpoints = getMastery(account, lim.getChampionName()).getChampionPoints();
             lim.setChampionPoints(championpoints);
 
             matchRepository.insertMatchData(lim);
@@ -201,19 +202,25 @@ public class RiotRequestorService {
         return response;
     }
 
-    public ResponseEntity<TeamAccountsMetaData> getAccountsForClash (String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
-        String id = getAccountFromRiot(account).getBody().getId();
-        String uri = "/lol/clash/v1/players/by-summoner/" + id;
+    public ResponseEntity<TeamAccountsMetaData> getAccountsForClash(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
+        if (isAlpha(account)) {
+            try {
+                String id = getAccountFromRiot(account).getBody().getId();
+                String uri = "/lol/clash/v1/players/by-summoner/" + id;
 
-        ResponseEntity<AccountForClashData> response = requestToRiot(uri,HttpMethod.GET,AccountForClashData.class);
-        String teamId = response.getBody().getTeamId();
+                ResponseEntity<AccountForClashData> response = requestToRiot(uri, HttpMethod.GET, AccountForClashData.class);
+                String teamId = response.getBody().getTeamId();
 
-        ResponseEntity<TeamAccountsMetaData> response2 = getClashParticipantsByTeamId(teamId);
+                ResponseEntity<TeamAccountsMetaData> response2 = getClashParticipantsByTeamId(teamId);
 
-        List<Object> clashSummoners  = new ArrayList<>();
+                return response2;
 
-        return response2;
+            } catch (DataAccessException e) {
+                throw new AccountDataException(account);
+            }
+        } else throw new CharacterNotAllowedException(account);
     }
+
 
     private ResponseEntity<TeamAccountsMetaData> getClashParticipantsByTeamId (String teamId){
         String uri = "/lol/clash/v1/teams/" + teamId;

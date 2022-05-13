@@ -2,29 +2,22 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameParticipantModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Optional;
+import java.sql.Timestamp;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -40,16 +33,13 @@ public class RiotRestControllerTest {
     @Autowired
     AccountRepository accountRepository;
 
-    @MockBean
-    RestTemplate restTemplate;
-
-    @InjectMocks
-    private RiotRequestorService riotRequestorService1 = new RiotRequestorService();
-
-    private static final String RIOT_TOKEN = "RGAPI-0937f4b6-0dc8-4223-b520-59065bfa0897";
+    @Autowired
+    RiotRequestorService riotRequestorService;
 
     @Autowired
     private SecurityUserService securityUserService;
+
+    private static final String RIOT_TOKEN = "RGAPI-0937f4b6-0dc8-4223-b520-59065bfa0897";
 
     @Test
     public void callRiotExitosamenteCasoDefautl() throws Exception {
@@ -60,7 +50,7 @@ public class RiotRestControllerTest {
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Darkclaw",
+                "soyeon lover",
                 4864,
                 1648276400000L,
                 109L
@@ -107,6 +97,7 @@ public class RiotRestControllerTest {
 
     @Test
     public void serverStatusDefault() throws Exception {
+
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
@@ -115,7 +106,7 @@ public class RiotRestControllerTest {
     @Test
     public void serverStatusNotFound() throws Exception {
         String token = securityUserService.generateToken();
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/statu").header("authorization", token)).andExpect(status().isNotFound()).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/").header("authorization", token)).andExpect(status().isNotFound()).andReturn();
 
     }
 
@@ -127,63 +118,24 @@ public class RiotRestControllerTest {
     }
 
     @Test
-    public void LiveMatchExitosoCasoDefault() throws Exception {
+    public void clashDefaultCase() throws Exception {
 
-        CurrentGameParticipantModel participant1 = new CurrentGameParticipantModel(
-                100L,
-                4L,
-                3L,
-                202L,
-                "hauries"
-        );
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/clash/Darkclaw").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
-        CurrentGameParticipantModel participant2 = new CurrentGameParticipantModel(
-                200L,
-                4L,
-                3L,
-                202L,
-                "pepito"
-        );
-
-        CurrentGameParticipantModel[] participants = {participant1, participant2};
-
-        CurrentGameInfoBaseModel fakecurrentGameInfoBaseModel = new CurrentGameInfoBaseModel(
-                11L,
-                "CLASSIC",
-                "MATCHED_GAME",
-                participants
-        );
-
-        AccountBaseModel model = new AccountBaseModel(
-                "asdjkas",
-                "uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w",
-                "jahdfjadshf",
-                "Hauries",
-                108,
-                2853L,
-                108L
-        );
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Riot-Token", RIOT_TOKEN);
-        HttpEntity<String> entity = new HttpEntity<>("", headers);
-
-        when(restTemplate.exchange("https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/hauries", HttpMethod.GET, entity, AccountBaseModel.class))
-                .thenReturn(ResponseEntity.of(Optional.of(model)));
-
-        when(restTemplate.exchange("https://la1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w", HttpMethod.GET, entity, CurrentGameInfoBaseModel.class))
-                .thenReturn(ResponseEntity.of(Optional.of(fakecurrentGameInfoBaseModel)));
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/live/match/hauries")).andExpect(status().isOk()).andReturn();
-
-        CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class);
-
-        Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(), response.toString());
     }
 
     @Test
-    public void clashDefaultCase() throws Exception {
+    public void clashAccountNotFoundCase() throws Exception {
+
         String token = securityUserService.generateToken();
-        mockMvc.perform(get("/call-riot/clash/Darkclaw").header("authorization", token)).andExpect(status().isOk()).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/clash/DarkclASDASaw").header("authorization", token)).andExpect(status().isNotFound()).andReturn();
+    }
+
+    @Test
+    public void clashCharacterNotAllowedCase() throws Exception {
+
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/clash/Darkcla*w").header("authorization", token)).andExpect(status().isBadRequest()).andReturn();
     }
 }

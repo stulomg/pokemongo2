@@ -33,14 +33,14 @@ public class ServerStatusRepositoryTest {
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.execute("TRUNCATE TABLE \"ServerStatus\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"ServerStatus\" RESTART IDENTITY CASCADE");
     }
 
     @Test
     void insertSuccessfully() {
-        String[] locales = {"en_us"};
-        String[] maintenances = {};
-        String[] incidents = {};
+        String[] locales = {""};
+        String[] maintenances = {""};
+        String[] incidents = {""};
 
         MaintenancesStatusModel model = new MaintenancesStatusModel(
                 "",
@@ -52,7 +52,6 @@ public class ServerStatusRepositoryTest {
 
         List<MaintenancesStatusModel> resultSet = jdbcTemplate.query("SELECT * FROM \"ServerStatus\"", BeanPropertyRowMapper.newInstance(MaintenancesStatusModel.class));
         Assertions.assertEquals(1, resultSet.size());
-
 
     }
 }
