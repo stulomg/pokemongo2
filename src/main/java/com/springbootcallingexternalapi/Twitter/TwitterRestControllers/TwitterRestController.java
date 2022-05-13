@@ -30,6 +30,6 @@ public class TwitterRestController {
     @PostMapping (value = "/insert/twitter/{hashtag}")
     public ResponseEntity<Object> insertHashtags(@PathVariable String hashtag){
         twitterRequestorService.insertHashtag(hashtag);
-        return new ResponseEntity<>( hashtag + "created successfully", HttpStatus.OK);
+        return new ResponseEntity<>( hashtag + " hashtag created successfully", HttpStatus.OK);
     }
 }

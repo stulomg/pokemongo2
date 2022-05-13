@@ -12,12 +12,12 @@ public class HashtagsRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertHashtags(String hasthag) {
-        String sql = "INSERT INTO \"TwitterHashtag\" VALUES(?)";
+        String sql = "INSERT INTO \"TwitterHashtag\"(\"hashtagName\")VALUES (?)";
         jdbcTemplate.update(sql, hasthag);
     }
 
     public List<String> retrieveHashtags() {
-        String sql = "SELECT * FROM \"TwitterHashtags\"";
+        String sql = "SELECT \"hashtagName\" FROM \"TwitterHashtag\"";
         return jdbcTemplate.queryForList(sql, String.class);
     }
 }

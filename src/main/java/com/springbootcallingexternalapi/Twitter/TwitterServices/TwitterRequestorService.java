@@ -33,10 +33,6 @@ public class TwitterRequestorService {
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 
         List<String> hashtags = hashtagsRepository.retrieveHashtags();
-        hashtags.add("#RiotGames");
-        hashtags.add("#RitoGames");
-        hashtags.add("#LeagueOfLegends");
-        hashtags.add("#Valorant");
 
         String query = String.join(" OR ", hashtags);
         System.out.println(query);
@@ -46,11 +42,11 @@ public class TwitterRequestorService {
         variables.put("max_results", "11");
         variables.put("sort_order", "relevancy");
 
-
         return restTemplate.exchange(finalUrl, method, entity, clazz, variables);
     }
 
     public void insertHashtag (String hashtag){
+        hashtag = "#" + hashtag;
         hashtagsRepository.insertHashtags(hashtag);
     }
 
