@@ -138,7 +138,7 @@ public class RiotRequestorService {
     public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
 
         if (isAlpha(account)) {
-            ResponseEntity<AccountBaseModel> response2 = getAccountFromRiot(account);
+            ResponseEntity <AccountBaseModel> response2 = getAccountFromRiot(account);
             String id = response2.getBody().getId();
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
             ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
@@ -184,7 +184,7 @@ public class RiotRequestorService {
                     .findFirst();
 
             GameDataModel lim = model.get();
-            int championpoints = getMastery(account, lim.getChampionName()).getChampionPoints();
+            int championpoints = getMastery(account,lim.getChampionName()).getChampionPoints();
             lim.setChampionPoints(championpoints);
 
             matchRepository.insertMatchData(lim);
@@ -220,7 +220,6 @@ public class RiotRequestorService {
             }
         } else throw new CharacterNotAllowedException(account);
     }
-
 
     private ResponseEntity<TeamAccountsMetaData> getClashParticipantsByTeamId (String teamId){
         String uri = "/lol/clash/v1/teams/" + teamId;
