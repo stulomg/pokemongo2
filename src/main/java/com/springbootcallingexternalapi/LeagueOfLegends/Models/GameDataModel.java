@@ -6,26 +6,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameDataModel {
-
-
-
     private String championName;
 
     private String summonerName;
 
     private boolean win;
 
-    private String teamPosition;
-
     private String individualPosition;
 
     private int championPoints;
 
-    public GameDataModel(String championName, String summonerName, boolean win, String teamPosition, String individualPosition, int championPoints) {
+    public GameDataModel(String championName, String summonerName, boolean win, String individualPosition, int championPoints) {
         this.championName = championName;
         this.summonerName = summonerName;
         this.win = win;
-        this.teamPosition = teamPosition;
         this.individualPosition = individualPosition;
         this.championPoints = championPoints;
     }
@@ -55,14 +49,6 @@ public class GameDataModel {
 
     public void setWin(boolean win) {
         this.win = win;
-    }
-
-    public String getTeamPosition() {
-        return teamPosition;
-    }
-
-    public void setTeamPosition(String teamPosition) {
-        this.teamPosition = teamPosition;
     }
 
     public String getIndividualPosition() {

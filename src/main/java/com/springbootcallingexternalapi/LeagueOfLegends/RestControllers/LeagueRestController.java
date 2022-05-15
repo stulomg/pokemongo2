@@ -17,7 +17,7 @@ public class LeagueRestController {
     @Autowired
     LeagueService leagueService;
 
-    @GetMapping(value = "/account/division-history/{account}/{owner}")
+    @GetMapping(value = "/account/division-history/{account}")
     public ResponseEntity<Object> divisionHistory(@PathVariable String account) {
 
         try {
@@ -37,6 +37,8 @@ public class LeagueRestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (OwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

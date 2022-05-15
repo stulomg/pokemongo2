@@ -29,16 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LiveMatchRiotRestTest {
 
     private static final String RIOT_TOKEN = "RGAPI-179ba0a3-d7f6-44aa-af9a-ae2df3aef427";
-
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private SecurityUserService securityUserService;
-
     @SpyBean
     private RiotRequestorService riotRequestorService;
-
     @InjectMocks
     private RiotRestController riotRestController;
 
@@ -77,9 +73,7 @@ public class LiveMatchRiotRestTest {
                 "jsdfhaskdfh",
                 "jahdfjadshf",
                 "Hauries",
-                108,
-                2853L,
-                108L
+                2853L
         );
 
         doReturn(ResponseEntity.of(Optional.of(model))).when(riotRequestorService).getAccountFromRiot("hauries");

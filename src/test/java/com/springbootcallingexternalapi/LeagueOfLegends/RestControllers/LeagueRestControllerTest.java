@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaxDivisionModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.LeagueRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
@@ -28,24 +29,20 @@ public class LeagueRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     LeagueRepository repository;
-
     @Autowired
     JdbcTemplate jdbcTemplate;
-
     @Autowired
     private SecurityUserService securityUserService;
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"LeagueHistory\"");
     }
 
     @Test
     void divisionHistory() throws Exception {
-
         for (int i = 0; i < 21; i++) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Thread.sleep(100);
@@ -55,14 +52,14 @@ public class LeagueRestControllerTest {
                     "RANKED_SOLO_5x5",
                     "PLATINUM",
                     "II",
-                    "Soyeon Lover",
+                    "test1",
                     63,
                     5,
                     "s");
-            repository.insertLeagueInfo(model, model.getOwner());
+            repository.insertLeagueInfo(model, 1,1);
         }
 
-        List<LeagueInfoModel> leagueInfoModels = repository.divisionHistory("Soyeon Lover");
+        List<LeagueInfoModel> leagueInfoModels = repository.divisionHistory("Soyeon Lover",1);
         Assertions.assertEquals(20, leagueInfoModels.size());
         for (int i = 0; i < leagueInfoModels.size() - 1; i++) {
             Assertions.assertTrue(leagueInfoModels.get(i).getDate().after(leagueInfoModels.get(i + 1).getDate()));
@@ -71,17 +68,16 @@ public class LeagueRestControllerTest {
 
     @Test
     void maxDivision() throws Exception {
-
         LeagueInfoModel infoModel = new LeagueInfoModel(
                 Timestamp.valueOf("2022-03-30 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
                 "I",
-                "Darkclaw",
+                "testuno",
                 76,
                 5476,
-                "stul");
+                "testuno");
 
         LeagueInfoModel infoModel2 = new LeagueInfoModel(
                 Timestamp.valueOf("2022-04-30 22:25:28.744"),
@@ -89,33 +85,32 @@ public class LeagueRestControllerTest {
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
                 "II",
-                "Raino",
+                "testdos",
                 60,
                 5360,
-                "kusi");
+                "testdos");
 
-        repository.insertLeagueInfo(infoModel, infoModel.getOwner());
-        repository.insertLeagueInfo(infoModel2, infoModel2.getOwner());
+        repository.insertLeagueInfo(infoModel, 1,1);
+        repository.insertLeagueInfo(infoModel2, 2,2);
 
         String token = securityUserService.generateToken();
-        MvcResult mvcResult = mockMvc.perform(get("/account/max-division/kusi/stul").header("authorization", token)).andExpect(status().isOk()).andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/account/max-division/testuno/testdos").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
         String response = mvcResult.getResponse().getContentAsString();
-        LeagueInfoModel[] leagueInfoModel = new ObjectMapper().readValue(response, LeagueInfoModel[].class);
-        Assertions.assertEquals(infoModel.getSummonerName(), leagueInfoModel[0].getSummonerName());
-
+        MaxDivisionModel[] leagueInfoModel = new ObjectMapper().readValue(response, MaxDivisionModel[].class);
+        Assertions.assertEquals("1", leagueInfoModel[0].getAccount());
     }
 
     @Test
     void maxDivisionAccountNotFount() throws Exception {
         String token = securityUserService.generateToken();
-        mockMvc.perform(get("/account/max-division/kusarin/manuelin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin Y EL OWNER manuelin NO FUERON ENCONTRADOS, POR FAVOR RECTIFICAR"));
+        mockMvc.perform(get("/account/max-division/kusarin/manuelin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin NO FUE ENCONTRADO, POR FAVOR RECTIFICAR"));
     }
 
     @Test
     public void maxDivisionCharacterNotAllowedException() throws Exception {
         String token = securityUserService.generateToken();
-        mockMvc.perform(get("/account/max-division/kusi>>/Darkclaw").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("kusi>> or Darkclaw has characters not allowed"));
+        mockMvc.perform(get("/account/max-division/kusi>>/Darkclaw").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("kusi>> has characters not allowed"));
     }
 
 }
