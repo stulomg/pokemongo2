@@ -5,6 +5,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryModel;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +44,7 @@ public class MasteryRepositoryTest {
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.execute("TRUNCATE TABLE \"AccountMasteryHistory\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"MasteryHistory\" RESTART IDENTITY CASCADE");
     }
 
     @Test
@@ -51,30 +52,27 @@ public class MasteryRepositoryTest {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
-                "ezreal",
-                81L,
+                81,
                 7,
                 561220,
                 Timestamp.valueOf("2007-09-23 10:10:10.0"),
-                "stul"
+                1
         );
 
         MasteryHistoryInfoModel modelo = new MasteryHistoryInfoModel(
-                "ezreal",
-                81L,
+                81,
                 7,
                 561220,
                 Timestamp.valueOf("2007-09-23 10:10:10.0"),
-                "stul"
+                1
         );
 
         repository.insertMasteryInfo(basemodel);
-        List<MasteryHistoryInfoModel> resultSet = jdbcTemplate.query("SELECT * FROM \"AccountMasteryHistory\"", BeanPropertyRowMapper.newInstance(MasteryHistoryInfoModel.class));
+        List<MasteryHistoryInfoModel> resultSet = jdbcTemplate.query("SELECT * FROM \"MasteryHistory\"", BeanPropertyRowMapper.newInstance(MasteryHistoryInfoModel.class));
         Assertions.assertEquals(1, resultSet.size());
         MasteryHistoryInfoModel result = resultSet.get(0);
 
-        Assertions.assertEquals(modelo.getChampionName(), result.getChampionName());
-        Assertions.assertEquals(modelo.getChampionId(), result.getChampionId());
+        Assertions.assertEquals(modelo.getChampion(), result.getChampion());
         Assertions.assertEquals(modelo.getChampionLevel(), result.getChampionLevel());
         Assertions.assertEquals(modelo.getChampionPoints(), result.getChampionPoints());
         Assertions.assertEquals(modelo.getAccount(), result.getAccount());
@@ -85,14 +83,12 @@ public class MasteryRepositoryTest {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
-                "ezreal",
-                81L,
+                3,
                 7,
                 561220,
                 Timestamp.valueOf("2007-09-23 10:10:10.0"),
-                "stul"
+                10
         );
-        repository.insertMasteryInfo(basemodel);
         Exception exception = assertThrows(AccountDataException.class, () -> repository.insertMasteryInfo(basemodel));
 
         String expectedMessage = "LOS DATOS INGRESADOS PARA LA CUENTA ";
@@ -106,20 +102,18 @@ public class MasteryRepositoryTest {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
-                "ezreal",
-                81L,
+                89,
                 7,
                 561220,
                 Timestamp.valueOf("2007-09-23 10:10:10.0"),
-                "stul"
+                1
         );
         MasteryHistoryInfoModel basemodel2 = new MasteryHistoryInfoModel(
-                "teemo",
-                17L,
+                17,
                 5,
                 41429,
                 Timestamp.valueOf("2007-09-23 10:11:10.0"),
-                "stul"
+                1
         );
 
 
@@ -127,15 +121,14 @@ public class MasteryRepositoryTest {
         repository.insertMasteryInfo(basemodel2);
 
 
-        List<MasteryHistoryInfoModel> resultSet = repository.AccountMasteryHistory(basemodel.getAccount());
+        List<MasteryHistoryModel> resultSet = repository.AccountMasteryHistory("testuno",1);
         Assertions.assertEquals(2, resultSet.size());
-        MasteryHistoryInfoModel result = resultSet.get(0);
+        MasteryHistoryModel result = resultSet.get(0);
 
-        Assertions.assertEquals(basemodel.getChampionName(), result.getChampionName());
-        Assertions.assertEquals(basemodel.getChampionId(), result.getChampionId());
+      
         Assertions.assertEquals(basemodel.getChampionLevel(), result.getChampionLevel());
         Assertions.assertEquals(basemodel.getChampionPoints(), result.getChampionPoints());
-        Assertions.assertEquals(basemodel.getAccount(), result.getAccount());
+        Assertions.assertEquals("testuno", result.getAccount());
     }
 
     @Test
@@ -143,17 +136,16 @@ public class MasteryRepositoryTest {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
-                "ezreal",
-                81L,
+                89,
                 7,
                 561220,
                 Timestamp.valueOf("2007-09-23 10:10:10.0"),
-                "stul"
+                1
         );
         repository.insertMasteryInfo(basemodel);
         String account = "pepito";
 
-        Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.AccountMasteryHistory(account));
+        Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.AccountMasteryHistory(account,50));
 
         String expectedMessage = " NO FUE ENCONTRADA, POR FAVOR RECTIFICAR";
         String actualMessage = exception.getMessage();
@@ -166,17 +158,16 @@ public class MasteryRepositoryTest {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
-                "ezreal",
-                81L,
+                89,
                 7,
                 561220,
                 Timestamp.valueOf("2007-09-23 10:10:10.0"),
-                "stul"
+                1
         );
         repository.insertMasteryInfo(basemodel);
         String account = "<<<";
 
-        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.AccountMasteryHistory(account));
+        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.AccountMasteryHistory(account,50));
 
         String expectedMessage = " has characters not allowed";
         String actualMessage = exception.getMessage();

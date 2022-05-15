@@ -34,7 +34,7 @@ class RecommendedRoleModelRepositoryTest {
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.execute("TRUNCATE TABLE \"Match\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"MatchHistory\" RESTART IDENTITY CASCADE");
     }
 
     @Test
@@ -44,14 +44,12 @@ class RecommendedRoleModelRepositoryTest {
                 "vantiax",
                 true,
                 "mid",
-                "mid",
                 1235
         );
         GameDataModel dataModel2 = new GameDataModel(
                 "viktor",
                 "vantiax",
                 true,
-                "mid",
                 "mid",
                 1235
         );
@@ -60,7 +58,6 @@ class RecommendedRoleModelRepositoryTest {
                 "vantiax",
                 true,
                 "mid",
-                "mid",
                 1235
         );
         GameDataModel dataModel4 = new GameDataModel(
@@ -68,14 +65,12 @@ class RecommendedRoleModelRepositoryTest {
                 "stul",
                 true,
                 "adc",
-                "adc",
                 1235
         );
         GameDataModel dataModel5 = new GameDataModel(
                 "ezreal",
                 "stul",
                 true,
-                "adc",
                 "adc",
                 1235
         );
@@ -105,11 +100,11 @@ class RecommendedRoleModelRepositoryTest {
                 0
         );
 
-        matchRepository.insertMatchData(dataModel);
-        matchRepository.insertMatchData(dataModel2);
-        matchRepository.insertMatchData(dataModel3);
-        matchRepository.insertMatchData(dataModel4);
-        matchRepository.insertMatchData(dataModel5);
+        matchRepository.insertMatchData(dataModel,1,3,112);
+        matchRepository.insertMatchData(dataModel2,1,3,112);
+        matchRepository.insertMatchData(dataModel3,1,3,112);
+        matchRepository.insertMatchData(dataModel4,2,4,89);
+        matchRepository.insertMatchData(dataModel5,2,4,89);
 
         List<RecommendedRoleModel> resultSet = recommendedRoleService.recommendedRoleRepository("vantiax", "stul", "kusara", "raino", "darkclaw");
         Assertions.assertEquals(5, resultSet.size());

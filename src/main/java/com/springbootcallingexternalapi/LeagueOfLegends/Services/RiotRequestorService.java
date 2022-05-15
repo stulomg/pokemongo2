@@ -1,22 +1,18 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.*;
-import com.springbootcallingexternalapi.LeagueOfLegends.Util.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -33,7 +29,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-d0cb32df-0eb8-42b4-a6b8-d9934ba67fb3";
+    private static final String RIOT_TOKEN = "RGAPI-ea22b000-95e9-46e3-b76d-51163fd6043a";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -44,7 +40,9 @@ public class RiotRequestorService {
     @Autowired
     LeagueService leagueService;
     @Autowired
-    OwnerRepository ownerRepository;
+    OwnerService ownerService;
+    @Autowired
+    PositionRepository positionRepository;
     @Autowired
     MasteryRepository masteryRepository;
     @Autowired
@@ -57,10 +55,10 @@ public class RiotRequestorService {
     public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, CharacterNotAllowedException, OwnerNotFoundException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
         AccountBaseModel acc2 = Objects.requireNonNull(acc.getBody());
-        Long ownerID = ownerRepository.retrieveOwnerIdByOwnerName(owner.toLowerCase(Locale.ROOT));
+        Long ownerID = ownerService.retrieveOwnerIdByOwnerName(owner.toLowerCase(Locale.ROOT));
         try {
             accountRepository.insertAccount(acc2, Math.toIntExact(ownerID));
-        }catch (AccountExistsException e){
+        }catch (AccountExistsOrNotException e){
             accountRepository.accountUpdateExisting(acc2, Math.toIntExact(ownerID));
         }
         return acc2;
@@ -76,7 +74,7 @@ public class RiotRequestorService {
         }
     }
 
-    public LeagueInfoModel getSoloqLeague(String account, String owner) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
+    public LeagueInfoModel getSoloqLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
         try {
             String id = getAccountFromRiot(account).getBody().getId();
             String uri = "/lol/league/v4/entries/by-summoner/" + id;
@@ -85,11 +83,9 @@ public class RiotRequestorService {
             Optional<LeagueInfoModel> model = Arrays.stream(response.getBody())
                     .filter(leagueInfoModel -> leagueInfoModel.getQueueType().equals(queueToFind))
                     .findFirst();
-
             if (model.isPresent()) {
                 LeagueInfoModel lim = model.get();
-                lim.setOwner(owner);
-                leagueService.insertLeagueInfo(lim);
+                leagueService.insertLeagueInfo(lim,account);
                 return lim;
             } else {
                 throw new QueueNotFoundException(queueToFind);
@@ -110,6 +106,7 @@ public class RiotRequestorService {
             model.setDate(timeStamp);
             Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
             model.setAccount(accountID);
+            model.setChampion(Math.toIntExact(championId));
             masteryRepository.insertMasteryInfo(model);
             return model;
         } catch (EmptyResultDataAccessException e) {
@@ -176,7 +173,6 @@ public class RiotRequestorService {
 
         ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
         List<String> listMatches = response.getBody();
-
         List<Object> list = new ArrayList<Object>();
 
         for (int i = 0; i < listMatches.size(); i++) {
@@ -184,17 +180,18 @@ public class RiotRequestorService {
             String elemento = listMatches.get(i);
 
             GameSuperMetaDataModel response2 = getListData(elemento).getBody();
-
             GameDataModel[] response3 = response2.getInfo().getParticipants();
             Optional<GameDataModel> model = Arrays.stream(response3)
                     .filter(GameDataModel -> GameDataModel.getSummonerName().equals(account))
                     .findFirst();
-
             GameDataModel lim = model.get();
             int championpoints = getMastery(account,lim.getChampionName()).getChampionPoints();
             lim.setChampionPoints(championpoints);
+            Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(lim.getSummonerName()));
+            Integer positionID = Math.toIntExact(positionRepository.retrievePositionIdByPositionName(lim.getIndividualPosition()));
+            Integer championID = Math.toIntExact(championService.retrieveChampionIdByChampionName(lim.getChampionName()));
 
-            matchRepository.insertMatchData(lim);
+            matchRepository.insertMatchData(lim,accountID,positionID,championID);
 
             list.add(model);
         }

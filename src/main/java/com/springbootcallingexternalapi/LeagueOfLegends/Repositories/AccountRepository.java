@@ -1,12 +1,9 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
@@ -18,7 +15,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Locale;
@@ -30,7 +26,7 @@ public class AccountRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void insertAccount(AccountBaseModel account, Integer owner) throws AccountDataException, AccountExistsException {
+    public void insertAccount(AccountBaseModel account, Integer owner) throws AccountDataException, AccountExistsOrNotException {
 
         String sql = "INSERT INTO \"Account\"(id, puuid, accountid, \"revisionDate\", \"owner\", name) VALUES (?, ?, ?, ?, ?, ?);";
         Object[] params = {
@@ -43,23 +39,23 @@ public class AccountRepository {
             try {
                 jdbcTemplate.update(sql, params);
             }catch (DataIntegrityViolationException e){
-                throw new AccountExistsException();
+                throw new AccountExistsOrNotException();
             }catch (DataAccessException e) {
                 throw new AccountDataException(account);
             }
     }
 
-    public void deleteAccount( String account,String owner,Integer ownerID) throws AccountOrOwnerNotFoundException, CharacterNotAllowedException {
+    public void deleteAccount( String account,Integer ownerID) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "DELETE FROM \"Account\" WHERE Lower(name) =? and \"owner\" =?;";
         Object[] params = {account.toLowerCase(Locale.ROOT), ownerID};
 
-        if (isAlpha(owner) && isAlpha(account)) {
+        if (isAlpha(account)) {
             int result = jdbcTemplate.update(sql, params);
             System.out.println(result);
             if (result == 0) {
-                throw new AccountOrOwnerNotFoundException(owner, account);
+                throw new AccountNotFoundException(account);
             }
-        } else throw new CharacterNotAllowedException(owner, account);
+        } else throw new CharacterNotAllowedException(account);
 
 
     }
@@ -123,7 +119,7 @@ public class AccountRepository {
 
     public Long retrieveAccountIdByAccountName(String accountName) throws  CharacterNotAllowedException, AccountNotFoundException {
         String sql = "SELECT \"id_BD\" FROM \"Account\" WHERE LOWER(\"name\")=?;";
-        Object[] params = {accountName};
+        Object[] params = {accountName.toLowerCase(Locale.ROOT)};
         if (isAlpha(accountName)) {
             try {
                 return jdbcTemplate.queryForObject(sql, params, Long.class);

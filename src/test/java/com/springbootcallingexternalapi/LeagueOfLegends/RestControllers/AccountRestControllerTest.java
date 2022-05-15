@@ -45,13 +45,13 @@ public class AccountRestControllerTest {
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
     }
 
     @Test
     public void deleteExitosamenteCasoDefault() throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -65,7 +65,7 @@ public class AccountRestControllerTest {
         accountRepository.insertAccount(baseModel, owner);
 
         String token = securityUserService.generateToken();
-        MvcResult mvcResult = mockMvc.perform(delete("/account/delete/kusi/soyeon lover").header("authorization", token)).andExpect(status().isOk()).andReturn();
+        MvcResult mvcResult = mockMvc.perform(delete("/account/delete/soyeon lover").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
 
@@ -76,9 +76,9 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void accountOrOwnerNotFoundExceptionEnDeleteAccount() throws Exception {
+    public void AccountExistsOrNotExceptionEnDeleteAccount() throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -91,19 +91,19 @@ public class AccountRestControllerTest {
         Integer owner = 1;
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
-        mockMvc.perform(delete("/account/delete/kusarin/soyeon lover").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA: soyeon lover, VINCULADA AL USUARIO: kusarin NO FUE ENCONTRADA, PORFAVOR RECTIFICAR."));
+        mockMvc.perform(delete("/account/delete/soyeonlover").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA soyeonlover NO FUE ENCONTRADA, POR FAVOR RECTIFICAR"));
     }
 
     @Test
     public void characterNotAllowedExceptionEnDeleteAccount() throws Exception {
         String token = securityUserService.generateToken();
-        mockMvc.perform(delete("/account/delete/<<kusi/soyeon lover").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("<<kusi or soyeon lover has characters not allowed"));
+        mockMvc.perform(delete("/account/delete/soyeon*lover").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("soyeon*lover has characters not allowed"));
     }
 
     @Test
     public void retrieveAccountByOwnerExitosamenteCasoDefault() throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -124,9 +124,9 @@ public class AccountRestControllerTest {
 
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
-        mockMvc.perform(get("/account/find-by-owner/kusi").header("authorization", token)).andExpect(status().isOk()).andReturn();
+        mockMvc.perform(get("/account/find-by-owner/testuno").header("authorization", token)).andExpect(status().isOk()).andReturn();
 
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT FROM \"Account\" WHERE LOWER (owner)='kusi'", BeanPropertyRowMapper.newInstance(AccountModel.class));
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT FROM \"Account\" WHERE owner =1", BeanPropertyRowMapper.newInstance(AccountModel.class));
         Assertions.assertEquals(1, resultSet.size());
     }
 
@@ -139,7 +139,7 @@ public class AccountRestControllerTest {
     @Test
     public void ownerNotFoundExceptionEnRetrieveAccountByOwner() throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -158,7 +158,7 @@ public class AccountRestControllerTest {
     @Test
     public void retrieveAccountByNameExitosamenteCasoDefault() throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -195,7 +195,7 @@ public class AccountRestControllerTest {
     @Test
     public void accountNotFoundExceptionEnRetrieveAccountByName() throws Exception {
 
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",

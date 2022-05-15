@@ -6,7 +6,9 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedExceptionOwner;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.LeagueRepository;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,20 +19,28 @@ public class LeagueService {
 
     @Autowired
     LeagueRepository leagueRepository;
+    @Autowired
+    AccountRepository accountRepository;
+    @Autowired
+    OwnerRepository ownerRepository;
 
-    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel) throws CharacterNotAllowedException, AccountDataException {
+    public void insertLeagueInfo(LeagueInfoModel leagueInfoModel, String account) throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
         leagueInfoModel.setElo(calculateElo(leagueInfoModel.getTier(), leagueInfoModel.getRank(), leagueInfoModel.getLeaguePoints()));
         leagueInfoModel.setDate(new Timestamp(System.currentTimeMillis()));
-        leagueRepository.insertLeagueInfo(leagueInfoModel, leagueInfoModel.getOwner());
+        Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
+        Integer ownerID = Math.toIntExact(ownerRepository.retrieveOwnerIdByAccount(account));
+        leagueRepository.insertLeagueInfo(leagueInfoModel,accountID,ownerID);
     }
 
     public Object divisionHistory(String account) throws CharacterNotAllowedException, AccountNotFoundException {
-        return leagueRepository.divisionHistory(account);
+        Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
+        return leagueRepository.divisionHistory(account, accountID);
     }
 
-    public Object getMaxDivision(String owner, String owner2) throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner {
-
-        return leagueRepository.getMaxDivision(owner, owner2);
+    public Object getMaxDivision(String owner, String owner2) throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner, CharacterNotAllowedException {
+        Integer ownerID = Math.toIntExact(ownerRepository.retrieveOwnerIdByOwnerName(owner));
+        Integer owner2ID = Math.toIntExact(ownerRepository.retrieveOwnerIdByOwnerName(owner2));
+        return leagueRepository.getMaxDivision(owner, owner2,ownerID,owner2ID);
 
     }
 

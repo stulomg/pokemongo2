@@ -55,8 +55,8 @@ class MostPopularRestControllerTest {
 
     @Test
     void getMostPopular() throws Exception {
-        jdbcTemplate.execute("TRUNCATE TABLE \"AccountMasteryHistory\"");
-        jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"MasteryHistory\" RESTART IDENTITY CASCADE;");
+        jdbcTemplate.execute("TRUNCATE TABLE \"LeagueHistory\" RESTART IDENTITY CASCADE;");
         LeagueInfoModel infoModel = new LeagueInfoModel(
                 Timestamp.valueOf("2022-04-21 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
@@ -113,57 +113,52 @@ class MostPopularRestControllerTest {
                 "kusi"
         );
         MasteryHistoryInfoModel masteryModel = new MasteryHistoryInfoModel(
-                "viktor",
-                81L,
+                112,
                 7,
                 250,
                 Timestamp.valueOf("2022-04-24 22:25:28.744"),
-                "vantiax"
+                1
         );
         MasteryHistoryInfoModel masteryModel2 = new MasteryHistoryInfoModel(
-                "vladimir",
-                81L,
+                8,
                 7,
                 156000,
                 Timestamp.valueOf("2022-04-25 22:25:28.744"),
-                "vantiax"
+                1
         );
         MasteryHistoryInfoModel masteryModel3 = new MasteryHistoryInfoModel(
-                "viktor",
-                81L,
+                112,
                 7,
                 20000,
                 Timestamp.valueOf("2022-04-26 22:25:28.744"),
-                "vantiax"
+                1
         );
         MasteryHistoryInfoModel masteryModel4 = new MasteryHistoryInfoModel(
-                "viktor",
-                81L,
+                112,
                 7,
                 155000,
                 Timestamp.valueOf("2022-04-27 22:25:28.744"),
-                "vantiax"
+                1
         );
         MasteryHistoryInfoModel masteryModel5 = new MasteryHistoryInfoModel(
-                "vladimir",
-                81L,
+                8,
                 7,
                 450000,
                 Timestamp.valueOf("2022-04-28 22:25:28.744"),
-                "vantiax"
+                1
         );
         MostPopularModel espectedResult = new MostPopularModel(
-                "vantiax",
-                "vladimir",
+                1,
+                8,
                 "Apr 21"
                 //Timestamp.valueOf("2022-04-01 00:00:00")
         );
 
-        repositoryLegue.insertLeagueInfo(infoModel, infoModel.getOwner());
-        repositoryLegue.insertLeagueInfo(infoModel2, infoModel2.getOwner());
-        repositoryLegue.insertLeagueInfo(infoModel3, infoModel3.getOwner());
-        repositoryLegue.insertLeagueInfo(infoModel4, infoModel4.getOwner());
-        repositoryLegue.insertLeagueInfo(infoModel5, infoModel5.getOwner());
+        repositoryLegue.insertLeagueInfo(infoModel, 1,1);
+        repositoryLegue.insertLeagueInfo(infoModel2, 1,1);
+        repositoryLegue.insertLeagueInfo(infoModel3, 1,1);
+        repositoryLegue.insertLeagueInfo(infoModel4, 2,2);
+        repositoryLegue.insertLeagueInfo(infoModel5, 2,2);
         repositoryMaster.insertMasteryInfo(masteryModel);
         repositoryMaster.insertMasteryInfo(masteryModel2);
         repositoryMaster.insertMasteryInfo(masteryModel3);
@@ -176,15 +171,15 @@ class MostPopularRestControllerTest {
         String response = mvcResult.getResponse().getContentAsString();
         MostPopularModel[] mostPopular = new ObjectMapper().readValue(response, MostPopularModel[].class);
         Assertions.assertEquals(espectedResult.getAccount(), mostPopular[0].getAccount());
-        Assertions.assertEquals(espectedResult.getChampionName(), mostPopular[0].getChampionName());
+        Assertions.assertEquals(espectedResult.getChampion(), mostPopular[0].getChampion());
         Assertions.assertEquals(espectedResult.getDate(), mostPopular[0].getDate());
 
     }
 
     @Test
     public void NoDataException() throws Exception {
-        jdbcTemplate.execute("TRUNCATE TABLE \"AccountMasteryHistory\"");
-        jdbcTemplate.execute("TRUNCATE TABLE \"LeagueInfo\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"MasteryHistory\" RESTART IDENTITY CASCADE;");
+        jdbcTemplate.execute("TRUNCATE TABLE \"LeagueHistory\" RESTART IDENTITY CASCADE;");
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/loldata/mostpopular").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("There is not enough data to perform the query"));
 

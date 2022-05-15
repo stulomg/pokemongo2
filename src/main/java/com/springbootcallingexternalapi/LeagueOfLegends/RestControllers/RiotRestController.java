@@ -48,10 +48,10 @@ public class RiotRestController {
         }
     }
 
-    @GetMapping(value = "/call-riot/league/soloq/{account}/{owner}")
-    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account, @PathVariable String owner) throws CharacterNotAllowedException {
+    @GetMapping(value = "/call-riot/league/soloq/{account}")
+    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) throws CharacterNotAllowedException {
         try {
-            LeagueInfoModel response = riotRequestorService.getSoloqLeague(account, owner);
+            LeagueInfoModel response = riotRequestorService.getSoloqLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AccountNotFoundException | QueueNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

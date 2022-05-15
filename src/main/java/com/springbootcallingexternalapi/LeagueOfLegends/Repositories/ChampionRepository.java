@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.Locale;
+
 import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
 
 
@@ -19,7 +21,7 @@ public class ChampionRepository {
 
     public Long retrieveChampionIdByChampionName(String championName) throws ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException {
         String sql = "SELECT \"ChampionId\" FROM \"Champion\" WHERE LOWER (\"ChampionName\")=?";
-        Object[] params = {championName};
+        Object[] params = {championName.toLowerCase(Locale.ROOT)};
         if (isAlpha(championName)) {
             try {
                 return jdbcTemplate.queryForObject(sql, params, Long.class);
