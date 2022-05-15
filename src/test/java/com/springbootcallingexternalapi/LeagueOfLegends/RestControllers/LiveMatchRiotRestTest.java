@@ -51,6 +51,7 @@ public class LiveMatchRiotRestTest {
                 3L,
                 202L,
                 "hauries"
+
         );
 
         CurrentGameParticipantModel participant2 = new CurrentGameParticipantModel(
@@ -59,6 +60,7 @@ public class LiveMatchRiotRestTest {
                 3L,
                 202L,
                 "pepito"
+
         );
 
         CurrentGameParticipantModel[] participants = {participant1, participant2};
