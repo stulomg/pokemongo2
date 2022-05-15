@@ -9,18 +9,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.sql.Timestamp;
 
@@ -34,19 +29,14 @@ class MostPopularRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     JdbcTemplate jdbcTemplate;
-
     @Autowired
     private LeagueRepository repositoryLegue;
-
     @Autowired
     private MasteryRepository repositoryMaster;
-
     @Autowired
     private SecurityUserService securityUserService;
-
     ObjectMapper objectMapper;
     @BeforeEach
     void setUp() {
@@ -173,7 +163,6 @@ class MostPopularRestControllerTest {
         Assertions.assertEquals(espectedResult.getAccount(), mostPopular[0].getAccount());
         Assertions.assertEquals(espectedResult.getChampion(), mostPopular[0].getChampion());
         Assertions.assertEquals(espectedResult.getDate(), mostPopular[0].getDate());
-
     }
 
     @Test
@@ -182,7 +171,6 @@ class MostPopularRestControllerTest {
         jdbcTemplate.execute("TRUNCATE TABLE \"LeagueHistory\" RESTART IDENTITY CASCADE;");
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/loldata/mostpopular").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("There is not enough data to perform the query"));
-
     }
 
 }

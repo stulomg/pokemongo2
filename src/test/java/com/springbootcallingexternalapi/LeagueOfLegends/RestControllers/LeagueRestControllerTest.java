@@ -28,13 +28,10 @@ public class LeagueRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     LeagueRepository repository;
-
     @Autowired
     JdbcTemplate jdbcTemplate;
-
     @Autowired
     private SecurityUserService securityUserService;
 
@@ -45,7 +42,6 @@ public class LeagueRestControllerTest {
 
     @Test
     void divisionHistory() throws Exception {
-
         for (int i = 0; i < 21; i++) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Thread.sleep(100);
@@ -71,7 +67,6 @@ public class LeagueRestControllerTest {
 
     @Test
     void maxDivision() throws Exception {
-
         LeagueInfoModel infoModel = new LeagueInfoModel(
                 Timestamp.valueOf("2022-03-30 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
@@ -103,7 +98,6 @@ public class LeagueRestControllerTest {
         String response = mvcResult.getResponse().getContentAsString();
         MaxDivisionModel[] leagueInfoModel = new ObjectMapper().readValue(response, MaxDivisionModel[].class);
         Assertions.assertEquals("1", leagueInfoModel[0].getAccount());
-
     }
 
     @Test

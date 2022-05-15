@@ -3,7 +3,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
@@ -32,14 +31,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(classes = AccountRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
-
 public class AccountRepositoryTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private AccountRepository repository;
+    @Autowired
     private  OwnerRepository ownerRepository;
-
     @Autowired
     public AccountRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -47,7 +46,6 @@ public class AccountRepositoryTest {
         ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
 
     }
-
     @BeforeEach
     void setup() {
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
@@ -58,7 +56,6 @@ public class AccountRepositoryTest {
         //GIVEN A NORMAL ACCOUNT WITH ALL DATA AND A STANDARD OWNER FROM THE BASE OWNER
 
         //Account with all data
-
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
@@ -159,7 +156,6 @@ public class AccountRepositoryTest {
                 "stulesunmeme",
                 1324654564L,
                 owner);
-
         Assertions.assertThrows(AccountNotFoundException.class, () -> repository.accountUpdate(model,owner));
     }
 
@@ -174,7 +170,6 @@ public class AccountRepositoryTest {
                 "stule*sunmeme",
                 1324654564L,
                 owner);
-
         Assertions.assertThrows(CharacterNotAllowedException.class, () -> repository.accountUpdate(model,owner));
     }
 
@@ -311,8 +306,6 @@ public class AccountRepositoryTest {
         );
 
         Integer owner = 1;
-
-
 
         AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",

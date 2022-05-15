@@ -18,21 +18,17 @@ public class RiotRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     JdbcTemplate jdbcTemplate;
-
     @Autowired
     AccountRepository accountRepository;
-
-    private static final String RIOT_TOKEN = "RGAPI-ea22b000-95e9-46e3-b76d-51163fd6043a";
-
     @Autowired
     private SecurityUserService securityUserService;
 
+    private static final String RIOT_TOKEN = "RGAPI-ea22b000-95e9-46e3-b76d-51163fd6043a";
+
     @Test
     public void callRiotExitosamenteCasoDefautl() throws Exception {
-
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
         AccountBaseModel baseModel = new AccountBaseModel(
@@ -50,7 +46,6 @@ public class RiotRestControllerTest {
     public void getMasteryExitosamenteCasoDefautl() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Darkclaw/evelynn").header("authorization", token)).andExpect(status().isOk()).andReturn();
-
     }
 
     @Test
@@ -86,20 +81,17 @@ public class RiotRestControllerTest {
     public void serverStatusDefault() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status").header("authorization", token)).andExpect(status().isOk()).andReturn();
-
     }
 
     @Test
     public void serverStatusNotFound() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/").header("authorization", token)).andExpect(status().isNotFound()).andReturn();
-
     }
 
     @Test
     public void serverStatusCharacterNotAllowed() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status*").header("authorization", token)).andExpect(status().isBadRequest()).andReturn();
-
     }
 }

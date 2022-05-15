@@ -33,9 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class LeagueRepositoryTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private LeagueRepository repository;
-
-
     @Autowired
     public LeagueRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -48,15 +47,12 @@ public class LeagueRepositoryTest {
         jdbcTemplate.execute("TRUNCATE TABLE \"LeagueHistory\"");
     }
 
-
     @Test
     void insertLeagueInfo() {
     }
 
     @Test
     void divisionHistoryCasoDefault() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
-
-
         for (int i = 0; i < 21; i++) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Thread.sleep(100);
@@ -79,10 +75,8 @@ public class LeagueRepositoryTest {
             Assertions.assertTrue(leagueInfoModels.get(i).getDate().after(leagueInfoModels.get(i + 1).getDate()));
         }
     }
-
     @Test
     void divisionHistoryCasoMenosDeVente() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
-
         for (int i = 0; i < 15; i++) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Thread.sleep(100);
@@ -98,7 +92,6 @@ public class LeagueRepositoryTest {
                     "s");
 
             repository.insertLeagueInfo(leagueInfoModel, 1,1);
-
         }
         List<LeagueInfoModel> leagueInfoModels = repository.divisionHistory("testuno",1);
         Assertions.assertEquals(15, leagueInfoModels.size());
@@ -106,7 +99,6 @@ public class LeagueRepositoryTest {
 
     @Test
     void accountNotFoundExceptionEnDivisionHistory() {
-
         Assertions.assertThrows(AccountNotFoundException.class, () -> repository.divisionHistory("testtres",3));
     }
 
@@ -144,7 +136,6 @@ public class LeagueRepositoryTest {
         Assertions.assertEquals(baseModel.getTier(), result.getTier());
         Assertions.assertEquals(baseModel.getRank(), result.getRank());
         Assertions.assertEquals(baseModel.getLeaguePoints(), result.getLeaguePoints());
-
     }
 
     @Test
@@ -161,7 +152,6 @@ public class LeagueRepositoryTest {
                     76,
                     5,
                     "s"
-
             );
             repository.insertLeagueInfo(baseModel,5,1);
         });
@@ -202,18 +192,15 @@ public class LeagueRepositoryTest {
         Assertions.assertEquals(infoModel2.getDate(), result.getDate());
         Assertions.assertEquals(infoModel2.getTier(), result.getTier());
         Assertions.assertEquals(infoModel2.getRank(), result.getRank());
-
     }
 
     @Test
     void accountNotFoundMaxDivision() {
-
         Assertions.assertThrows(OwnerNotFoundException.class, () -> repository.getMaxDivision("Owner", "Owner",1,1));
     }
 
     @Test
     void characterNotAllowedMaxDivision() {
-
         Assertions.assertThrows(CharacterNotAllowedExceptionOwner.class, () -> repository.getMaxDivision("O*ner", "O*ner",3,3));
     }
 }

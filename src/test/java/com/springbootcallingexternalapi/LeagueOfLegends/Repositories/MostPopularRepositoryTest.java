@@ -1,7 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.NoDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
@@ -21,9 +20,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.sql.Timestamp;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 @SpringBootTest(classes = MostPopularRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
@@ -37,8 +33,6 @@ class MostPopularRepositoryTest {
     private LeagueRepository repositoryLegue;
     @Autowired
     private MasteryRepository repositoryMaster;
-
-
     @Autowired
     public MostPopularRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

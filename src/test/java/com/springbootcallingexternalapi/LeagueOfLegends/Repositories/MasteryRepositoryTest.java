@@ -32,9 +32,8 @@ public class MasteryRepositoryTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
+    @Autowired
     private MasteryRepository repository;
-
     @Autowired
     public MasteryRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -116,16 +115,13 @@ public class MasteryRepositoryTest {
                 1
         );
 
-
         repository.insertMasteryInfo(basemodel);
         repository.insertMasteryInfo(basemodel2);
-
 
         List<MasteryHistoryModel> resultSet = repository.AccountMasteryHistory("testuno",1);
         Assertions.assertEquals(2, resultSet.size());
         MasteryHistoryModel result = resultSet.get(0);
 
-      
         Assertions.assertEquals(basemodel.getChampionLevel(), result.getChampionLevel());
         Assertions.assertEquals(basemodel.getChampionPoints(), result.getChampionPoints());
         Assertions.assertEquals("testuno", result.getAccount());
