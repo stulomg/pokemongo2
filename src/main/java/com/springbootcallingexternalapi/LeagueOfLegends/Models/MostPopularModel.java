@@ -3,33 +3,33 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 import java.sql.Timestamp;
 
 public class MostPopularModel {
-    private String Account;
-    private String championName;
+    private Integer account;
+    private Integer champion;
     private String date;
 
     public MostPopularModel() {
     }
 
-    public MostPopularModel(String account, String championName, String date) {
-        Account = account;
-        this.championName = championName;
+    public MostPopularModel(Integer account, Integer champion, String date) {
+        this.account = account;
+        this.champion = champion;
         this.date = date;
     }
 
-    public String getAccount() {
-        return Account;
+    public Integer getAccount() {
+        return account;
     }
 
-    public void setAccount(String account) {
-        Account = account;
+    public void setAccount(Integer account) {
+        this.account = account;
     }
 
-    public String getChampionName() {
-        return championName;
+    public Integer getChampion() {
+        return champion;
     }
 
-    public void setChampionName(String championName) {
-        this.championName = championName;
+    public void setChampion(Integer champion) {
+        this.champion = champion;
     }
 
     public String getDate() {

@@ -14,23 +14,28 @@ public class AccountModel {
 
     private String name;
 
-    private Integer profileIconId;
-
     private Long revisionDate;
 
-    private Long summonerLevel;
+    private Integer owner;
 
-    private String owner;
+    private String ownerName;
 
-    public AccountModel(String id, String accountId, String puuid, String name, Integer profileIconId, Long revisionDate, Long summonerLevel, String owner) {
+    public AccountModel(String id, String accountId, String puuid, String name, Long revisionDate, Integer owner) {
         this.id = id;
         this.accountId = accountId;
         this.puuid = puuid;
         this.name = name;
-        this.profileIconId = profileIconId;
         this.revisionDate = revisionDate;
-        this.summonerLevel = summonerLevel;
         this.owner = owner;
+    }
+
+    public AccountModel(String id, String accountId, String puuid, String name, Long revisionDate, String ownerName) {
+        this.id = id;
+        this.accountId = accountId;
+        this.puuid = puuid;
+        this.name = name;
+        this.revisionDate = revisionDate;
+        this.ownerName = ownerName;
     }
 
     public AccountModel() {
@@ -68,14 +73,6 @@ public class AccountModel {
         this.name = name;
     }
 
-    public Integer getProfileIconId() {
-        return profileIconId;
-    }
-
-    public void setProfileIconId(Integer profileIconId) {
-        this.profileIconId = profileIconId;
-    }
-
     public Long getRevisionDate() {
         return revisionDate;
     }
@@ -84,19 +81,19 @@ public class AccountModel {
         this.revisionDate = revisionDate;
     }
 
-    public Long getSummonerLevel() {
-        return summonerLevel;
-    }
-
-    public void setSummonerLevel(Long summonerLevel) {
-        this.summonerLevel = summonerLevel;
-    }
-
-    public String getOwner() {
+    public Integer getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(Integer owner) {
         this.owner = owner;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

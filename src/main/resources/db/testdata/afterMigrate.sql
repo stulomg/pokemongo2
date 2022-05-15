@@ -1,11 +1,24 @@
-TRUNCATE TABLE "Champion";
-TRUNCATE TABLE "TwitterHashtag";
+TRUNCATE TABLE "Champion"RESTART IDENTITY CASCADE;
 TRUNCATE TABLE "role" RESTART IDENTITY CASCADE;
 TRUNCATE TABLE "user" RESTART IDENTITY CASCADE;
+TRUNCATE TABLE "Owner" RESTART IDENTITY CASCADE;
+TRUNCATE TABLE "Account" RESTART IDENTITY CASCADE;
+TRUNCATE TABLE "Position" RESTART IDENTITY CASCADE;
+TRUNCATE TABLE "TwitterHashtag";
 
 INSERT INTO "role" ("role_name")
+VALUES('ROLE_ADMIN'),('ROLE_USER');
+
+INSERT INTO "Owner"(name)
+VALUES ('testuno'),('testdos'),('kusara'),('stul');
+
+INSERT INTO "Position"("namePosition")
+VALUES ('TOP'),('JUNGLE'),('MIDDLE'),('BOTTOM'),('UTILITY');
+
+INSERT INTO "Account"( id, puuid, accountid, "revisionDate", owner, name)
 VALUES
-('ROLE_ADMIN'),('ROLE_USER');
+('testuno', 'testuno', 'testuno', 123456, 1, 'testuno'),
+('testdos', 'testdos', 'testdos', 123457, 2, 'testdos');
 
 INSERT INTO "Champion" ("ChampionId", "ChampionName")
 VALUES

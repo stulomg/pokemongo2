@@ -2,9 +2,9 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import java.sql.Timestamp;
 
-public class MasteryHistoryInfoModel {
+public class MasteryHistoryModel {
 
-    private Integer champion;
+    private String champion;
 
     private int championLevel;
 
@@ -12,9 +12,9 @@ public class MasteryHistoryInfoModel {
 
     private Timestamp date;
 
-    private Integer account;
+    private String account;
 
-    public MasteryHistoryInfoModel(Integer champion, int championLevel, int championPoints, Timestamp date, Integer account) {
+    public MasteryHistoryModel(String champion, int championLevel, int championPoints, Timestamp date, String account) {
         this.champion = champion;
         this.championLevel = championLevel;
         this.championPoints = championPoints;
@@ -22,14 +22,14 @@ public class MasteryHistoryInfoModel {
         this.account = account;
     }
 
-    public MasteryHistoryInfoModel() {
+    public MasteryHistoryModel() {
     }
 
-    public Integer getChampion() {
+    public String getChampion() {
         return champion;
     }
 
-    public void setChampion(Integer champion) {
+    public void setChampion(String champion) {
         this.champion = champion;
     }
 
@@ -57,11 +57,11 @@ public class MasteryHistoryInfoModel {
         this.date = date;
     }
 
-    public Integer getAccount() {
+    public String getAccount() {
         return account;
     }
 
-    public void setAccount(Integer account) {
+    public void setAccount(String account) {
         this.account = account;
     }
 }

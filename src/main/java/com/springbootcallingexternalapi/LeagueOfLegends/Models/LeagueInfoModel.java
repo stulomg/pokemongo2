@@ -1,7 +1,10 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.sql.Timestamp;
 import java.util.Date;
+
 
 public class LeagueInfoModel {
     private Timestamp date;
@@ -35,6 +38,7 @@ public class LeagueInfoModel {
         this.owner = owner;
 
     }
+
 
     public LeagueInfoModel() {
     }

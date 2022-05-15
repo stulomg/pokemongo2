@@ -16,15 +16,19 @@ public class AccountRestController {
     @Autowired
     AccountService accountService;
 
-    @DeleteMapping(value = "/account/delete/{owner}/{account}")
-    public ResponseEntity<Object> deleteAccount(@PathVariable String owner, @PathVariable String account) {
+    @DeleteMapping(value = "/account/delete/{account}")
+    public ResponseEntity<Object> deleteAccount(@PathVariable String account) {
         try {
-            accountService.deleteAccount(owner, account);
+            accountService.deleteAccount(account);
             return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
         } catch (AccountOrOwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (CharacterNotAllowedException e2) {
-            return new ResponseEntity<>(e2.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (OwnerNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch (AccountNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -44,6 +48,8 @@ public class AccountRestController {
         try {
             accountService.accountUpdate(model);
         } catch (AccountNotFoundException | CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (OwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Updated successfully", HttpStatus.OK);

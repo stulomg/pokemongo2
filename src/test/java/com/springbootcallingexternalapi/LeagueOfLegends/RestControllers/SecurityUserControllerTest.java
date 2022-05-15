@@ -30,13 +30,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class SecurityUserControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     JdbcTemplate jdbcTemplate;
-
     @Autowired
     SecurityUserService securityUserService;
-
     @MockBean
     RestTemplate restTemplate;
 
@@ -75,7 +72,6 @@ class SecurityUserControllerTest {
         Assertions.assertEquals(userExpected.getName(),resultSet.get(0).getName());
         Assertions.assertEquals(userExpected.getUserName(),resultSet.get(0).getUserName());
         Assertions.assertEquals(userExpected.getEmail(),resultSet.get(0).getEmail());
-
     }
     @Test
     void newUserDataIntegrityViolationException() throws Exception {
