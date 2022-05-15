@@ -102,5 +102,4 @@ public class RiotRestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status*").header("authorization", token)).andExpect(status().isBadRequest()).andReturn();
 
     }
-
 }

@@ -120,7 +120,6 @@ public class RiotRequestorService {
 
     public <T> ResponseEntity<T> requestToRiot(String uri, HttpMethod method, Class<T> clazz) {
         String finalUrl = "https://la1.api.riotgames.com" + uri;
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Riot-Token", RIOT_TOKEN);
         HttpEntity<String> entity = new HttpEntity<>("", headers);
@@ -130,7 +129,6 @@ public class RiotRequestorService {
 
     private <T> ResponseEntity<T> requestToRiot2(String uri, HttpMethod method, Class<T> clazz) {
         String finalUrl = "https://americas.api.riotgames.com" + uri;
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Riot-Token", RIOT_TOKEN);
         HttpEntity<String> entity = new HttpEntity<>("", headers);
@@ -141,7 +139,6 @@ public class RiotRequestorService {
     public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
 
         if (isAlpha(account)) {
-
             ResponseEntity <AccountBaseModel> response2 = getAccountFromRiot(account);
             String id = response2.getBody().getId();
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
