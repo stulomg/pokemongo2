@@ -1,7 +1,9 @@
 package com.springbootcallingexternalapi.Twitter.TwitterServices;
 
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.TwitterExceptions.HashtagAlreadyRegisterException;
 import com.springbootcallingexternalapi.Twitter.TwitterRepository.HashtagsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -45,9 +47,14 @@ public class TwitterRequestorService {
         return restTemplate.exchange(finalUrl, method, entity, clazz, variables);
     }
 
-    public void insertHashtag (String hashtag){
+    public void insertHashtag (String hashtag) throws HashtagAlreadyRegisterException {
         hashtag = "#" + hashtag;
-        hashtagsRepository.insertHashtags(hashtag);
+        try {
+            hashtagsRepository.insertHashtags(hashtag);
+        }catch (DataIntegrityViolationException e){
+            throw new HashtagAlreadyRegisterException(hashtag);
+        }
+
     }
 
     public Object getTweet(Long id) {

@@ -16,10 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -34,7 +31,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-4f603a9b-fe4f-4913-a488-75874fecf920";
+    private static final String RIOT_TOKEN = "RGAPI-e20ba813-6fe1-494e-84cc-68ac22a8555d";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -233,7 +230,6 @@ public class RiotRequestorService {
 
     public Object fillTablePlayersRelationship(String account) throws ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, AccountNotFoundException {
 
-
         String puuid = getAccountFromRiot(account).getBody().getPuuid();
         String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=420&start=0&count=20";
 
@@ -246,16 +242,31 @@ public class RiotRequestorService {
 
             String elemento = listMatches.get(i);
 
-            /*GameDataModel[] response3 = response2.getInfo().getParticipants();
+            GameSuperMetaDataModel response2 = getListData(elemento).getBody();
+
+            GameDataModel[] response3 = response2.getInfo().getParticipants();
+
             Optional<GameDataModel> model = Arrays.stream(response3)
-                    .filter(GameDataModel::getSummonerName);*/
+                    .filter(GameDataModel -> GameDataModel.getSummonerName().equals(response)).findFirst();
 
-            //GameDataModel lim = model.get();
+        // insert en la tabla (account,participant)
 
-        //matchrepository
-
+        // Traer participantes de la tabla
 
     }
         return uri;
+    }
+
+    public Object playersRelationship (String account1, String account2){
+        List<String> list1 = accountRepository.getPlayersMatched(account1);
+        List<String> list2 =accountRepository.getPlayersMatched(account2);
+
+        list2.retainAll(list1);
+
+        if (list2.isEmpty()){
+            return new ResponseEntity<>("La relación entre estos dos jugadores es:" + list2, HttpStatus.OK);
+        }else{
+            return list2;
+        }
     }
 }

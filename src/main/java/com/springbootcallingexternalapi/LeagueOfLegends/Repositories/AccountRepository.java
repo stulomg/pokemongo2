@@ -103,4 +103,12 @@ public class AccountRepository {
 
         } else throw new CharacterNotAllowedException(account);
     }
+
+    public List<String> getPlayersMatched (String account){
+        String sql = "SELECT \"id_Jugador\" FROM \"JugadorRelacion_Jugador\" WHERE \"JugadorRelacion=?";
+        Object[] params = {account};
+        List<String> listPayersMatched = jdbcTemplate.query(sql, params,
+                BeanPropertyRowMapper.newInstance(String.class));
+        return listPayersMatched;
+    }
 }
