@@ -1,7 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityUserModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityUserMainModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityUserModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.SecurityUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

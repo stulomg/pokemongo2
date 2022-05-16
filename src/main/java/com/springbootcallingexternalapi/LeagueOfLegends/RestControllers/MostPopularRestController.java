@@ -21,5 +21,4 @@ public class MostPopularRestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-
 }
