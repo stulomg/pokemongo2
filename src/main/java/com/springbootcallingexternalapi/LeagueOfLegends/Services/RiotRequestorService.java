@@ -51,6 +51,8 @@ public class RiotRequestorService {
     RestTemplate restTemplate;
     @Autowired
     ServerRepository serverRepository;
+    @Autowired
+    RelationshipRepo relationshipRepo;
 
     public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, CharacterNotAllowedException, OwnerNotFoundException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
@@ -242,16 +244,31 @@ public class RiotRequestorService {
 
             String elemento = listMatches.get(i);
 
-            /*GameDataModel[] response3 = response2.getInfo().getParticipants();
+            GameSuperMetaDataModel response2 = getListData(elemento).getBody();
+
+            GameDataModel[] response3 = response2.getInfo().getParticipants();
+
             Optional<GameDataModel> model = Arrays.stream(response3)
-                    .filter(GameDataModel::getSummonerName);*/
+                    .filter(GameDataModel -> GameDataModel.getSummonerName().equals(response)).findFirst();
 
-            //GameDataModel lim = model.get();
+        // insert en la tabla (account,participant)
 
-        //matchrepository
-
+        // Traer participantes de la tabla
 
     }
         return uri;
+    }
+
+    public Object playersRelationship (String account1, String account2) throws CharacterNotAllowedException, AccountNotFoundException {
+        List<String> list1 = relationshipRepo.getPlayersMatched(account1);
+        List<String> list2 = relationshipRepo.getPlayersMatched(account2);
+
+        list2.retainAll(list1);
+
+        if (list2.isEmpty() || list2 == null){
+            return new ResponseEntity<>("Los jugadores no tienen relación", HttpStatus.OK);
+        }else {
+            return list2.toString();
+        }
     }
 }
