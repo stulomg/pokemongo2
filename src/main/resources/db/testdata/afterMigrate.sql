@@ -18,7 +18,8 @@ VALUES ('TOP'),('JUNGLE'),('MIDDLE'),('BOTTOM'),('UTILITY');
 INSERT INTO "Account"( id, puuid, accountid, "revisionDate", owner, name)
 VALUES
 ('testuno', 'testuno', 'testuno', 123456, 1, 'testuno'),
-('testdos', 'testdos', 'testdos', 123457, 2, 'testdos');
+('testdos', 'testdos', 'testdos', 123457, 2, 'testdos'),
+('testtres', 'testtres', 'testtres', 123457, 2, 'testtres');
 
 INSERT INTO "Champion" ("ChampionId", "ChampionName")
 VALUES
