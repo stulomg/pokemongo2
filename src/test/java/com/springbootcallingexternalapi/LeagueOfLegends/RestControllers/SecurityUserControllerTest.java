@@ -50,7 +50,7 @@ class SecurityUserControllerTest {
         jdbcTemplate.execute("TRUNCATE TABLE \"user\" RESTART IDENTITY CASCADE");
 
         SecurityNewUserModel newUser = new SecurityNewUserModel(
-                "test",
+                "test prueba",
                 "test",
                 "test@gmail.com",
                 "12345"

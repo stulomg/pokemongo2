@@ -176,11 +176,6 @@ ALTER TABLE IF EXISTS public."ServerStatus"
 -- Tabla : TwitterHashtag
 -- --------------------------------------------------------------
 
-
--- Table: public.TwitterHashtag
-
--- DROP TABLE IF EXISTS public."TwitterHashtag";
-
 CREATE TABLE IF NOT EXISTS public."TwitterHashtag"
 (
     id serial NOT NULL,
@@ -192,4 +187,19 @@ CREATE TABLE IF NOT EXISTS public."TwitterHashtag"
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."TwitterHashtag"
+    OWNER to postgres;
+-- --------------------------------------------------------------
+-- Tabla : QuerySpecific
+-- --------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public."QuerySpecific"
+(
+    id serial NOT NULL,
+    criterio text COLLATE pg_catalog."default",
+    query text COLLATE pg_catalog."default",
+    CONSTRAINT "querySpecific_pkey" PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."QuerySpecific"
     OWNER to postgres;
