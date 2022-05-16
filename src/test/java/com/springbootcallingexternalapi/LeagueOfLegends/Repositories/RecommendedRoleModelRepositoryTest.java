@@ -1,7 +1,10 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.NoDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RecommendedRoleService;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
@@ -38,7 +41,7 @@ class RecommendedRoleModelRepositoryTest {
     }
 
     @Test
-    void recommendedRole() throws NoDataException {
+    void recommendedRole() throws NoDataException, CharacterNotAllowedException, AccountNotFoundException {
         GameDataModel dataModel = new GameDataModel(
                 "viktor",
                 "vantiax",
@@ -75,29 +78,36 @@ class RecommendedRoleModelRepositoryTest {
                 1235
         );
         RecommendedRoleModel espectedResult = new RecommendedRoleModel(
-                "vantiax",
-                "mid",
+                1,
+                3,
                 3
         );
         RecommendedRoleModel espectedResult2 = new RecommendedRoleModel(
-                "stul",
-                "adc",
+                2,
+                4,
                 2
         );
         RecommendedRoleModel espectedResult3 = new RecommendedRoleModel(
-                "kusara",
-                "not enough information",
+                3,
+                0,
                 0
         );
         RecommendedRoleModel espectedResult4 = new RecommendedRoleModel(
-                "raino",
-                "not enough information",
+                3,
+                0,
                 0
         );
         RecommendedRoleModel espectedResult5 = new RecommendedRoleModel(
-                "darkclaw",
-                "not enough information",
+                3,
+                0,
                 0
+        );
+        RecommendedRoleDataModel data = new RecommendedRoleDataModel(
+                "testuno",
+                "testdos",
+                "testtres",
+                "testtres",
+                "testtres"
         );
 
         matchRepository.insertMatchData(dataModel,1,3,112);
@@ -106,7 +116,7 @@ class RecommendedRoleModelRepositoryTest {
         matchRepository.insertMatchData(dataModel4,2,4,89);
         matchRepository.insertMatchData(dataModel5,2,4,89);
 
-        List<RecommendedRoleModel> resultSet = recommendedRoleService.recommendedRoleRepository("vantiax", "stul", "kusara", "raino", "darkclaw");
+        List<RecommendedRoleModel> resultSet = recommendedRoleService.recommendedRoleRepository(data);
         Assertions.assertEquals(5, resultSet.size());
         RecommendedRoleModel result = resultSet.get(0);
         RecommendedRoleModel result2 = resultSet.get(1);
@@ -114,23 +124,23 @@ class RecommendedRoleModelRepositoryTest {
         RecommendedRoleModel result4 = resultSet.get(3);
         RecommendedRoleModel result5 = resultSet.get(4);
 
-        Assertions.assertEquals(espectedResult.getSummonerName(), result.getSummonerName());
+        Assertions.assertEquals(espectedResult.getAccount(), result.getAccount());
         Assertions.assertEquals(espectedResult.getRecommendPosition(), result.getRecommendPosition());
         Assertions.assertEquals(espectedResult.getGamesPlayed(), result.getGamesPlayed());
 
-        Assertions.assertEquals(espectedResult2.getSummonerName(), result2.getSummonerName());
+        Assertions.assertEquals(espectedResult2.getAccount(), result2.getAccount());
         Assertions.assertEquals(espectedResult2.getRecommendPosition(), result2.getRecommendPosition());
         Assertions.assertEquals(espectedResult2.getGamesPlayed(), result2.getGamesPlayed());
 
-        Assertions.assertEquals(espectedResult3.getSummonerName(), result3.getSummonerName());
+        Assertions.assertEquals(espectedResult3.getAccount(), result3.getAccount());
         Assertions.assertEquals(espectedResult3.getRecommendPosition(), result3.getRecommendPosition());
         Assertions.assertEquals(espectedResult3.getGamesPlayed(), result3.getGamesPlayed());
 
-        Assertions.assertEquals(espectedResult4.getSummonerName(), result4.getSummonerName());
+        Assertions.assertEquals(espectedResult4.getAccount(), result4.getAccount());
         Assertions.assertEquals(espectedResult4.getRecommendPosition(), result4.getRecommendPosition());
         Assertions.assertEquals(espectedResult4.getGamesPlayed(), result4.getGamesPlayed());
 
-        Assertions.assertEquals(espectedResult5.getSummonerName(), result5.getSummonerName());
+        Assertions.assertEquals(espectedResult5.getAccount(), result5.getAccount());
         Assertions.assertEquals(espectedResult5.getRecommendPosition(), result5.getRecommendPosition());
         Assertions.assertEquals(espectedResult5.getGamesPlayed(), result5.getGamesPlayed());
 
@@ -139,6 +149,6 @@ class RecommendedRoleModelRepositoryTest {
     @Test
     void NoDataException() {
 
-        Assertions.assertThrows(NoDataException.class, () -> recommendedRoleRepository.recommendedRole("vantiax", "stul", "kusara", "darkclaw", "raino"));
+        Assertions.assertThrows(NoDataException.class, () -> recommendedRoleRepository.recommendedRole(1,2,3,4,6));
     }
 }
