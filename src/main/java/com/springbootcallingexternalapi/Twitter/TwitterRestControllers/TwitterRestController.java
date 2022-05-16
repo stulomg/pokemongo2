@@ -35,7 +35,6 @@ public class TwitterRestController {
        }catch (HashtagAlreadyRegisterException e){
            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
        }
-
         return new ResponseEntity<>( hashtag + " hashtag created successfully", HttpStatus.OK);
     }
 }

@@ -10,5 +10,4 @@ import java.util.Optional;
 @Repository
 public interface SecurityRoleRepository extends JpaRepository<SecurityRoleModel, Integer> {
     Optional<SecurityRoleModel> findByRoleName(RoleName roleName);
-
 }

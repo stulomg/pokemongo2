@@ -203,3 +203,45 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."QuerySpecific"
     OWNER to postgres;
+
+-- --------------------------------------------------------------
+-- Tabla : Jugador
+-- --------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS public."Jugador"
+(
+    id serial NOT NULL,
+    name text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Jugador_pkey" PRIMARY KEY (id),
+    CONSTRAINT "UK_name" UNIQUE (name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Jugador"
+    OWNER to postgres;
+
+-- --------------------------------------------------------------
+-- Tabla : Account_Jugador
+-- --------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS public."Account_Jugador"
+(
+    "id_Account" integer NOT NULL,
+    "id_Jugador" integer NOT NULL,
+    CONSTRAINT "FK_AccountId" FOREIGN KEY ("id_Account")
+        REFERENCES public."Account" ("id_BD") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT "FK_JugadorId" FOREIGN KEY ("id_Jugador")
+        REFERENCES public."Jugador" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Account_Jugador"
+    OWNER to postgres;

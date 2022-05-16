@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Repository
-public class RelationshipRepo {
+public class RelationshipRepository {
 
     @Autowired
     AccountRepository accountRepository;
@@ -19,7 +19,7 @@ public class RelationshipRepo {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<String> getPlayersMatched (String account) throws CharacterNotAllowedException, AccountNotFoundException {
+    public List<String> getPlayersMatched(String account) throws CharacterNotAllowedException, AccountNotFoundException {
 
         Integer AccoundId = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
         String sql = "SELECT \"id_Jugador\" FROM \"Account_Jugador\" WHERE \"id_Account\"=?";
