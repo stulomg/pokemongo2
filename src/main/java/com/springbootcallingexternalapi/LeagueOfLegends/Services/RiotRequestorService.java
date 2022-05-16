@@ -62,7 +62,6 @@ public class RiotRequestorService {
             accountRepository.accountUpdateExisting(acc2, Math.toIntExact(ownerID));
         }
         return acc2;
-
     }
 
     public ResponseEntity<AccountBaseModel> getAccountFromRiot(String account) throws AccountNotFoundException {
@@ -137,7 +136,6 @@ public class RiotRequestorService {
     }
 
     public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
-
         if (isAlpha(account)) {
             ResponseEntity <AccountBaseModel> response2 = getAccountFromRiot(account);
             String id = response2.getBody().getId();
@@ -192,7 +190,6 @@ public class RiotRequestorService {
 
             list.add(model);
         }
-
         return list;
     }
 
