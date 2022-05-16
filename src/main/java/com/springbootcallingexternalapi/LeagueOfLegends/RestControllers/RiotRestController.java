@@ -2,14 +2,13 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.ChampionService;
@@ -119,5 +118,12 @@ public class RiotRestController {
         } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping(value = "/relationship/{account1}/{account2}")
+
+    public ResponseEntity<Object> playersRelationship (@PathVariable String account1, @PathVariable String account2) throws CharacterNotAllowedException, AccountNotFoundException {
+        Object response = riotRequestorService.playersRelationship(account1,account2);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

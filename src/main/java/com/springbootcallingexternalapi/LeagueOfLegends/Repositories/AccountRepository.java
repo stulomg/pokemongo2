@@ -5,7 +5,6 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountOrOwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +55,6 @@ public class AccountRepository {
                 throw new AccountNotFoundException(account);
             }
         } else throw new CharacterNotAllowedException(account);
-
-
     }
 
     public List<AccountModel> retrieveAccountByOwner(String owner,Integer ownerID) throws CharacterNotAllowedException, OwnerNotFoundException {
@@ -127,6 +124,5 @@ public class AccountRepository {
                 throw new AccountNotFoundException(accountName);
             }
         } else throw new CharacterNotAllowedException(accountName);
-
     }
 }

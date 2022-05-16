@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.Twitter.TwitterRestControllers;
 
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.TwitterExceptions.HashtagAlreadyRegisterException;
 import com.springbootcallingexternalapi.Twitter.TwitterServices.TwitterRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,11 @@ public class TwitterRestController {
 
     @PostMapping (value = "/insert/twitter/{hashtag}")
     public ResponseEntity<Object> insertHashtags(@PathVariable String hashtag){
-        twitterRequestorService.insertHashtag(hashtag);
+       try {
+           twitterRequestorService.insertHashtag(hashtag);
+       }catch (HashtagAlreadyRegisterException e){
+           return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+       }
         return new ResponseEntity<>( hashtag + " hashtag created successfully", HttpStatus.OK);
     }
 }

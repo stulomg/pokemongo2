@@ -3,6 +3,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
@@ -52,6 +53,8 @@ public class RiotRequestorService {
     RestTemplate restTemplate;
     @Autowired
     ServerRepository serverRepository;
+    @Autowired
+    RelationshipRepository relationshipRepository;
 
     public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, CharacterNotAllowedException, OwnerNotFoundException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
@@ -84,7 +87,6 @@ public class RiotRequestorService {
             Optional<LeagueInfoModel> model = Arrays.stream(response.getBody())
                     .filter(leagueInfoModel -> leagueInfoModel.getQueueType().equals(queueToFind))
                     .findFirst();
-
             if (model.isPresent()) {
                 LeagueInfoModel lim = model.get();
                 leagueService.insertLeagueInfo(lim,account);
@@ -122,7 +124,6 @@ public class RiotRequestorService {
 
     public <T> ResponseEntity<T> requestToRiot(String uri, HttpMethod method, Class<T> clazz) {
         String finalUrl = "https://la1.api.riotgames.com" + uri;
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Riot-Token", RIOT_TOKEN);
         HttpEntity<String> entity = new HttpEntity<>("", headers);
@@ -132,7 +133,6 @@ public class RiotRequestorService {
 
     private <T> ResponseEntity<T> requestToRiot2(String uri, HttpMethod method, Class<T> clazz) {
         String finalUrl = "https://americas.api.riotgames.com" + uri;
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Riot-Token", RIOT_TOKEN);
         HttpEntity<String> entity = new HttpEntity<>("", headers);
@@ -143,7 +143,6 @@ public class RiotRequestorService {
     public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
 
         if (isAlpha(account)) {
-
             ResponseEntity <AccountBaseModel> response2 = getAccountFromRiot(account);
             String id = response2.getBody().getId();
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
@@ -175,7 +174,6 @@ public class RiotRequestorService {
 
         ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
         List<String> listMatches = response.getBody();
-
         List<Object> list = new ArrayList<Object>();
 
         for (int i = 0; i < listMatches.size(); i++) {
@@ -183,12 +181,10 @@ public class RiotRequestorService {
             String elemento = listMatches.get(i);
 
             GameSuperMetaDataModel response2 = getListData(elemento).getBody();
-
             GameDataModel[] response3 = response2.getInfo().getParticipants();
             Optional<GameDataModel> model = Arrays.stream(response3)
                     .filter(GameDataModel -> GameDataModel.getSummonerName().equals(account))
                     .findFirst();
-
             GameDataModel lim = model.get();
             int championpoints = getMastery(account,lim.getChampionName()).getChampionPoints();
             lim.setChampionPoints(championpoints);
@@ -243,31 +239,16 @@ public class RiotRequestorService {
         return requestToRiot(uri,HttpMethod.GET,String.class).toString();
     }
 
-    public Object fillTablePlayersRelationship(String account) throws ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, AccountNotFoundException {
+    public Object playersRelationship (String account1, String account2) throws CharacterNotAllowedException, AccountNotFoundException {
+        List<String> list1 = relationshipRepository.getPlayersMatched(account1);
+        List<String> list2 = relationshipRepository.getPlayersMatched(account2);
 
+        list2.retainAll(list1);
 
-        String puuid = getAccountFromRiot(account).getBody().getPuuid();
-        String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=420&start=0&count=20";
-
-        ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
-        List<String> listMatches = response.getBody();
-
-        List<String> listParticipants = new ArrayList<>();
-
-        for (int i = 0; i < listMatches.size(); i++) {
-
-            String elemento = listMatches.get(i);
-
-            /*GameDataModel[] response3 = response2.getInfo().getParticipants();
-            Optional<GameDataModel> model = Arrays.stream(response3)
-                    .filter(GameDataModel::getSummonerName);*/
-
-            //GameDataModel lim = model.get();
-
-        //matchrepository
-
-
-    }
-        return uri;
+        if (list2.isEmpty() || list2 == null) {
+            return new ResponseEntity<>("Los jugadores no tienen relación", HttpStatus.OK);
+        } else {
+            return list2.toString();
+        }
     }
 }

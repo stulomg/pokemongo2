@@ -48,7 +48,6 @@ public class LeagueService {
         int tierValue = getTierValue(tier);
         int rankValue = getRankValue(rank);
         return tierValue + rankValue + points;
-
     }
 
 

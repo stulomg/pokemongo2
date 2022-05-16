@@ -14,7 +14,7 @@ public class PositionRepository {
     public Long retrievePositionIdByPositionName(String positionName)  {
         String sql = "SELECT id FROM \"Position\" WHERE LOWER(\"namePosition\")=?;";
         Object[] params = {positionName.toLowerCase(Locale.ROOT)};
-        return jdbcTemplate.queryForObject(sql, params, Long.class);
 
+        return jdbcTemplate.queryForObject(sql, params, Long.class);
     }
 }

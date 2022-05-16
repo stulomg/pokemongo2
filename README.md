@@ -156,3 +156,44 @@ automatically!.
 
    Use the URL: http://localhost:8080/account/masteryHistory/{account}
 
+##Twitter Opinions using Hashtags
+
+1. Consult the last 10 Twitter opinions about #RiotGames, #RitoGames, #Valorant, #LeagueOfLegends.
+   In this endpoint you don't have to give a parameter, it works by itself.
+
+   Use the URL: http://localhost:8080/call-twitter/community/tweets/riot_games
+
+2. Add new hashtag to the previous function! just replace the word "hashtag" with the hashtag that you want to add, use the following url to add them:
+   
+   http://localhost:8080/insert/twitter/{hashtag}
+
+##Relationship between 2 players
+
+1. Consult the relationship between two players, just change the word "account1" and "account2" with the summoner names
+    of the players that you want to check
+
+   Use the URL: http://localhost:8080/relationship/{account1}/{account2}
+
+##Make your custom query to our database
+
+1. You can create and save a custom query. you have to send a request with a JSON with some data.
+
+   Use the URL: http://localhost:8080/loldata/query
+   
+   The following examples will help you to understand how it works, and what parameters you have to write in the JSON:
+   
+   1.1 
+   {
+   "criterio":"prueba 1",
+   "select":""revisionDate"",
+   "from":"Account",
+   "where":"name = 'testdos'"
+   }
+   
+   1.2
+   {
+   "criterio":"prueba 1",
+   "select":"*",
+   "from":"Account",
+   "where":"name = 'testdos'"
+   }

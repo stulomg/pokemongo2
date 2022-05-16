@@ -40,7 +40,6 @@ public class LeagueRepository {
         } catch (DataAccessException e) {
             throw new AccountDataException(leagueInfoModel);
         }
-
     }
 
     public List<LeagueInfoModel> divisionHistory(String account, Integer accountID) throws CharacterNotAllowedException, AccountNotFoundException {

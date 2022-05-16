@@ -15,12 +15,13 @@ public class RecommendedRoleRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<RecommendedRoleModel> recommendedRole(String account1, String account2, String account3, String account4, String account5) throws NoDataException {
-        String sql = "SELECT \"summonerName\",\"teamPosition\" AS recommendPosition ,COUNT(\"teamPosition\") AS gamesPlayed\n" +
-                "FROM \"Match\" \n" +
-                "WHERE \"summonerName\" =? OR \"summonerName\" =? OR \"summonerName\" =? OR \"summonerName\" =? OR \"summonerName\" =? \n" +
-                "GROUP BY \"summonerName\",\"teamPosition\"";
-        Object[] params = {account1.toLowerCase(Locale.ROOT), account2.toLowerCase(Locale.ROOT), account3.toLowerCase(Locale.ROOT), account4.toLowerCase(Locale.ROOT), account5.toLowerCase(Locale.ROOT)};
+    public List<RecommendedRoleModel> recommendedRole(Integer account1, Integer account2, Integer account3, Integer account4, Integer account5) throws NoDataException {
+        String sql = "SELECT \"account\",\"position\" AS recommendPosition ,COUNT(\"position\") AS gamesPlayed\n" +
+                "        \t\tFROM \"MatchHistory\"\n" +
+                "                WHERE \"account\" IN(?,?,?,?,?)\n" +
+                "                GROUP BY \"account\",\"position\"\n" +
+                "\t\t\t\tORDER BY COUNT(\"position\") DESC ";
+        Object[] params = {account1, account2, account3, account4, account5};
 
         List<RecommendedRoleModel> recommendedRoleModel = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(RecommendedRoleModel.class));
         if (recommendedRoleModel.isEmpty()) {
