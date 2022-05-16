@@ -6,6 +6,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptio
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
@@ -34,21 +35,23 @@ public class RiotRestController {
     @RequestMapping(value = "/call-riot/{account}/{owner}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) {
+    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) throws CharacterNotAllowedException, AccountDataException, OwnerNotFoundException, AccountNotFoundException {
         try {
             AccountBaseModel acc = riotRequestorService.getAccountAndAssignToOwner(account, owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AccountDataException | OwnerNotAllowedException | CharacterNotAllowedException e1) {
+        } catch (AccountDataException  | CharacterNotAllowedException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (OwnerNotFoundException e2) {
+            return new ResponseEntity<>(e2.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping(value = "/call-riot/league/soloq/{account}/{owner}")
-    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account, @PathVariable String owner) throws CharacterNotAllowedException {
+    @GetMapping(value = "/call-riot/league/soloq/{account}")
+    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) throws CharacterNotAllowedException {
         try {
-            LeagueInfoModel response = riotRequestorService.getSoloqLeague(account, owner);
+            LeagueInfoModel response = riotRequestorService.getSoloqLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AccountNotFoundException | QueueNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

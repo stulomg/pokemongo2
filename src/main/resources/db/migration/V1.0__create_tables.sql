@@ -1,82 +1,60 @@
 -- --------------------------------------------------------------
+-- Tabla : Owner
+-- --------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public."Owner"
+(
+    id serial NOT NULL,
+    name text COLLATE pg_catalog."default",
+    CONSTRAINT "Owner_pkey" PRIMARY KEY (id),
+    CONSTRAINT "UK_Owner" UNIQUE (name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Owner"
+    OWNER to postgres;
+-- --------------------------------------------------------------
+-- Tabla : Position
+-- --------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public."Position"
+(
+    id serial NOT NULL,
+    "namePosition" text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Position_pkey" PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."Position"
+    OWNER to postgres;
+-- --------------------------------------------------------------
 -- Tabla : Account
 -- --------------------------------------------------------------
--- Table: public.Account
--- DROP TABLE IF EXISTS public."Accounts";
-
 CREATE TABLE IF NOT EXISTS public."Account"
 (
+    "id_BD" serial NOT NULL,
     id text COLLATE pg_catalog."default" NOT NULL,
-    "accountId" text COLLATE pg_catalog."default" NOT NULL,
     puuid text COLLATE pg_catalog."default" NOT NULL,
-    name text COLLATE pg_catalog."default" NOT NULL,
-    "profileIconId" integer NOT NULL,
+    accountid text COLLATE pg_catalog."default" NOT NULL,
     "revisionDate" bigint NOT NULL,
-    "summonerLevel" bigint NOT NULL,
-    owner text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT "AccountBaseModel_pkey" PRIMARY KEY (id)
+    owner integer NOT NULL,
+    name text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Account_pkey" PRIMARY KEY ("id_BD"),
+    CONSTRAINT "Uk_id" UNIQUE (id),
+    CONSTRAINT id_owner FOREIGN KEY (owner)
+        REFERENCES public."Owner" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
 )
 
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."Account"
     OWNER to postgres;
-
-
--- --------------------------------------------------------------
--- Tabla : LegueInfo
--- --------------------------------------------------------------
--- Table: public.LeagueInfo
--- DROP TABLE IF EXISTS public."LeagueInfo";
-
-CREATE TABLE IF NOT EXISTS public."LeagueInfo"
-(
-    date timestamp without time zone NOT NULL,
-    "leagueId" text COLLATE pg_catalog."default" NOT NULL,
-    "queueType" text COLLATE pg_catalog."default" NOT NULL,
-    tier text COLLATE pg_catalog."default" NOT NULL,
-    rank text COLLATE pg_catalog."default" NOT NULL,
-    "summonerName" text COLLATE pg_catalog."default" NOT NULL,
-    "LeaguePoints" integer NOT NULL,
-    "Elo" integer NOT NULL,
-    owner text COLLATE pg_catalog."default",
-    CONSTRAINT "LeagueInfo_pkey" PRIMARY KEY (date)
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public."LeagueInfo"
-    OWNER to postgres;
-
--- --------------------------------------------------------------
--- Tabla : AccountMasteryHistory
--- --------------------------------------------------------------
--- Table: public.AccountMasteryHistory
--- DROP TABLE IF EXISTS public."AccountMasteryHistory";
-
-CREATE TABLE IF NOT EXISTS public."AccountMasteryHistory"
-(
-    "timeStamp" timestamp without time zone NOT NULL,
-    "championId" bigint NOT NULL,
-    "championName" text COLLATE pg_catalog."default" NOT NULL,
-    "championPoints" integer NOT NULL,
-    "championLevel" integer NOT NULL,
-    "Account" text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT "AccountMasteryHistory_pkey" PRIMARY KEY ("timeStamp")
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public."AccountMasteryHistory"
-    OWNER to postgres;
-
 -- --------------------------------------------------------------
 -- Tabla : Champion
 -- --------------------------------------------------------------
-
--- Table: public.Champion
--- DROP TABLE IF EXISTS public."Champion";
-
 CREATE TABLE IF NOT EXISTS public."Champion"
 (
     "ChampionId" bigint NOT NULL,
@@ -88,41 +66,97 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."Champion"
     OWNER to postgres;
-
 -- --------------------------------------------------------------
--- Tabla : Match
+-- Tabla : MasteryHistory
 -- --------------------------------------------------------------
-
--- Table: public.Match
-
--- DROP TABLE IF EXISTS public."Match";
-
-CREATE TABLE IF NOT EXISTS public."Match"
+CREATE TABLE IF NOT EXISTS public."MasteryHistory"
 (
     id serial NOT NULL,
-    "championName" text COLLATE pg_catalog."default" NOT NULL,
-    "summonerName" text COLLATE pg_catalog."default" NOT NULL,
-    win boolean NOT NULL,
-    "teamPosition" text COLLATE pg_catalog."default" NOT NULL,
-    "individualPosition" text COLLATE pg_catalog."default" NOT NULL,
-    "championPoints" integer,
-    CONSTRAINT "Match_pkey" PRIMARY KEY (id)
+    champion bigint NOT NULL,
+    "championPoints" integer NOT NULL,
+    "championLevel" integer,
+    date timestamp with time zone NOT NULL,
+    account integer NOT NULL,
+    CONSTRAINT "MasteryHistory_pkey" PRIMARY KEY (id),
+    CONSTRAINT id_account FOREIGN KEY (account)
+        REFERENCES public."Account" ("id_BD") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT id_champion FOREIGN KEY (champion)
+        REFERENCES public."Champion" ("ChampionId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."Match"
+ALTER TABLE IF EXISTS public."MasteryHistory"
     OWNER to postgres;
+-- --------------------------------------------------------------
+-- Tabla : LegueHistory
+-- --------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public."LeagueHistory"
+(
+    id serial NOT NULL,
+    date timestamp with time zone NOT NULL,
+    leagueid text COLLATE pg_catalog."default" NOT NULL,
+    "queueType" text COLLATE pg_catalog."default" NOT NULL,
+    tier text COLLATE pg_catalog."default" NOT NULL,
+    rank text COLLATE pg_catalog."default" NOT NULL,
+    "leaguePoints" integer NOT NULL,
+    "Elo" integer NOT NULL,
+    account integer NOT NULL,
+    owner integer NOT NULL,
+    CONSTRAINT "LeagueHistory_pkey" PRIMARY KEY (id),
+    CONSTRAINT id_account FOREIGN KEY (account)
+        REFERENCES public."Account" ("id_BD") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
 
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."LeagueHistory"
+    OWNER to postgres;
+-- --------------------------------------------------------------
+-- Tabla : MatchHistory
+-- --------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public."MatchHistory"
+(
+    id serial NOT NULL,
+    account integer NOT NULL,
+    "position" integer NOT NULL,
+    champion integer NOT NULL,
+    "championPoints" integer,
+    win boolean NOT NULL,
+    CONSTRAINT "MatchHistory_pkey" PRIMARY KEY (id),
+    CONSTRAINT id_account FOREIGN KEY (account)
+        REFERENCES public."Account" ("id_BD") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT id_champion FOREIGN KEY (champion)
+        REFERENCES public."Champion" ("ChampionId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT id_position FOREIGN KEY ("position")
+        REFERENCES public."Position" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."MatchHistory"
+    OWNER to postgres;
 -- --------------------------------------------------------------
 -- Tabla : ServerStatus
 -- --------------------------------------------------------------
-
-
--- Table: public.ServerStatus
-
--- DROP TABLE IF EXISTS public."ServerStatus";
-
 CREATE TABLE IF NOT EXISTS public."ServerStatus"
 (
     id serial NOT NULL,

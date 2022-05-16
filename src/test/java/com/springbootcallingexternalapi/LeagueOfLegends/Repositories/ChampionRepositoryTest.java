@@ -32,7 +32,6 @@ public class ChampionRepositoryTest {
         ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
     }
 
-
     @Test
     void solicitarExitosamenteCasoDefault() throws CharacterNotAllowedException, AccountDataException, ChampionNotFoundException, ChampionMasteryNotFoundException, AccountNotFoundException {
         //GIVEN A NORMAL ACCOUNT WITH ALL DATA AND A STANDARD OWNER FROM THE BASE OWNERS
@@ -45,15 +44,12 @@ public class ChampionRepositoryTest {
         );
         //Account with all data
 
-
         //WHEN TRYING TO INSERT IT INTO THE DATABASE AND RETRIEVING THE RESULTS
         repository.retrieveChampionIdByChampionName(championNameGiven);
         //THEN INSERT PROPERLY AND PERSIST THE DATA IN THE DATABASE.
 
         Long result = repository.retrieveChampionIdByChampionName(championNameGiven);
         Assertions.assertEquals(champioIdExpected, result.toString());
-
-
     }
 
     @Test
@@ -62,7 +58,6 @@ public class ChampionRepositoryTest {
         Assertions.assertThrows(CharacterNotAllowedException.class, () -> {
             String championNameGiven = new String(
                     "ze*/ri"
-
             );
             repository.retrieveChampionIdByChampionName(championNameGiven);
         });
