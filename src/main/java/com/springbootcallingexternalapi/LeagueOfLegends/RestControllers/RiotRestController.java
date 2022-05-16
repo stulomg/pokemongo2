@@ -120,4 +120,11 @@ public class RiotRestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/relationship/{account1}/{account2}")
+
+    public ResponseEntity<Object> playersRelationship (@PathVariable String account1, @PathVariable String account2) throws CharacterNotAllowedException, AccountNotFoundException {
+        Object response = riotRequestorService.playersRelationship(account1,account2);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 }
