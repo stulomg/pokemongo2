@@ -1,6 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Query.QuerySyntaxError;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Query.QuerySyntaxErrorException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.QueryModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.QueryResponseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.QueryRepository;
@@ -14,7 +14,7 @@ public class QueryService {
     @Autowired
     QueryRepository queryRepository;
 
-    public List<QueryResponseModel> querySpecific(QueryModel queryModel) throws QuerySyntaxError {
+    public List<QueryResponseModel> querySpecific(QueryModel queryModel) throws QuerySyntaxErrorException {
         String sql = "SELECT "+queryModel.getSelect()+" FROM \""+queryModel.getFrom()+"\" WHERE "+queryModel.getWhere();
         return queryRepository.querySpecific(queryModel,sql);
     }
