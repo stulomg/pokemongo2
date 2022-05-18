@@ -1,14 +1,14 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-public class AccountForClashData {
+public class AccountForClashDataModel {
 
     private String teamId;
 
-    public AccountForClashData(String teamId) {
+    public AccountForClashDataModel(String teamId) {
         this.teamId = teamId;
     }
 
-    public AccountForClashData() {
+    public AccountForClashDataModel() {
     }
 
     public String getTeamId() {

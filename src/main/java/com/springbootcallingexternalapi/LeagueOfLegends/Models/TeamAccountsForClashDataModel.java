@@ -1,17 +1,17 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-public class TeamAccountsForClashData {
+public class TeamAccountsForClashDataModel {
 
     private String summonerId;
 
     private String position;
 
-    public TeamAccountsForClashData(String summonerId, String position) {
+    public TeamAccountsForClashDataModel(String summonerId, String position) {
         this.summonerId = summonerId;
         this.position = position;
     }
 
-    public TeamAccountsForClashData() {
+    public TeamAccountsForClashDataModel() {
     }
 
     public String getSummonerId() {
