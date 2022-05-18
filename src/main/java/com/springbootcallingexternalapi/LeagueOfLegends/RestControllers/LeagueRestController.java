@@ -33,12 +33,10 @@ public class LeagueRestController {
     public ResponseEntity<Object> divisionComparison(@PathVariable String owner, @PathVariable String owner2) {
         try {
             return new ResponseEntity<>(leagueService.getMaxDivision(owner, owner2), HttpStatus.OK);
-        } catch (CharacterNotAllowedExceptionOwner e) {
+        } catch (CharacterNotAllowedExceptionOwner | CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (OwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (CharacterNotAllowedException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

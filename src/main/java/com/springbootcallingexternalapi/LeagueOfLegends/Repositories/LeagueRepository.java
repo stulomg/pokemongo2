@@ -24,7 +24,7 @@ public class LeagueRepository {
 
     public void insertLeagueInfo(LeagueInfoModel leagueInfoModel, Integer accountID,Integer ownerID) throws  AccountDataException {
 
-        String sql = "INSERT INTO \"LeagueHistory\"(date, leagueid, \"queueType\", tier, rank, \"leaguePoints\", \"Elo\", account, owner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO \"LeagueHistory\"(date, leagueid, \"queueType\", tier, rank, \"leaguePoints\", \"Elo\", account, owner) VALUES (?,?,?,?,?,?,?,?,?);";
         Object[] params = {leagueInfoModel.getDate(),
                 leagueInfoModel.getLeagueId(),
                 leagueInfoModel.getQueueType(),
@@ -68,5 +68,3 @@ public class LeagueRepository {
         } else throw new CharacterNotAllowedExceptionOwner(owner, owner2);
     }
 }
-
-
