@@ -1,7 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class QueryModel {
-    private String criterio;
+    private String criteria;
     private String select;
     private String from;
     private String where;
@@ -10,18 +10,18 @@ public class QueryModel {
     }
 
     public QueryModel(String criterio, String select, String from, String where) {
-        this.criterio = criterio;
+        this.criteria = criterio;
         this.select = select;
         this.from = from;
         this.where = where;
     }
 
-    public String getCriterio() {
-        return criterio;
+    public String getCriteria() {
+        return criteria;
     }
 
-    public void setCriterio(String criterio) {
-        this.criterio = criterio;
+    public void setCriteria(String criteria) {
+        this.criteria = criteria;
     }
 
     public String getSelect() {

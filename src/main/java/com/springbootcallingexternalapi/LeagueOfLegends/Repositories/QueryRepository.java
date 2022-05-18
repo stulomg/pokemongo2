@@ -20,7 +20,7 @@ public class QueryRepository {
 
         String sqlSave = "INSERT INTO \"QuerySpecific\"(criterio, query) VALUES (?, ?);";
         Object[] params = {
-                queryModel.getCriterio(),
+                queryModel.getCriteria(),
                 sql
         };
         try {
@@ -30,7 +30,7 @@ public class QueryRepository {
                 return querySpecific;
             }
         }catch (DataAccessException e){
-            throw new QuerySyntaxErrorException(queryModel.getCriterio());
+            throw new QuerySyntaxErrorException(queryModel.getCriteria());
         }
         return null;
     }
