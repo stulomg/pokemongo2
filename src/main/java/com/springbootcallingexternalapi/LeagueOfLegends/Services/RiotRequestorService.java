@@ -149,6 +149,7 @@ public class RiotRequestorService {
             ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
 
             return response.getBody();
+
         } else throw new CharacterNotAllowedException(account);
     }
 
@@ -158,10 +159,7 @@ public class RiotRequestorService {
         String uri = "/lol/status/v4/platform-data";
         ResponseEntity<MaintenancesStatusModel> response = requestToRiot(uri, HttpMethod.GET, MaintenancesStatusModel.class);
         MaintenancesStatusModel model = response.getBody();
-        model.getName();
-        model.getLocales();
-        model.getMaintenances();
-        model.getIncidents();
+
         serverRepository.insertServerStatus(model);
 
         return response.getBody();
