@@ -50,7 +50,6 @@ public class AccountRepository {
 
         if (isAlpha(account)) {
             int result = jdbcTemplate.update(sql, params);
-            System.out.println(result);
             if (result == 0) {
                 throw new AccountNotFoundException(account);
             }
@@ -62,7 +61,6 @@ public class AccountRepository {
         Object[] params = {ownerID};
 
         if (isAlpha(owner)) {
-
             List<AccountModel> listAccounts = jdbcTemplate.query(sql, params,
                     BeanPropertyRowMapper.newInstance(AccountModel.class));
             if (listAccounts.size() == 0) {
@@ -110,7 +108,6 @@ public class AccountRepository {
             if (listAccounts.size() == 0) {
                 throw new AccountNotFoundException(account);
             } else return listAccounts;
-
         } else throw new CharacterNotAllowedException(account);
     }
 

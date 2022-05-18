@@ -33,6 +33,7 @@ public class OwnerRepository {
             }
         } else throw new CharacterNotAllowedException(owner);
     }
+
     public Long retrieveOwnerIdByAccount(String account) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "SELECT owner FROM \"Account\" WHERE name =?;";
         Object[] params = {account};
