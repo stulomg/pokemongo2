@@ -19,7 +19,6 @@ public class ServerRepository {
                 maintenancesStatusModel.getMaintenances(),
                 maintenancesStatusModel.getIncidents()
         };
-
         jdbcTemplate.update(sql, params);
     }
 }

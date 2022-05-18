@@ -1,6 +1,5 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
-
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,5 +16,4 @@ public class MatchRepository {
         Object[] params = {accountID, positionID, championID,  gamedata.getChampionPoints(),gamedata.isWin()};
         jdbcTemplate.update(sql, params);
     }
-
 }

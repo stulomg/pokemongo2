@@ -21,14 +21,10 @@ public class AccountRestController {
         try {
             accountService.deleteAccount(account);
             return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
-        } catch (AccountOrOwnerNotFoundException e) {
+        } catch (AccountOrOwnerNotFoundException | AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (CharacterNotAllowedException e) {
+        } catch (CharacterNotAllowedException | OwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (OwnerNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }catch (AccountNotFoundException e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -54,7 +50,6 @@ public class AccountRestController {
         }
         return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
     }
-
 
     @GetMapping(value = "/account/find-by-name/{account}")
     public ResponseEntity<Object> retrieveAccountByName(@PathVariable String account) {

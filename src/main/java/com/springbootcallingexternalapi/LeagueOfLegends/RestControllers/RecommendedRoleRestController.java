@@ -21,11 +21,7 @@ public class RecommendedRoleRestController {
     public ResponseEntity<Object> getMostPopular(@RequestBody RecommendedRoleDataModel data) {
         try {
             return new ResponseEntity<>(recommendedRoleService.recommendedRoleRepository(data), HttpStatus.OK);
-        } catch (NoDataException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }catch (CharacterNotAllowedException e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }catch (AccountNotFoundException e){
+        } catch (NoDataException | CharacterNotAllowedException | AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
