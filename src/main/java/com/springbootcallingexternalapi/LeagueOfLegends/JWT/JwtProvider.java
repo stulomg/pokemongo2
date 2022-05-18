@@ -7,13 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-
 import java.util.Date;
 
 @Component
 public class JwtProvider {
     private final static Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-
     @Value("${jwt.secret}")
     private String secret;
     @Value("${jwt.expiration}")
@@ -35,17 +33,16 @@ public class JwtProvider {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
         }catch (MalformedJwtException e){
-            logger.error("token mal formado");
+            logger.error("malformed token");
         }catch (UnsupportedJwtException e){
-            logger.error("token no soportado");
+            logger.error("token not supported");
         }catch (ExpiredJwtException e){
-            logger.error("token expirado");
+            logger.error("expired token");
         }catch (IllegalArgumentException e){
-            logger.error("token vacio");
+            logger.error("empty token");
         }catch (SignatureException e){
-            logger.error("fail en la firma");
+            logger.error("token signing error");
         }
         return false;
     }
-
 }
