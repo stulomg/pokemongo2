@@ -11,11 +11,11 @@ import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 public class ChampionService {
-
     @Autowired
     ChampionRepository championRepository;
 
-    public Long retrieveChampionIdByChampionName(String championName) throws ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException {
+    public Long retrieveChampionIdByChampionName(String championName)
+            throws ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException {
         try {
             return championRepository.retrieveChampionIdByChampionName(championName);
         } catch (EmptyResultDataAccessException e) {

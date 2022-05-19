@@ -39,6 +39,7 @@ public class RecommendedRoleService {
         int contador3 = -1;
         int contador4 = -1;
         int contador5 = -1;
+
         for (int i = 0; i < listSumRole.size(); i++) {
             if (listSumRole.get(i).getAccount().equals(accounts.get(0))) {
                 if (listSumRole.get(i).getGamesPlayed() > maxRole1) {
@@ -140,7 +141,3 @@ public class RecommendedRoleService {
         return recommendedRoleModelFinal;
     }
 }
-
-
-
-
