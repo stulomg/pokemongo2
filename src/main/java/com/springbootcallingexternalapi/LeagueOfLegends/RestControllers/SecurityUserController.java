@@ -18,7 +18,6 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 @CrossOrigin
 public class SecurityUserController {
-
     @Autowired
     SecurityUserService securityUserService;
 

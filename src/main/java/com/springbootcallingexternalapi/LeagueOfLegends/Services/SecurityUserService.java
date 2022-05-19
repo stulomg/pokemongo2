@@ -67,6 +67,7 @@ public class SecurityUserService {
         user.setRoles(securityRoleModels);
         securityUserRepository.save(user);
     }
+
     public SecurityJwtDtoModel login(SecurityLoginUserModel securityLoginUserModel) {
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(securityLoginUserModel.getUserName(), securityLoginUserModel.getPassword()));
@@ -76,6 +77,7 @@ public class SecurityUserService {
         SecurityJwtDtoModel securityJwtDtoModel = new SecurityJwtDtoModel(jwt, userDetails.getUsername(), userDetails.getAuthorities());
         return securityJwtDtoModel;
     }
+
     public String generateToken() {
         jdbcTemplate.execute("TRUNCATE TABLE \"user\" RESTART IDENTITY CASCADE");
         SecurityNewUserModel dataNewUser = new SecurityNewUserModel(

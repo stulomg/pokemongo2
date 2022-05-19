@@ -14,7 +14,7 @@ public class TwitterRestController {
     @Autowired
     TwitterRequestorService twitterRequestorService;
 
-    @RequestMapping(value = "/call-twitter/tweets/{tweetId}",
+    @RequestMapping (value = "/call-twitter/tweets/{tweetId}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> callTwitter (@PathVariable Long tweetId){
@@ -22,7 +22,7 @@ public class TwitterRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/call-twitter/community/tweets/riot_games")
+    @GetMapping (value = "/call-twitter/community/tweets/riot_games")
     public ResponseEntity<Object> getRiotTweets(){
         Object response = twitterRequestorService.getRiotTweets();
         return new ResponseEntity<>(response,HttpStatus.OK);
