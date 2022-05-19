@@ -15,7 +15,6 @@ import java.util.Locale;
 
 @Service
 public class AccountService {
-
     @Autowired
     AccountRepository accountRepository;
     @Autowired

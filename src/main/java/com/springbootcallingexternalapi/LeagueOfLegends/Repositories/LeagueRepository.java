@@ -18,7 +18,6 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 
 @Repository
 public class LeagueRepository {
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
