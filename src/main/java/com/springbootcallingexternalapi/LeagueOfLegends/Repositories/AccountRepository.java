@@ -43,7 +43,6 @@ public class AccountRepository {
                 throw new AccountDataException(account);
             }
     }
-
     public void deleteAccount( String account,Integer ownerID) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "DELETE FROM \"Account\" WHERE Lower(name) =? and \"owner\" =?;";
         Object[] params = {account.toLowerCase(Locale.ROOT), ownerID};
