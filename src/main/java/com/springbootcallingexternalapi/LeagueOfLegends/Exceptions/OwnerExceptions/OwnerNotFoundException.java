@@ -5,6 +5,6 @@ public class OwnerNotFoundException extends Exception{
         super ("The owner " + owner + " was not found, please rectify");
     }
     public OwnerNotFoundException(String owner, String owner2) {
-        super ("The owner "+ owner + " and the owner " +owner2+ " was not found, please rectify");
+        super ("The owner "+ owner + " and the owner " +owner2+ " were not found, please rectify");
     }
 }
