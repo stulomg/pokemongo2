@@ -1,20 +1,29 @@
-Subir:
-Nueva informacion
-Estar en lagit rama adecuada
-git add -A
-git commit -m "" (guardar)
-git push
-realizar pull request
-
-Traer:
-git fetch (trae todas las ramas)
-pararse en main local y pull
-pararse en rama y realizar merge desde main local a la rama
-git pull (Rama especifica)
-git stash (no guardar)
-
 Orden de excepciones:
-Repositorio-Servicio_controlador
-
+Repositorio-Servicio-controlador
 
 // Logger logger = LoggerFactory.getLogger(AccountRepository.class);
+
+Actualizar mi rama:
+Hacer git status
+Hacer git add -A
+Hacer git status
+Hacer git commit -m "inserte su mensaje aqui"
+*Cambiar a la rama main (hacer checkout)
+Hacer git fetch
+Hacer git status
+Hacer git pull
+Irme a mi rama (hacer checkout)
+Irme a la parte inferior derecha, hacer click en "main" y seleccionar la opción 'merge main into *nombredemirama*'
+
+Subir una actualización (despues de actualizar)
+Hacer git status
+Hacer git push
+Hacer click en el segundo link para hacer el pull request y darle continuar
+
+(Extra)
+Subir una actualización si nadie ha hecho cambios
+Hacer git add -A
+Hacer git commit -m "inserte su mensaje aqui"
+Hacer git status
+Hacer git push
+Hacer click en el segundo link para hacer el pull request y darle continuar
