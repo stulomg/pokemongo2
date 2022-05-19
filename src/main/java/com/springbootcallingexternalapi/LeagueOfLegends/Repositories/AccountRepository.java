@@ -26,7 +26,6 @@ public class AccountRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertAccount(AccountBaseModel account, Integer owner) throws AccountDataException, AccountExistsOrNotException {
-
         String sql = "INSERT INTO \"Account\"(id, puuid, accountid, \"revisionDate\", \"owner\", name) VALUES (?, ?, ?, ?, ?, ?);";
         Object[] params = {
                 account.getId(),
@@ -43,10 +42,10 @@ public class AccountRepository {
                 throw new AccountDataException(account);
             }
     }
+
     public void deleteAccount( String account,Integer ownerID) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "DELETE FROM \"Account\" WHERE Lower(name) =? and \"owner\" =?;";
         Object[] params = {account.toLowerCase(Locale.ROOT), ownerID};
-
         if (isAlpha(account)) {
             int result = jdbcTemplate.update(sql, params);
             if (result == 0) {
@@ -58,7 +57,6 @@ public class AccountRepository {
     public List<AccountModel> retrieveAccountByOwner(String owner,Integer ownerID) throws CharacterNotAllowedException, OwnerNotFoundException {
         String sql = "SELECT * FROM \"Account\" WHERE  \"owner\" =?";
         Object[] params = {ownerID};
-
         if (isAlpha(owner)) {
             List<AccountModel> listAccounts = jdbcTemplate.query(sql, params,
                     BeanPropertyRowMapper.newInstance(AccountModel.class));
@@ -100,7 +98,6 @@ public class AccountRepository {
     public List<AccountModel> retrieveAccountByAccountName(String account) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "SELECT * FROM \"Account\" WHERE LOWER (name)=?";
         Object[] params = {account};
-
         if (isAlpha(account)) {
             List<AccountModel> listAccounts = jdbcTemplate.query(sql, params,
                     BeanPropertyRowMapper.newInstance(AccountModel.class));

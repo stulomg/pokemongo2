@@ -22,7 +22,6 @@ public class MasteryRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertMasteryInfo(MasteryHistoryInfoModel masteryHistoryInfoModel) throws AccountDataException {
-
         String sql = "INSERT INTO \"MasteryHistory\"(champion, \"championPoints\", \"championLevel\", date, account)VALUES (?, ?, ?, ?, ?);";
         Object[] params = {
                 masteryHistoryInfoModel.getChampion(),
@@ -42,7 +41,6 @@ public class MasteryRepository {
                 "\tFROM \"MasteryHistory\" as a \n" +
                 "\tWHERE a.account = ?;";
         Object[] params = {accountID};
-
         if (isAlpha(account)) {
             List<MasteryHistoryModel> listMastery = jdbcTemplate.query(sql, params,
                     BeanPropertyRowMapper.newInstance(MasteryHistoryModel.class));

@@ -1,6 +1,6 @@
 Subir:
 Nueva informacion
-Estar en la rama adecuada
+Estar en lagit rama adecuada
 git add -A
 git commit -m "" (guardar)
 git push
