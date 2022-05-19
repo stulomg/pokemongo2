@@ -2,6 +2,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions;
 
 public class AccountOrOwnerNotFoundException extends Exception {
     public AccountOrOwnerNotFoundException(String owner, String account) {
-        super("LA CUENTA: " + account + ", VINCULADA AL USUARIO: " + owner + " NO FUE ENCONTRADA, PORFAVOR RECTIFICAR.");
+        super("The account: " + account + ", linked to the user: " + owner + " was not found, please rectify.");
     }
 }
