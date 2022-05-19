@@ -15,5 +15,4 @@ public class AccountDataException extends Exception{
     public AccountDataException(LeagueInfoModel account) {
         super ("LOS DATOS INGRESADOS PARA LA CUENTA "+ account.getSummonerName() +" NO SON VALIDOS, POR FAVOR RECTIFICAR");
     }
-
 }

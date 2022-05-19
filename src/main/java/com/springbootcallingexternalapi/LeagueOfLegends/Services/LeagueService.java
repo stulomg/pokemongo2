@@ -60,7 +60,6 @@ public class LeagueService {
         }
 
         switch (tier) {
-
             case "IRON":
                 v = 1000;
                 break;
@@ -88,7 +87,6 @@ public class LeagueService {
             case "CHALLENGER":
                 v = 9000;
                 break;
-
             default:
                 break;
         }
@@ -96,7 +94,6 @@ public class LeagueService {
     }
 
     private int getRankValue(String rank) {
-
         int v = 0;
 
         if (rank == null || rank == "") {
@@ -104,7 +101,6 @@ public class LeagueService {
         }
 
         switch (rank) {
-
             case "I":
                 v = 400;
                 break;

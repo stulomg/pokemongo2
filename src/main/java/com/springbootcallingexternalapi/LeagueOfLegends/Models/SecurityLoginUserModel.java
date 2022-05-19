@@ -3,6 +3,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 import javax.validation.constraints.NotBlank;
 
 public class SecurityLoginUserModel {
+
     @NotBlank
     private String userName;
     @NotBlank
