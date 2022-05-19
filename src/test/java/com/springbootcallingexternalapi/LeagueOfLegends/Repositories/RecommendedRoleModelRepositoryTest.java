@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -116,7 +117,7 @@ class RecommendedRoleModelRepositoryTest {
         matchRepository.insertMatchData(dataModel4,2,4,89);
         matchRepository.insertMatchData(dataModel5,2,4,89);
 
-        List<RecommendedRoleModel> resultSet = recommendedRoleService.recommendedRoleRepository(data);
+        List<RecommendedRoleModel> resultSet = recommendedRoleService.recommendedRoleService(data);
         Assertions.assertEquals(5, resultSet.size());
         RecommendedRoleModel result = resultSet.get(0);
         RecommendedRoleModel result2 = resultSet.get(1);
@@ -148,7 +149,10 @@ class RecommendedRoleModelRepositoryTest {
 
     @Test
     void NoDataException() {
-
-        Assertions.assertThrows(NoDataException.class, () -> recommendedRoleRepository.recommendedRole(1,2,3,4,6));
+        ArrayList accounts = new ArrayList();
+        for (int i = 0; i < 5; i+=2) {
+            accounts.add(i);
+        }
+        Assertions.assertThrows(NoDataException.class, () -> recommendedRoleRepository.recommendedRole(accounts));
     }
 }

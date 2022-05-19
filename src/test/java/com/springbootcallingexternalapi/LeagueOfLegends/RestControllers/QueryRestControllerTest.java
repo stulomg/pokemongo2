@@ -1,6 +1,5 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
@@ -22,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -69,10 +67,10 @@ class QueryRestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newQuery)))
                 .andExpect(status().isOk());
-        List<QuerySpecificModel> resultSet = jdbcTemplate.query("SELECT * FROM \"QuerySpecific\"", BeanPropertyRowMapper.newInstance(QuerySpecificModel.class));
+        List<SpecificQueryModel> resultSet = jdbcTemplate.query("SELECT * FROM \"QuerySpecific\"", BeanPropertyRowMapper.newInstance(SpecificQueryModel.class));
         Assertions.assertEquals(1,resultSet.size());
 
-        Assertions.assertEquals(newQuery.getCriterio(),resultSet.get(0).getCriterio());
+        Assertions.assertEquals(newQuery.getCriteria(),resultSet.get(0).getCriteria());
     }
     @Test
     void newQueryQuerySyntaxErrorException() throws Exception {

@@ -2,7 +2,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Enums.RoleName;
 import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 
 @Entity
@@ -15,8 +14,7 @@ public class SecurityRoleModel {
     @Enumerated(EnumType.STRING)
     private RoleName roleName;
 
-    public SecurityRoleModel() {
-    }
+    public SecurityRoleModel() {}
 
     public SecurityRoleModel(RoleName roleName) {
         this.roleName = roleName;
