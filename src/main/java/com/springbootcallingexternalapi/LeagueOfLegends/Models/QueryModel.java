@@ -9,8 +9,8 @@ public class QueryModel {
     public QueryModel() {
     }
 
-    public QueryModel(String criterio, String select, String from, String where) {
-        this.criteria = criterio;
+    public QueryModel(String criteria, String select, String from, String where) {
+        this.criteria = criteria;
         this.select = select;
         this.from = from;
         this.where = where;

@@ -194,7 +194,7 @@ ALTER TABLE IF EXISTS public."TwitterHashtag"
 CREATE TABLE IF NOT EXISTS public."QuerySpecific"
 (
     id serial NOT NULL,
-    criterio text COLLATE pg_catalog."default",
+    criteria text COLLATE pg_catalog."default",
     query text COLLATE pg_catalog."default",
     CONSTRAINT "querySpecific_pkey" PRIMARY KEY (id)
 )

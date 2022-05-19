@@ -17,8 +17,7 @@ public class QueryRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<QueryResponseModel> querySpecific(QueryModel queryModel, String sql) throws QuerySyntaxErrorException {
-
-        String sqlSave = "INSERT INTO \"QuerySpecific\"(criterio, query) VALUES (?, ?);";
+        String sqlSave = "INSERT INTO \"QuerySpecific\"(criteria, query) VALUES (?, ?);";
         Object[] params = {
                 queryModel.getCriteria(),
                 sql
