@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MasteryRestController {
     @Autowired
     MasteryService masteryService;
-
     @GetMapping(value = "/account/masteryHistory/{account}")
+
     public ResponseEntity<Object> AccountMasteryHistory(@PathVariable String account) {
         try {
             return new ResponseEntity<>(masteryService.AccountMasteryHistory(account), HttpStatus.OK);

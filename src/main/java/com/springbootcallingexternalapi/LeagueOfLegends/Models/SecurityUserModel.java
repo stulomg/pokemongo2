@@ -1,7 +1,5 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityRoleModel;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;

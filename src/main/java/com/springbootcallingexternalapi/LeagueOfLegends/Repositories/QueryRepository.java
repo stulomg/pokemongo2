@@ -17,10 +17,9 @@ public class QueryRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<QueryResponseModel> querySpecific(QueryModel queryModel, String sql) throws QuerySyntaxErrorException {
-
-        String sqlSave = "INSERT INTO \"QuerySpecific\"(criterio, query) VALUES (?, ?);";
+        String sqlSave = "INSERT INTO \"QuerySpecific\"(criteria, query) VALUES (?, ?);";
         Object[] params = {
-                queryModel.getCriterio(),
+                queryModel.getCriteria(),
                 sql
         };
         try {
@@ -30,7 +29,7 @@ public class QueryRepository {
                 return querySpecific;
             }
         }catch (DataAccessException e){
-            throw new QuerySyntaxErrorException(queryModel.getCriterio());
+            throw new QuerySyntaxErrorException(queryModel.getCriteria());
         }
         return null;
     }

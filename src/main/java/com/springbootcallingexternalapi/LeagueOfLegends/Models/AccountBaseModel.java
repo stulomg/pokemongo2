@@ -2,13 +2,9 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class AccountBaseModel {
     private String id;
-
     private String accountId;
-
     private String puuid;
-
     private String name;
-
     private Long revisionDate;
 
     public AccountBaseModel(String id, String accountId, String puuid, String name, Long revisionDate) {
