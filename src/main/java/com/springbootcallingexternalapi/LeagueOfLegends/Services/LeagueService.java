@@ -81,7 +81,6 @@ public class LeagueService {
             case "CHALLENGER":
                 v = 9000;
                 break;
-
             default:
                 break;
         }
