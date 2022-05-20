@@ -28,9 +28,9 @@ public class RecommendedRoleService {
         List<RecommendedRoleModel> recommendedRoleModelFinal = new ArrayList<>();
         List<RecommendedRoleModel> listSumRole = recommendedRoleRepository.recommendedRole(accounts);
         System.out.println(accounts);
-        ArrayList contador = new ArrayList(accounts.size());
+        ArrayList counter = new ArrayList(accounts.size());
         for (int i = 0; i < accounts.size(); i++) {
-            contador.add(-1);
+            counter.add(-1);
         }
         for (int i = 0; i < accounts.size(); i++) {
             Integer maxRole = 0;
@@ -38,15 +38,15 @@ public class RecommendedRoleService {
                 if (listSumRole.get(j).getAccount().equals(accounts.get(i))) {
                     if (listSumRole.get(j).getGamesPlayed() > maxRole) {
                         maxRole = listSumRole.get(j).getGamesPlayed();
-                        contador.set(i,j);
+                        counter.set(i,j);
                     } else if (listSumRole.get(j).getGamesPlayed() == maxRole) {
-                        contador.set(i,j);
+                        counter.set(i,j);
                     }
                 }
             }
         }
-        for (int i = 0; i < contador.size(); i++) {
-            if (contador.get(i).equals(-1)) {
+        for (int i = 0; i < counter.size(); i++) {
+            if (counter.get(i).equals(-1)) {
                 RecommendedRoleModel noData = new RecommendedRoleModel(
                         0,
                         0,
@@ -55,7 +55,7 @@ public class RecommendedRoleService {
                 noData.setAccount((Integer) accounts.get(i));
                 recommendedRoleModelFinal.add(noData);
             }else  {
-                recommendedRoleModelFinal.add(listSumRole.get((Integer) contador.get(i)));
+                recommendedRoleModelFinal.add(listSumRole.get((Integer) counter.get(i)));
             }
         }
         return recommendedRoleModelFinal;
