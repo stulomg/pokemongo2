@@ -20,16 +20,14 @@ public class RecommendedRoleService {
     @Autowired
     AccountRepository accountRepository;
 
-    public List<RecommendedRoleModel> recommendedRoleService(RecommendedRoleDataModel data) throws NoDataException, CharacterNotAllowedException, AccountNotFoundException {
+    public List<RecommendedRoleModel> recommendedRoleService(List<RecommendedRoleDataModel> data) throws NoDataException, CharacterNotAllowedException, AccountNotFoundException {
         ArrayList accounts = new ArrayList();
-        accounts.add(accountRepository.retrieveAccountIdByAccountName(data.getParticipant1()));
-        accounts.add(accountRepository.retrieveAccountIdByAccountName(data.getParticipant2()));
-        accounts.add(accountRepository.retrieveAccountIdByAccountName(data.getParticipant3()));
-        accounts.add(accountRepository.retrieveAccountIdByAccountName(data.getParticipant4()));
-        accounts.add(accountRepository.retrieveAccountIdByAccountName(data.getParticipant5()));
+        for (int i = 0; i < data.size(); i++) {
+            accounts.add(accountRepository.retrieveAccountIdByAccountName(data.get(i).getParticipant()));
+        }
         List<RecommendedRoleModel> recommendedRoleModelFinal = new ArrayList<>();
         List<RecommendedRoleModel> listSumRole = recommendedRoleRepository.recommendedRole(accounts);
-
+        System.out.println(accounts);
         ArrayList contador = new ArrayList(accounts.size());
         for (int i = 0; i < accounts.size(); i++) {
             contador.add(-1);
