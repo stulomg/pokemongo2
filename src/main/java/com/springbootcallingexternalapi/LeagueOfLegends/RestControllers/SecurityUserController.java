@@ -29,7 +29,7 @@ public class SecurityUserController {
             securityUserService.newUser(newUser);
             return new ResponseEntity(new Message("New registered user"), HttpStatus.CREATED);
         }catch (ConstraintViolationException e) {
-            return new ResponseEntity<>(new Message("Incomplete information, it is needed in this order: name, userName, email, passwordr"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("Incomplete information, information need to be added in the following order: name, userName, email, password"), HttpStatus.BAD_REQUEST);
         }catch (IllegalArgumentException e){
             return new ResponseEntity<>(new Message("Password is required"), HttpStatus.BAD_REQUEST);
         }catch (DataIntegrityViolationException e){
