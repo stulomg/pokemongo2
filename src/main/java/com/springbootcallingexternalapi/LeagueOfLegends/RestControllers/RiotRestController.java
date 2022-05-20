@@ -39,9 +39,9 @@ public class RiotRestController {
         try {
             AccountBaseModel acc = riotRequestorService.getAccountAndAssignToOwner(account, owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);
-        } catch (AccountNotFoundException e) {
+        } catch (AccountNotFoundException | OwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AccountDataException | CharacterNotAllowedException | OwnerNotFoundException e1) {
+        } catch (AccountDataException | CharacterNotAllowedException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -127,8 +127,10 @@ public class RiotRestController {
         Object response = null;
         try {
             response = riotRequestorService.playersRelationship(account1,account2);
-        } catch (CharacterNotAllowedException | AccountNotFoundException e) {
+        } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (AccountNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
