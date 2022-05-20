@@ -103,13 +103,27 @@ class RecommendedRoleModelRepositoryTest {
                 0,
                 0
         );
-        RecommendedRoleDataModel data = new RecommendedRoleDataModel(
-                "testuno",
-                "testdos",
-                "testtres",
-                "testtres",
+        RecommendedRoleDataModel data1 = new RecommendedRoleDataModel(
+                "testuno"
+        );
+        RecommendedRoleDataModel data2 = new RecommendedRoleDataModel(
+                "testdos"
+        );
+        RecommendedRoleDataModel data3 = new RecommendedRoleDataModel(
                 "testtres"
         );
+        RecommendedRoleDataModel data4 = new RecommendedRoleDataModel(
+                "testtres"
+        );
+        RecommendedRoleDataModel data5 = new RecommendedRoleDataModel(
+                "testtres"
+        );
+        List<RecommendedRoleDataModel> data = new ArrayList<>();
+        data.add(data1);
+        data.add(data2);
+        data.add(data3);
+        data.add(data4);
+        data.add(data5);
 
         matchRepository.insertMatchData(dataModel,1,3,112);
         matchRepository.insertMatchData(dataModel2,1,3,112);
@@ -150,7 +164,7 @@ class RecommendedRoleModelRepositoryTest {
     @Test
     void NoDataException() {
         ArrayList accounts = new ArrayList();
-        for (int i = 0; i < 5; i+=2) {
+        for (int i = 0; i < 10; i+=2) {
             accounts.add(i);
         }
         Assertions.assertThrows(NoDataException.class, () -> recommendedRoleRepository.recommendedRole(accounts));

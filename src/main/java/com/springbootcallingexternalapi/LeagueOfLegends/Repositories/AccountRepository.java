@@ -107,12 +107,12 @@ public class AccountRepository {
         } else throw new CharacterNotAllowedException(account);
     }
 
-    public Long retrieveAccountIdByAccountName(String accountName) throws  CharacterNotAllowedException, AccountNotFoundException {
+    public Integer retrieveAccountIdByAccountName(String accountName) throws  CharacterNotAllowedException, AccountNotFoundException {
         String sql = "SELECT \"id_BD\" FROM \"Account\" WHERE LOWER(\"name\")=?;";
         Object[] params = {accountName.toLowerCase(Locale.ROOT)};
         if (isAlpha(accountName)) {
             try {
-                return jdbcTemplate.queryForObject(sql, params, Long.class);
+                return jdbcTemplate.queryForObject(sql, params, Integer.class);
             } catch (EmptyResultDataAccessException e) {
                 throw new AccountNotFoundException(accountName);
             }
