@@ -18,9 +18,9 @@ public class RecommendedRoleRestController {
     RecommendedRoleService recommendedRoleService;
 
     @GetMapping(value = "/loldata/clash/recommendedRole")
-    public ResponseEntity<Object> getMostPopular(@RequestBody RecommendedRoleDataModel data) {
+    public ResponseEntity<Object> getRecoomendRole(@RequestBody RecommendedRoleDataModel data) {
         try {
-            return new ResponseEntity<>(recommendedRoleService.recommendedRoleRepository(data), HttpStatus.OK);
+            return new ResponseEntity<>(recommendedRoleService.recommendedRoleService(data), HttpStatus.OK);
         } catch (NoDataException | CharacterNotAllowedException | AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
