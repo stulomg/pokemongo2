@@ -17,6 +17,6 @@ public class OwnerRestController {
     @GetMapping(value = "/account/new-owner")
     public ResponseEntity<Object> newOwner(@RequestBody OwnerModel ownerModel) {
         ownerService.insertOwner(ownerModel);
-        return new ResponseEntity<>("Se agrego el owner correctamente", HttpStatus.OK);
+        return new ResponseEntity<>("Owner has been added correctly", HttpStatus.OK);
     }
 }
