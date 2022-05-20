@@ -27,7 +27,6 @@ public class RecommendedRoleService {
         }
         List<RecommendedRoleModel> recommendedRoleModelFinal = new ArrayList<>();
         List<RecommendedRoleModel> listSumRole = recommendedRoleRepository.recommendedRole(accounts);
-        System.out.println(accounts);
         ArrayList counter = new ArrayList(accounts.size());
         for (int i = 0; i < accounts.size(); i++) {
             counter.add(-1);
