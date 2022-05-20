@@ -16,7 +16,6 @@ import java.sql.Timestamp;
 
 @Service
 public class LeagueService {
-
     @Autowired
     LeagueRepository leagueRepository;
     @Autowired
@@ -41,7 +40,6 @@ public class LeagueService {
         Integer ownerID = Math.toIntExact(ownerRepository.retrieveOwnerIdByOwnerName(owner));
         Integer owner2ID = Math.toIntExact(ownerRepository.retrieveOwnerIdByOwnerName(owner2));
         return leagueRepository.getMaxDivision(owner, owner2,ownerID,owner2ID);
-
     }
 
     private int calculateElo(String tier, String rank, int points) {
@@ -50,17 +48,12 @@ public class LeagueService {
         return tierValue + rankValue + points;
     }
 
-
     private int getTierValue(String tier) {
-
         int v = 0;
-
-        if (tier == null || tier == "") {
+        if (tier == null || tier.equals("")) {
             return v;
         }
-
         switch (tier) {
-
             case "IRON":
                 v = 1000;
                 break;
@@ -88,7 +81,6 @@ public class LeagueService {
             case "CHALLENGER":
                 v = 9000;
                 break;
-
             default:
                 break;
         }
@@ -96,15 +88,11 @@ public class LeagueService {
     }
 
     private int getRankValue(String rank) {
-
         int v = 0;
-
-        if (rank == null || rank == "") {
+        if (rank == null || rank.equals("")) {
             return v;
         }
-
         switch (rank) {
-
             case "I":
                 v = 400;
                 break;
@@ -123,4 +111,3 @@ public class LeagueService {
         return v;
     }
 }
-

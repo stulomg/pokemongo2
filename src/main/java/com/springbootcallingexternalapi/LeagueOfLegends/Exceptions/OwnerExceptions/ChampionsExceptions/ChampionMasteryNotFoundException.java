@@ -2,6 +2,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExcepti
 
 public class ChampionMasteryNotFoundException extends Exception {
     public ChampionMasteryNotFoundException(String championName) {
-        super("Esta cuenta no tiene maestría con: " + championName);
+        super("This account has no mastery with: " + championName);
     }
 }

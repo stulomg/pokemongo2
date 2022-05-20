@@ -13,7 +13,6 @@ import java.util.Locale;
 
 import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
 
-
 @Repository
 public class ChampionRepository {
     @Autowired

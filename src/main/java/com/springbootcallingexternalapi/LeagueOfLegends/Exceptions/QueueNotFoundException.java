@@ -2,6 +2,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions;
 
 public class QueueNotFoundException extends Exception {
     public QueueNotFoundException(String message) {
-        super("EL INVOCADOR NO TIENE HISTORIAL EN LA COLA: " + message + ", O EL INVOCADOR HA SIDO INSERTADO INCORRECTAMENTE, PORFAVOR VERIFICAR");
+        super("The summoner has no history in the queue: " + message + ", or the summoner has been incorrectly inserted, please verify");
     }
 }

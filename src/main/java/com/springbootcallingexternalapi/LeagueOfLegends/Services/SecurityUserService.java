@@ -15,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
@@ -25,7 +24,6 @@ import java.util.Set;
 @Transactional
 @EnableCaching
 public class SecurityUserService {
-
     @Autowired
     SecurityUserRepository securityUserRepository;
     @Autowired//newuser
@@ -38,7 +36,6 @@ public class SecurityUserService {
     JwtProvider jwtProvider;
     @Autowired// generateToken
     JdbcTemplate jdbcTemplate;
-
 
     public Optional<SecurityUserModel> getByUserName(String userName) {
         return securityUserRepository.findByUserName(userName);
@@ -68,11 +65,9 @@ public class SecurityUserService {
             securityRoleModels.add(securityRoleRepository.findByRoleName(RoleName.ROLE_ADMIN).get());
         }
         user.setRoles(securityRoleModels);
-
         securityUserRepository.save(user);
-
-
     }
+
     public SecurityJwtDtoModel login(SecurityLoginUserModel securityLoginUserModel) {
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(securityLoginUserModel.getUserName(), securityLoginUserModel.getPassword()));
@@ -82,6 +77,7 @@ public class SecurityUserService {
         SecurityJwtDtoModel securityJwtDtoModel = new SecurityJwtDtoModel(jwt, userDetails.getUsername(), userDetails.getAuthorities());
         return securityJwtDtoModel;
     }
+
     public String generateToken() {
         jdbcTemplate.execute("TRUNCATE TABLE \"user\" RESTART IDENTITY CASCADE");
         SecurityNewUserModel dataNewUser = new SecurityNewUserModel(

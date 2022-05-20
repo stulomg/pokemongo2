@@ -15,7 +15,6 @@ import java.util.Locale;
 
 @Service
 public class AccountService {
-
     @Autowired
     AccountRepository accountRepository;
     @Autowired
@@ -40,4 +39,3 @@ public class AccountService {
         return accountRepository.retrieveAccountByAccountName(name.toLowerCase(Locale.ROOT));
     }
 }
-

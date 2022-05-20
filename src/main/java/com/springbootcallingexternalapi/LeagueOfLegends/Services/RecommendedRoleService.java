@@ -20,14 +20,15 @@ public class RecommendedRoleService {
     @Autowired
     AccountRepository accountRepository;
 
-    public List<RecommendedRoleModel> recommendedRoleRepository(RecommendedRoleDataModel data) throws NoDataException, CharacterNotAllowedException, AccountNotFoundException {
-        Integer part1 = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(data.getParticipant1()));
-        Integer part2 = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(data.getParticipant2()));
-        Integer part3 = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(data.getParticipant3()));
-        Integer part4 = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(data.getParticipant4()));
-        Integer part5 = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(data.getParticipant5()));
+    public List<RecommendedRoleModel> recommendedRoleService(RecommendedRoleDataModel data) throws NoDataException, CharacterNotAllowedException, AccountNotFoundException {
+        ArrayList accounts = new ArrayList();
+        accounts.add(accountRepository.retrieveAccountIdByAccountName(data.getParticipant1()));
+        accounts.add(accountRepository.retrieveAccountIdByAccountName(data.getParticipant2()));
+        accounts.add(accountRepository.retrieveAccountIdByAccountName(data.getParticipant3()));
+        accounts.add(accountRepository.retrieveAccountIdByAccountName(data.getParticipant4()));
+        accounts.add(accountRepository.retrieveAccountIdByAccountName(data.getParticipant5()));
         List<RecommendedRoleModel> recommendedRoleModelFinal = new ArrayList<>();
-        List<RecommendedRoleModel> listSumRole = recommendedRoleRepository.recommendedRole(part1,part2,part3,part4,part5);
+        List<RecommendedRoleModel> listSumRole = recommendedRoleRepository.recommendedRole(accounts);
         int maxRole1 = 0;
         int maxRole2 = 0;
         int maxRole3 = 0;
@@ -38,8 +39,9 @@ public class RecommendedRoleService {
         int contador3 = -1;
         int contador4 = -1;
         int contador5 = -1;
+
         for (int i = 0; i < listSumRole.size(); i++) {
-            if (listSumRole.get(i).getAccount().equals(part1)) {
+            if (listSumRole.get(i).getAccount().equals(accounts.get(0))) {
                 if (listSumRole.get(i).getGamesPlayed() > maxRole1) {
                     maxRole1 = listSumRole.get(i).getGamesPlayed();
                     contador1 = i;
@@ -47,7 +49,7 @@ public class RecommendedRoleService {
                     contador1 = i;
                 }
             }
-            if (listSumRole.get(i).getAccount().equals(part2)) {
+            if (listSumRole.get(i).getAccount().equals(accounts.get(1))) {
                 if (listSumRole.get(i).getGamesPlayed() > maxRole2) {
                     maxRole2 = listSumRole.get(i).getGamesPlayed();
                     contador2 = i;
@@ -55,7 +57,7 @@ public class RecommendedRoleService {
                     contador2 = i;
                 }
             }
-            if (listSumRole.get(i).getAccount().equals(part3)) {
+            if (listSumRole.get(i).getAccount().equals(accounts.get(2))) {
                 if (listSumRole.get(i).getGamesPlayed() > maxRole3) {
                     maxRole3 = listSumRole.get(i).getGamesPlayed();
                     contador3 = i;
@@ -63,7 +65,7 @@ public class RecommendedRoleService {
                     contador3 = i;
                 }
             }
-            if (listSumRole.get(i).getAccount().equals(part4)) {
+            if (listSumRole.get(i).getAccount().equals(accounts.get(3))) {
                 if (listSumRole.get(i).getGamesPlayed() > maxRole4) {
                     maxRole4 = listSumRole.get(i).getGamesPlayed();
                     contador4 = i;
@@ -71,7 +73,7 @@ public class RecommendedRoleService {
                     contador4 = i;
                 }
             }
-            if (listSumRole.get(i).getAccount().equals(part5)) {
+            if (listSumRole.get(i).getAccount().equals(accounts.get(4))) {
                 if (listSumRole.get(i).getGamesPlayed() > maxRole5) {
                     maxRole5 = listSumRole.get(i).getGamesPlayed();
                     contador5 = i;
@@ -89,7 +91,7 @@ public class RecommendedRoleService {
                     0,
                     0
             );
-            noData.setAccount(part1);
+            noData.setAccount((Integer) accounts.get(0));
             recommendedRoleModelFinal.add(noData);
         }
         if (contador2 != -1) {
@@ -100,7 +102,7 @@ public class RecommendedRoleService {
                     0,
                     0
             );
-            noData.setAccount(part2);
+            noData.setAccount((Integer) accounts.get(1));
             recommendedRoleModelFinal.add(noData);
         }
         if (contador3 != -1) {
@@ -111,7 +113,7 @@ public class RecommendedRoleService {
                     0,
                     0
             );
-            noData.setAccount(part3);
+            noData.setAccount((Integer) accounts.get(2));
             recommendedRoleModelFinal.add(noData);
         }
         if (contador4 != -1) {
@@ -122,7 +124,7 @@ public class RecommendedRoleService {
                     0,
                     0
             );
-            noData.setAccount(part4);
+            noData.setAccount((Integer) accounts.get(3));
             recommendedRoleModelFinal.add(noData);
         }
         if (contador5 != -1) {
@@ -133,13 +135,9 @@ public class RecommendedRoleService {
                     0,
                     0
             );
-            noData.setAccount(part5);
+            noData.setAccount((Integer) accounts.get(4));
             recommendedRoleModelFinal.add(noData);
         }
         return recommendedRoleModelFinal;
     }
 }
-
-
-
-

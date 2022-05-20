@@ -1,6 +1,5 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
-
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MasteryService {
-
     @Autowired
     MasteryRepository masteryRepository;
     @Autowired
