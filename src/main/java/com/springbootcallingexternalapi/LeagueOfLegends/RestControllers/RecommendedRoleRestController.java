@@ -20,7 +20,7 @@ public class RecommendedRoleRestController {
     RecommendedRoleService recommendedRoleService;
 
     @GetMapping(value = "/loldata/clash/recommendedRole")
-    public ResponseEntity<Object> getRecoomendRole(@RequestBody List<RecommendedRoleDataModel> data) {
+    public ResponseEntity<Object> getRecommendedRole(@RequestBody List<RecommendedRoleDataModel> data) {
         try {
             return new ResponseEntity<>(recommendedRoleService.recommendedRoleService(data), HttpStatus.OK);
         } catch (NoDataException | CharacterNotAllowedException | AccountNotFoundException e) {
