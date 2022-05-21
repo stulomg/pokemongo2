@@ -7,10 +7,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptio
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.ChampionService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
 import org.slf4j.Logger;
@@ -40,7 +37,7 @@ public class RiotRestController {
             return new ResponseEntity<>(acc, HttpStatus.OK);
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AccountDataException  | CharacterNotAllowedException e1) {
+        } catch (AccountDataException | CharacterNotAllowedException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (OwnerNotFoundException e2) {
             return new ResponseEntity<>(e2.getMessage(), HttpStatus.BAD_REQUEST);
@@ -77,6 +74,18 @@ public class RiotRestController {
     public ResponseEntity<Object> getLiveMatch(@PathVariable String account) {
         try {
             CurrentGameInfoBaseModel response = riotRequestorService.getLiveMatch(account);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (AccountNotFoundException e1) {
+            return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/call-riot/live/match/runes/{account}")
+    public ResponseEntity<Object> getRune(@PathVariable String account) {
+        try {
+            CurrentGameInfoRuneModel response = riotRequestorService.getRunes(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -122,8 +131,8 @@ public class RiotRestController {
 
     @GetMapping(value = "/relationship/{account1}/{account2}")
 
-    public ResponseEntity<Object> playersRelationship (@PathVariable String account1, @PathVariable String account2) throws CharacterNotAllowedException, AccountNotFoundException {
-        Object response = riotRequestorService.playersRelationship(account1,account2);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+    public ResponseEntity<Object> playersRelationship(@PathVariable String account1, @PathVariable String account2) throws CharacterNotAllowedException, AccountNotFoundException {
+        Object response = riotRequestorService.playersRelationship(account1, account2);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
