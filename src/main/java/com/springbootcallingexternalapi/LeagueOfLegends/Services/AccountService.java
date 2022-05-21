@@ -21,7 +21,7 @@ public class AccountService {
     OwnerRepository ownerRepository;
 
     public void deleteAccount(String account) throws AccountOrOwnerNotFoundException, CharacterNotAllowedException, OwnerNotFoundException, AccountNotFoundException {
-        Integer ownerID = Math.toIntExact(ownerRepository.retrieveOwnerIdByAccount(account.toLowerCase(Locale.ROOT)));
+        Integer ownerID = Math.toIntExact(accountRepository.retrieveOwnerIdByAccount(account.toLowerCase(Locale.ROOT)));
         accountRepository.deleteAccount(account,ownerID );
     }
 

@@ -11,7 +11,6 @@ public class MatchRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertMatchData(GameDataModel gamedata, Integer accountID, Integer positionID, Integer championID) {
-
         String sql = "INSERT INTO \"MatchHistory\"(account, \"position\", champion, \"championPoints\", win)VALUES (?, ?, ?, ?, ?);";
         Object[] params = {accountID, positionID, championID,  gamedata.getChampionPoints(),gamedata.isWin()};
         jdbcTemplate.update(sql, params);

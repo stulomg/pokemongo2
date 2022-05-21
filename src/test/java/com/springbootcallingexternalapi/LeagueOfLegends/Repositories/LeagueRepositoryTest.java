@@ -195,7 +195,7 @@ public class LeagueRepositoryTest {
     }
 
     @Test
-    void accountNotFoundMaxDivision() {
+    void OwnerNotFoundMaxDivision() {
         Assertions.assertThrows(OwnerNotFoundException.class, () -> repository.getMaxDivision("Owner", "Owner",1,1));
     }
 

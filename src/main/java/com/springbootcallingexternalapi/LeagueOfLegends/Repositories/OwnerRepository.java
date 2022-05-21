@@ -33,16 +33,4 @@ public class OwnerRepository {
             }
         } else throw new CharacterNotAllowedException(owner);
     }
-
-    public Long retrieveOwnerIdByAccount(String account) throws CharacterNotAllowedException, AccountNotFoundException {
-        String sql = "SELECT owner FROM \"Account\" WHERE name =?;";
-        Object[] params = {account};
-        if (isAlpha(account)) {
-            try {
-                return jdbcTemplate.queryForObject(sql, params, Long.class);
-            } catch (EmptyResultDataAccessException e) {
-                throw new AccountNotFoundException(account);
-            }
-        } else throw new CharacterNotAllowedException(account);
-    }
 }

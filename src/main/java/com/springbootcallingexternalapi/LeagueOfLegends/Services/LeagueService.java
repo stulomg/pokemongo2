@@ -27,7 +27,7 @@ public class LeagueService {
         leagueInfoModel.setElo(calculateElo(leagueInfoModel.getTier(), leagueInfoModel.getRank(), leagueInfoModel.getLeaguePoints()));
         leagueInfoModel.setDate(new Timestamp(System.currentTimeMillis()));
         Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
-        Integer ownerID = Math.toIntExact(ownerRepository.retrieveOwnerIdByAccount(account));
+        Integer ownerID = Math.toIntExact(accountRepository.retrieveOwnerIdByAccount(account));
         leagueRepository.insertLeagueInfo(leagueInfoModel,accountID,ownerID);
     }
 
