@@ -2,8 +2,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExcepti
 
 public class ChampionNotFoundException extends Exception {
     public ChampionNotFoundException(String championName) {
-        super("El campeón " + championName + " no fue encontrado");
+        super("The champion " + championName + " was not found");
     }
 }
-
-

@@ -11,7 +11,6 @@ public class ServerRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertServerStatus(MaintenancesStatusModel maintenancesStatusModel) {
-
         String sql = "INSERT INTO \"ServerStatus\" (\"name\",\"locales\",\"maintenances\",\"incidents\") VALUES(?,?,?,?)";
         Object[] params = {
                 maintenancesStatusModel.getName(),

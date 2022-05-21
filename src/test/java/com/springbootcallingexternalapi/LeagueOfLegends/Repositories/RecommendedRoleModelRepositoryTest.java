@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -102,13 +103,27 @@ class RecommendedRoleModelRepositoryTest {
                 0,
                 0
         );
-        RecommendedRoleDataModel data = new RecommendedRoleDataModel(
-                "testuno",
-                "testdos",
-                "testtres",
-                "testtres",
+        RecommendedRoleDataModel data1 = new RecommendedRoleDataModel(
+                "testuno"
+        );
+        RecommendedRoleDataModel data2 = new RecommendedRoleDataModel(
+                "testdos"
+        );
+        RecommendedRoleDataModel data3 = new RecommendedRoleDataModel(
                 "testtres"
         );
+        RecommendedRoleDataModel data4 = new RecommendedRoleDataModel(
+                "testtres"
+        );
+        RecommendedRoleDataModel data5 = new RecommendedRoleDataModel(
+                "testtres"
+        );
+        List<RecommendedRoleDataModel> data = new ArrayList<>();
+        data.add(data1);
+        data.add(data2);
+        data.add(data3);
+        data.add(data4);
+        data.add(data5);
 
         matchRepository.insertMatchData(dataModel,1,3,112);
         matchRepository.insertMatchData(dataModel2,1,3,112);
@@ -116,7 +131,7 @@ class RecommendedRoleModelRepositoryTest {
         matchRepository.insertMatchData(dataModel4,2,4,89);
         matchRepository.insertMatchData(dataModel5,2,4,89);
 
-        List<RecommendedRoleModel> resultSet = recommendedRoleService.recommendedRoleRepository(data);
+        List<RecommendedRoleModel> resultSet = recommendedRoleService.recommendedRoleService(data);
         Assertions.assertEquals(5, resultSet.size());
         RecommendedRoleModel result = resultSet.get(0);
         RecommendedRoleModel result2 = resultSet.get(1);
@@ -148,7 +163,10 @@ class RecommendedRoleModelRepositoryTest {
 
     @Test
     void NoDataException() {
-
-        Assertions.assertThrows(NoDataException.class, () -> recommendedRoleRepository.recommendedRole(1,2,3,4,6));
+        ArrayList accounts = new ArrayList();
+        for (int i = 0; i < 10; i+=2) {
+            accounts.add(i);
+        }
+        Assertions.assertThrows(NoDataException.class, () -> recommendedRoleRepository.recommendedRole(accounts));
     }
 }

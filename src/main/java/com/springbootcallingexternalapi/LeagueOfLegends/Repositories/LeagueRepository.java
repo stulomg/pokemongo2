@@ -12,7 +12,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
@@ -23,9 +22,10 @@ public class LeagueRepository {
     private JdbcTemplate jdbcTemplate;
 
     public void insertLeagueInfo(LeagueInfoModel leagueInfoModel, Integer accountID,Integer ownerID) throws  AccountDataException {
-
-        String sql = "INSERT INTO \"LeagueHistory\"(date, leagueid, \"queueType\", tier, rank, \"leaguePoints\", \"Elo\", account, owner) VALUES (?,?,?,?,?,?,?,?,?);";
-        Object[] params = {leagueInfoModel.getDate(),
+        String sql = "INSERT INTO \"LeagueHistory\"(date, leagueid, \"queueType\", tier, rank, "
+                + "\"leaguePoints\", \"Elo\", account, owner) VALUES (?,?,?,?,?,?,?,?,?);";
+        Object[] params = {
+                leagueInfoModel.getDate(),
                 leagueInfoModel.getLeagueId(),
                 leagueInfoModel.getQueueType(),
                 leagueInfoModel.getTier(),
@@ -45,7 +45,6 @@ public class LeagueRepository {
     public List<LeagueInfoModel> divisionHistory(String account, Integer accountID) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "SELECT * FROM \"LeagueHistory\" WHERE \"account\" =? ORDER BY \"date\" DESC LIMIT 20;";
         Object[] params = {accountID};
-
         if (isAlpha(account)) {
             List<LeagueInfoModel> listOfLeagues = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
             if (listOfLeagues.size() == 0) {
@@ -58,7 +57,6 @@ public class LeagueRepository {
     public List<MaxDivisionModel> getMaxDivision(String owner, String owner2, Integer ownerID, Integer owner2ID) throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner {
         String sql = "SELECT  \"account\", \"tier\",\"rank\",\"date\" FROM \"LeagueHistory\" WHERE owner =? or owner =? GROUP BY \"account\", \"tier\", \"rank\",\"date\" ORDER BY  MAX (\"Elo\") DESC  LIMIT 1";
         Object[] params = {ownerID, owner2ID};
-
         if (isAlpha(owner) && isAlpha(owner2)) {
             List<MaxDivisionModel> infoList = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(MaxDivisionModel.class));
             if (infoList.isEmpty()) {

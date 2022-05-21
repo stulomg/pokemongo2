@@ -10,6 +10,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFound
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.ChampionService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Util.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,27 +32,25 @@ public class RiotRestController {
     @RequestMapping(value = "/call-riot/{account}/{owner}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) throws CharacterNotAllowedException, AccountDataException, OwnerNotFoundException, AccountNotFoundException {
+    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner){
         try {
             AccountBaseModel acc = riotRequestorService.getAccountAndAssignToOwner(account, owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);
-        } catch (AccountNotFoundException e) {
+        } catch (AccountNotFoundException | OwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (AccountDataException | CharacterNotAllowedException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (OwnerNotFoundException e2) {
-            return new ResponseEntity<>(e2.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping(value = "/call-riot/league/soloq/{account}")
-    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) throws CharacterNotAllowedException {
+    public ResponseEntity<Object> getSoloqLeague(@PathVariable String account) {
         try {
             LeagueInfoModel response = riotRequestorService.getSoloqLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AccountNotFoundException | QueueNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AccountDataException | HttpClientErrorException.NotFound e1) {
+        } catch (AccountDataException | HttpClientErrorException.NotFound | CharacterNotAllowedException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -79,6 +78,8 @@ public class RiotRestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (AccountNotFoundException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(new Message("The player is not on a live match"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -131,8 +132,15 @@ public class RiotRestController {
 
     @GetMapping(value = "/relationship/{account1}/{account2}")
 
-    public ResponseEntity<Object> playersRelationship(@PathVariable String account1, @PathVariable String account2) throws CharacterNotAllowedException, AccountNotFoundException {
-        Object response = riotRequestorService.playersRelationship(account1, account2);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Object> playersRelationship (@PathVariable String account1, @PathVariable String account2) {
+        Object response = null;
+        try {
+            response = riotRequestorService.playersRelationship(account1,account2);
+        } catch (CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (AccountNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

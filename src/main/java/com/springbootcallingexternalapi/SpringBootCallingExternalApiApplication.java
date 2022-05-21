@@ -10,21 +10,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
-
 import javax.sql.DataSource;
-
 import static org.springframework.context.annotation.FilterType.CUSTOM;
 
 @Configuration
 @EnableScheduling
 @SpringBootApplication()
-@ComponentScan(excludeFilters={@ComponentScan.Filter(type=CUSTOM,classes= TypeExcludeFilter.class),})
+@ComponentScan (excludeFilters={@ComponentScan.Filter(type=CUSTOM,classes= TypeExcludeFilter.class),})
 @EnableCaching
-public class SpringBootCallingExternalApiApplication {
 
+public class SpringBootCallingExternalApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootCallingExternalApiApplication.class, args);
 	}
+
 	@Bean
 	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
 		return new JdbcTemplate(dataSource);
@@ -34,6 +33,4 @@ public class SpringBootCallingExternalApiApplication {
 	public RestTemplate restTemplate(){
 		return new RestTemplate();
 	}
-
-
 }

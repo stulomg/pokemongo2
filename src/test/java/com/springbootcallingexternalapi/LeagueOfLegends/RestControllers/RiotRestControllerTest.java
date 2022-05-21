@@ -38,16 +38,10 @@ public class RiotRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     JdbcTemplate jdbcTemplate;
-
     @Autowired
     AccountRepository accountRepository;
-
-    @Autowired
-    RiotRequestorService riotRequestorService;
-
     @Autowired
     private SecurityUserService securityUserService;
 
@@ -55,8 +49,7 @@ public class RiotRestControllerTest {
 
     @Test
     public void callRiotExitosamenteCasoDefautl() throws Exception {
-
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\"");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -73,7 +66,6 @@ public class RiotRestControllerTest {
     public void getMasteryExitosamenteCasoDefautl() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Darkclaw/evelynn").header("authorization", token)).andExpect(status().isOk()).andReturn();
-
     }
 
     @Test
@@ -109,14 +101,12 @@ public class RiotRestControllerTest {
     public void serverStatusDefault() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status").header("authorization", token)).andExpect(status().isOk()).andReturn();
-
     }
 
     @Test
     public void serverStatusNotFound() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/").header("authorization", token)).andExpect(status().isNotFound()).andReturn();
-
     }
 
     @Test

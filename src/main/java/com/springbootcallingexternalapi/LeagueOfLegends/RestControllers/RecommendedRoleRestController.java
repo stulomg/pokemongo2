@@ -12,15 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class RecommendedRoleRestController {
     @Autowired
     RecommendedRoleService recommendedRoleService;
 
     @GetMapping(value = "/loldata/clash/recommendedRole")
-    public ResponseEntity<Object> getMostPopular(@RequestBody RecommendedRoleDataModel data) {
+    public ResponseEntity<Object> getRecommendedRole(@RequestBody List<RecommendedRoleDataModel> data) {
         try {
-            return new ResponseEntity<>(recommendedRoleService.recommendedRoleRepository(data), HttpStatus.OK);
+            return new ResponseEntity<>(recommendedRoleService.recommendedRoleService(data), HttpStatus.OK);
         } catch (NoDataException | CharacterNotAllowedException | AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

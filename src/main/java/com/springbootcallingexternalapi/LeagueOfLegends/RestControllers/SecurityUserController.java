@@ -11,7 +11,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
@@ -19,7 +18,6 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 @CrossOrigin
 public class SecurityUserController {
-
     @Autowired
     SecurityUserService securityUserService;
 
@@ -29,7 +27,7 @@ public class SecurityUserController {
             securityUserService.newUser(newUser);
             return new ResponseEntity(new Message("New registered user"), HttpStatus.CREATED);
         }catch (ConstraintViolationException e) {
-            return new ResponseEntity<>(new Message("Incomplete information, it is needed in this order: name, userName, email, passwordr"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("Incomplete information, information need to be added in the following order: name, userName, email, password"), HttpStatus.BAD_REQUEST);
         }catch (IllegalArgumentException e){
             return new ResponseEntity<>(new Message("Password is required"), HttpStatus.BAD_REQUEST);
         }catch (DataIntegrityViolationException e){

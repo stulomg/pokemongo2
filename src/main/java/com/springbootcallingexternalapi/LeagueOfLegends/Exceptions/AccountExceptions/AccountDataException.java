@@ -5,19 +5,15 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInf
 
 public class AccountDataException extends Exception{
     public AccountDataException (AccountBaseModel account){
-        super ("LOS DATOS INGRESADOS PARA LA CUENTA "+ account.getName() +" NO SON VALIDOS, POR FAVOR RECTIFICAR");
+        super ("The data entered for the account "+ account.getName() +" is not valid, please rectify");
     }
-
     public AccountDataException(MasteryHistoryInfoModel account) {
-        super("LOS DATOS INGRESADOS PARA LA CUENTA " + account.getAccount() + " NO SON VALIDOS, POR FAVOR RECTIFICAR");
+        super("The data entered for the account " + account.getAccount() +" is not valid, please rectify");
     }
-
     public AccountDataException(LeagueInfoModel account) {
-        super ("LOS DATOS INGRESADOS PARA LA CUENTA "+ account.getSummonerName() +" NO SON VALIDOS, POR FAVOR RECTIFICAR");
+        super ("The data entered for the account "+ account.getSummonerName() +" is not valid, please rectify");
     }
-
     public AccountDataException(String account) {
-        super ("LOS DATOS INGRESADOS PARA LA CUENTA "+ account +" NO SON VALIDOS, POR FAVOR RECTIFICAR");
+        super ("The data entered for the account "+ account +" is not valid, please rectify");
     }
-
 }
