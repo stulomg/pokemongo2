@@ -13,7 +13,7 @@ public class MostPopularService {
     @Autowired
     MostPopularRepository mostPopularRepository;
 
-    public List<MostPopularModel> mostpopularRepository() throws NoDataException {
+    public List<MostPopularModel> mostpopularService() throws NoDataException {
         return mostPopularRepository.popularAccount();
     }
 }

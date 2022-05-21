@@ -16,7 +16,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -148,7 +147,6 @@ class MostPopularRepositoryTest {
                 "Apr 21"
                 //Timestamp.valueOf("2022-04-01 00:00:00")
         );
-
         repositoryLegue.insertLeagueInfo(infoModel,1,1);
         repositoryLegue.insertLeagueInfo(infoModel2,1,1);
         repositoryLegue.insertLeagueInfo(infoModel3,1,1);
@@ -174,6 +172,4 @@ class MostPopularRepositoryTest {
 
         Assertions.assertThrows(NoDataException.class, () -> repositoryMost.popularAccount());
     }
-
-
 }

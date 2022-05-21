@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.util.List;
 
 @SpringBootTest(classes = QueryRepository.class)
@@ -48,7 +47,6 @@ class QueryRepositoryTest {
                 2,
                 "testdos"
         );
-
         List<QueryResponseModel> resultSet = queryRepository.querySpecific(newQuery,sql);;
         Assertions.assertEquals(1, resultSet.size());
         QueryResponseModel result = resultSet.get(0);
@@ -59,7 +57,6 @@ class QueryRepositoryTest {
         Assertions.assertEquals(espectedResult.getRevisionDate(), result.getRevisionDate());
         Assertions.assertEquals(espectedResult.getOwner(), result.getOwner());
         Assertions.assertEquals(espectedResult.getName(), result.getName());
-
     }
 
     @Test

@@ -124,7 +124,6 @@ class RecommendedRoleModelRepositoryTest {
         data.add(data3);
         data.add(data4);
         data.add(data5);
-
         matchRepository.insertMatchData(dataModel,1,3,112);
         matchRepository.insertMatchData(dataModel2,1,3,112);
         matchRepository.insertMatchData(dataModel3,1,3,112);
@@ -158,7 +157,6 @@ class RecommendedRoleModelRepositoryTest {
         Assertions.assertEquals(espectedResult5.getAccount(), result5.getAccount());
         Assertions.assertEquals(espectedResult5.getRecommendPosition(), result5.getRecommendPosition());
         Assertions.assertEquals(espectedResult5.getGamesPlayed(), result5.getGamesPlayed());
-
     }
 
     @Test
