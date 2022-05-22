@@ -45,7 +45,7 @@ public class RiotRestControllerTest {
     @Autowired
     private SecurityUserService securityUserService;
 
-    private static final String RIOT_TOKEN = "RGAPI-b4a16c2d-6dd9-4b6e-b6dd-714a7c605a10";
+    private static final String RIOT_TOKEN = "RGAPI-7c36b8e8-e078-4c86-86d6-421a5909e214";
 
     @Test
     public void callRiotExitosamenteCasoDefautl() throws Exception {
