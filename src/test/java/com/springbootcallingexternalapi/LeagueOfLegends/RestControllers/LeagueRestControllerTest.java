@@ -62,6 +62,17 @@ public class LeagueRestControllerTest {
             Assertions.assertTrue(leagueInfoModels.get(i).getDate().after(leagueInfoModels.get(i + 1).getDate()));
         }
     }
+    @Test
+    void divisionHistoryAccountNotFount() throws Exception {
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/division-history/kusarin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The account kusarin was not found, please rectify"));
+    }
+
+    @Test
+    public void DivisionHistoryCharacterNotAllowedException() throws Exception {
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/division-history/kusi>>").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("kusi>> has characters not allowed"));
+    }
 
     @Test
     void maxDivision() throws Exception {
