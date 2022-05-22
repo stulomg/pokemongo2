@@ -1,5 +1,4 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaxDivisionModel;
@@ -14,11 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import java.sql.Timestamp;
 import java.util.List;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,6 +60,7 @@ public class LeagueRestControllerTest {
         for (int i = 0; i < leagueInfoModels.size() - 1; i++) {
             Assertions.assertTrue(leagueInfoModels.get(i).getDate().after(leagueInfoModels.get(i + 1).getDate()));
         }
+
     }
 
     @Test
@@ -104,7 +101,7 @@ public class LeagueRestControllerTest {
     @Test
     void maxDivisionAccountNotFount() throws Exception {
         String token = securityUserService.generateToken();
-        mockMvc.perform(get("/account/max-division/kusarin/manuelin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin NO FUE ENCONTRADO, POR FAVOR RECTIFICAR"));
+        mockMvc.perform(get("/account/max-division/kusarin/manuelin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The owner kusarin was not found, please rectify"));
     }
 
     @Test

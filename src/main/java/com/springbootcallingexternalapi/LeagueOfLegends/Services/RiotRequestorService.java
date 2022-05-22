@@ -13,7 +13,6 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -55,7 +54,7 @@ public class RiotRequestorService {
     @Autowired
     RelationshipRepository relationshipRepository;
     @Autowired
-    RunesRepository runesRepository;
+    CurrentGameRunesRepository currentGameRunesRepository;
 
     public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, CharacterNotAllowedException, OwnerNotFoundException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
@@ -149,13 +148,16 @@ public class RiotRequestorService {
         } else throw new CharacterNotAllowedException(account);
     }
 
-    public CurrentGameInfoRuneModel getRunes(String account) throws AccountNotFoundException, CharacterNotAllowedException {
+    public CurrentGameInfoRuneModel getCurrentGameRunes(String account) throws AccountNotFoundException, CharacterNotAllowedException {
 
         if (isAlpha(account)) {
             ResponseEntity<AccountBaseModel> response = getAccountFromRiot(account);
             String id = response.getBody().getId();
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
             ResponseEntity<CurrentGameInfoRuneModel> response2 = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoRuneModel.class);
+            CurrentGameInfoRuneModel model = response2.getBody();
+
+            currentGameRunesRepository.insertRunes(model);
 
             return response2.getBody();
 

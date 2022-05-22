@@ -86,7 +86,7 @@ public class RiotRestController {
     @GetMapping(value = "/call-riot/live/match/runes/{account}")
     public ResponseEntity<Object> getRune(@PathVariable String account) {
         try {
-            CurrentGameInfoRuneModel response = riotRequestorService.getRunes(account);
+            CurrentGameInfoRuneModel response = riotRequestorService.getCurrentGameRunes(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
