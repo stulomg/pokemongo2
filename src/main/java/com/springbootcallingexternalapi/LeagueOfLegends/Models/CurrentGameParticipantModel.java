@@ -29,6 +29,7 @@ public class CurrentGameParticipantModel {
         this.spell2Id = spell2Id;
         this.championId = championId;
         this.summonerName = summonerName;
+
     }
 
     public CurrentGameParticipantModel() {
@@ -73,4 +74,5 @@ public class CurrentGameParticipantModel {
     public void setSummonerName(String summonerName) {
         this.summonerName = summonerName;
     }
+
 }

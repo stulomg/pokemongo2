@@ -34,16 +34,16 @@ public class AccountRepository {
                 account.getRevisionDate(),
                 owner,
                 account.getName().toLowerCase(Locale.ROOT)};
-            try {
-                jdbcTemplate.update(sql, params);
-            }catch (DataIntegrityViolationException e){
-                throw new AccountExistsOrNotException();
-            }catch (DataAccessException e) {
-                throw new AccountDataException(account);
-            }
+        try {
+            jdbcTemplate.update(sql, params);
+        } catch (DataIntegrityViolationException e) {
+            throw new AccountExistsOrNotException();
+        } catch (DataAccessException e) {
+            throw new AccountDataException(account);
+        }
     }
 
-    public void deleteAccount( String account,Integer ownerID) throws CharacterNotAllowedException, AccountNotFoundException {
+    public void deleteAccount(String account, Integer ownerID) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "DELETE FROM \"Account\" WHERE Lower(name) =? and \"owner\" =?;";
         Object[] params = {account.toLowerCase(Locale.ROOT), ownerID};
         if (isAlpha(account)) {
@@ -54,7 +54,7 @@ public class AccountRepository {
         } else throw new CharacterNotAllowedException(account);
     }
 
-    public List<AccountModel> retrieveAccountByOwner(String owner,Integer ownerID) throws CharacterNotAllowedException, OwnerNotFoundException {
+    public List<AccountModel> retrieveAccountByOwner(String owner, Integer ownerID) throws CharacterNotAllowedException, OwnerNotFoundException {
         String sql = "SELECT * FROM \"Account\" WHERE  \"owner\" =?";
         Object[] params = {ownerID};
         if (isAlpha(owner)) {
@@ -67,7 +67,7 @@ public class AccountRepository {
         throw new CharacterNotAllowedException(owner);
     }
 
-    public void accountUpdate(AccountModel model,Integer ownerID) throws CharacterNotAllowedException, AccountNotFoundException {
+    public void accountUpdate(AccountModel model, Integer ownerID) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "UPDATE \"Account\" SET name=?, \"accountid\"=?, puuid=?,\"revisionDate\"=?," +
                 " owner=? WHERE id=?";
         Object[] params = {model.getName().toLowerCase(Locale.ROOT), model.getAccountId(), model.getPuuid(),
@@ -81,7 +81,7 @@ public class AccountRepository {
         throw new CharacterNotAllowedException(model.getName());
     }
 
-    public void accountUpdateExisting(AccountBaseModel model,Integer owner) throws CharacterNotAllowedException, AccountNotFoundException {
+    public void accountUpdateExisting(AccountBaseModel model, Integer owner) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "UPDATE \"Account\" SET name=?, \"accountid\"=?, puuid=?,\"revisionDate\"=?," +
                 " owner=? WHERE id=?";
         Object[] params = {model.getName().toLowerCase(Locale.ROOT), model.getAccountId(), model.getPuuid(),
@@ -107,7 +107,7 @@ public class AccountRepository {
         } else throw new CharacterNotAllowedException(account);
     }
 
-    public Integer retrieveAccountIdByAccountName(String accountName) throws  CharacterNotAllowedException, AccountNotFoundException {
+    public Integer retrieveAccountIdByAccountName(String accountName) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "SELECT \"id_BD\" FROM \"Account\" WHERE LOWER(\"name\")=?;";
         Object[] params = {accountName.toLowerCase(Locale.ROOT)};
         if (isAlpha(accountName)) {
@@ -118,6 +118,7 @@ public class AccountRepository {
             }
         } else throw new CharacterNotAllowedException(accountName);
     }
+
     public Long retrieveOwnerIdByAccount(String account) throws CharacterNotAllowedException, AccountNotFoundException {
         String sql = "SELECT owner FROM \"Account\" WHERE name =?;";
         Object[] params = {account};

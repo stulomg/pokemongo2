@@ -14,10 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 import java.sql.Timestamp;
 import java.util.List;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,6 +62,17 @@ public class LeagueRestControllerTest {
             Assertions.assertTrue(leagueInfoModels.get(i).getDate().after(leagueInfoModels.get(i + 1).getDate()));
         }
     }
+    @Test
+    void divisionHistoryAccountNotFount() throws Exception {
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/division-history/kusarin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The account kusarin was not found, please rectify"));
+    }
+
+    @Test
+    public void DivisionHistoryCharacterNotAllowedException() throws Exception {
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/division-history/kusi>>").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("kusi>> has characters not allowed"));
+    }
 
     @Test
     void maxDivision() throws Exception {
@@ -103,7 +112,7 @@ public class LeagueRestControllerTest {
     @Test
     void maxDivisionAccountNotFount() throws Exception {
         String token = securityUserService.generateToken();
-        mockMvc.perform(get("/account/max-division/kusarin/manuelin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin NO FUE ENCONTRADO, POR FAVOR RECTIFICAR"));
+        mockMvc.perform(get("/account/max-division/kusarin/manuelin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The owner kusarin was not found, please rectify"));
     }
 
     @Test
@@ -111,4 +120,5 @@ public class LeagueRestControllerTest {
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/account/max-division/kusi>>/Darkclaw").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("kusi>> has characters not allowed"));
     }
+
 }
