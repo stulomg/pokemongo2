@@ -44,7 +44,7 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void deleteExitosamenteCasoDefault() throws Exception {
+    public void deleteSuccessfullyDefaultCase() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
@@ -71,7 +71,7 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void AccountExistsOrNotExceptionEnDeleteAccount() throws Exception {
+    public void AccountExistsOrNotExceptionDeleteAccount() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
@@ -90,13 +90,13 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void characterNotAllowedExceptionEnDeleteAccount() throws Exception {
+    public void characterNotAllowedExceptionDeleteAccount() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(delete("/account/delete/soyeon*lover").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("soyeon*lover has characters not allowed"));
     }
 
     @Test
-    public void retrieveAccountByOwnerExitosamenteCasoDefault() throws Exception {
+    public void retrieveAccountByOwnerSuccessfullyDefaultCase() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
@@ -126,13 +126,13 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void characterNotAllowedExceptionEnRetrieveAccountByOwner() throws Exception {
+    public void characterNotAllowedExceptionRetrieveAccountByOwner() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/account/find-by-owner/<<kusi").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("<<kusi has characters not allowed"));
     }
 
     @Test
-    public void ownerNotFoundExceptionEnRetrieveAccountByOwner() throws Exception {
+    public void ownerNotFoundExceptionRetrieveAccountByOwner() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
@@ -151,7 +151,7 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void retrieveAccountByNameExitosamenteCasoDefault() throws Exception {
+    public void retrieveAccountByNameSuccessfullyDefaultCase() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
@@ -182,13 +182,13 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void characterNotAllowedExceptionEnRetrieveAccountByName() throws Exception {
+    public void characterNotAllowedExceptionRetrieveAccountByName() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/account/find-by-name/soyeon<<<lover").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("soyeon<<<lover has characters not allowed"));
     }
 
     @Test
-    public void accountNotFoundExceptionEnRetrieveAccountByName() throws Exception {
+    public void accountNotFoundExceptionRetrieveAccountByName() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
@@ -205,5 +205,40 @@ public class AccountRestControllerTest {
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/account/find-by-name/stulinpinguin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA stulinpinguin NO FUE ENCONTRADA, POR FAVOR RECTIFICAR"));
+    }
+
+    @Test
+    public void accountUpdate() throws Exception {
+
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "soyeon lover",
+                1648276400000L
+        );
+
+        Integer owner = 1;
+
+        AccountModel model = new AccountModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "STULMEMITO",
+                "F46S5D4F",
+                "stulesunmeme",
+                1324654564L,
+                owner);
+
+        accountRepository.insertAccount(baseModel, owner);
+        accountRepository.accountUpdate(model, owner);
+
+        String token = securityUserService.generateToken();
+        MvcResult mvcResult = mockMvc.perform(put("/account/update").header("authorization", token)).andExpect(status().isOk()).andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+
+        Assertions.assertEquals("Updated successfully", content);
+
+        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
+        Assertions.assertEquals(0, resultSet.size());
     }
 }
