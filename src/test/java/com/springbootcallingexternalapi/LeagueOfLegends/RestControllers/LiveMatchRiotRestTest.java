@@ -18,9 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import java.util.Optional;
-
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,6 +45,7 @@ public class LiveMatchRiotRestTest {
                 3L,
                 202L,
                 "hauries"
+
         );
 
         CurrentGameParticipantModel participant2 = new CurrentGameParticipantModel(
@@ -55,6 +54,7 @@ public class LiveMatchRiotRestTest {
                 3L,
                 202L,
                 "pepito"
+
         );
 
         CurrentGameParticipantModel[] participants = {participant1, participant2};

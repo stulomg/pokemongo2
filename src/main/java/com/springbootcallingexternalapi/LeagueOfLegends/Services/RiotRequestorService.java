@@ -28,7 +28,9 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 
 @Service
 public class RiotRequestorService {
-    private static final String RIOT_TOKEN = "RGAPI-e3ed8139-7662-4ba9-89a4-0cffcbbfb346";
+
+    private static final String RIOT_TOKEN = "RGAPI-b4a16c2d-6dd9-4b6e-b6dd-714a7c605a10";
+
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
     @Autowired
@@ -51,6 +53,8 @@ public class RiotRequestorService {
     ServerRepository serverRepository;
     @Autowired
     RelationshipRepository relationshipRepository;
+    @Autowired
+    CurrentGameRunesRepository currentGameRunesRepository;
 
     public AccountBaseModel getAccountAndAssignToOwner(String account, String owner) throws AccountDataException, AccountNotFoundException, CharacterNotAllowedException, OwnerNotFoundException {
         ResponseEntity<AccountBaseModel> acc = getAccountFromRiot(account.toLowerCase(Locale.ROOT));
@@ -140,6 +144,23 @@ public class RiotRequestorService {
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
             ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
             return response.getBody();
+
+        } else throw new CharacterNotAllowedException(account);
+    }
+
+    public CurrentGameInfoRuneModel getCurrentGameRunes(String account) throws AccountNotFoundException, CharacterNotAllowedException {
+
+        if (isAlpha(account)) {
+            ResponseEntity<AccountBaseModel> response = getAccountFromRiot(account);
+            String id = response.getBody().getId();
+            String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
+            ResponseEntity<CurrentGameInfoRuneModel> response2 = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoRuneModel.class);
+            CurrentGameInfoRuneModel model = response2.getBody();
+
+            currentGameRunesRepository.insertRunes(model);
+
+            return response2.getBody();
+
         } else throw new CharacterNotAllowedException(account);
     }
 
@@ -148,10 +169,7 @@ public class RiotRequestorService {
         String uri = "/lol/status/v4/platform-data";
         ResponseEntity<MaintenancesStatusModel> response = requestToRiot(uri, HttpMethod.GET, MaintenancesStatusModel.class);
         MaintenancesStatusModel model = response.getBody();
-        model.getName();
-        model.getLocales();
-        model.getMaintenances();
-        model.getIncidents();
+
         serverRepository.insertServerStatus(model);
         return response.getBody();
     }

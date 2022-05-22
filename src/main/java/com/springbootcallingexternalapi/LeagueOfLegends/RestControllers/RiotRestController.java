@@ -7,10 +7,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptio
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.ChampionService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Util.Message;
@@ -83,6 +80,18 @@ public class RiotRestController {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         } catch (HttpClientErrorException e) {
             return new ResponseEntity<>(new Message("The player is not on a live match"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/call-riot/live/match/runes/{account}")
+    public ResponseEntity<Object> getRune(@PathVariable String account) {
+        try {
+            CurrentGameInfoRuneModel response = riotRequestorService.getCurrentGameRunes(account);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (AccountNotFoundException e1) {
+            return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
