@@ -21,9 +21,9 @@ public class AccountRestController {
         try {
             accountService.deleteAccount(account);
             return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
-        } catch (AccountOrOwnerNotFoundException | AccountNotFoundException e) {
+        } catch (AccountOrOwnerNotFoundException | AccountNotFoundException | OwnerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (CharacterNotAllowedException | OwnerNotFoundException e) {
+        } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -43,10 +43,10 @@ public class AccountRestController {
     public ResponseEntity<Object> accountUpdate(@RequestBody AccountModel model) {
         try {
             accountService.accountUpdate(model);
-        } catch (AccountNotFoundException | CharacterNotAllowedException e) {
+        } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (OwnerNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (AccountNotFoundException | OwnerNotFoundException e1) {
+            return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>("Updated successfully", HttpStatus.OK);
     }

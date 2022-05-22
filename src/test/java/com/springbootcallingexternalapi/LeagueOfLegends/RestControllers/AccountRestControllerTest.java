@@ -1,9 +1,13 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
+import net.minidev.json.JSONObject;
+import netscape.javascript.JSObject;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -209,6 +214,7 @@ public class AccountRestControllerTest {
 
     @Test
     public void accountUpdate() throws Exception {
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -229,16 +235,21 @@ public class AccountRestControllerTest {
                 owner);
 
         accountRepository.insertAccount(baseModel, owner);
-        accountRepository.accountUpdate(model, owner);
+        accountRepository.accountUpdate(model,owner);
+        JSONObject json = new JSONObject();
+        json.put("name","stulesunmeme");
 
         String token = securityUserService.generateToken();
-        MvcResult mvcResult = mockMvc.perform(put("/account/update").header("authorization", token)).andExpect(status().isOk()).andReturn();
+        MvcResult mvcResult = mockMvc.perform(put("/account/update")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8).content(json.toString())
+                        .header("authorization", token)).andExpect(status().isOk()).andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
 
         Assertions.assertEquals("Updated successfully", content);
 
         List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
-        Assertions.assertEquals(0, resultSet.size());
+
+        Assertions.assertEquals(1, resultSet.size());
     }
 }
