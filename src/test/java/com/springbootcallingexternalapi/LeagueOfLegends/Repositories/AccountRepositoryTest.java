@@ -27,6 +27,7 @@ import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 @SpringBootTest(classes = AccountRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
@@ -57,12 +58,23 @@ public class AccountRepositoryTest {
         //GIVEN A NORMAL ACCOUNT WITH ALL DATA AND A STANDARD OWNER FROM THE BASE OWNER
 
         //Account with all data
-        AccountBaseModel baseModel = new AccountBaseModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "Soyeon Lover", 1648276400000L);
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                1648276400000L);
 
         //Owner Standard
         Integer owner = 1;
 
-        AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "Soyeon Lover", 1648276400000L, owner);
+        AccountModel modelo = new AccountModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                1648276400000L,
+                owner);
 
         //WHEN TRYING TO INSERT IT INTO THE DATABASE AND RETRIEVING THE RESULTS
         repository.insertAccount(baseModel, owner);
@@ -83,7 +95,13 @@ public class AccountRepositoryTest {
     @Test
     void AccountExistsExceptionInsertAccount() throws AccountDataException, AccountExistsOrNotException {
         Integer owner = 1;
-        AccountBaseModel baseModel = new AccountBaseModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "Soyeon Lover", 1648276400000L);
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                1648276400000L
+        );
         repository.insertAccount(baseModel, owner);
         Exception exception = assertThrows(AccountExistsOrNotException.class, () -> repository.insertAccount(baseModel, owner));
 
@@ -96,10 +114,22 @@ public class AccountRepositoryTest {
     @Test
     void updateSuccessfullyDefaultCase() throws CharacterNotAllowedException, AccountNotFoundException, AccountDataException, AccountExistsOrNotException {
         //given
-        AccountBaseModel baseModel = new AccountBaseModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "Soyeon Lover", 1648276400000L);
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                1648276400000L
+        );
         Integer owner = 1;
 
-        AccountModel model = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "STULMEMITO", "F46S5D4F", "stulesunmeme", 1324654564L, owner);
+        AccountModel model = new AccountModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "STULMEMITO",
+                "F46S5D4F",
+                "stulesunmeme",
+                1324654564L,
+                owner);
 
         repository.insertAccount(baseModel, owner);
         //When
@@ -119,7 +149,13 @@ public class AccountRepositoryTest {
     void accountNotFoundExceptionAccountUpdate() {
         Integer owner = 1;
 
-        AccountModel model = new AccountModel("", "STULMEMITO", "F46S5D4F", "stulesunmeme", 1324654564L, owner);
+        AccountModel model = new AccountModel(
+                "",
+                "STULMEMITO",
+                "F46S5D4F",
+                "stulesunmeme",
+                1324654564L,
+                owner);
         Assertions.assertThrows(AccountNotFoundException.class, () -> repository.accountUpdate(model, owner));
     }
 
@@ -127,14 +163,26 @@ public class AccountRepositoryTest {
     void characterNotAllowedAccountUpdate() {
         Integer owner = 1;
 
-        AccountModel model = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "STULMEMITO", "F46S5D4F", "stule*sunmeme", 1324654564L, owner);
+        AccountModel model = new AccountModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "STULMEMITO",
+                "F46S5D4F",
+                "stule*sunmeme",
+                1324654564L,
+                owner);
         Assertions.assertThrows(CharacterNotAllowedException.class, () -> repository.accountUpdate(model, owner));
     }
 
     @Test
     void DeleteAccountDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountExistsOrNotException, AccountNotFoundException {
 
-        AccountBaseModel baseModel = new AccountBaseModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "Soyeon Lover", 1648276400000L);
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                1648276400000L
+        );
         Integer owner = 1;
         String owner2 = "kusi";
 
@@ -147,7 +195,13 @@ public class AccountRepositoryTest {
 
     @Test
     void AccountNotFoundExceptionDeleteAccount() throws CharacterNotAllowedException, OwnerNotFoundException {
-        AccountBaseModel baseModel = new AccountBaseModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "Soyeon Lover", 1648276400000L);
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                1648276400000L
+        );
         Integer owner = 1;
 
         Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.deleteAccount(baseModel.getName(), owner));
@@ -161,7 +215,13 @@ public class AccountRepositoryTest {
     @Test
     void characterNotAllowedExceptionDeleteAccount() throws CharacterNotAllowedException, OwnerNotFoundException {
 
-        AccountBaseModel baseModel = new AccountBaseModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "<<<", 1648276400000L);
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "<<<",
+                1648276400000L
+        );
         Integer owner = 1;
         Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.deleteAccount(baseModel.getName(), owner));
 
@@ -174,11 +234,22 @@ public class AccountRepositoryTest {
     @Test
     void retrieveAccountByOwnerSuccessfullyDefaultCase() throws CharacterNotAllowedException, AccountDataException, OwnerNotAllowedException, OwnerNotFoundException, AccountExistsOrNotException {
 
-        AccountBaseModel baseModel = new AccountBaseModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "Soyeon Lover", 1648276400000L);
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                1648276400000L
+        );
         Integer ownerID = 1;
         String owner = ("testuno").toLowerCase(Locale.ROOT);
 
-        AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "Soyeon Lover", 1648276400000L, owner);
+        AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                1648276400000L,
+                owner);
 
         repository.insertAccount(baseModel, ownerID);
         List<AccountModel> resultSet = repository.retrieveAccountByOwner(owner, ownerID);
@@ -225,11 +296,22 @@ public class AccountRepositoryTest {
     @Test
     void retrieveAccountByAccountNameSuccessfullyDefaultCase() throws CharacterNotAllowedException, AccountDataException, OwnerNotAllowedException, AccountNotFoundException, AccountExistsOrNotException {
 
-        AccountBaseModel baseModel = new AccountBaseModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", ("Soyeon Lover").toLowerCase(Locale.ROOT), 1648276400000L);
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                ("Soyeon Lover").toLowerCase(Locale.ROOT),
+                1648276400000L
+        );
 
         Integer owner = 1;
 
-        AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "Soyeon Lover", 1648276400000L, owner);
+        AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "Soyeon Lover",
+                1648276400000L,
+                owner);
 
         repository.insertAccount(baseModel, owner);
 
@@ -248,7 +330,13 @@ public class AccountRepositoryTest {
     @Test
     void characterNotAllowedRetrieveAccountByAccountName() {
 
-        AccountBaseModel baseModel = new AccountBaseModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "<<<<", 1648276400000L);
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "<<<<",
+                1648276400000L
+        );
 
         Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.retrieveAccountByAccountName(baseModel.getName()));
 
@@ -261,7 +349,13 @@ public class AccountRepositoryTest {
     @Test
     void accountNotFoundExceptionRetrieveAccountByAccountName() {
 
-        AccountBaseModel baseModel = new AccountBaseModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY", "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a", "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ", "pepito pro", 1648276400000L);
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "pepito pro",
+                1648276400000L
+        );
 
         Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.retrieveAccountByAccountName(baseModel.getName()));
 
