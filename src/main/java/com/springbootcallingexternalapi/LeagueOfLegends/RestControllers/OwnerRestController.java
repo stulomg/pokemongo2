@@ -1,5 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerAlreadyExists;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.OwnerModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,11 @@ public class OwnerRestController {
 
     @GetMapping(value = "/account/new-owner")
     public ResponseEntity<Object> newOwner(@RequestBody OwnerModel ownerModel) {
-        ownerService.insertOwner(ownerModel);
+        try {
+            ownerService.insertOwner(ownerModel);
+        } catch (OwnerAlreadyExists | CharacterNotAllowedException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>("Owner has been added correctly", HttpStatus.OK);
     }
 }
