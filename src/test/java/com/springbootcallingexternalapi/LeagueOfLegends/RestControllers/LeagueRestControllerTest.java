@@ -1,4 +1,5 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaxDivisionModel;
@@ -60,7 +61,6 @@ public class LeagueRestControllerTest {
         for (int i = 0; i < leagueInfoModels.size() - 1; i++) {
             Assertions.assertTrue(leagueInfoModels.get(i).getDate().after(leagueInfoModels.get(i + 1).getDate()));
         }
-
     }
 
     @Test
