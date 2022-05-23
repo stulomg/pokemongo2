@@ -6,6 +6,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Position.PositionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.ChampionService;
@@ -109,7 +110,7 @@ public class RiotRestController {
         Object response = null;
         try {
             response = riotRequestorService.getListMatches(account);
-        } catch (AccountNotFoundException | ChampionNotFoundException | AccountDataException | ChampionMasteryNotFoundException e) {
+        } catch (AccountNotFoundException | PositionNotFoundException | ChampionNotFoundException | AccountDataException | ChampionMasteryNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
