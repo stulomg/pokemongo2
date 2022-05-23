@@ -382,7 +382,7 @@ public class AccountRepositoryTest {
         Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.retrieveOwnerIdByAccount(baseModel.getName()));
         String expectedMessage = "The account test was not found, please rectify";
         String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
+        Assertions.assertEquals(expectedMessage,actualMessage);
     }
     @Test
     void CharacterNotAllowedExceptionRetrieveOwnerIdByAccount() {
@@ -396,6 +396,6 @@ public class AccountRepositoryTest {
         Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.retrieveOwnerIdByAccount(baseModel.getName()));
         String expectedMessage = "test* has characters not allowed";
         String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
+        Assertions.assertEquals(expectedMessage,actualMessage);
     }
 }
