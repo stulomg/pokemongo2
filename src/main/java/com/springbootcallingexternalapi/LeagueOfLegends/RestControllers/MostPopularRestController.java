@@ -16,7 +16,7 @@ public class MostPopularRestController {
     @GetMapping(value = "/loldata/mostpopular")
     public ResponseEntity<Object> getMostPopular() {
         try {
-            return new ResponseEntity<>(mostPopularService.mostpopularRepository(), HttpStatus.OK);
+            return new ResponseEntity<>(mostPopularService.mostpopularService(), HttpStatus.OK);
         } catch (NoDataException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

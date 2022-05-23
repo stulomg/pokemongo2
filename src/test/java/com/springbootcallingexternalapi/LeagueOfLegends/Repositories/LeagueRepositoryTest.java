@@ -159,7 +159,7 @@ public class LeagueRepositoryTest {
 
     @Test
     void maxDivisionCasoDefoult() throws CharacterNotAllowedException, AccountDataException, CharacterNotAllowedExceptionOwner, OwnerNotFoundException {
-
+//GIVEN
         LeagueInfoModel infoModel = new LeagueInfoModel(
                 Timestamp.valueOf("2022-03-30 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
@@ -181,10 +181,10 @@ public class LeagueRepositoryTest {
                 60,
                 5560,
                 "testdos");
-
+//WHEN
         repository.insertLeagueInfo(infoModel, 1,1);
         repository.insertLeagueInfo(infoModel2, 2,2);
-
+//THEN
         List<MaxDivisionModel> resultSet = repository.getMaxDivision(infoModel.getOwner(), infoModel2.getOwner(),1,2);
         Assertions.assertEquals(1, resultSet.size());
         MaxDivisionModel result = resultSet.get(0);
@@ -195,7 +195,7 @@ public class LeagueRepositoryTest {
     }
 
     @Test
-    void accountNotFoundMaxDivision() {
+    void OwnerNotFoundMaxDivision() {
         Assertions.assertThrows(OwnerNotFoundException.class, () -> repository.getMaxDivision("Owner", "Owner",1,1));
     }
 

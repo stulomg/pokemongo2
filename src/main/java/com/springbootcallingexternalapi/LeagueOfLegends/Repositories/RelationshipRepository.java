@@ -17,7 +17,6 @@ public class RelationshipRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<String> getPlayersMatched(String account) throws CharacterNotAllowedException, AccountNotFoundException {
-
         Integer AccoundId = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
         String sql = "SELECT \"id_Jugador\" FROM \"Account_Jugador\" WHERE \"id_Account\"=?";
         Object[] params = {AccoundId};
