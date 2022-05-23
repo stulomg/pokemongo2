@@ -2,7 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundBDException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
@@ -386,7 +386,7 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(expectedMessage,actualMessage);
     }
     @Test
-    void retrieveIdRiotByAccount() throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundBDException {
+    void retrieveIdRiotByAccount() throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundDBException {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
@@ -400,7 +400,7 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(baseModel.getId(), resultSet);
     }
     @Test
-    void AccountNotFoundBDExceptionRetrieveIdRiotByAccount(){
+    void AccountNotFoundDBExceptionRetrieveIdRiotByAccount(){
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
@@ -408,7 +408,7 @@ public class AccountRepositoryTest {
                 ("test").toLowerCase(Locale.ROOT),
                 1648276400000L
         );
-        Exception exception = assertThrows(AccountNotFoundBDException.class, () -> repository.retrieveIdRiotByAccount(baseModel.getName()));
+        Exception exception = assertThrows(AccountNotFoundDBException.class, () -> repository.retrieveIdRiotByAccount(baseModel.getName()));
         String expectedMessage = "The account test was not registered";
         String actualMessage = exception.getMessage();
         Assertions.assertEquals(expectedMessage,actualMessage);
@@ -428,7 +428,7 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(expectedMessage,actualMessage);
     }
     @Test
-    void retrievePuuidRiotByAccount() throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundBDException {
+    void retrievePuuidRiotByAccount() throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundDBException {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
@@ -442,7 +442,7 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(baseModel.getPuuid(), resultSet);
     }
     @Test
-    void AccountNotFoundBDExceptionRetrievePuuidRiotByAccount(){
+    void AccountNotFoundDBExceptionRetrievePuuidRiotByAccount(){
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
@@ -450,7 +450,7 @@ public class AccountRepositoryTest {
                 ("test").toLowerCase(Locale.ROOT),
                 1648276400000L
         );
-        Exception exception = assertThrows(AccountNotFoundBDException.class, () -> repository.retrievePuuidRiotByAccount(baseModel.getName()));
+        Exception exception = assertThrows(AccountNotFoundDBException.class, () -> repository.retrievePuuidRiotByAccount(baseModel.getName()));
         String expectedMessage = "The account test was not registered";
         String actualMessage = exception.getMessage();
         Assertions.assertEquals(expectedMessage,actualMessage);
