@@ -2,7 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Query.QuerySyntaxErrorException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.QueryModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.QueryService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

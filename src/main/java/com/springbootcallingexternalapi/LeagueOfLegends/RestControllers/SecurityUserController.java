@@ -3,7 +3,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityJwtDtoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityLoginUserModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.SecurityNewUserModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.SecurityUserService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;

@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services;
+package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Query.QuerySyntaxErrorException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.QueryModel;

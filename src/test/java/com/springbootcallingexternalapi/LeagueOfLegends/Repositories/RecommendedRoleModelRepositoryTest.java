@@ -6,7 +6,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularEx
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.RecommendedRoleService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.RecommendedRoleService;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

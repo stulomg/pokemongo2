@@ -2,7 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.JWT.JwtEntryPoint;
 import com.springbootcallingexternalapi.LeagueOfLegends.JWT.JwtTokenFilter;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.SecurityUserDetailsServiceImpl;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

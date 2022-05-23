@@ -1,7 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.OwnerModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.OwnerService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
