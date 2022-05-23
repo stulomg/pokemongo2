@@ -76,7 +76,7 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void AccountExistsOrNotExceptionDeleteAccount() throws Exception {
+    public void AccountNotFoundExceptionExceptionDeleteAccount() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
@@ -91,7 +91,7 @@ public class AccountRestControllerTest {
         Integer owner = 1;
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
-        mockMvc.perform(delete("/account/delete/soyeonlover").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA soyeonlover NO FUE ENCONTRADA, POR FAVOR RECTIFICAR"));
+        mockMvc.perform(delete("/account/delete/soyeonlover").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The account soyeonlover was not found, please rectify"));
     }
 
     @Test
@@ -120,7 +120,8 @@ public class AccountRestControllerTest {
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
                 1648276400000L,
-                owner);
+                owner,
+                "ownerName");
 
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
@@ -152,7 +153,7 @@ public class AccountRestControllerTest {
         Integer owner = 1;
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
-        mockMvc.perform(get("/account/find-by-owner/kusarin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("EL OWNER kusarin NO FUE ENCONTRADO, POR FAVOR RECTIFICAR"));
+        mockMvc.perform(get("/account/find-by-owner/kusarin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The owner kusarin was not found, please rectify"));
     }
 
     @Test
@@ -176,7 +177,8 @@ public class AccountRestControllerTest {
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
                 1648276400000L,
-                owner);
+                owner,
+                "ownerName");
 
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
@@ -209,7 +211,7 @@ public class AccountRestControllerTest {
 
         accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
-        mockMvc.perform(get("/account/find-by-name/stulinpinguin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("LA CUENTA stulinpinguin NO FUE ENCONTRADA, POR FAVOR RECTIFICAR"));
+        mockMvc.perform(get("/account/find-by-name/stulinpinguin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The account stulinpinguin was not found, please rectify"));
     }
 
     @Test
@@ -232,7 +234,8 @@ public class AccountRestControllerTest {
                 "F46S5D4F",
                 "stulesunmeme",
                 1324654564L,
-                owner);
+                owner,
+                "testuno");
 
         accountRepository.insertAccount(baseModel, owner);
         accountRepository.accountUpdate(model,owner);

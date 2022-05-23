@@ -66,7 +66,7 @@ public class AccountRepositoryTest {
                 1648276400000L);
 
         //Owner Standard
-        Integer owner = 1;
+        Integer ownerId = 1;
 
         AccountModel modelo = new AccountModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -74,10 +74,11 @@ public class AccountRepositoryTest {
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
                 1648276400000L,
-                owner);
+                ownerId,
+                "ownerName");
 
         //WHEN TRYING TO INSERT IT INTO THE DATABASE AND RETRIEVING THE RESULTS
-        repository.insertAccount(baseModel, owner);
+        repository.insertAccount(baseModel, ownerId);
 
         //THEN INSERT PROPERLY AND PERSIST THE DATA IN THE DATABASE.
         List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
@@ -129,7 +130,9 @@ public class AccountRepositoryTest {
                 "F46S5D4F",
                 "stulesunmeme",
                 1324654564L,
-                owner);
+                owner,
+                "testuno")
+        ;
 
         repository.insertAccount(baseModel, owner);
         //When
@@ -142,7 +145,8 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(model.getPuuid(), resultSet.get(0).getPuuid());
         Assertions.assertEquals(model.getName(), resultSet.get(0).getName());
         Assertions.assertEquals(model.getRevisionDate(), resultSet.get(0).getRevisionDate());
-        Assertions.assertEquals(owner, resultSet.get(0).getOwner());
+        Assertions.assertEquals(model.getOwner(),resultSet.get(0).getOwner());
+
     }
 
     @Test
@@ -155,8 +159,14 @@ public class AccountRepositoryTest {
                 "F46S5D4F",
                 "stulesunmeme",
                 1324654564L,
-                owner);
-        Assertions.assertThrows(AccountNotFoundException.class, () -> repository.accountUpdate(model, owner));
+                owner,
+                "ownerName");
+        Exception exception = Assertions.assertThrows(AccountNotFoundException.class, () -> repository.accountUpdate(model, owner));
+
+        String expectedMessage = "The account stulesunmeme was not found, please rectify";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
@@ -169,12 +179,18 @@ public class AccountRepositoryTest {
                 "F46S5D4F",
                 "stule*sunmeme",
                 1324654564L,
-                owner);
-        Assertions.assertThrows(CharacterNotAllowedException.class, () -> repository.accountUpdate(model, owner));
+                owner,
+                "ownerName");
+        Exception exception = Assertions.assertThrows(CharacterNotAllowedException.class, () -> repository.accountUpdate(model, owner));
+
+        String expectedMessage = "has characters not allowed";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
-    void DeleteAccountDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountExistsOrNotException, AccountNotFoundException {
+    void deleteAccountDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountExistsOrNotException, AccountNotFoundException {
 
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -206,7 +222,7 @@ public class AccountRepositoryTest {
 
         Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.deleteAccount(baseModel.getName(), owner));
 
-        String expectedMessage = "LA CUENTA Soyeon Lover NO FUE ENCONTRADA, POR FAVOR RECTIFICAR";
+        String expectedMessage = "The account Soyeon Lover was not found, please rectify";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -249,7 +265,8 @@ public class AccountRepositoryTest {
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
                 1648276400000L,
-                owner);
+                ownerID,
+                "testuno");
 
         repository.insertAccount(baseModel, ownerID);
         List<AccountModel> resultSet = repository.retrieveAccountByOwner(owner, ownerID);
@@ -259,7 +276,7 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(modelo.getAccountId(), result.getAccountId());
         Assertions.assertEquals(modelo.getId(), result.getId());
         Assertions.assertEquals(modelo.getName().toLowerCase(Locale.ROOT), result.getName());
-        Assertions.assertEquals(ownerID, result.getOwner());
+        Assertions.assertEquals(modelo.getOwner(), result.getOwner());
         Assertions.assertEquals(modelo.getPuuid(), result.getPuuid());
         Assertions.assertEquals(modelo.getRevisionDate(), result.getRevisionDate());
     }
@@ -287,7 +304,7 @@ public class AccountRepositoryTest {
 
         Exception exception = assertThrows(OwnerNotFoundException.class, () -> repository.retrieveAccountByOwner(owner, ownerID));
 
-        String expectedMessage = " NO FUE ENCONTRADO, POR FAVOR RECTIFICAR";
+        String expectedMessage = "The owner pepito was not found, please rectify";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -304,16 +321,17 @@ public class AccountRepositoryTest {
                 1648276400000L
         );
 
-        Integer owner = 1;
+        Integer ownerId = 1;
 
         AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
                 "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
                 "Soyeon Lover",
                 1648276400000L,
-                owner);
+                ownerId,
+                "ownerName");
 
-        repository.insertAccount(baseModel, owner);
+        repository.insertAccount(baseModel, ownerId);
 
         List<AccountModel> resultSet = repository.retrieveAccountByAccountName(baseModel.getName());
         Assertions.assertEquals(1, resultSet.size());
@@ -359,7 +377,7 @@ public class AccountRepositoryTest {
 
         Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.retrieveAccountByAccountName(baseModel.getName()));
 
-        String expectedMessage = " NO FUE ENCONTRADA, POR FAVOR RECTIFICAR";
+        String expectedMessage = "The account pepito pro was not found, please rectify";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
