@@ -1,5 +1,7 @@
 package com.springbootcallingexternalapi.Twitter.TwitterRestControllers;
 
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.DBNotAvaliableException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.TwitterExceptions.HashtagAlreadyRegisterException;
 import com.springbootcallingexternalapi.Twitter.TwitterServices.TwitterRequestorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +16,14 @@ public class TwitterRestController {
     @Autowired
     TwitterRequestorService twitterRequestorService;
 
-    @RequestMapping (value = "/call-twitter/tweets/{tweetId}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> callTwitter (@PathVariable Long tweetId){
-        Object response = twitterRequestorService.getTweet(tweetId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     @GetMapping (value = "/call-twitter/community/tweets/riot_games")
     public ResponseEntity<Object> getRiotTweets(){
-        Object response = twitterRequestorService.getRiotTweets();
+        Object response = null;
+        try {
+            response = twitterRequestorService.getRiotTweets();
+        } catch (DBNotAvaliableException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.REQUEST_TIMEOUT);
+        }
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
@@ -32,7 +31,7 @@ public class TwitterRestController {
     public ResponseEntity<Object> insertHashtags(@PathVariable String hashtag){
        try {
            twitterRequestorService.insertHashtag(hashtag);
-       }catch (HashtagAlreadyRegisterException e){
+       }catch (HashtagAlreadyRegisterException | CharacterNotAllowedException e){
            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
        }
         return new ResponseEntity<>( hashtag + " hashtag created successfully", HttpStatus.OK);
