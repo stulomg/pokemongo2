@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundBDException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -29,7 +29,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 
 @Service
 public class RiotRequestorService {
-    private static final String RIOT_TOKEN = "RGAPI-e3ed8139-7662-4ba9-89a4-0cffcbbfb346";
+    private static final String RIOT_TOKEN = "RGAPI-5b21f691-81cc-4901-b480-f003d533102d";
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
     @Autowired
@@ -76,9 +76,9 @@ public class RiotRequestorService {
         }
     }
 
-    public LeagueInfoModel getSoloqLeague(String account) throws AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
+    public LeagueInfoModel getSoloqLeague(String account) throws AccountNotFoundBDException, AccountNotFoundException, AccountDataException, QueueNotFoundException, CharacterNotAllowedException {
         try {
-            String id = getAccountFromRiot(account).getBody().getId();
+            String id = accountRepository.retrieveIdRiotByAccount(account);
             String uri = "/lol/league/v4/entries/by-summoner/" + id;
             String queueToFind = "RANKED_SOLO_5x5";
             ResponseEntity<LeagueInfoModel[]> response = requestToRiot(uri, HttpMethod.GET, LeagueInfoModel[].class);
@@ -94,12 +94,14 @@ public class RiotRequestorService {
             }
         } catch (RestClientException e1) {
             throw new AccountNotFoundException(account);
+        } catch (AccountNotFoundBDException e){
+            throw new AccountNotFoundBDException(account);
         }
     }
 
-    public MasteryHistoryInfoModel getMastery(String account, String championName) throws AccountNotFoundException, ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException, AccountDataException {
+    public MasteryHistoryInfoModel getMastery(String account, String championName) throws AccountNotFoundException, ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException, AccountDataException, AccountNotFoundBDException {
         try {
-            String id = getAccountFromRiot(account).getBody().getId();
+            String id = accountRepository.retrieveIdRiotByAccount(account);
             Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
             Long championId = championService.retrieveChampionIdByChampionName(championName.toLowerCase(Locale.ROOT));
             String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + championId;
@@ -117,6 +119,8 @@ public class RiotRequestorService {
             throw new ChampionMasteryNotFoundException(championName);
         } catch (CharacterNotAllowedException e) {
             throw new CharacterNotAllowedException(championName);
+        } catch (AccountNotFoundBDException e){
+            throw new AccountNotFoundBDException(account);
         }
     }
 
@@ -136,10 +140,9 @@ public class RiotRequestorService {
         return restTemplate.exchange(finalUrl, method, entity, clazz);
     }
 
-    public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException {
+    public CurrentGameInfoBaseModel getLiveMatch(String account) throws AccountNotFoundException, CharacterNotAllowedException, AccountNotFoundBDException {
         if (isAlpha(account)) {
-            ResponseEntity <AccountBaseModel> response2 = getAccountFromRiot(account);
-            String id = response2.getBody().getId();
+            String id = accountRepository.retrieveIdRiotByAccount(account);
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
             ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
             return response.getBody();
@@ -147,11 +150,10 @@ public class RiotRequestorService {
         } else throw new CharacterNotAllowedException(account);
     }
 
-    public CurrentGameInfoRuneModel getCurrentGameRunes(String account) throws AccountNotFoundException, CharacterNotAllowedException {
+    public CurrentGameInfoRuneModel getCurrentGameRunes(String account) throws AccountNotFoundException, CharacterNotAllowedException, AccountNotFoundBDException {
 
         if (isAlpha(account)) {
-            ResponseEntity<AccountBaseModel> response = getAccountFromRiot(account);
-            String id = response.getBody().getId();
+            String id = accountRepository.retrieveIdRiotByAccount(account);
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
             ResponseEntity<CurrentGameInfoRuneModel> response2 = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoRuneModel.class);
             CurrentGameInfoRuneModel model = response2.getBody();
@@ -173,9 +175,9 @@ public class RiotRequestorService {
         return response.getBody();
     }
 
-    public List<Object> getListMatches(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, PositionNotFoundException {
+    public List<Object> getListMatches(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, PositionNotFoundException, AccountNotFoundBDException {
 
-        String puuid = getAccountFromRiot(account).getBody().getPuuid();
+        String puuid = accountRepository.retrievePuuidRiotByAccount(account);
         String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=420&start=0&count=5";
         ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
         List<String> listMatches = response.getBody();
@@ -206,8 +208,8 @@ public class RiotRequestorService {
         return response;
     }
 
-    public ResponseEntity<TeamAccountsMetaDataModel> getAccountsForClash (String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException {
-        String id = getAccountFromRiot(account).getBody().getId();
+    public ResponseEntity<TeamAccountsMetaDataModel> getAccountsForClash (String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, AccountNotFoundBDException {
+        String id = accountRepository.retrieveIdRiotByAccount(account);
         String uri = "/lol/clash/v1/players/by-summoner/" + id;
         ResponseEntity<AccountForClashDataModel> response = requestToRiot(uri,HttpMethod.GET, AccountForClashDataModel.class);
         String teamId = response.getBody().getTeamId();
