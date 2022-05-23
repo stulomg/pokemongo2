@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.OwnerModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.OwnerService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
 import java.util.List;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -32,6 +34,8 @@ class OwnerRestControllerTest {
     JdbcTemplate jdbcTemplate;
     @Autowired
     SecurityUserService securityUserService;
+    @Autowired
+    OwnerService ownerService;
     @MockBean
     RestTemplate restTemplate;
     ObjectMapper objectMapper;
@@ -55,5 +59,32 @@ class OwnerRestControllerTest {
         Assertions.assertEquals(1,resultSet.size());
 
         Assertions.assertEquals(newOwner.getName(),resultSet.get(0).getName());
+    }
+    @Test
+    void OwnerAlreadyExistsNewOwner() throws Exception {
+        jdbcTemplate.execute("TRUNCATE TABLE \"Owner\" RESTART IDENTITY CASCADE");
+        OwnerModel newOwner = new OwnerModel(
+                "test"
+        );
+        ownerService.insertOwner(newOwner);
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/account/new-owner").header("authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newOwner)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Owner already registered"));
+    }
+    @Test
+    void CharacterNotAllowedExceptionNewOwner() throws Exception {
+        jdbcTemplate.execute("TRUNCATE TABLE \"Owner\" RESTART IDENTITY CASCADE");
+        OwnerModel newOwner = new OwnerModel(
+                "test*"
+        );
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.get("/account/new-owner").header("authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newOwner)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("test* has characters not allowed"));
     }
 }
