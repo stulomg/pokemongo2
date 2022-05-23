@@ -1,5 +1,7 @@
 package com.springbootcallingexternalapi.Twitter.TwitterServices;
 
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.DBNotAvaliableException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.TwitterExceptions.HashtagAlreadyRegisterException;
 import com.springbootcallingexternalapi.Twitter.TwitterRepository.HashtagsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class TwitterRequestorService {
     private static final String BEARER_TOKEN =
             "Bearer AAAAAAAAAAAAAAAAAAAAAExubwEAAAAAvYw3i9RIo%2BKmUT8flxq%2BT%2BNWwS4%3DEmw0pG38aWj1rjNL5mMYoZZ5yPJU4iqFWtpwJNQYH3OKWmPfjE";
 
-    public <T> ResponseEntity<T> requestToTwitter(String uri, HttpMethod method, Class<T> clazz) {
+    public <T> ResponseEntity<T> requestToTwitterHashtags(String uri, HttpMethod method, Class<T> clazz) throws DBNotAvaliableException {
         String finalUrl = "https://api.twitter.com/2" + uri;
 
         HttpHeaders headers = new HttpHeaders();
@@ -43,7 +45,7 @@ public class TwitterRequestorService {
         return restTemplate.exchange(finalUrl, method, entity, clazz, variables);
     }
 
-    public void insertHashtag (String hashtag) throws HashtagAlreadyRegisterException {
+    public void insertHashtag (String hashtag) throws HashtagAlreadyRegisterException, CharacterNotAllowedException {
         hashtag = "#" + hashtag;
         try {
             hashtagsRepository.insertHashtags(hashtag);
@@ -52,15 +54,9 @@ public class TwitterRequestorService {
         }
     }
 
-    public Object getTweet(Long id) {
-        String uri = "/tweets/" + id;
-        ResponseEntity<Object> response = requestToTwitter(uri, HttpMethod.GET, Object.class);
-        return response.getBody();
-    }
-
-    public Object getRiotTweets() {
+    public Object getRiotTweets() throws DBNotAvaliableException {
         String uri = "/tweets/search/recent?query={query}&max_results={max_results}&sort_order={sort_order}";
-        ResponseEntity<Object> response = requestToTwitter(uri, HttpMethod.GET, Object.class);
+        ResponseEntity<Object> response = requestToTwitterHashtags(uri, HttpMethod.GET, Object.class);
         return response.getBody();
     }
 }

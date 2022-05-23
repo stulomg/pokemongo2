@@ -28,7 +28,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 
 @Service
 public class RiotRequestorService {
-    private static final String RIOT_TOKEN = "RGAPI-7c36b8e8-e078-4c86-86d6-421a5909e214";
+    private static final String RIOT_TOKEN = "RGAPI-e3ed8139-7662-4ba9-89a4-0cffcbbfb346";
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
     @Autowired
@@ -193,7 +193,7 @@ public class RiotRequestorService {
             Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(lim.getSummonerName()));
             Integer positionID = Math.toIntExact(positionRepository.retrievePositionIdByPositionName(lim.getIndividualPosition()));
             Integer championID = Math.toIntExact(championService.retrieveChampionIdByChampionName(lim.getChampionName()));
-            matchRepository.insertMatchData(lim,accountID,positionID,championID);
+            matchRepository.insertIndividualMatchData(lim,accountID,positionID,championID);
             list.add(model);
         }
         return list;

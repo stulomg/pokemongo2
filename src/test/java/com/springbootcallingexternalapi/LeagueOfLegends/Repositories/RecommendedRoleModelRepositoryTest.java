@@ -42,11 +42,11 @@ class RecommendedRoleModelRepositoryTest {
             dataSummoner.setWin(true);
             dataSummoner.setChampionPoints(0000);
             if (i < 5) {
-                matchRepository.insertMatchData(dataSummoner,1,4,8);
+                matchRepository.insertIndividualMatchData(dataSummoner,1,4,8);
             }else if (i < 10) {
-                matchRepository.insertMatchData(dataSummoner,2,2,8);
+                matchRepository.insertIndividualMatchData(dataSummoner,2,2,8);
             } else {
-                matchRepository.insertMatchData(dataSummoner,3,5,8);
+                matchRepository.insertIndividualMatchData(dataSummoner,3,5,8);
             }
         }
         ArrayList data = new ArrayList<>();
