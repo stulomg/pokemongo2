@@ -5,7 +5,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountOrOwne
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Services.AccountService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

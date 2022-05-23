@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Services;
+package com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Enums.RoleName;
 import com.springbootcallingexternalapi.LeagueOfLegends.JWT.JwtProvider;

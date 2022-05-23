@@ -1,7 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.NoDataException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Services.MostPopularService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.MostPopularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

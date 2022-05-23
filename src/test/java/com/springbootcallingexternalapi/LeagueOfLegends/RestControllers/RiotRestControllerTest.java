@@ -2,7 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
-import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.SecurityUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

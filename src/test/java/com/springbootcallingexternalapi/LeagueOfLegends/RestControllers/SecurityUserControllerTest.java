@@ -2,7 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
-import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.JWT;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserDetailsServiceImpl;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.SecurityUserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Services;
+package com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
@@ -28,7 +28,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 
 @Service
 public class RiotRequestorService {
-    private static final String RIOT_TOKEN = "RGAPI-e3ed8139-7662-4ba9-89a4-0cffcbbfb346";
+    private static final String RIOT_TOKEN = "RGAPI-b4d8bd80-a14b-4b77-9557-e6bf0b547a1f";
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
     @Autowired
@@ -139,6 +139,7 @@ public class RiotRequestorService {
             String id = response2.getBody().getId();
             String uri = "/lol/spectator/v4/active-games/by-summoner/" + id;
             ResponseEntity<CurrentGameInfoBaseModel> response = requestToRiot(uri, HttpMethod.GET, CurrentGameInfoBaseModel.class);
+            matchRepository.insertFullMatchData(response.getBody());
             return response.getBody();
         } else throw new CharacterNotAllowedException(account);
     }
@@ -177,7 +178,7 @@ public class RiotRequestorService {
             Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(lim.getSummonerName()));
             Integer positionID = Math.toIntExact(positionRepository.retrievePositionIdByPositionName(lim.getIndividualPosition()));
             Integer championID = Math.toIntExact(championService.retrieveChampionIdByChampionName(lim.getChampionName()));
-            matchRepository.insertMatchData(lim,accountID,positionID,championID);
+            matchRepository.insertIndividualMatchData(lim,accountID,positionID,championID);
             list.add(model);
         }
         return list;

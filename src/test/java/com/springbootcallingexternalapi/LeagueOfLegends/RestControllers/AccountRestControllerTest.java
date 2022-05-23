@@ -3,7 +3,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
-import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.SecurityUserService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

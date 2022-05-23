@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Services;
+package com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;

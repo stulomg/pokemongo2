@@ -6,7 +6,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularEx
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Services.RecommendedRoleService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.Services.RecommendedRoleService;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -125,11 +125,11 @@ class RecommendedRoleModelRepositoryTest {
         data.add(data4);
         data.add(data5);
 
-        matchRepository.insertMatchData(dataModel,1,3,112);
-        matchRepository.insertMatchData(dataModel2,1,3,112);
-        matchRepository.insertMatchData(dataModel3,1,3,112);
-        matchRepository.insertMatchData(dataModel4,2,4,89);
-        matchRepository.insertMatchData(dataModel5,2,4,89);
+        matchRepository.insertIndividualMatchData(dataModel,1,3,112);
+        matchRepository.insertIndividualMatchData(dataModel2,1,3,112);
+        matchRepository.insertIndividualMatchData(dataModel3,1,3,112);
+        matchRepository.insertIndividualMatchData(dataModel4,2,4,89);
+        matchRepository.insertIndividualMatchData(dataModel5,2,4,89);
 
         List<RecommendedRoleModel> resultSet = recommendedRoleService.recommendedRoleService(data);
         Assertions.assertEquals(5, resultSet.size());
