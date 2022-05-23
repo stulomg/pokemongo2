@@ -26,15 +26,15 @@ import java.util.Set;
 public class SecurityUserService {
     @Autowired
     SecurityUserRepository securityUserRepository;
-    @Autowired//newuser
+    @Autowired
     PasswordEncoder passwordEncoder;
-    @Autowired//newuser
+    @Autowired
     SecurityRoleRepository securityRoleRepository;
-    @Autowired//login
+    @Autowired
     AuthenticationManager authenticationManager;
-    @Autowired//login
+    @Autowired
     JwtProvider jwtProvider;
-    @Autowired// generateToken
+    @Autowired
     JdbcTemplate jdbcTemplate;
 
     public Optional<SecurityUserModel> getByUserName(String userName) {
