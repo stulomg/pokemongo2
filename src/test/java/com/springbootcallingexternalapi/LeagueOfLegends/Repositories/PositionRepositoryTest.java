@@ -1,5 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Position.PositionNotFoundException;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +25,7 @@ class PositionRepositoryTest {
     private PositionRepository positionRepository;
 
     @Test
-    void retrievePositionIdByPositionName() {
+    void retrievePositionIdByPositionName() throws CharacterNotAllowedException, PositionNotFoundException {
         ArrayList positions = new ArrayList<>();
         positions.add("TOP");
         positions.add("JUNGLE");
@@ -33,5 +36,14 @@ class PositionRepositoryTest {
             Long resultSet = positionRepository.retrievePositionIdByPositionName((String) positions.get(i));
             Assertions.assertEquals(i+1,resultSet);
         }
+    }
+    @Test
+    void PositionNotFoundExceptionRetrievePositionIdByPositionName()  {
+        Assertions.assertThrows(PositionNotFoundException.class, () -> {
+            String positionNameGiven = new String(
+                    "midonomid"
+            );
+            positionRepository.retrievePositionIdByPositionName(positionNameGiven);
+        });
     }
 }
