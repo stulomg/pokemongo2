@@ -1,6 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
@@ -49,7 +50,7 @@ public class RiotRestController {
         try {
             LeagueInfoModel response = riotRequestorService.getSoloqLeague(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (AccountNotFoundException | QueueNotFoundException e) {
+        } catch (AccountNotFoundException | QueueNotFoundException | AccountNotFoundDBException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (AccountDataException | HttpClientErrorException.NotFound | CharacterNotAllowedException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
@@ -62,7 +63,7 @@ public class RiotRestController {
         try {
             MasteryHistoryInfoModel response = riotRequestorService.getMastery(account, championName);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (ChampionNotFoundException | ChampionMasteryNotFoundException | AccountNotFoundException e) {
+        } catch (ChampionNotFoundException | ChampionMasteryNotFoundException | AccountNotFoundException | AccountNotFoundDBException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (CharacterNotAllowedException | AccountDataException e1) {
             logger.info(e1.getMessage());
@@ -77,7 +78,7 @@ public class RiotRestController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (AccountNotFoundException e1) {
+        } catch (AccountNotFoundException | AccountNotFoundDBException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         } catch (HttpClientErrorException e) {
             return new ResponseEntity<>(new Message("The player is not on a live match"), HttpStatus.BAD_REQUEST);
@@ -91,7 +92,7 @@ public class RiotRestController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (AccountNotFoundException e1) {
+        } catch (AccountNotFoundException | AccountNotFoundDBException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
@@ -110,7 +111,7 @@ public class RiotRestController {
         Object response = null;
         try {
             response = riotRequestorService.getListMatches(account);
-        } catch (AccountNotFoundException | PositionNotFoundException | ChampionNotFoundException | AccountDataException | ChampionMasteryNotFoundException e) {
+        } catch (AccountNotFoundException | PositionNotFoundException | ChampionNotFoundException | AccountDataException | ChampionMasteryNotFoundException | AccountNotFoundDBException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -124,7 +125,7 @@ public class RiotRestController {
         try {
             Object response = riotRequestorService.getAccountsForClash(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (AccountNotFoundException | ChampionNotFoundException | AccountDataException | ChampionMasteryNotFoundException e) {
+        } catch (AccountNotFoundException | ChampionNotFoundException | AccountDataException | ChampionMasteryNotFoundException | AccountNotFoundDBException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

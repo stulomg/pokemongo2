@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
@@ -127,6 +128,28 @@ public class AccountRepository {
                 return jdbcTemplate.queryForObject(sql, params, Long.class);
             } catch (EmptyResultDataAccessException e) {
                 throw new AccountNotFoundException(account);
+            }
+        } else throw new CharacterNotAllowedException(account);
+    }
+    public String retrieveIdRiotByAccount(String account) throws CharacterNotAllowedException, AccountNotFoundDBException {
+        String sql = "SELECT id FROM \"Account\" WHERE LOWER(name) =?;";
+        Object[] params = {account};
+        if (isAlpha(account)) {
+            try {
+                return jdbcTemplate.queryForObject(sql, params, String.class);
+            } catch (EmptyResultDataAccessException e) {
+                throw new AccountNotFoundDBException(account);
+            }
+        } else throw new CharacterNotAllowedException(account);
+    }
+    public String retrievePuuidRiotByAccount(String account) throws CharacterNotAllowedException, AccountNotFoundDBException {
+        String sql = "SELECT puuid FROM \"Account\" WHERE LOWER(name) =?;";
+        Object[] params = {account};
+        if (isAlpha(account)) {
+            try {
+                return jdbcTemplate.queryForObject(sql, params, String.class);
+            } catch (EmptyResultDataAccessException e) {
+                throw new AccountNotFoundDBException(account);
             }
         } else throw new CharacterNotAllowedException(account);
     }
