@@ -7,7 +7,6 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MatchRepository;
-import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.RecommendedRoleRepository;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest(classes = RecommendedRoleRepository.class)
+@SpringBootTest(classes = RecommendedRoleService.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
 class RecommendedRoleServiceTest {
