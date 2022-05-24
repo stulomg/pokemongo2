@@ -14,12 +14,9 @@ public class OwnerService {
     OwnerRepository ownerRepository;
 
     public void insertOwner(OwnerModel ownerModel) throws OwnerAlreadyExists, CharacterNotAllowedException {
-
         ownerRepository.insertOwner(ownerModel);
     }
-
     public Long retrieveOwnerIdByOwnerName(String owner) throws CharacterNotAllowedException, OwnerNotFoundException {
-
         return ownerRepository.retrieveOwnerIdByOwnerName(owner);
     }
 }
