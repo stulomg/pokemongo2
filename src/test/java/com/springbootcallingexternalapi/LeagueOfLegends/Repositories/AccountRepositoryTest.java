@@ -420,7 +420,7 @@ public class AccountRepositoryTest {
         );
         Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.retrieveAccountIdByAccountName(baseModel.getName()));
 
-        String expectedMessage = "The account pepito pro was not found, please rectify";
+        String expectedMessage = " The account pepito pro was not found, please rectify";
         String actualMessage = exception.getMessage();
         Assertions.assertEquals(expectedMessage,actualMessage);
     }
@@ -449,7 +449,7 @@ public class AccountRepositoryTest {
                 1648276400000L
         );
         Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.retrieveOwnerIdByAccount(baseModel.getName()));
-        String expectedMessage = "The account test was not found, please rectify";
+        String expectedMessage = " The account test was not found, please rectify";
         String actualMessage = exception.getMessage();
         Assertions.assertEquals(expectedMessage,actualMessage);
     }
