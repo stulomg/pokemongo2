@@ -1,11 +1,13 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.ClashIsNotAvailable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Position.PositionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
@@ -34,7 +36,7 @@ public class RiotRestController {
     @RequestMapping(value = "/call-riot/{account}/{owner}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner){
+    public ResponseEntity<Object> callRiot(@PathVariable String account, @PathVariable String owner) {
         try {
             AccountBaseModel acc = riotRequestorService.getAccountAndAssignToOwner(account, owner);
             return new ResponseEntity<>(acc, HttpStatus.OK);
@@ -134,15 +136,15 @@ public class RiotRestController {
 
     @GetMapping(value = "/relationship/{account1}/{account2}")
 
-    public ResponseEntity<Object> playersRelationship (@PathVariable String account1, @PathVariable String account2) {
+    public ResponseEntity<Object> playersRelationship(@PathVariable String account1, @PathVariable String account2) {
         Object response = null;
         try {
-            response = riotRequestorService.playersRelationship(account1,account2);
+            response = riotRequestorService.playersRelationship(account1, account2);
         } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
@@ -7,6 +8,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionNotFoundException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.ClashIsNotAvailable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Position.PositionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -29,7 +32,9 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 
 @Service
 public class RiotRequestorService {
-    private static final String RIOT_TOKEN = "RGAPI-5b21f691-81cc-4901-b480-f003d533102d";
+
+    private static final String RIOT_TOKEN = "RGAPI-f727bc42-235d-4320-912f-5c7befb2d509";
+
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
     @Autowired
@@ -204,13 +209,12 @@ public class RiotRequestorService {
         return response;
     }
 
-    public ResponseEntity<TeamAccountsMetaDataModel> getAccountsForClash (String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, AccountNotFoundDBException {
+    public ResponseEntity<TeamAccountsMetaDataModel> getAccountsForClash(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, AccountNotFoundDBException {
         String id = accountRepository.retrieveIdRiotByAccount(account);
         String uri = "/lol/clash/v1/players/by-summoner/" + id;
         ResponseEntity<AccountForClashDataModel> response = requestToRiot(uri,HttpMethod.GET, AccountForClashDataModel.class);
         String teamId = response.getBody().getTeamId();
         ResponseEntity<TeamAccountsMetaDataModel> response2 = getClashParticipantsByTeamId(teamId);
-        List<Object> clashSummoners  = new ArrayList<>();
         return response2;
     }
 
@@ -220,9 +224,9 @@ public class RiotRequestorService {
         return response;
     }
 
-    private String getSummonerNameBySummonerId (String summonerId){
-       String uri = "/lol/summoner/v4/summoners/" + summonerId;
-        return requestToRiot(uri,HttpMethod.GET,String.class).toString();
+    private String getSummonerNameBySummonerId(String summonerId) {
+        String uri = "/lol/summoner/v4/summoners/" + summonerId;
+        return requestToRiot(uri, HttpMethod.GET, String.class).toString();
     }
 
     public Object playersRelationship (String account1, String account2) throws CharacterNotAllowedException, AccountNotFoundException {
@@ -231,7 +235,7 @@ public class RiotRequestorService {
         list2.retainAll(list1);
 
         if (list2.isEmpty() || list2 == null) {
-            return new ResponseEntity<>("Los jugadores no tienen relación", HttpStatus.OK);
+            return new ResponseEntity<>("The players have no relation", HttpStatus.OK);
         } else {
             return list2.toString();
         }

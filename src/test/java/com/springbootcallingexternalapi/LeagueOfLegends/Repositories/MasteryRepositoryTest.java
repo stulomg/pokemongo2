@@ -34,6 +34,7 @@ public class MasteryRepositoryTest {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private MasteryRepository repository;
+
     @Autowired
     public MasteryRepositoryTest(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -47,7 +48,7 @@ public class MasteryRepositoryTest {
     }
 
     @Test
-    void insertMasteryInfoExitosamenteCasoDefault() throws AccountDataException {
+    void insertMasteryInfoSuccessfullyDefaultCase() throws AccountDataException {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
@@ -78,7 +79,7 @@ public class MasteryRepositoryTest {
     }
 
     @Test
-    void accountDataExceptionEnInsertMasteryHistory() throws AccountDataException {
+    void accountDataExceptionInsertMasteryHistory() throws AccountDataException {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
@@ -90,14 +91,14 @@ public class MasteryRepositoryTest {
         );
         Exception exception = assertThrows(AccountDataException.class, () -> repository.insertMasteryInfo(basemodel));
 
-        String expectedMessage = "LOS DATOS INGRESADOS PARA LA CUENTA ";
+        String expectedMessage = "The data entered for the account ";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
-    void traerExitosamenteAccounMasteryHistoryCasoDefault() throws AccountDataException, CharacterNotAllowedException, AccountNotFoundException {
+    void AccountMasteryHistorySuccessfullyDefaultCase() throws AccountDataException, CharacterNotAllowedException, AccountNotFoundException {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
@@ -118,7 +119,7 @@ public class MasteryRepositoryTest {
         repository.insertMasteryInfo(basemodel);
         repository.insertMasteryInfo(basemodel2);
 
-        List<MasteryHistoryModel> resultSet = repository.AccountMasteryHistory("testuno",1);
+        List<MasteryHistoryModel> resultSet = repository.AccountMasteryHistory("testuno", 1);
         Assertions.assertEquals(2, resultSet.size());
         MasteryHistoryModel result = resultSet.get(0);
 
@@ -128,7 +129,7 @@ public class MasteryRepositoryTest {
     }
 
     @Test
-    void accountNotFoundExceptionEnAccountMasteryHistory() throws AccountDataException {
+    void accountNotFoundExceptionAccountMasteryHistory() throws AccountDataException {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
@@ -141,16 +142,16 @@ public class MasteryRepositoryTest {
         repository.insertMasteryInfo(basemodel);
         String account = "pepito";
 
-        Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.AccountMasteryHistory(account,50));
+        Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.AccountMasteryHistory(account, 50));
 
-        String expectedMessage = " NO FUE ENCONTRADA, POR FAVOR RECTIFICAR";
+        String expectedMessage = " The account pepito was not found, please rectify";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
-    void characterNotAllowedEnAccountMasteryHistory() throws AccountDataException {
+    void characterNotAllowedAccountMasteryHistory() throws AccountDataException {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 
@@ -163,7 +164,7 @@ public class MasteryRepositoryTest {
         repository.insertMasteryInfo(basemodel);
         String account = "<<<";
 
-        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.AccountMasteryHistory(account,50));
+        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.AccountMasteryHistory(account, 50));
 
         String expectedMessage = " has characters not allowed";
         String actualMessage = exception.getMessage();

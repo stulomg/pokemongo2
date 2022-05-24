@@ -31,7 +31,7 @@ class QueryRepositoryTest {
     }
 
     @Test
-    void querySpecificCaseDefault() throws QuerySyntaxErrorException {
+    void querySpecificDefaultCase() throws QuerySyntaxErrorException {
         QueryModel newQuery = new QueryModel(
                 "test prueba",
                 "*",

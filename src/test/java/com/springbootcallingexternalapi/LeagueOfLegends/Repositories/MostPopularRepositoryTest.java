@@ -50,7 +50,7 @@ class MostPopularRepositoryTest {
     }
 
     @Test
-    void mostPopularCaseDefault() throws AccountDataException, NoDataException {
+    void mostPopularDefaultCase() throws AccountDataException, NoDataException {
         LeagueInfoModel infoModel = new LeagueInfoModel(
                 Timestamp.valueOf("2022-04-21 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
@@ -144,7 +144,7 @@ class MostPopularRepositoryTest {
         MostPopularModel espectedResult = new MostPopularModel(
                 1,
                 8,
-                "Apr 21"
+                "Apr 23"
                 //Timestamp.valueOf("2022-04-01 00:00:00")
         );
         repositoryLegue.insertLeagueInfo(infoModel,1,1);

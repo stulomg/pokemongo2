@@ -1,9 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 
-import javax.persistence.*;
-
-
 public class AccountModel {
 
     private String id;
@@ -20,6 +17,15 @@ public class AccountModel {
 
     private String ownerName;
 
+    public AccountModel(String id, String accountId, String puuid, String name, Long revisionDate, Integer owner, String ownerName) {
+        this.id = id;
+        this.accountId = accountId;
+        this.puuid = puuid;
+        this.name = name;
+        this.revisionDate = revisionDate;
+        this.owner = owner;
+        this.ownerName = ownerName;
+    }
     public AccountModel(String id, String accountId, String puuid, String name, Long revisionDate, Integer owner) {
         this.id = id;
         this.accountId = accountId;
@@ -27,15 +33,7 @@ public class AccountModel {
         this.name = name;
         this.revisionDate = revisionDate;
         this.owner = owner;
-    }
 
-    public AccountModel(String id, String accountId, String puuid, String name, Long revisionDate, String ownerName) {
-        this.id = id;
-        this.accountId = accountId;
-        this.puuid = puuid;
-        this.name = name;
-        this.revisionDate = revisionDate;
-        this.ownerName = ownerName;
     }
 
     public AccountModel() {
