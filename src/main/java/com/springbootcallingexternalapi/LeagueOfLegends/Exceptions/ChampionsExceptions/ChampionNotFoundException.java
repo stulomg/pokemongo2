@@ -1,4 +1,4 @@
-package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.ChampionsExceptions;
+package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions;
 
 public class ChampionNotFoundException extends Exception {
     public ChampionNotFoundException(String championName) {
