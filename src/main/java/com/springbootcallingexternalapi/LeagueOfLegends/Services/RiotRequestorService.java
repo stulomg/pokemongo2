@@ -100,9 +100,9 @@ public class RiotRequestorService {
     }
 
     public MasteryHistoryInfoModel getMastery(String account, String championName) throws AccountNotFoundException, ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException, AccountDataException, AccountNotFoundDBException {
+        String id = accountRepository.retrieveIdRiotByAccount(account);
+        Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
         try {
-            String id = accountRepository.retrieveIdRiotByAccount(account);
-            Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
             Long championId = championService.retrieveChampionIdByChampionName(championName.toLowerCase(Locale.ROOT));
             String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + championId;
             ResponseEntity<MasteryHistoryInfoModel> response = requestToRiot(uri, HttpMethod.GET, MasteryHistoryInfoModel.class);
@@ -117,10 +117,6 @@ public class RiotRequestorService {
             throw new ChampionNotFoundException(championName);
         } catch (HttpClientErrorException e1) {
             throw new ChampionMasteryNotFoundException(championName);
-        } catch (CharacterNotAllowedException e) {
-            throw new CharacterNotAllowedException(championName);
-        } catch (AccountNotFoundDBException e){
-            throw new AccountNotFoundDBException(account);
         }
     }
 

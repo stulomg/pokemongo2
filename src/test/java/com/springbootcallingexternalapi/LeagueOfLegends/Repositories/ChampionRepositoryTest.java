@@ -2,7 +2,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
@@ -33,7 +32,7 @@ public class ChampionRepositoryTest {
     }
 
     @Test
-    void solicitarExitosamenteCasoDefault() throws CharacterNotAllowedException, AccountDataException, ChampionNotFoundException, AccountNotFoundException {
+    void retrieveSuccessfullyChampionIdDefaultCase() throws CharacterNotAllowedException, AccountDataException, ChampionNotFoundException, AccountNotFoundException {
         //GIVEN A NORMAL ACCOUNT WITH ALL DATA AND A STANDARD OWNER FROM THE BASE OWNERS
         String championNameGiven = new String(
                 "zeri"
@@ -53,7 +52,7 @@ public class ChampionRepositoryTest {
     }
 
     @Test
-    void solicitarConErrorCaracteresRancios() {
+    void retrieveChampionIdThrowsCharacterNotAllowedException() {
         //GIVEN
         Assertions.assertThrows(CharacterNotAllowedException.class, () -> {
             String championNameGiven = new String(
@@ -64,11 +63,11 @@ public class ChampionRepositoryTest {
     }
 
     @Test
-    void solicitarConChampionInexistente() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
+    void retrieveChampionIdThrowsChampionNotFoundException(){
         //given
         Assertions.assertThrows(ChampionNotFoundException.class, () -> {
             String championNameGiven = new String(
-                    "campeonnoexistente"
+                    "UndefinedChampion"
             );
             repository.retrieveChampionIdByChampionName(championNameGiven);
         });
