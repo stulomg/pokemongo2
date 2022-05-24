@@ -1,10 +1,12 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.ClashIsNotAvailable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
@@ -73,6 +75,7 @@ public class AccountRepository {
                 " owner=? WHERE id=?";
         Object[] params = {model.getName().toLowerCase(Locale.ROOT), model.getAccountId(), model.getPuuid(),
                 model.getRevisionDate(), ownerID, model.getId()};
+
         if (isAlpha(model.getName())) {
             int result = jdbcTemplate.update(sql, params);
             if (result == 0) {

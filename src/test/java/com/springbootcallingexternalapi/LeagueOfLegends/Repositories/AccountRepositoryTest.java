@@ -5,6 +5,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.ClashIsNotAvailable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
@@ -468,7 +469,7 @@ public class AccountRepositoryTest {
         Assertions.assertEquals(expectedMessage,actualMessage);
     }
     @Test
-    void retrieveIdRiotByAccount() throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundDBException {
+    void retrieveIdRiotByAccount() throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundDBException, ClashIsNotAvailable {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",

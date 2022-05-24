@@ -248,7 +248,7 @@ public class AccountRestControllerTest {
 
         String content = mvcResult.getResponse().getContentAsString();
 
-        Assertions.assertEquals("Delete successfully", content);;
+        Assertions.assertEquals("Delete successfully", content);
 
     }
 }

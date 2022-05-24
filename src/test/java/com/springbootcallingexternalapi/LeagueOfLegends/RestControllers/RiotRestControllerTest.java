@@ -48,48 +48,50 @@ public class RiotRestControllerTest {
     private static final String RIOT_TOKEN = "RGAPI-5b21f691-81cc-4901-b480-f003d533102d";
 
     @Test
-    public void callRiotExitosamenteCasoDefautl() throws Exception {
+    public void callRiotSuccessfullyDefaultCase() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "soyeon lover",
-                1648276400000L
-        );
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/Darkclaw/stul").header("authorization",token)).andExpect(status().isOk()).andReturn();
     }
 
     @Test
-    public void getMasteryExitosamenteCasoDefautl() throws Exception {
+    public void getMasterySuccessfullyDefaultCase() throws Exception {
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
+                "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x4",
+                "dkiVwTUbuZMVmqV0T6-KIDOGTrBeeqoJhR5It3ksJ3j1UwM2Dmk1rm2NVcjyffiF-hHBtXRpnkjXAw",
+                "Darkclaw",
+                1653003765000L
+        );
+        Integer owner = 1;
+        accountRepository.insertAccount(baseModel, owner);
         String token = securityUserService.generateToken();
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Darkclaw/evelynn").header("authorization", token)).andExpect(status().isOk()).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/darkclaw/evelynn").header("authorization", token)).andExpect(status().isOk()).andReturn();
     }
 
     @Test
-    public void championNotFoundExceptionEnGetMastery() throws Exception {
+    public void championNotFoundExceptionGetMastery() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/stul/urfsito").header("authorization", token)).andExpect(status().isNotFound());
     }
 
     @Test
-    public void championMasteryNotFoundExceptionEnGetMastery() throws Exception {
+    public void championMasteryNotFoundExceptionGetMastery() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/stul/renata glasc").header("authorization", token)).andExpect(status().isNotFound());
     }
 
     @Test
-    public void accountNotFoundExceptionEnGetMastery() throws Exception {
+    public void accountNotFoundExceptionGetMastery() throws Exception {
         String token = securityUserService.generateToken();
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/pepitoalimañaquetienemañajaja/ezreal").header("authorization", token)).andExpect(status().isNotFound());
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/pepitoalim/ezreal").header("authorization", token)).andExpect(status().isNotFound());
     }
 
     @Test
-    public void characterNotAllowedExceptionEnGetMastery() throws Exception {
+    public void characterNotAllowedExceptionGetMastery() throws Exception {
         String token = securityUserService.generateToken();
-        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Darkclaw/ez<<real").header("authorization", token)).andExpect(status().isBadRequest());
+        mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Dark*claw/ez<<real").header("authorization", token)).andExpect(status().isBadRequest());
     }
 
     @Test
