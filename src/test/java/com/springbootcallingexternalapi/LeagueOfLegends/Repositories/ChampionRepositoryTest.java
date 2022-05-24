@@ -67,7 +67,7 @@ public class ChampionRepositoryTest {
         //given
         Assertions.assertThrows(ChampionNotFoundException.class, () -> {
             String championNameGiven = new String(
-                    "UndefinedChampiuon"
+                    "UndefinedChampion"
             );
             repository.retrieveChampionIdByChampionName(championNameGiven);
         });
