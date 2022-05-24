@@ -343,6 +343,49 @@ public class AccountRepositoryTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
     @Test
+    void retrieveAccountIDByAccountNameSuccessfullyDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, AccountExistsOrNotException {
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                ("test").toLowerCase(Locale.ROOT),
+                1648276400000L
+        );
+        Integer owner = 1;
+        repository.insertAccount(baseModel, owner);
+        Integer resultSet = repository.retrieveAccountIdByAccountName(baseModel.getName());
+        Assertions.assertEquals(1, resultSet);
+    }
+    @Test
+    void characterNotAllowedRetrieveAccountIDByAccountName() {
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "<<<<",
+                1648276400000L
+        );
+        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.retrieveAccountIdByAccountName(baseModel.getName()));
+        String expectedMessage = "<<<< has characters not allowed";
+        String actualMessage = exception.getMessage();
+        Assertions.assertEquals(expectedMessage,actualMessage);
+    }
+    @Test
+    void accountNotFoundExceptionRetrieveAccountIDByAccountName() {
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+                "pepito pro",
+                1648276400000L
+        );
+        Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.retrieveAccountIdByAccountName(baseModel.getName()));
+
+        String expectedMessage = "The account pepito pro was not found, please rectify";
+        String actualMessage = exception.getMessage();
+        Assertions.assertEquals(expectedMessage,actualMessage);
+    }
+    @Test
     void retrieveOwnerIdByAccount() throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundException {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
