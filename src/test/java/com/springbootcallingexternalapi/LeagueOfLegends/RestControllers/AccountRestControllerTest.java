@@ -1,13 +1,10 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
-import net.minidev.json.JSONObject;
-import netscape.javascript.JSObject;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +18,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 import java.util.Locale;
@@ -42,10 +40,15 @@ public class AccountRestControllerTest {
     JdbcTemplate jdbcTemplate;
     @Autowired
     private SecurityUserService securityUserService;
+    ObjectMapper objectMapper;
 
     @BeforeEach
     void setup() {
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
+    }
+    @BeforeEach
+    void setUp() {
+        objectMapper = new ObjectMapper();
     }
 
     @Test
@@ -76,7 +79,7 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void AccountNotFoundExceptionExceptionDeleteAccount() throws Exception {
+    public void AccountNotFoundExceptionDeleteAccount() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
@@ -217,6 +220,35 @@ public class AccountRestControllerTest {
     @Test
     public void accountUpdate() throws Exception {
 
+        AccountBaseModel baseModel = new AccountBaseModel(
+                "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
+                "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x4",
+                "dkiVwTUbuZMVmqV0T6-KIDOGTrBeeqoJhR5It3ksJ3j1UwM2Dmk1rm2NVcjyffiF-hHBtXRpnkjXAw",
+                "Darkclaw",
+                1653003765000L
+        );
+
+        Integer owner = 1;
+
+        AccountModel model = new AccountModel(
+                "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
+                "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x",
+                "dkiVwTUbuZMVmqV0T6-KIDOGTrBeeqoJhR5It3ksJ3j1UwM2Dmk1rm2NVcjyffiF-hHBtXRpnkjXAw",
+                "Darkclawx",
+                1653003765000L,
+                owner,
+                "testuno");
+
+        accountRepository.insertAccount(baseModel, owner);
+
+        String token = securityUserService.generateToken();
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/account/update").header("authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(model))).andExpect(status().isOk()).andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+
+        Assertions.assertEquals("Delete successfully", content);;
 
     }
 }

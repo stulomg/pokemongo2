@@ -31,7 +31,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-b4a16c2d-6dd9-4b6e-b6dd-714a7c605a10";
+    private static final String RIOT_TOKEN = "RGAPI-f727bc42-235d-4320-912f-5c7befb2d509";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -64,7 +64,7 @@ public class RiotRequestorService {
         Long ownerID = ownerService.retrieveOwnerIdByOwnerName(owner.toLowerCase(Locale.ROOT));
         try {
             accountRepository.insertAccount(acc2, Math.toIntExact(ownerID));
-        }catch (AccountExistsOrNotException e){
+        } catch (AccountExistsOrNotException e) {
             accountRepository.accountUpdateExisting(acc2, Math.toIntExact(ownerID));
         }
         return acc2;
@@ -90,14 +90,14 @@ public class RiotRequestorService {
                     .findFirst();
             if (model.isPresent()) {
                 LeagueInfoModel lim = model.get();
-                leagueService.insertLeagueInfo(lim,account);
+                leagueService.insertLeagueInfo(lim, account);
                 return lim;
             } else {
                 throw new QueueNotFoundException(queueToFind);
             }
         } catch (RestClientException e1) {
             throw new AccountNotFoundException(account);
-        } catch (AccountNotFoundDBException e){
+        } catch (AccountNotFoundDBException e) {
             throw new AccountNotFoundDBException(account);
         }
     }
@@ -122,7 +122,7 @@ public class RiotRequestorService {
             throw new ChampionMasteryNotFoundException(championName);
         } catch (CharacterNotAllowedException e) {
             throw new CharacterNotAllowedException(championName);
-        } catch (AccountNotFoundDBException e){
+        } catch (AccountNotFoundDBException e) {
             throw new AccountNotFoundDBException(account);
         }
     }
@@ -194,12 +194,12 @@ public class RiotRequestorService {
                     .filter(GameDataModel -> GameDataModel.getSummonerName().equals(account))
                     .findFirst();
             GameDataModel lim = model.get();
-            int championpoints = getMastery(account,lim.getChampionName()).getChampionPoints();
+            int championpoints = getMastery(account, lim.getChampionName()).getChampionPoints();
             lim.setChampionPoints(championpoints);
             Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(lim.getSummonerName()));
             Integer positionID = Math.toIntExact(positionRepository.retrievePositionIdByPositionName(lim.getIndividualPosition()));
             Integer championID = Math.toIntExact(championService.retrieveChampionIdByChampionName(lim.getChampionName()));
-            matchRepository.insertIndividualMatchData(lim,accountID,positionID,championID);
+            matchRepository.insertIndividualMatchData(lim, accountID, positionID, championID);
             list.add(model);
         }
         return list;
@@ -211,34 +211,34 @@ public class RiotRequestorService {
         return response;
     }
 
-    public ResponseEntity<TeamAccountsMetaDataModel> getAccountsForClash (String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, AccountNotFoundDBException {
+    public ResponseEntity<TeamAccountsMetaDataModel> getAccountsForClash(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, AccountNotFoundDBException {
         String id = accountRepository.retrieveIdRiotByAccount(account);
         String uri = "/lol/clash/v1/players/by-summoner/" + id;
-        ResponseEntity<AccountForClashDataModel> response = requestToRiot(uri,HttpMethod.GET, AccountForClashDataModel.class);
+        ResponseEntity<AccountForClashDataModel> response = requestToRiot(uri, HttpMethod.GET, AccountForClashDataModel.class);
         String teamId = response.getBody().getTeamId();
         ResponseEntity<TeamAccountsMetaDataModel> response2 = getClashParticipantsByTeamId(teamId);
-        List<Object> clashSummoners  = new ArrayList<>();
+        List<Object> clashSummoners = new ArrayList<>();
         return response2;
     }
 
-    private ResponseEntity<TeamAccountsMetaDataModel> getClashParticipantsByTeamId (String teamId){
+    private ResponseEntity<TeamAccountsMetaDataModel> getClashParticipantsByTeamId(String teamId) {
         String uri = "/lol/clash/v1/teams/" + teamId;
-        ResponseEntity<TeamAccountsMetaDataModel> response = requestToRiot(uri,HttpMethod.GET, TeamAccountsMetaDataModel.class);
+        ResponseEntity<TeamAccountsMetaDataModel> response = requestToRiot(uri, HttpMethod.GET, TeamAccountsMetaDataModel.class);
         return response;
     }
 
-    private String getSummonerNameBySummonerId (String summonerId){
-       String uri = "/lol/summoner/v4/summoners/" + summonerId;
-        return requestToRiot(uri,HttpMethod.GET,String.class).toString();
+    private String getSummonerNameBySummonerId(String summonerId) {
+        String uri = "/lol/summoner/v4/summoners/" + summonerId;
+        return requestToRiot(uri, HttpMethod.GET, String.class).toString();
     }
 
-    public Object playersRelationship (String account1, String account2) throws CharacterNotAllowedException, AccountNotFoundException {
+    public Object playersRelationship(String account1, String account2) throws CharacterNotAllowedException, AccountNotFoundException {
         List<String> list1 = relationshipRepository.getPlayersMatched(account1);
         List<String> list2 = relationshipRepository.getPlayersMatched(account2);
         list2.retainAll(list1);
 
         if (list2.isEmpty() || list2 == null) {
-            return new ResponseEntity<>("Los jugadores no tienen relación", HttpStatus.OK);
+            return new ResponseEntity<>("The players have no relation", HttpStatus.OK);
         } else {
             return list2.toString();
         }

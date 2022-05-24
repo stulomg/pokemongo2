@@ -26,6 +26,15 @@ public class AccountModel {
         this.owner = owner;
         this.ownerName = ownerName;
     }
+    public AccountModel(String id, String accountId, String puuid, String name, Long revisionDate, Integer owner) {
+        this.id = id;
+        this.accountId = accountId;
+        this.puuid = puuid;
+        this.name = name;
+        this.revisionDate = revisionDate;
+        this.owner = owner;
+
+    }
 
     public AccountModel() {
     }
