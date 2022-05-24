@@ -216,43 +216,7 @@ public class AccountRestControllerTest {
 
     @Test
     public void accountUpdate() throws Exception {
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "soyeon lover",
-                1648276400000L
-        );
 
-        Integer owner = 1;
-
-        AccountModel model = new AccountModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "STULMEMITO",
-                "F46S5D4F",
-                "stulesunmeme",
-                1324654564L,
-                owner,
-                "testuno");
-
-        accountRepository.insertAccount(baseModel, owner);
-        accountRepository.accountUpdate(model,owner);
-        JSONObject json = new JSONObject();
-        json.put("name","stulesunmeme");
-
-        String token = securityUserService.generateToken();
-        MvcResult mvcResult = mockMvc.perform(put("/account/update")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8).content(json.toString())
-                        .header("authorization", token)).andExpect(status().isOk()).andReturn();
-
-        String content = mvcResult.getResponse().getContentAsString();
-
-        Assertions.assertEquals("Updated successfully", content);
-
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
-
-        Assertions.assertEquals(1, resultSet.size());
     }
 }
