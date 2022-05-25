@@ -115,7 +115,6 @@ public class RiotRestControllerTest {
     public void serverStatusCharacterNotAllowed() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/status*").header("authorization", token)).andExpect(status().isBadRequest()).andReturn();
-
     }
 
     @Test
@@ -123,7 +122,6 @@ public class RiotRestControllerTest {
 
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/clash/Darkclaw").header("authorization", token)).andExpect(status().isOk()).andReturn();
-
     }
 
     @Test
