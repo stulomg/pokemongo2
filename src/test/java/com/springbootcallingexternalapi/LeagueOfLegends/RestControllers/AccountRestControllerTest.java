@@ -45,9 +45,6 @@ public class AccountRestControllerTest {
     @BeforeEach
     void setup() {
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
-    }
-    @BeforeEach
-    void setUp() {
         objectMapper = new ObjectMapper();
     }
 
@@ -220,6 +217,8 @@ public class AccountRestControllerTest {
     @Test
     public void accountUpdate() throws Exception {
 
+        objectMapper = new ObjectMapper();
+
         AccountBaseModel baseModel = new AccountBaseModel(
                 "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
                 "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x4",
@@ -248,7 +247,65 @@ public class AccountRestControllerTest {
 
         String content = mvcResult.getResponse().getContentAsString();
 
-        Assertions.assertEquals("Delete successfully", content);
+        Assertions.assertEquals("Updated successfully", content);
 
+    }
+
+    @Test
+    public void accountUpdateAccountNotFoundException() throws Exception {
+        objectMapper = new ObjectMapper();
+
+        Integer owner = 1;
+
+        AccountModel model = new AccountModel(
+                "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
+                "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x",
+                "dkiVwTUbuZMVmqV0T6-KIDOGTrBeeqoJhR5It3ksJ3j1UwM2Dmk1rm2NVcjyffiF-hHBtXRpnkjXAw",
+                "Darkclawx",
+                1653003765000L,
+                owner,
+                "testuno");
+
+        String token = securityUserService.generateToken();
+        mockMvc.perform(put("/account/update").header("authorization", token).contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(model))).andExpect(status().isNotFound()).andExpect(content().string("The account Darkclawx was not found, please rectify"));
+    }
+    @Test
+    public void accountUpdateOwnerNotFoundException() throws Exception {
+        objectMapper = new ObjectMapper();
+
+        Integer owner = 1;
+
+        AccountModel model = new AccountModel(
+                "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
+                "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x",
+                "dkiVwTUbuZMVmqV0T6-KIDOGTrBeeqoJhR5It3ksJ3j1UwM2Dmk1rm2NVcjyffiF-hHBtXRpnkjXAw",
+                "Darkclawx",
+                1653003765000L,
+                owner,
+                "tesuno");
+
+        String token = securityUserService.generateToken();
+        mockMvc.perform(put("/account/update").header("authorization", token).contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(model))).andExpect(status().isNotFound()).andExpect(content().string("The owner tesuno was not found, please rectify"));
+    }
+    @Test
+    public void accountUpdateCharacterNotAllowedException() throws Exception {
+        objectMapper = new ObjectMapper();
+
+        Integer owner = 1;
+
+        AccountModel model = new AccountModel(
+                "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
+                "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x",
+                "dkiVwTUbuZMVmqV0T6-KIDOGTrBeeqoJhR5It3ksJ3j1UwM2Dmk1rm2NVcjyffiF-hHBtXRpnkjXAw",
+                "D*arkclawx",
+                1653003765000L,
+                owner,
+                "testuno");
+
+        String token = securityUserService.generateToken();
+        mockMvc.perform(put("/account/update").header("authorization", token).contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(model))).andExpect(status().isBadRequest()).andExpect(content().string("D*arkclawx has characters not allowed"));
     }
 }
