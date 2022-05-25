@@ -8,6 +8,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.ClashIsNotAvailable;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.PlayerNotInGameException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Position.PositionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
@@ -78,12 +79,10 @@ public class RiotRestController {
         try {
             CurrentGameInfoBaseModel response = riotRequestorService.getLiveMatch(account);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (CharacterNotAllowedException e) {
+        } catch (CharacterNotAllowedException | PlayerNotInGameException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (AccountNotFoundException | AccountNotFoundDBException e1) {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (HttpClientErrorException e) {
-            return new ResponseEntity<>(new Message("The player is not on a live match"), HttpStatus.BAD_REQUEST);
         }
     }
 
