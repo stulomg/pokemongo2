@@ -215,7 +215,7 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void accountUpdate() throws Exception {
+    public void accountUpdateDefaultCase() throws Exception {
 
         objectMapper = new ObjectMapper();
 
