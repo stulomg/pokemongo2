@@ -144,7 +144,7 @@ public class MasteryRepositoryTest {
 
         Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.AccountMasteryHistory(account, 50));
 
-        String expectedMessage = " The account pepito was not found, please rectify";
+        String expectedMessage = "The account pepito was not found, please rectify";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
