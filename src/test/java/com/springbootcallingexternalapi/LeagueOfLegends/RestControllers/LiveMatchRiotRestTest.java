@@ -37,7 +37,7 @@ public class LiveMatchRiotRestTest {
     private RiotRestController riotRestController;
 
     @Test
-    public void LiveMatchExitosoCasoDefault() throws Exception {
+    public void liveMatchSuccessfullyDefaultCase() throws Exception {
 
         CurrentGameParticipantModel participant1 = new CurrentGameParticipantModel(
                 100L,
@@ -59,7 +59,7 @@ public class LiveMatchRiotRestTest {
 
         CurrentGameParticipantModel[] participants = {participant1, participant2};
 
-        CurrentGameInfoBaseModel fakecurrentGameInfoBaseModel = new CurrentGameInfoBaseModel(
+        CurrentGameInfoBaseModel fakeCurrentGameInfoBaseModel = new CurrentGameInfoBaseModel(
                 11L,
                 "CLASSIC",
                 "MATCHED_GAME",
@@ -76,7 +76,7 @@ public class LiveMatchRiotRestTest {
 
         doReturn(ResponseEntity.of(Optional.of(model))).when(riotRequestorService).getAccountFromRiot("hauries");
 
-        doReturn(ResponseEntity.of(Optional.of(fakecurrentGameInfoBaseModel))).when(riotRequestorService).requestToRiot("/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w", HttpMethod.GET, CurrentGameInfoBaseModel.class);
+        doReturn(ResponseEntity.of(Optional.of(fakeCurrentGameInfoBaseModel))).when(riotRequestorService).requestToRiot("/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w", HttpMethod.GET, CurrentGameInfoBaseModel.class);
 
         String token = securityUserService.generateToken();
 
@@ -84,6 +84,6 @@ public class LiveMatchRiotRestTest {
 
         CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class);
 
-        Assertions.assertEquals(fakecurrentGameInfoBaseModel.toString(), response.toString());
+        Assertions.assertEquals(fakeCurrentGameInfoBaseModel.toString(), response.toString());
     }
 }

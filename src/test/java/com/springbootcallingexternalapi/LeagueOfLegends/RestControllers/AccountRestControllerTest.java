@@ -76,7 +76,7 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void AccountNotFoundExceptionDeleteAccount() throws Exception {
+    public void accountNotFoundExceptionDeleteAccount() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 

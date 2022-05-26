@@ -459,7 +459,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void CharacterNotAllowedExceptionRetrieveOwnerIdByAccount() {
+    void characterNotAllowedExceptionRetrieveOwnerIdByAccount() {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",

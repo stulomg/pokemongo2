@@ -39,7 +39,7 @@ public class LeagueRestControllerTest {
     }
 
     @Test
-    void divisionHistory() throws Exception {
+    void divisionHistoryDefaultCase() throws Exception {
         for (int i = 0; i < 21; i++) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Thread.sleep(100);
@@ -63,7 +63,7 @@ public class LeagueRestControllerTest {
         }
     }
     @Test
-    void divisionHistoryAccountNotFount() throws Exception {
+    void divisionHistoryAccountNotFountException() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/account/division-history/kusarin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The account kusarin was not found, please rectify"));
     }
@@ -75,7 +75,7 @@ public class LeagueRestControllerTest {
     }
 
     @Test
-    void maxDivision() throws Exception {
+    void maxDivisionDefaultCase() throws Exception {
         LeagueInfoModel infoModel = new LeagueInfoModel(
                 Timestamp.valueOf("2022-03-30 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
@@ -110,7 +110,7 @@ public class LeagueRestControllerTest {
     }
 
     @Test
-    void maxDivisionAccountNotFount() throws Exception {
+    void maxDivisionAccountNotFountException() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/account/max-division/kusarin/manuelin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The owner kusarin was not found, please rectify"));
     }

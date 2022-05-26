@@ -36,7 +36,7 @@ class RecommendedRoleModelRepositoryTest {
     }
 
     @Test
-    void recommendedRole() throws NoDataException, CharacterNotAllowedException, AccountNotFoundException {
+    void recommendedRoleDefaultCase() throws NoDataException, CharacterNotAllowedException, AccountNotFoundException {
         for (int i = 0; i < 15; i++) {
             GameDataModel dataSummoner = new GameDataModel();
             dataSummoner.setWin(true);
@@ -77,7 +77,7 @@ class RecommendedRoleModelRepositoryTest {
     }
 
     @Test
-    void NoDataException() {
+    void recommendedRoleNoDataException() {
         ArrayList accounts = new ArrayList();
         for (int i = 0; i < 10; i+=2) {
             accounts.add(i);

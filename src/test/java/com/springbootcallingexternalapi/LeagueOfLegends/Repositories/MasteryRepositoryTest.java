@@ -98,7 +98,7 @@ public class MasteryRepositoryTest {
     }
 
     @Test
-    void AccountMasteryHistorySuccessfullyDefaultCase() throws AccountDataException, CharacterNotAllowedException, AccountNotFoundException {
+    void accountMasteryHistorySuccessfullyDefaultCase() throws AccountDataException, CharacterNotAllowedException, AccountNotFoundException {
 
         MasteryHistoryInfoModel basemodel = new MasteryHistoryInfoModel(
 

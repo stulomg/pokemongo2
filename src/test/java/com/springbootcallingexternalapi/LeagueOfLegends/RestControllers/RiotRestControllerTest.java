@@ -38,6 +38,7 @@ public class RiotRestControllerTest {
 
     @Test
     public void getMasterySuccessfullyDefaultCase() throws Exception {
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
         AccountBaseModel baseModel = new AccountBaseModel(
                 "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
                 "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x4",

@@ -43,14 +43,14 @@ class OwnerRepositoryTest {
         Assertions.assertEquals(newOwner.getName(), result.getName());
     }
     @Test
-    void CharacterNotAllowedExceptionInsertOwner() {
+    void characterNotAllowedExceptionInsertOwner() {
         OwnerModel newOwner = new OwnerModel(
                 "testprueba*"
         );
         Assertions.assertThrows(CharacterNotAllowedException.class, () -> { ownerRepository.insertOwner(newOwner);});
     }
     @Test
-    void OwnerAlreadyExistsInsertOwner() throws OwnerAlreadyExists, CharacterNotAllowedException {
+    void ownerAlreadyExistsInsertOwner() throws OwnerAlreadyExists, CharacterNotAllowedException {
         OwnerModel newOwner = new OwnerModel(
                 "testprueba"
         );
@@ -67,14 +67,14 @@ class OwnerRepositoryTest {
         Assertions.assertEquals(1,resultSet);
     }
     @Test
-    void CharacterNotAllowedExceptionRetrieveOwnerIdByOwnerName() {
+    void characterNotAllowedExceptionRetrieveOwnerIdByOwnerName() {
         String Owner = new String(
                 "testprueba**"
         );
         Assertions.assertThrows(CharacterNotAllowedException.class, () -> { ownerRepository.retrieveOwnerIdByOwnerName(Owner);});
     }
     @Test
-    void OwnerAlreadyExistsRetrieveOwnerIdByOwnerName() {
+    void ownerAlreadyExistsRetrieveOwnerIdByOwnerName() {
         String Owner = new String(
                 "testprueba"
         );
