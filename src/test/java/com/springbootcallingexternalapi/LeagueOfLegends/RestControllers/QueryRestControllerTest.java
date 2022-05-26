@@ -45,7 +45,7 @@ class QueryRestControllerTest {
     }
 
     @Test
-    void query() throws Exception {
+    void queryDefaultCase() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"QuerySpecific\" RESTART IDENTITY CASCADE");
 
         QueryModel newQuery = new QueryModel(
@@ -54,7 +54,7 @@ class QueryRestControllerTest {
                 "Account",
                 "name = 'testdos'"
         );
-        QueryResponseModel espectedResult = new QueryResponseModel(
+        QueryResponseModel expectedResult = new QueryResponseModel(
                 "testdos",
                 "testdos",
                 "testdos",
@@ -73,7 +73,7 @@ class QueryRestControllerTest {
         Assertions.assertEquals(newQuery.getCriteria(),resultSet.get(0).getCriteria());
     }
     @Test
-    void newQueryQuerySyntaxErrorException() throws Exception {
+    void querySyntaxErrorExceptionNewQuery() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"QuerySpecific\" RESTART IDENTITY CASCADE");
 
         QueryModel newQuery = new QueryModel(

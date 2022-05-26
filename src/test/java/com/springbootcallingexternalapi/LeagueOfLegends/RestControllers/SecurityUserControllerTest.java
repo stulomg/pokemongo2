@@ -44,7 +44,7 @@ class SecurityUserControllerTest {
 
     @Test
     @BeforeEach
-    void newUser() throws Exception {
+    void newUserDefaultCase() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"user\" RESTART IDENTITY CASCADE");
 
         SecurityNewUserModel newUser = new SecurityNewUserModel(
@@ -89,7 +89,7 @@ class SecurityUserControllerTest {
     }
 
     @Test
-    void login() throws Exception {
+    void loginDefaultCase() throws Exception {
         SecurityLoginUserModel user = new SecurityLoginUserModel(
                 "test",
                 "12345"

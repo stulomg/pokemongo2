@@ -37,7 +37,7 @@ class PositionRepositoryTest {
         }
     }
     @Test
-    void PositionNotFoundExceptionRetrievePositionIdByPositionName()  {
+    void positionNotFoundExceptionRetrievePositionIdByPositionName()  {
         Assertions.assertThrows(PositionNotFoundException.class, () -> {
             String positionNameGiven = new String(
                     "midonomid"

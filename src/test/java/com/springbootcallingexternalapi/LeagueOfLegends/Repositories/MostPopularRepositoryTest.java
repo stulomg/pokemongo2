@@ -5,6 +5,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularEx
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MostPopularModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.OwnerModel;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +53,7 @@ class MostPopularRepositoryTest {
     @Test
     void mostPopularDefaultCase() throws AccountDataException, NoDataException {
         LeagueInfoModel infoModel = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-21 22:25:28.744"),
+                Timestamp.valueOf("2022-05-21 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -63,7 +64,7 @@ class MostPopularRepositoryTest {
                 "testuno"
         );
         LeagueInfoModel infoModel2 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-22 22:25:28.744"),
+                Timestamp.valueOf("2022-05-22 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -74,7 +75,7 @@ class MostPopularRepositoryTest {
                 "testuno"
         );
         LeagueInfoModel infoModel3 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-23 22:25:28.744"),
+                Timestamp.valueOf("2022-05-23 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -85,7 +86,7 @@ class MostPopularRepositoryTest {
                 "testuno"
         );
         LeagueInfoModel infoModel4 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-21 23:25:28.744"),
+                Timestamp.valueOf("2022-05-21 23:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -96,7 +97,7 @@ class MostPopularRepositoryTest {
                 "testdos"
         );
         LeagueInfoModel infoModel5 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-24 22:25:28.744"),
+                Timestamp.valueOf("2022-05-24 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -110,41 +111,41 @@ class MostPopularRepositoryTest {
                 112,
                 7,
                 250,
-                Timestamp.valueOf("2022-04-24 22:25:28.744"),
+                Timestamp.valueOf("2022-05-24 22:25:28.744"),
                 1
         );
         MasteryHistoryInfoModel masteryModel2 = new MasteryHistoryInfoModel(
                 8,
                 7,
                 156000,
-                Timestamp.valueOf("2022-04-25 22:25:28.744"),
+                Timestamp.valueOf("2022-05-25 22:25:28.744"),
                 1
         );
         MasteryHistoryInfoModel masteryModel3 = new MasteryHistoryInfoModel(
                 112,
                 7,
                 20000,
-                Timestamp.valueOf("2022-04-26 22:25:28.744"),
+                Timestamp.valueOf("2022-05-26 22:25:28.744"),
                 1
         );
         MasteryHistoryInfoModel masteryModel4 = new MasteryHistoryInfoModel(
                 112,
                 7,
                 155000,
-                Timestamp.valueOf("2022-04-27 22:25:28.744"),
+                Timestamp.valueOf("2022-05-27 22:25:28.744"),
                 1
         );
         MasteryHistoryInfoModel masteryModel5 = new MasteryHistoryInfoModel(
                 8,
                 7,
                 450000,
-                Timestamp.valueOf("2022-04-28 22:25:28.744"),
+                Timestamp.valueOf("2022-05-28 22:25:28.744"),
                 1
         );
-        MostPopularModel espectedResult = new MostPopularModel(
+        MostPopularModel expectedResult = new MostPopularModel(
                 1,
                 8,
-                "Apr 23"
+                "May 23"
                 //Timestamp.valueOf("2022-04-01 00:00:00")
         );
         repositoryLegue.insertLeagueInfo(infoModel,1,1);
@@ -162,13 +163,13 @@ class MostPopularRepositoryTest {
         Assertions.assertEquals(1, resultSet.size());
         MostPopularModel result = resultSet.get(0);
 
-        Assertions.assertEquals(espectedResult.getAccount(), result.getAccount());
-        Assertions.assertEquals(espectedResult.getChampion(), result.getChampion());
-        Assertions.assertEquals(espectedResult.getDate(), result.getDate());
+        Assertions.assertEquals(expectedResult.getAccount(), result.getAccount());
+        Assertions.assertEquals(expectedResult.getChampion(), result.getChampion());
+        Assertions.assertEquals(expectedResult.getDate(), result.getDate());
     }
 
     @Test
-    void NoDataException() {
+    void mostPopularNoDataException() {
 
         Assertions.assertThrows(NoDataException.class, () -> repositoryMost.popularAccount());
     }

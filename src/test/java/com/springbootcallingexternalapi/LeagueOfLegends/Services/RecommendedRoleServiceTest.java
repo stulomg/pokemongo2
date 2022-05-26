@@ -37,7 +37,7 @@ class RecommendedRoleServiceTest {
     }
 
     @Test
-    void recommendedRoleService() throws CharacterNotAllowedException, NoDataException, AccountNotFoundException {
+    void recommendedRoleServiceDefaultCase() throws CharacterNotAllowedException, NoDataException, AccountNotFoundException {
         for (int i = 0; i < 10; i++) {
             GameDataModel dataSummoner = new GameDataModel();
             dataSummoner.setWin(true);
