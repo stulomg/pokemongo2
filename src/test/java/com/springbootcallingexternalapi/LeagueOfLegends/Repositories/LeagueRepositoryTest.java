@@ -110,7 +110,7 @@ public class LeagueRepositoryTest {
 
 
     @Test
-    void insertarExitosamenteCasoDefault() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
+    void insertLeagueInfoSuccessfullyDefaultCase() throws AccountDataException {
         //GIVEN
         LeagueInfoModel baseModel = new LeagueInfoModel(
                 Timestamp.valueOf("2022-03-30 22:25:28.744"),

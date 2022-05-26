@@ -95,7 +95,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void AccountExistsExceptionInsertAccount() throws AccountDataException, AccountExistsOrNotException {
+    void accountExistsExceptionInsertAccount() throws AccountDataException, AccountExistsOrNotException {
         Integer owner = 1;
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
@@ -209,7 +209,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void AccountNotFoundExceptionDeleteAccount() throws CharacterNotAllowedException, OwnerNotFoundException {
+    void accountNotFoundExceptionDeleteAccount() throws CharacterNotAllowedException, OwnerNotFoundException {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
@@ -444,7 +444,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void AccountNotFoundExceptionRetrieveOwnerIdByAccount() {
+    void accountNotFoundExceptionRetrieveOwnerIdByAccount() {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
@@ -489,7 +489,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void AccountNotFoundDBExceptionRetrieveIdRiotByAccount() {
+    void accountNotFoundDBExceptionRetrieveIdRiotByAccount() {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
@@ -504,7 +504,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void CharacterNotAllowedExceptionRetrieveIdRiotByAccount() {
+    void characterNotAllowedExceptionRetrieveIdRiotByAccount() {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
@@ -534,7 +534,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void AccountNotFoundDBExceptionRetrievePuuidRiotByAccount() {
+    void accountNotFoundDBExceptionRetrievePuuidRiotByAccount() {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
@@ -549,7 +549,7 @@ public class AccountRepositoryTest {
     }
 
     @Test
-    void CharacterNotAllowedExceptionRetrievePuuidRiotByAccount() {
+    void characterNotAllowedExceptionRetrievePuuidRiotByAccount() {
         AccountBaseModel baseModel = new AccountBaseModel(
                 "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
                 "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
