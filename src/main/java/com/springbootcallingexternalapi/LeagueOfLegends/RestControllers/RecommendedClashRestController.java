@@ -3,8 +3,8 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.NoDataException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleDataModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Services.RecommendedRoleService;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedClashDataModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.RecommendedClashService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class RecommendedRoleRestController {
+public class RecommendedClashRestController {
     @Autowired
-    RecommendedRoleService recommendedRoleService;
+    RecommendedClashService recommendedClashService;
 
-    @GetMapping(value = "/loldata/clash/recommendedRole")
-    public ResponseEntity<Object> getRecommendedRole(@RequestBody List<RecommendedRoleDataModel> data) {
+    @GetMapping(value = "/loldata/clash/recommended")
+    public ResponseEntity<Object> getRecommendedRole(@RequestBody List<RecommendedClashDataModel> data) {
         try {
-            return new ResponseEntity<>(recommendedRoleService.recommendedRoleService(data), HttpStatus.OK);
+            return new ResponseEntity<>(recommendedClashService.recommendedClashService(data), HttpStatus.OK);
         } catch (NoDataException | CharacterNotAllowedException | AccountNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

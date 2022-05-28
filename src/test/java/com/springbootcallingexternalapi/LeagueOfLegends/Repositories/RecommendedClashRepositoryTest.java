@@ -4,7 +4,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.NoDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedClashRoleModel;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,15 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@SpringBootTest(classes = RecommendedRoleRepository.class)
+@SpringBootTest(classes = RecommendedClashRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
-class RecommendedRoleModelRepositoryTest {
+class RecommendedClashRepositoryTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
-    private RecommendedRoleRepository recommendedRoleRepository;
+    private RecommendedClashRepository recommendedClashRepository;
     @Autowired
     private MatchRepository matchRepository;
     @BeforeEach
@@ -56,10 +56,10 @@ class RecommendedRoleModelRepositoryTest {
             }
             data.add(i);
         }
-        List<RecommendedRoleModel> resultSet = recommendedRoleRepository.recommendedRole(data);
+        List<RecommendedClashRoleModel> resultSet = recommendedClashRepository.recommendedRole(data);
         Assertions.assertEquals(3, resultSet.size());
         for (int i = 0; i < resultSet.size() ; i++) {
-            RecommendedRoleModel result = resultSet.get(i);
+            RecommendedClashRoleModel result = resultSet.get(i);
             if (result.getAccount() == 1) {
                 Assertions.assertEquals(1,result.getAccount());
                 Assertions.assertEquals(4,result.getRecommendPosition());
@@ -82,6 +82,6 @@ class RecommendedRoleModelRepositoryTest {
         for (int i = 0; i < 10; i+=2) {
             accounts.add(i);
         }
-        Assertions.assertThrows(NoDataException.class, () -> recommendedRoleRepository.recommendedRole(accounts));
+        Assertions.assertThrows(NoDataException.class, () -> recommendedClashRepository.recommendedRole(accounts));
     }
 }

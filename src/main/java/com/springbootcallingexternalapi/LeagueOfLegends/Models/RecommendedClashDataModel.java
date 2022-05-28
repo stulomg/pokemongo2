@@ -1,12 +1,12 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-public class RecommendedRoleDataModel {
+public class RecommendedClashDataModel {
     private String participant;
 
-    public RecommendedRoleDataModel() {
+    public RecommendedClashDataModel() {
     }
 
-    public RecommendedRoleDataModel(String participant) {
+    public RecommendedClashDataModel(String participant) {
         this.participant = participant;
     }
 

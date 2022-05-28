@@ -4,8 +4,8 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.MostPopularExceptions.NoDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleDataModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedClashDataModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedClashRoleModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MatchRepository;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import org.junit.jupiter.api.Assertions;
@@ -20,14 +20,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest(classes = RecommendedRoleService.class)
+@SpringBootTest(classes = RecommendedClashService.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
-class RecommendedRoleServiceTest {
+class RecommendedClashServiceTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
-    private RecommendedRoleService recommendedRoleService;
+    private RecommendedClashService recommendedRoleService;
     @Autowired
     private MatchRepository matchRepository;
 
@@ -37,7 +37,7 @@ class RecommendedRoleServiceTest {
     }
 
     @Test
-    void recommendedRoleServiceDefaultCase() throws CharacterNotAllowedException, NoDataException, AccountNotFoundException {
+    void recommendedRoleService() throws  NoDataException {
         for (int i = 0; i < 10; i++) {
             GameDataModel dataSummoner = new GameDataModel();
             dataSummoner.setWin(true);
@@ -52,9 +52,9 @@ class RecommendedRoleServiceTest {
                 }
             }
         }
-        List<RecommendedRoleDataModel> participants = new ArrayList<>();
+        List<RecommendedClashDataModel> participants = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            RecommendedRoleDataModel participant = new RecommendedRoleDataModel();
+            RecommendedClashDataModel participant = new RecommendedClashDataModel();
             if (i == 1) {
                 participant.setParticipant("testuno");
             }else if (i == 2) {
@@ -64,10 +64,14 @@ class RecommendedRoleServiceTest {
             }
             participants.add(participant);
         }
-        List<RecommendedRoleModel> recommendedRoleResponse = recommendedRoleService.recommendedRoleService(participants);
+        ArrayList accounts = new ArrayList();
+        for (int i = 0; i < 5; i++) {
+            accounts.add(i);
+        }
+        List<RecommendedClashRoleModel> recommendedRoleResponse = recommendedRoleService.recommendedRoleService(accounts);
         Assertions.assertEquals(5, recommendedRoleResponse.size());
         for (int i = 0; i < recommendedRoleResponse.size(); i++) {
-            RecommendedRoleModel result = recommendedRoleResponse.get(i);
+            RecommendedClashRoleModel result = recommendedRoleResponse.get(i);
             if (result.getAccount() == 1) {
                 Assertions.assertEquals(4,result.getRecommendPosition());
                 Assertions.assertEquals(5,result.getGamesPlayed());

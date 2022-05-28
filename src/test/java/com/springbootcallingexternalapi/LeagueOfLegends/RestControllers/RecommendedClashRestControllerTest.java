@@ -2,8 +2,8 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleDataModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedRoleModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedClashDataModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedClashRoleModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MatchRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class RecommendedRoleRestControllerTest {
+class RecommendedClashRestControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -64,12 +64,12 @@ class RecommendedRoleRestControllerTest {
                 }
             }
         }
-        List<RecommendedRoleDataModel> participants = (List<RecommendedRoleDataModel>) Stream.of(
-                new RecommendedRoleDataModel("testuno"),
-                new RecommendedRoleDataModel("testdos"),
-                new RecommendedRoleDataModel("testtres"),
-                new RecommendedRoleDataModel("testtres"),
-                new RecommendedRoleDataModel("testtres"))
+        List<RecommendedClashDataModel> participants = (List<RecommendedClashDataModel>) Stream.of(
+                new RecommendedClashDataModel("testuno"),
+                new RecommendedClashDataModel("testdos"),
+                new RecommendedClashDataModel("testtres"),
+                new RecommendedClashDataModel("testtres"),
+                new RecommendedClashDataModel("testtres"))
                 .collect(Collectors.toList());
         String token = securityUserService.generateToken();
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommendedRole").header("authorization", token)
@@ -77,7 +77,7 @@ class RecommendedRoleRestControllerTest {
                         .content(objectMapper.writeValueAsString(participants)))
                 .andExpect(status().isOk()).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
-        RecommendedRoleModel[] recommendedRole = new ObjectMapper().readValue(response, RecommendedRoleModel[].class);
+        RecommendedClashRoleModel[] recommendedRole = new ObjectMapper().readValue(response, RecommendedClashRoleModel[].class);
         for (int i = 0; i < recommendedRole.length; i++) {
             if (recommendedRole[i].getAccount() == 1) {
                 Assertions.assertEquals(4, recommendedRole[i].getRecommendPosition());
@@ -94,12 +94,12 @@ class RecommendedRoleRestControllerTest {
     @Test
     public void getRecommendedRoleNoDataException() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"MatchHistory\" RESTART IDENTITY CASCADE");
-        List<RecommendedRoleDataModel> participants = (List<RecommendedRoleDataModel>) Stream.of(
-                        new RecommendedRoleDataModel("testuno"),
-                        new RecommendedRoleDataModel("testdos"),
-                        new RecommendedRoleDataModel("testtres"),
-                        new RecommendedRoleDataModel("testtres"),
-                        new RecommendedRoleDataModel("testtres"))
+        List<RecommendedClashDataModel> participants = (List<RecommendedClashDataModel>) Stream.of(
+                        new RecommendedClashDataModel("testuno"),
+                        new RecommendedClashDataModel("testdos"),
+                        new RecommendedClashDataModel("testtres"),
+                        new RecommendedClashDataModel("testtres"),
+                        new RecommendedClashDataModel("testtres"))
                 .collect(Collectors.toList());
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommendedRole").header("authorization", token)
@@ -111,12 +111,12 @@ class RecommendedRoleRestControllerTest {
     @Test
     public void characterNotAllowedException() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"MatchHistory\" RESTART IDENTITY CASCADE");
-        List<RecommendedRoleDataModel> participants = (List<RecommendedRoleDataModel>) Stream.of(
-                        new RecommendedRoleDataModel("testuno*"),
-                        new RecommendedRoleDataModel("testdos"),
-                        new RecommendedRoleDataModel("testtres"),
-                        new RecommendedRoleDataModel("testtres"),
-                        new RecommendedRoleDataModel("testtres"))
+        List<RecommendedClashDataModel> participants = (List<RecommendedClashDataModel>) Stream.of(
+                        new RecommendedClashDataModel("testuno*"),
+                        new RecommendedClashDataModel("testdos"),
+                        new RecommendedClashDataModel("testtres"),
+                        new RecommendedClashDataModel("testtres"),
+                        new RecommendedClashDataModel("testtres"))
                 .collect(Collectors.toList());
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommendedRole").header("authorization", token)
@@ -128,12 +128,12 @@ class RecommendedRoleRestControllerTest {
     @Test
     public void accountNotFoundException() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"MatchHistory\" RESTART IDENTITY CASCADE");
-        List<RecommendedRoleDataModel> participants = (List<RecommendedRoleDataModel>) Stream.of(
-                        new RecommendedRoleDataModel("testuno"),
-                        new RecommendedRoleDataModel("testdos"),
-                        new RecommendedRoleDataModel("testtres"),
-                        new RecommendedRoleDataModel("testtres"),
-                        new RecommendedRoleDataModel("testcuatro"))
+        List<RecommendedClashDataModel> participants = (List<RecommendedClashDataModel>) Stream.of(
+                        new RecommendedClashDataModel("testuno"),
+                        new RecommendedClashDataModel("testdos"),
+                        new RecommendedClashDataModel("testtres"),
+                        new RecommendedClashDataModel("testtres"),
+                        new RecommendedClashDataModel("testcuatro"))
                 .collect(Collectors.toList());
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommendedRole").header("authorization", token)
