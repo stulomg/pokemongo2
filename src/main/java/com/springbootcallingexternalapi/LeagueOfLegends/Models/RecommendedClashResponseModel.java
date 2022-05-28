@@ -1,17 +1,19 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-public class RecommendedRoleModel {
+public class RecommendedClashResponseModel {
     private Integer account ;
     private Integer recommendPosition ;
     private Integer gamesPlayed ;
+    private Integer recommendChampion ;
 
-    public RecommendedRoleModel() {
+    public RecommendedClashResponseModel() {
     }
 
-    public RecommendedRoleModel(Integer account, Integer recommendPosition, Integer gamesPlayed) {
+    public RecommendedClashResponseModel(Integer account, Integer recommendPosition, Integer gamesPlayed, Integer recommendChampion) {
         this.account = account;
         this.recommendPosition = recommendPosition;
         this.gamesPlayed = gamesPlayed;
+        this.recommendChampion = recommendChampion;
     }
 
     public Integer getAccount() {
@@ -36,5 +38,13 @@ public class RecommendedRoleModel {
 
     public void setGamesPlayed(Integer gamesPlayed) {
         this.gamesPlayed = gamesPlayed;
+    }
+
+    public Integer getRecommendChampion() {
+        return recommendChampion;
+    }
+
+    public void setRecommendChampion(Integer recommendChampion) {
+        this.recommendChampion = recommendChampion;
     }
 }

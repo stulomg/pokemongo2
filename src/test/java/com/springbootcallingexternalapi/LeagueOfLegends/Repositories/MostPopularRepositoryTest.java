@@ -169,7 +169,6 @@ class MostPopularRepositoryTest {
 
     @Test
     void NoDataException() {
-
         Assertions.assertThrows(NoDataException.class, () -> repositoryMost.popularAccount());
     }
 }
