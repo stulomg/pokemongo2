@@ -48,7 +48,7 @@ class RecommendedClashRestControllerTest {
     }
 
     @Test
-    void getRecommendedRole() throws Exception {
+    void getRecommendedRoleDefaultCase() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"MatchHistory\" RESTART IDENTITY CASCADE");
         for (int i = 0; i < 10; i++) {
             GameDataModel dataSummoner = new GameDataModel();
@@ -92,7 +92,7 @@ class RecommendedClashRestControllerTest {
         }
     }
     @Test
-    public void NoDataException() throws Exception {
+    public void getRecommendedRoleNoDataException() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"MatchHistory\" RESTART IDENTITY CASCADE");
         List<RecommendedClashDataModel> participants = (List<RecommendedClashDataModel>) Stream.of(
                         new RecommendedClashDataModel("testuno"),
@@ -109,7 +109,7 @@ class RecommendedClashRestControllerTest {
                 .andExpect(content().string("There is not enough data to perform the query"));
     }
     @Test
-    public void CharacterNotAllowedException() throws Exception {
+    public void characterNotAllowedException() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"MatchHistory\" RESTART IDENTITY CASCADE");
         List<RecommendedClashDataModel> participants = (List<RecommendedClashDataModel>) Stream.of(
                         new RecommendedClashDataModel("testuno*"),
@@ -126,7 +126,7 @@ class RecommendedClashRestControllerTest {
                 .andExpect(content().string("testuno* has characters not allowed"));
     }
     @Test
-    public void AccountNotFoundException() throws Exception {
+    public void accountNotFoundException() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"MatchHistory\" RESTART IDENTITY CASCADE");
         List<RecommendedClashDataModel> participants = (List<RecommendedClashDataModel>) Stream.of(
                         new RecommendedClashDataModel("testuno"),

@@ -76,7 +76,7 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void AccountNotFoundExceptionDeleteAccount() throws Exception {
+    public void accountNotFoundExceptionDeleteAccount() throws Exception {
 
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
 
@@ -215,7 +215,7 @@ public class AccountRestControllerTest {
     }
 
     @Test
-    public void accountUpdate() throws Exception {
+    public void accountUpdateDefaultCase() throws Exception {
 
         objectMapper = new ObjectMapper();
 
@@ -270,6 +270,7 @@ public class AccountRestControllerTest {
         mockMvc.perform(put("/account/update").header("authorization", token).contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(model))).andExpect(status().isNotFound()).andExpect(content().string("The account Darkclawx was not found, please rectify"));
     }
+
     @Test
     public void accountUpdateOwnerNotFoundException() throws Exception {
         objectMapper = new ObjectMapper();
@@ -289,6 +290,7 @@ public class AccountRestControllerTest {
         mockMvc.perform(put("/account/update").header("authorization", token).contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(model))).andExpect(status().isNotFound()).andExpect(content().string("The owner tesuno was not found, please rectify"));
     }
+
     @Test
     public void accountUpdateCharacterNotAllowedException() throws Exception {
         objectMapper = new ObjectMapper();

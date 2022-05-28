@@ -42,7 +42,7 @@ class MostPopularRestControllerTest {
     }
 
     @Test
-    void getMostPopular() throws Exception {
+    void getMostPopularDefaultCase() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"MasteryHistory\" RESTART IDENTITY CASCADE;");
         jdbcTemplate.execute("TRUNCATE TABLE \"LeagueHistory\" RESTART IDENTITY CASCADE;");
         LeagueInfoModel infoModel = new LeagueInfoModel(
@@ -57,7 +57,7 @@ class MostPopularRestControllerTest {
                 "stul"
         );
         LeagueInfoModel infoModel2 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-22 22:25:28.744"),
+                Timestamp.valueOf("2022-05-22 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -68,7 +68,7 @@ class MostPopularRestControllerTest {
                 "stul"
         );
         LeagueInfoModel infoModel3 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-23 22:25:28.744"),
+                Timestamp.valueOf("2022-05-23 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -79,7 +79,7 @@ class MostPopularRestControllerTest {
                 "stul"
         );
         LeagueInfoModel infoModel4 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-21 23:25:28.744"),
+                Timestamp.valueOf("2022-05-21 23:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -90,7 +90,7 @@ class MostPopularRestControllerTest {
                 "kusi"
         );
         LeagueInfoModel infoModel5 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-24 22:25:28.744"),
+                Timestamp.valueOf("2022-05-24 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -104,41 +104,41 @@ class MostPopularRestControllerTest {
                 112,
                 7,
                 250,
-                Timestamp.valueOf("2022-04-24 22:25:28.744"),
+                Timestamp.valueOf("2022-05-24 22:25:28.744"),
                 1
         );
         MasteryHistoryInfoModel masteryModel2 = new MasteryHistoryInfoModel(
                 8,
                 7,
                 156000,
-                Timestamp.valueOf("2022-04-25 22:25:28.744"),
+                Timestamp.valueOf("2022-05-25 22:25:28.744"),
                 1
         );
         MasteryHistoryInfoModel masteryModel3 = new MasteryHistoryInfoModel(
                 112,
                 7,
                 20000,
-                Timestamp.valueOf("2022-04-26 22:25:28.744"),
+                Timestamp.valueOf("2022-05-26 22:25:28.744"),
                 1
         );
         MasteryHistoryInfoModel masteryModel4 = new MasteryHistoryInfoModel(
                 112,
                 7,
                 155000,
-                Timestamp.valueOf("2022-04-27 22:25:28.744"),
+                Timestamp.valueOf("2022-05-27 22:25:28.744"),
                 1
         );
         MasteryHistoryInfoModel masteryModel5 = new MasteryHistoryInfoModel(
                 8,
                 7,
                 450000,
-                Timestamp.valueOf("2022-04-28 22:25:28.744"),
+                Timestamp.valueOf("2022-05-28 22:25:28.744"),
                 1
         );
         MostPopularModel espectedResult = new MostPopularModel(
                 1,
                 8,
-                "Apr 21"
+                "May 23"
                 //Timestamp.valueOf("2022-04-01 00:00:00")
         );
 
@@ -164,7 +164,7 @@ class MostPopularRestControllerTest {
     }
 
     @Test
-    public void NoDataException() throws Exception {
+    public void getMostPopularNoDataException() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"MasteryHistory\" RESTART IDENTITY CASCADE;");
         jdbcTemplate.execute("TRUNCATE TABLE \"LeagueHistory\" RESTART IDENTITY CASCADE;");
         String token = securityUserService.generateToken();

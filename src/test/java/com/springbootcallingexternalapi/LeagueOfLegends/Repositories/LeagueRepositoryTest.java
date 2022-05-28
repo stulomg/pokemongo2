@@ -52,7 +52,7 @@ public class LeagueRepositoryTest {
     }
 
     @Test
-    void divisionHistoryCasoDefault() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
+    void divisionHistoryDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
         for (int i = 0; i < 21; i++) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Thread.sleep(100);
@@ -76,7 +76,7 @@ public class LeagueRepositoryTest {
         }
     }
     @Test
-    void divisionHistoryCasoMenosDeVente() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
+    void divisionHistoryLessThanTwentyDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
         for (int i = 0; i < 15; i++) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Thread.sleep(100);
@@ -98,7 +98,7 @@ public class LeagueRepositoryTest {
     }
 
     @Test
-    void accountNotFoundExceptionEnDivisionHistory() {
+    void accountNotFoundExceptionDivisionHistory() {
         Assertions.assertThrows(AccountNotFoundException.class, () -> repository.divisionHistory("testtres",3));
     }
 
@@ -110,7 +110,7 @@ public class LeagueRepositoryTest {
 
 
     @Test
-    void insertarExitosamenteCasoDefault() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
+    void insertLeagueInfoSuccessfullyDefaultCase() throws AccountDataException {
         //GIVEN
         LeagueInfoModel baseModel = new LeagueInfoModel(
                 Timestamp.valueOf("2022-03-30 22:25:28.744"),
@@ -139,7 +139,7 @@ public class LeagueRepositoryTest {
     }
 
     @Test
-    void insertarConErrorEnBaseDeDatos() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
+    void accountDataExceptionInsertLeagueInfo() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
         //given
         Assertions.assertThrows(AccountDataException.class, () -> {
             LeagueInfoModel baseModel = new LeagueInfoModel(
@@ -158,7 +158,7 @@ public class LeagueRepositoryTest {
     }
 
     @Test
-    void maxDivisionCasoDefoult() throws CharacterNotAllowedException, AccountDataException, CharacterNotAllowedExceptionOwner, OwnerNotFoundException {
+    void maxDivisionDefaultCase() throws CharacterNotAllowedException, AccountDataException, CharacterNotAllowedExceptionOwner, OwnerNotFoundException {
 //GIVEN
         LeagueInfoModel infoModel = new LeagueInfoModel(
                 Timestamp.valueOf("2022-03-30 22:25:28.744"),
@@ -195,12 +195,12 @@ public class LeagueRepositoryTest {
     }
 
     @Test
-    void OwnerNotFoundMaxDivision() {
+    void OwnerNotFoundExceptionMaxDivision() {
         Assertions.assertThrows(OwnerNotFoundException.class, () -> repository.getMaxDivision("Owner", "Owner",1,1));
     }
 
     @Test
-    void characterNotAllowedMaxDivision() {
+    void characterNotAllowedExceptionMaxDivision() {
         Assertions.assertThrows(CharacterNotAllowedExceptionOwner.class, () -> repository.getMaxDivision("O*ner", "O*ner",3,3));
     }
 }

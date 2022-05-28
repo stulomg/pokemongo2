@@ -52,7 +52,7 @@ public class ChampionRepositoryTest {
     }
 
     @Test
-    void retrieveChampionIdThrowsCharacterNotAllowedException() {
+    void retrieveChampionIdCharacterNotAllowedException() {
         //GIVEN
         Assertions.assertThrows(CharacterNotAllowedException.class, () -> {
             String championNameGiven = new String(

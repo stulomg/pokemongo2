@@ -45,7 +45,7 @@ class OwnerRestControllerTest {
     }
 
     @Test
-    void newOwner() throws Exception {
+    void newOwnerDefaultCase() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"Owner\" RESTART IDENTITY CASCADE");
         OwnerModel newOwner = new OwnerModel(
                 "test"
@@ -61,7 +61,7 @@ class OwnerRestControllerTest {
         Assertions.assertEquals(newOwner.getName(),resultSet.get(0).getName());
     }
     @Test
-    void OwnerAlreadyExistsNewOwner() throws Exception {
+    void ownerAlreadyExistsExceptionNewOwner() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"Owner\" RESTART IDENTITY CASCADE");
         OwnerModel newOwner = new OwnerModel(
                 "test"
@@ -75,7 +75,7 @@ class OwnerRestControllerTest {
                 .andExpect(content().string("Owner already registered"));
     }
     @Test
-    void CharacterNotAllowedExceptionNewOwner() throws Exception {
+    void characterNotAllowedExceptionNewOwner() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"Owner\" RESTART IDENTITY CASCADE");
         OwnerModel newOwner = new OwnerModel(
                 "test*"

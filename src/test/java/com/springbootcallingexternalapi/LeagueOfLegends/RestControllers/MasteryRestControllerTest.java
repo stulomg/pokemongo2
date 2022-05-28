@@ -73,7 +73,7 @@ class MasteryRestControllerTest {
         mockMvc.perform(get("/account/masteryHistory/testuno*").header("authorization", token)).andExpect(status().isBadRequest()).andExpect(content().string("testuno* has characters not allowed"));
     }
     @Test
-    void AccountNotFoundExceptionAccountMasteryHistory() throws Exception {
+    void accountNotFoundExceptionAccountMasteryHistory() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"MasteryHistory\" RESTART IDENTITY CASCADE;");
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/account/masteryHistory/test").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The account test was not found, please rectify"));

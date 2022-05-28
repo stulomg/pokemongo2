@@ -27,7 +27,7 @@ class SecurityUserServiceTest {
     SecurityUserService securityUserService;
 
     @Test
-    void newUser() {
+    void newUserDefaultCase() {
         jdbcTemplate.execute("TRUNCATE TABLE \"user\" RESTART IDENTITY CASCADE");
         SecurityNewUserModel newUser = new SecurityNewUserModel(
                 "test100",
@@ -50,7 +50,7 @@ class SecurityUserServiceTest {
     }
 
     @Test
-    void login() {
+    void loginDefaultCase() {
         jdbcTemplate.execute("TRUNCATE TABLE \"user\" RESTART IDENTITY CASCADE");
         SecurityNewUserModel newUser = new SecurityNewUserModel(
                 "test100",
@@ -69,7 +69,7 @@ class SecurityUserServiceTest {
     }
 
     @Test
-    void generateToken() {
+    void generateTokenDefaultCase() {
         String response = securityUserService.generateToken();
         Assertions.assertTrue(response.contains("Bearer "));
     }
