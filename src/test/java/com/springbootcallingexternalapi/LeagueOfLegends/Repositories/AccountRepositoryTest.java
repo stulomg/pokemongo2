@@ -46,7 +46,6 @@ public class AccountRepositoryTest {
         this.jdbcTemplate = jdbcTemplate;
         repository = new AccountRepository();
         ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
-
     }
 
     @BeforeEach
