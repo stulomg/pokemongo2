@@ -208,34 +208,34 @@ ALTER TABLE IF EXISTS public."QuerySpecific"
 -- Tabla : Jugador
 -- --------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS public."Jugador"
+CREATE TABLE IF NOT EXISTS public."Player"
 (
     id serial NOT NULL,
     name text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT "Jugador_pkey" PRIMARY KEY (id),
+    CONSTRAINT "Player_pkey" PRIMARY KEY (id),
     CONSTRAINT "UK_name" UNIQUE (name)
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."Jugador"
+ALTER TABLE IF EXISTS public."Player"
     OWNER to postgres;
 
 -- --------------------------------------------------------------
--- Tabla : Account_Jugador
+-- Tabla : Account_Player
 -- --------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS public."Account_Jugador"
+CREATE TABLE IF NOT EXISTS public."Account_Player"
 (
     "id_Account" integer NOT NULL,
-    "id_Jugador" integer NOT NULL,
+    "id_Player" integer NOT NULL,
     CONSTRAINT "FK_AccountId" FOREIGN KEY ("id_Account")
         REFERENCES public."Account" ("id_BD") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID,
-    CONSTRAINT "FK_JugadorId" FOREIGN KEY ("id_Jugador")
-        REFERENCES public."Jugador" (id) MATCH SIMPLE
+    CONSTRAINT "FK_PlayerId" FOREIGN KEY ("id_Player")
+        REFERENCES public."Player" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID
@@ -243,5 +243,5 @@ CREATE TABLE IF NOT EXISTS public."Account_Jugador"
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."Account_Jugador"
+ALTER TABLE IF EXISTS public."Account_Player"
     OWNER to postgres;
