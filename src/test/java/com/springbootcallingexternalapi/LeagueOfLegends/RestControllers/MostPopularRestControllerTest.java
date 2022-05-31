@@ -46,7 +46,7 @@ class MostPopularRestControllerTest {
         jdbcTemplate.execute("TRUNCATE TABLE \"MasteryHistory\" RESTART IDENTITY CASCADE;");
         jdbcTemplate.execute("TRUNCATE TABLE \"LeagueHistory\" RESTART IDENTITY CASCADE;");
         LeagueInfoModel infoModel = new LeagueInfoModel(
-                Timestamp.valueOf("2022-04-21 22:25:28.744"),
+                Timestamp.valueOf("2022-05-21 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -138,7 +138,7 @@ class MostPopularRestControllerTest {
         MostPopularModel espectedResult = new MostPopularModel(
                 1,
                 8,
-                "May 23"
+                "May 21"
                 //Timestamp.valueOf("2022-04-01 00:00:00")
         );
 

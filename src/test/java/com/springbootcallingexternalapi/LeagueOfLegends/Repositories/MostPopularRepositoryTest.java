@@ -86,7 +86,7 @@ class MostPopularRepositoryTest {
                 "testuno"
         );
         LeagueInfoModel infoModel4 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-05-21 23:25:28.744"),
+                Timestamp.valueOf("2022-05-24 23:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -97,7 +97,7 @@ class MostPopularRepositoryTest {
                 "testdos"
         );
         LeagueInfoModel infoModel5 = new LeagueInfoModel(
-                Timestamp.valueOf("2022-05-24 22:25:28.744"),
+                Timestamp.valueOf("2022-05-25 22:25:28.744"),
                 "ba78b27d-a3a9-45fd-9b38-4bdb587dd45a",
                 "RANKED_SOLO_5x5",
                 "PLATINUM",
@@ -145,7 +145,7 @@ class MostPopularRepositoryTest {
         MostPopularModel expectedResult = new MostPopularModel(
                 1,
                 8,
-                "May 23"
+                "May 21"
                 //Timestamp.valueOf("2022-04-01 00:00:00")
         );
         repositoryLegue.insertLeagueInfo(infoModel,1,1);
