@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.*;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,8 @@ class QueryRestControllerTest {
     JdbcTemplate jdbcTemplate;
     @Autowired
     SecurityUserService securityUserService;
+    @Autowired
+    AccountRepository accountRepository;
     @MockBean
     RestTemplate restTemplate;
 
@@ -47,20 +50,27 @@ class QueryRestControllerTest {
     @Test
     void queryDefaultCase() throws Exception {
         jdbcTemplate.execute("TRUNCATE TABLE \"QuerySpecific\" RESTART IDENTITY CASCADE");
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE");
+        AccountBaseModel modelData = new  AccountBaseModel(
+                "test",
+                "test",
+                "test",
+                "test",
+                122514L
+        );
+        accountRepository.insertAccount(modelData,2);
 
         QueryModel newQuery = new QueryModel(
                 "test prueba",
-                "*",
-                "Account",
-                "name = 'testdos'"
+                "select * from \"Account\" where name = 'test'"
         );
         QueryResponseModel expectedResult = new QueryResponseModel(
-                "testdos",
-                "testdos",
-                "testdos",
-                123457L,
+                "test",
+                "test",
+                "test",
+                122514L,
                 2,
-                "testdos"
+                "test"
         );
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.post("/loldata/query").header("authorization", token)
@@ -78,9 +88,7 @@ class QueryRestControllerTest {
 
         QueryModel newQuery = new QueryModel(
                 "test prueba",
-                "*",
-                "Account*",
-                "name = 'testdos'"
+                "select * from Account* where name = 'test'"
         );
         String token = securityUserService.generateToken();
         mockMvc.perform(MockMvcRequestBuilders.post("/loldata/query").header("authorization", token)
@@ -88,5 +96,20 @@ class QueryRestControllerTest {
                         .content(objectMapper.writeValueAsString(newQuery)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Error in the syntax of the query : test prueba, check the data entered"));
+    }
+    @Test
+    void queryInvalidParameterExceptionNewQuery() throws Exception {
+        jdbcTemplate.execute("TRUNCATE TABLE \"QuerySpecific\" RESTART IDENTITY CASCADE");
+
+        QueryModel newQuery = new QueryModel(
+                "test prueba",
+                "INSERT * from Account where name = 'test'"
+        );
+        String token = securityUserService.generateToken();
+        mockMvc.perform(MockMvcRequestBuilders.post("/loldata/query").header("authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newQuery)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Invalid parameter in the query : test prueba, check the data entered"));
     }
 }

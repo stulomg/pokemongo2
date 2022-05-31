@@ -189,19 +189,21 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public."TwitterHashtag"
     OWNER to postgres;
 -- --------------------------------------------------------------
--- Tabla : QuerySpecific
+-- Tabla : SpecificQuery
 -- --------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS public."QuerySpecific"
+CREATE TABLE IF NOT EXISTS public."SpecificQuery"
 (
     id serial NOT NULL,
     criteria text COLLATE pg_catalog."default",
     query text COLLATE pg_catalog."default",
-    CONSTRAINT "querySpecific_pkey" PRIMARY KEY (id)
+    CONSTRAINT "querySpecific_pkey" PRIMARY KEY (id),
+    CONSTRAINT "UK_criteria" UNIQUE (criteria)
+        INCLUDE(criteria)
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."QuerySpecific"
+ALTER TABLE IF EXISTS public."SpecificQuery"
     OWNER to postgres;
 
 -- --------------------------------------------------------------
