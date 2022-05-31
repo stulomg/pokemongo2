@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaxDivisionModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.LeagueRepository;
+import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +33,8 @@ public class LeagueRestControllerTest {
     JdbcTemplate jdbcTemplate;
     @Autowired
     private SecurityUserService securityUserService;
+    @Autowired
+    RiotRequestorService riotRequestorService;
 
     @BeforeEach
     void setup() {
@@ -66,6 +69,14 @@ public class LeagueRestControllerTest {
     void divisionHistoryAccountNotFountException() throws Exception {
         String token = securityUserService.generateToken();
         mockMvc.perform(get("/account/division-history/kusarin").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The account kusarin was not found, please rectify"));
+    }
+
+    @Test
+    void divisionHistoryLeagueNotFoundException() throws Exception {
+
+        riotRequestorService.getAccountAndAssignToOwner("Darkclaw", "stul");
+        String token = securityUserService.generateToken();
+        mockMvc.perform(get("/account/division-history/Darkclaw").header("authorization", token)).andExpect(status().isNotFound()).andExpect(content().string("The SoloQ data for Darkclaw does not exist"));
     }
 
     @Test

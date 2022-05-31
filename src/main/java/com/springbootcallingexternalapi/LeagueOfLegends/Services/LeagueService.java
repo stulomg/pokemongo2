@@ -4,6 +4,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedExceptionOwner;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.LeagueDataNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
@@ -31,7 +32,7 @@ public class LeagueService {
         leagueRepository.insertLeagueInfo(leagueInfoModel,accountID,ownerID);
     }
 
-    public Object divisionHistory(String account) throws CharacterNotAllowedException, AccountNotFoundException {
+    public Object divisionHistory(String account) throws CharacterNotAllowedException, LeagueDataNotFoundException, AccountNotFoundException {
         Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
         return leagueRepository.divisionHistory(account, accountID);
     }

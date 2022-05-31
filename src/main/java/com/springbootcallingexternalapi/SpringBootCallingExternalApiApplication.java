@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
+
 import javax.sql.DataSource;
+
 import static org.springframework.context.annotation.FilterType.CUSTOM;
 
 @Configuration

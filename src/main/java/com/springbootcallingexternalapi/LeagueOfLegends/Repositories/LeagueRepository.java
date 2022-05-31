@@ -4,6 +4,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedExceptionOwner;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.LeagueDataNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaxDivisionModel;
@@ -42,13 +43,13 @@ public class LeagueRepository {
         }
     }
 
-    public List<LeagueInfoModel> divisionHistory(String account, Integer accountID) throws CharacterNotAllowedException, AccountNotFoundException {
+    public List<LeagueInfoModel> divisionHistory(String account, Integer accountID) throws CharacterNotAllowedException, LeagueDataNotFoundException {
         String sql = "SELECT * FROM \"LeagueHistory\" WHERE \"account\" =? ORDER BY \"date\" DESC LIMIT 20;";
         Object[] params = {accountID};
         if (isAlpha(account)) {
             List<LeagueInfoModel> listOfLeagues = jdbcTemplate.query(sql, params, BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
             if (listOfLeagues.size() == 0) {
-                throw new AccountNotFoundException(account);
+                throw new LeagueDataNotFoundException(account);
             } else return listOfLeagues;
         }
         throw new CharacterNotAllowedException(account);
