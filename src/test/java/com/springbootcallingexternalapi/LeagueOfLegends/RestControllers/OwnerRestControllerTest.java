@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.OwnerModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.OwnerService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
+import org.junit.AfterClass;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +44,11 @@ class OwnerRestControllerTest {
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
+    }
+    @AfterEach
+    void setup2(){
+        jdbcTemplate.execute("TRUNCATE TABLE \"Owner\" RESTART IDENTITY CASCADE");
+        jdbcTemplate.execute("INSERT INTO \"Owner\"(name) VALUES ('testuno'),('testdos'),('kusara'),('stul');");
     }
 
     @Test

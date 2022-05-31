@@ -5,6 +5,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptio
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.OwnerModel;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,12 @@ class OwnerRepositoryTest {
     @BeforeEach
     void setup() {
         jdbcTemplate.execute("TRUNCATE TABLE \"Owner\" RESTART IDENTITY CASCADE");
+    }
+
+    @AfterEach
+    void setup2(){
+        jdbcTemplate.execute("TRUNCATE TABLE \"Owner\" RESTART IDENTITY CASCADE");
+        jdbcTemplate.execute("INSERT INTO \"Owner\"(name) VALUES ('testuno'),('testdos'),('kusara'),('stul');");
     }
 
     @Test
