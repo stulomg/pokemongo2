@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameParticipantModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class LiveMatchRiotRestTest {
 
-    private static final String RIOT_TOKEN = "RGAPI-179ba0a3-d7f6-44aa-af9a-ae2df3aef427";
+    private static final String RIOT_TOKEN = "RGAPI-6a21e72b-cdff-4e03-a044-9a42f854884d";
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -35,6 +36,8 @@ public class LiveMatchRiotRestTest {
     private RiotRequestorService riotRequestorService;
     @InjectMocks
     private RiotRestController riotRestController;
+    @Autowired
+    AccountRepository accountRepository;
 
     @Test
     public void liveMatchSuccessfullyDefaultCase() throws Exception {
@@ -45,7 +48,6 @@ public class LiveMatchRiotRestTest {
                 3L,
                 202L,
                 "hauries"
-
         );
 
         CurrentGameParticipantModel participant2 = new CurrentGameParticipantModel(
@@ -54,7 +56,6 @@ public class LiveMatchRiotRestTest {
                 3L,
                 202L,
                 "pepito"
-
         );
 
         CurrentGameParticipantModel[] participants = {participant1, participant2};
@@ -73,6 +74,8 @@ public class LiveMatchRiotRestTest {
                 "Hauries",
                 2853L
         );
+        Integer owner = 1;
+        accountRepository.insertAccount(model,owner);
 
         doReturn(ResponseEntity.of(Optional.of(model))).when(riotRequestorService).getAccountFromRiot("hauries");
 

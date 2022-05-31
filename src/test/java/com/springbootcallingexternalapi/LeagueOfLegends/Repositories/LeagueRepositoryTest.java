@@ -4,6 +4,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExcept
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedExceptionOwner;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.LeagueDataNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaxDivisionModel;
@@ -52,7 +53,7 @@ public class LeagueRepositoryTest {
     }
 
     @Test
-    void divisionHistoryDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
+    void divisionHistoryDefaultCase() throws CharacterNotAllowedException, AccountDataException, InterruptedException, LeagueDataNotFoundException {
         for (int i = 0; i < 21; i++) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Thread.sleep(100);
@@ -76,7 +77,7 @@ public class LeagueRepositoryTest {
         }
     }
     @Test
-    void divisionHistoryLessThanTwentyDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, InterruptedException {
+    void divisionHistoryLessThanTwentyDefaultCase() throws CharacterNotAllowedException, AccountDataException, InterruptedException, LeagueDataNotFoundException {
         for (int i = 0; i < 15; i++) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Thread.sleep(100);
@@ -99,7 +100,7 @@ public class LeagueRepositoryTest {
 
     @Test
     void accountNotFoundExceptionDivisionHistory() {
-        Assertions.assertThrows(AccountNotFoundException.class, () -> repository.divisionHistory("testtres",3));
+        Assertions.assertThrows(LeagueDataNotFoundException.class, () -> repository.divisionHistory("testtres",3));
     }
 
     @Test

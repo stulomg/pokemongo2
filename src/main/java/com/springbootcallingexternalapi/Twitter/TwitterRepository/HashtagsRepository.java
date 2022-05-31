@@ -16,11 +16,9 @@ public class HashtagsRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void insertHashtags(String hasthag) throws CharacterNotAllowedException {
+    public void insertHashtags(String hasthag){
         String sql = "INSERT INTO \"TwitterHashtag\"(\"hashtagName\")VALUES (?)";
-        if (isAlpha(hasthag)) {
             jdbcTemplate.update(sql, hasthag);
-        } else throw new CharacterNotAllowedException(hasthag);
     }
 
     public List<String> retrieveHashtags() throws DBNotAvaliableException {
