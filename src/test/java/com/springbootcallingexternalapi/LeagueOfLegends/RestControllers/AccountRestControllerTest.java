@@ -5,9 +5,10 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,7 +28,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AccountRestControllerTest {
@@ -46,6 +46,15 @@ public class AccountRestControllerTest {
     void setup() {
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
         objectMapper = new ObjectMapper();
+    }
+    @AfterEach
+    void setup2(){
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
+        jdbcTemplate.execute("INSERT INTO \"Account\"( id, puuid, accountid, \"revisionDate\", owner, name)\n" +
+                "VALUES\n" +
+                "('testuno', 'testuno', 'testuno', 123456, 1, 'testuno'),\n" +
+                "('testdos', 'testdos', 'testdos', 123457, 2, 'testdos'),\n" +
+                "('testtres', 'testtres', 'testtres', 123457, 2, 'testtres');");
     }
 
     @Test

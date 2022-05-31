@@ -11,6 +11,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptio
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,16 @@ public class AccountRepositoryTest {
     @BeforeEach
     void setup() {
         jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
+    }
+
+    @AfterEach
+    void setup2(){
+        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
+        jdbcTemplate.execute("INSERT INTO \"Account\"( id, puuid, accountid, \"revisionDate\", owner, name)\n" +
+                "VALUES\n" +
+                "('testuno', 'testuno', 'testuno', 123456, 1, 'testuno'),\n" +
+                "('testdos', 'testdos', 'testdos', 123457, 2, 'testdos'),\n" +
+                "('testtres', 'testtres', 'testtres', 123457, 2, 'testtres');");
     }
 
     @Test
