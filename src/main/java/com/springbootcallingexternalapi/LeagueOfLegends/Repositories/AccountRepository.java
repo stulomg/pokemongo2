@@ -124,8 +124,8 @@ public class AccountRepository {
     }
 
     public Long retrieveOwnerIdByAccount(String account) throws CharacterNotAllowedException, AccountNotFoundException {
-        String sql = "SELECT owner FROM \"Account\" WHERE name =?;";
-        Object[] params = {account};
+        String sql = "SELECT owner FROM \"Account\" WHERE LOWER(name) =?;";
+        Object[] params = {account.toLowerCase(Locale.ROOT)};
         if (isAlpha(account)) {
             try {
                 return jdbcTemplate.queryForObject(sql, params, Long.class);
@@ -136,7 +136,7 @@ public class AccountRepository {
     }
     public String retrieveIdRiotByAccount(String account) throws CharacterNotAllowedException, AccountNotFoundDBException {
         String sql = "SELECT id FROM \"Account\" WHERE LOWER(name) =?;";
-        Object[] params = {account};
+        Object[] params = {account.toLowerCase(Locale.ROOT)};
         if (isAlpha(account)) {
             try {
                 return jdbcTemplate.queryForObject(sql, params, String.class);
@@ -147,7 +147,7 @@ public class AccountRepository {
     }
     public String retrievePuuidRiotByAccount(String account) throws CharacterNotAllowedException, AccountNotFoundDBException {
         String sql = "SELECT puuid FROM \"Account\" WHERE LOWER(name) =?;";
-        Object[] params = {account};
+        Object[] params = {account.toLowerCase(Locale.ROOT)};
         if (isAlpha(account)) {
             try {
                 return jdbcTemplate.queryForObject(sql, params, String.class);

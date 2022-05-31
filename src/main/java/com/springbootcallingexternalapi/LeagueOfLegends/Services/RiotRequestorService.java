@@ -32,7 +32,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 @Service
 public class RiotRequestorService {
 
-    private static final String RIOT_TOKEN = "RGAPI-beafe7bd-24d3-47b4-8506-2cb37e7d8e28";
+    private static final String RIOT_TOKEN = "RGAPI-2e7cc45a-5269-46cb-ae9c-c4bd7787e2f7";
 
     Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -106,6 +106,7 @@ public class RiotRequestorService {
     public MasteryHistoryInfoModel getMastery(String account, String championName) throws AccountNotFoundException, ChampionNotFoundException, ChampionMasteryNotFoundException, CharacterNotAllowedException, AccountDataException, AccountNotFoundDBException {
         String id = accountRepository.retrieveIdRiotByAccount(account);
         Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+        championName = championName.replace(" ","");
         try {
             Long championId = championService.retrieveChampionIdByChampionName(championName.toLowerCase(Locale.ROOT));
             String uri = "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + id + "/by-champion/" + championId;
@@ -182,7 +183,7 @@ public class RiotRequestorService {
     public List<Object> getListMatches(String account) throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, PositionNotFoundException, AccountNotFoundDBException {
 
         String puuid = accountRepository.retrievePuuidRiotByAccount(account);
-        String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=420&start=0&count=5";
+        String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=440&start=0&count=10";
         ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
         List<String> listMatches = response.getBody();
         List<Object> list = new ArrayList<Object>();

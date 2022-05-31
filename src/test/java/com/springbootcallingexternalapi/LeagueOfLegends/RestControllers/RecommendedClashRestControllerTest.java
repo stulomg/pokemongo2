@@ -72,7 +72,7 @@ class RecommendedClashRestControllerTest {
                 new RecommendedClashDataModel("testtres"))
                 .collect(Collectors.toList());
         String token = securityUserService.generateToken();
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommendedRole").header("authorization", token)
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommended").header("authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(participants)))
                 .andExpect(status().isOk()).andReturn();
@@ -102,7 +102,7 @@ class RecommendedClashRestControllerTest {
                         new RecommendedClashDataModel("testtres"))
                 .collect(Collectors.toList());
         String token = securityUserService.generateToken();
-        mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommendedRole").header("authorization", token)
+        mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommended").header("authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(participants)))
                 .andExpect(status().isBadRequest())
@@ -119,7 +119,7 @@ class RecommendedClashRestControllerTest {
                         new RecommendedClashDataModel("testtres"))
                 .collect(Collectors.toList());
         String token = securityUserService.generateToken();
-        mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommendedRole").header("authorization", token)
+        mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommended").header("authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(participants)))
                 .andExpect(status().isBadRequest())
@@ -136,7 +136,7 @@ class RecommendedClashRestControllerTest {
                         new RecommendedClashDataModel("testcuatro"))
                 .collect(Collectors.toList());
         String token = securityUserService.generateToken();
-        mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommendedRole").header("authorization", token)
+        mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommended").header("authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(participants)))
                 .andExpect(status().isBadRequest())
