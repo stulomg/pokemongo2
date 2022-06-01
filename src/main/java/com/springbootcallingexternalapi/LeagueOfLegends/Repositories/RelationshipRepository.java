@@ -25,7 +25,7 @@ public class RelationshipRepository {
   public List<String> getPlayersMatched(String account)
       throws CharacterNotAllowedException, AccountNotFoundException {
     Integer accountId = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
-    String sql = "SELECT \"id_Jugador\" FROM \"Account_Jugador\" WHERE \"id_Account\"=?";
+    String sql = "SELECT \"id_Player\" FROM \"Account_Player\" WHERE \"id_Account\"=?";
     Object[] params = {accountId};
     List<String> listPlayersMatched = jdbcTemplate.query(sql, params,
         BeanPropertyRowMapper.newInstance(String.class));
