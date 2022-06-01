@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-/** Model for the most popular.*/
+/**
+ * Model for the most popular.
+ */
 public class MostPopularModel {
 
   private Integer account;
@@ -10,7 +12,9 @@ public class MostPopularModel {
   public MostPopularModel() {
   }
 
-  /** Constructor for the most popular.*/
+  /**
+   * Constructor for the most popular.
+   */
   public MostPopularModel(Integer account, Integer champion, String date) {
     this.account = account;
     this.champion = champion;

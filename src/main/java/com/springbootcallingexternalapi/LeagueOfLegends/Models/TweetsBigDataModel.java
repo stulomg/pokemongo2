@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-/** Model for the Big tweets data.*/
+/**
+ * Model for the Big tweets data.
+ */
 public class TweetsBigDataModel {
 
   private TweetModel[] data;

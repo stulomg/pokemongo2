@@ -14,14 +14,18 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-/** Scan repository class.*/
+/**
+ * Scan repository class.
+ */
 @Repository
 public class OwnerRepository {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  /** Insert new owner in the db.*/
+  /**
+   * Insert new owner in the db.
+   */
   public List<OwnerModel> insertOwner(OwnerModel owner)
       throws OwnerAlreadyExists, CharacterNotAllowedException {
     String sql = "INSERT INTO \"Owner\"(\"name\") VALUES (?)";
@@ -38,7 +42,9 @@ public class OwnerRepository {
     return null;
   }
 
-  /** Retrieve owner id by owner name.*/
+  /**
+   * Retrieve owner id by owner name.
+   */
   public Long retrieveOwnerIdByOwnerName(String owner)
       throws CharacterNotAllowedException, OwnerNotFoundException {
     String sql = "SELECT \"id\" FROM \"Owner\" WHERE LOWER(\"name\")=?";

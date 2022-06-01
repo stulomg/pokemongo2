@@ -1,13 +1,17 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-/** Model for the current game runes.*/
+/**
+ * Model for the current game runes.
+ */
 public class CurrentGameRunesModel {
 
   private String summonerName;
 
   private Object perks;
 
-  /** Constructor for the current game runes.*/
+  /**
+   * Constructor for the current game runes.
+   */
   public CurrentGameRunesModel(String summonerName, Object perks) {
 
     this.summonerName = summonerName;

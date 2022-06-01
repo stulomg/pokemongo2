@@ -14,14 +14,18 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-/** Scan repository class.*/
+/**
+ * Scan repository class.
+ */
 @Repository
 public class MasteryRepository {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  /** Insert mastery info in to the db.*/
+  /**
+   * Insert mastery info in to the db.
+   */
   public void insertMasteryInfo(MasteryHistoryInfoModel masteryHistoryInfoModel)
       throws AccountDataException {
     String sql = "INSERT INTO \"MasteryHistory\"(champion, \"championPoints\", \"championLevel\","
@@ -39,7 +43,9 @@ public class MasteryRepository {
     }
   }
 
-  /** Select the mastery history from the db.*/
+  /**
+   * Select the mastery history from the db.
+   */
   public List<MasteryHistoryModel> accountMasteryHistory(String account, Integer accountId)
       throws AccountNotFoundException, CharacterNotAllowedException {
     String sql =

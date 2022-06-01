@@ -8,7 +8,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-/** Scan repository class.*/
+/**
+ * Scan repository class.
+ */
 @Repository
 public class RelationshipRepository {
 
@@ -17,7 +19,9 @@ public class RelationshipRepository {
   @Autowired
   JdbcTemplate jdbcTemplate;
 
-  /** Get players matched.*/
+  /**
+   * Get players matched.
+   */
   public List<String> getPlayersMatched(String account)
       throws CharacterNotAllowedException, AccountNotFoundException {
     Integer accountId = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));

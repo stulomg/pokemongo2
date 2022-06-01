@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-/** Model for the query response.*/
+/**
+ * Model for the query response.
+ */
 public class QueryResponseModel {
 
   private String id;
@@ -18,7 +20,9 @@ public class QueryResponseModel {
   public QueryResponseModel() {
   }
 
-  /** Constructor for the query response.*/
+  /**
+   * Constructor for the query response.
+   */
   public QueryResponseModel(String id, String puuid, String accountId, Long revisionDate,
       Integer owner, String name) {
     this.id = id;

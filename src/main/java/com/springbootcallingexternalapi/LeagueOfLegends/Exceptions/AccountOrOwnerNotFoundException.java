@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions;
 
-/** Exception for when an account linked to a user is not found.*/
+/**
+ * Exception for when an account linked to a user is not found.
+ */
 public class AccountOrOwnerNotFoundException extends Exception {
 
   public AccountOrOwnerNotFoundException(String owner, String account) {

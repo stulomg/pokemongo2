@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Query;
 
-/** Exception for when there are no stored queries.*/
+/**
+ * Exception for when there are no stored queries.
+ */
 public class QueryNoDataException extends Exception {
 
   public QueryNoDataException() {

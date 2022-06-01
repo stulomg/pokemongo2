@@ -14,7 +14,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
-/**This is the api main class. */
+/**
+ * This is the api main class.
+ */
 @Configuration
 @EnableScheduling
 @SpringBootApplication()

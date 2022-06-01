@@ -10,7 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/** Hibernate tells him to make a class table.*/
+/**
+ * Hibernate tells him to make a class table.
+ */
 @Entity
 @Table(name = "role", schema = "public")
 public class SecurityRoleModel {

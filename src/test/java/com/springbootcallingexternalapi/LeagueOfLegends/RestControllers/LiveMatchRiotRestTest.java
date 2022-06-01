@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameParticipantModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.GlobalVariable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
@@ -28,7 +29,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @AutoConfigureMockMvc
 public class LiveMatchRiotRestTest {
 
-  private static final String RIOT_TOKEN = "RGAPI-6a21e72b-cdff-4e03-a044-9a42f854884d";
+  String riotToken = GlobalVariable.RIOT_TOKEN;
   @Autowired
   AccountRepository accountRepository;
   @Autowired
