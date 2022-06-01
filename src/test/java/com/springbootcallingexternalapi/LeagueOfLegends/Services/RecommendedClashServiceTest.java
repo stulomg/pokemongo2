@@ -90,8 +90,8 @@ class RecommendedClashServiceTest {
                 Assertions.assertEquals(113,result.getRecommendChampion());
             }else {
                 Assertions.assertEquals(0,result.getRecommendPosition());
-                Assertions.assertEquals(0,result.getGamesPlayed());
                 Assertions.assertEquals(0,result.getRecommendChampion());
+                Assertions.assertEquals(0,result.getGamesPlayed());
             }
         }
     }
