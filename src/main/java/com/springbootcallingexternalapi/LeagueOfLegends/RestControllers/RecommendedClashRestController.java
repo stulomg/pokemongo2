@@ -22,8 +22,10 @@ public class RecommendedClashRestController {
     public ResponseEntity<Object> getRecommendedRole(@RequestBody List<RecommendedClashDataModel> data) {
         try {
             return new ResponseEntity<>(recommendedClashService.recommendedClashService(data), HttpStatus.OK);
-        } catch (NoDataException | CharacterNotAllowedException | AccountNotFoundException e) {
+        } catch (CharacterNotAllowedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (NoDataException  | AccountNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }
