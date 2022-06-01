@@ -15,7 +15,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /** Scan repository class.*/
-
 @Repository
 public class OwnerRepository {
 
@@ -23,7 +22,6 @@ public class OwnerRepository {
   private JdbcTemplate jdbcTemplate;
 
   /** Insert new owner in the db.*/
-
   public List<OwnerModel> insertOwner(OwnerModel owner)
       throws OwnerAlreadyExists, CharacterNotAllowedException {
     String sql = "INSERT INTO \"Owner\"(\"name\") VALUES (?)";
@@ -41,7 +39,6 @@ public class OwnerRepository {
   }
 
   /** Retrieve owner id by owner name.*/
-
   public Long retrieveOwnerIdByOwnerName(String owner)
       throws CharacterNotAllowedException, OwnerNotFoundException {
     String sql = "SELECT \"id\" FROM \"Owner\" WHERE LOWER(\"name\")=?";

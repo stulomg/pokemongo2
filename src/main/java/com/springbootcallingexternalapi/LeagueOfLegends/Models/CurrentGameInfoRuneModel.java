@@ -3,7 +3,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 import java.util.Arrays;
 
 /** Model for the current runes in game. */
-
 public class CurrentGameInfoRuneModel {
 
   private Long mapId;
@@ -15,7 +14,6 @@ public class CurrentGameInfoRuneModel {
   private CurrentGameRunesModel[] participants;
 
   /** Constructor for the current runes in game.*/
-
   public CurrentGameInfoRuneModel(Long mapId, String gameMode, String gameType,
       CurrentGameRunesModel[] participants) {
     this.mapId = mapId;

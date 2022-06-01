@@ -21,7 +21,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /** Scan repository class.*/
-
 @Repository
 public class AccountRepository {
 
@@ -29,7 +28,6 @@ public class AccountRepository {
   private JdbcTemplate jdbcTemplate;
 
   /** Insert account in the DB.*/
-
   public void insertAccount(AccountBaseModel account, Integer owner)
       throws AccountDataException, AccountExistsOrNotException {
     String sql = "INSERT INTO \"Account\"(id, puuid, accountid, \"revisionDate\", \"owner\", name) VALUES (?, ?, ?, ?, ?, ?);";
@@ -50,7 +48,6 @@ public class AccountRepository {
   }
 
   /** Delete an account.*/
-
   public void deleteAccount(String account, Integer ownerId)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "DELETE FROM \"Account\" WHERE Lower(name) =? and \"owner\" =?;";
@@ -66,7 +63,6 @@ public class AccountRepository {
   }
 
   /** Retrieve account by owner.*/
-
   public List<AccountModel> retrieveAccountByOwner(String owner, Integer ownerId)
       throws CharacterNotAllowedException, OwnerNotFoundException {
     String sql = "SELECT * FROM \"Account\" WHERE  \"owner\" =?";
@@ -84,7 +80,6 @@ public class AccountRepository {
   }
 
   /** Update account.*/
-
   public void accountUpdate(AccountModel model, Integer ownerId)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "UPDATE \"Account\" SET name=?, \"accountid\"=?, puuid=?,\"revisionDate\"=?,"
@@ -105,7 +100,6 @@ public class AccountRepository {
   }
 
   /** Update existing account.*/
-
   public void accountUpdateExisting(AccountBaseModel model, Integer owner)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "UPDATE \"Account\" SET name=?, \"accountid\"=?, puuid=?,\"revisionDate\"=?,"
@@ -125,7 +119,6 @@ public class AccountRepository {
   }
 
   /** Retrieve account by account name.*/
-
   public List<AccountModel> retrieveAccountByAccountName(String account)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "SELECT * FROM \"Account\" WHERE LOWER (name)=?";
@@ -144,7 +137,6 @@ public class AccountRepository {
   }
 
   /** Retrieve account id by account name.*/
-
   public Integer retrieveAccountIdByAccountName(String accountName)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "SELECT \"id_BD\" FROM \"Account\" WHERE LOWER(\"name\")=?;";
@@ -161,7 +153,6 @@ public class AccountRepository {
   }
 
   /** Retrieve owner id by account.*/
-
   public Long retrieveOwnerIdByAccount(String account)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "SELECT owner FROM \"Account\" WHERE LOWER(name) =?;";
@@ -178,7 +169,6 @@ public class AccountRepository {
   }
 
   /** Retrieve riot id by account.*/
-
   public String retrieveIdRiotByAccount(String account)
       throws CharacterNotAllowedException, AccountNotFoundDBException {
     String sql = "SELECT id FROM \"Account\" WHERE LOWER(name) =?;";
@@ -195,7 +185,6 @@ public class AccountRepository {
   }
 
   /** Retrieve riot puuid by account.*/
-
   public String retrievePuuidRiotByAccount(String account)
       throws CharacterNotAllowedException, AccountNotFoundDBException {
     String sql = "SELECT puuid FROM \"Account\" WHERE LOWER(name) =?;";

@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /** Scan repository class.*/
-
 @Repository
 public class RelationshipRepository {
 
@@ -19,7 +18,6 @@ public class RelationshipRepository {
   JdbcTemplate jdbcTemplate;
 
   /** Get players matched.*/
-
   public List<String> getPlayersMatched(String account)
       throws CharacterNotAllowedException, AccountNotFoundException {
     Integer accountId = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));

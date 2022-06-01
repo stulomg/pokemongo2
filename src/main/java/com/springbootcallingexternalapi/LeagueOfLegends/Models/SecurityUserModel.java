@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /** Hibernate tells him to make a class table.*/
-
 @Entity
 @Table(name = "user", schema = "public")
 public class SecurityUserModel {
@@ -41,7 +40,6 @@ public class SecurityUserModel {
   }
 
   /** Constructor for the security user.*/
-
   public SecurityUserModel(@NotNull String name, @NotNull String userName, @NotNull String email,
       @NotNull String password) {
     this.name = name;

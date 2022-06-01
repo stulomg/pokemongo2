@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /** Model for the security main user.*/
-
 public class SecurityUserMainModel implements UserDetails {
 
   private final String name;
@@ -18,7 +17,6 @@ public class SecurityUserMainModel implements UserDetails {
   private final Collection<? extends GrantedAuthority> authorities;
 
   /** Constructor for the security main user.*/
-
   public SecurityUserMainModel(String name, String userName, String email, String password,
       Collection<? extends GrantedAuthority> authorities) {
     this.name = name;
@@ -29,7 +27,6 @@ public class SecurityUserMainModel implements UserDetails {
   }
 
   /** Grand authority to the main user.*/
-
   public static SecurityUserMainModel build(SecurityUserModel user) {
     List<GrantedAuthority> authorities =
         user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRoleName().name()))

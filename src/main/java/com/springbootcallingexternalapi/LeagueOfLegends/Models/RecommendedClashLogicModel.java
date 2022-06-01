@@ -1,7 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 /** Model for the recommended clash logic.*/
-
 public class RecommendedClashLogicModel {
 
   private Integer account;
@@ -16,7 +15,6 @@ public class RecommendedClashLogicModel {
   }
 
   /** Constructor for the recommended clash logic.*/
-
   public RecommendedClashLogicModel(Integer account, Integer champion, Integer gamesChampion,
       Integer totalGamesAccount, Integer masteryChampion, Integer totalMasteryAccount,
       Integer gamesWinChampion) {

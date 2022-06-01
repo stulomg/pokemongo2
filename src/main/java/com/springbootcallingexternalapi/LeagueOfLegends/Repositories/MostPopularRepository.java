@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /** Scan repository class.*/
-
 @Repository
 public class MostPopularRepository {
 
@@ -17,7 +16,6 @@ public class MostPopularRepository {
   JdbcTemplate jdbcTemplate;
 
   /** Select the most popular account.*/
-
   public List<MostPopularModel> popularAccount() throws NoDataException {
     String sql =
         "SELECT  \"account\", \"champion\", (SELECT TO_CHAR(\"date\"::date,'Mon dd')"

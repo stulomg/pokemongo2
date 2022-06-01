@@ -17,7 +17,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /** Scan repository class.*/
-
 @Repository
 public class LeagueRepository {
 
@@ -25,7 +24,6 @@ public class LeagueRepository {
   private JdbcTemplate jdbcTemplate;
 
   /** Insert the league info in to the db.*/
-
   public void insertLeagueInfo(LeagueInfoModel leagueInfoModel, Integer accountId, Integer ownerId)
       throws AccountDataException {
     String sql = "INSERT INTO \"LeagueHistory\"(date, leagueid, \"queueType\", tier, rank, "
@@ -49,7 +47,6 @@ public class LeagueRepository {
   }
 
   /** Select the division history from the db.*/
-
   public List<LeagueInfoModel> divisionHistory(String account, Integer accountId)
       throws CharacterNotAllowedException, LeagueDataNotFoundException {
     String sql = "SELECT * FROM \"LeagueHistory\" WHERE \"account\" =? ORDER BY \"date\" DESC LIMIT 20;";
@@ -67,7 +64,6 @@ public class LeagueRepository {
   }
 
   /** Select the maximum division from the information in the database.*/
-
   public List<MaxDivisionModel> getMaxDivision(String owner, String owner2, Integer ownerId,
       Integer owner2Id) throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner {
     String sql = "SELECT  \"account\", \"tier\",\"rank\",\"date\" FROM \"LeagueHistory\" WHERE owner =? or owner =? GROUP BY \"account\", \"tier\", \"rank\",\"date\" ORDER BY  MAX (\"Elo\") DESC  LIMIT 1";

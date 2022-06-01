@@ -1,7 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 /** Model for the query.*/
-
 public class QueryModel {
 
   private String criteria;

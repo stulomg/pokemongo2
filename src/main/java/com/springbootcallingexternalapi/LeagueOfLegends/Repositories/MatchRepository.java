@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /** Scan repository class.*/
-
 @Repository
 public class MatchRepository {
 
@@ -15,7 +14,6 @@ public class MatchRepository {
   private JdbcTemplate jdbcTemplate;
 
   /** Insert individual match date in to the db.*/
-
   public void insertIndividualMatchData(GameDataModel gamedata, Integer accountId,
       Integer positionId, Integer championId) {
 
@@ -26,7 +24,6 @@ public class MatchRepository {
   }
 
   /** Insert full match date in to the db.*/
-
   public void insertFullMatchData(CurrentGameInfoBaseModel gameModel) {
     String sql = "INSERT INTO \"FullMatchHistory\"(\"mapId\", \"gameMode\", \"gameType\",\"participants\")VALUES (?, ?, ?, ?);";
     Object[] params = {gameModel.getMapId(), gameModel.getGameMode(), gameModel.getGameType(),

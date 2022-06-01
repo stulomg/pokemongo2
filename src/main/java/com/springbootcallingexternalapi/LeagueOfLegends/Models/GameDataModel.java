@@ -4,7 +4,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**Ignore properties other than the assigned ones.*/
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameDataModel {
 
@@ -19,7 +18,6 @@ public class GameDataModel {
   private int championPoints;
 
   /** Model for the game data model.*/
-
   public GameDataModel(String championName, String summonerName, boolean win,
       String individualPosition, int championPoints) {
     this.championName = championName;

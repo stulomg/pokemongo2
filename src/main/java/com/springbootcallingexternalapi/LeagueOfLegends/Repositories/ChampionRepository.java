@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /** Scan repository class.*/
-
 @Repository
 public class ChampionRepository {
 
@@ -19,7 +18,6 @@ public class ChampionRepository {
   private JdbcTemplate jdbcTemplate;
 
   /** Retrieve champion id by champion name.*/
-
   public Long retrieveChampionIdByChampionName(String championName)
       throws ChampionNotFoundException, CharacterNotAllowedException {
     String sql = "SELECT \"ChampionId\" FROM \"Champion\" WHERE LOWER (\"ChampionName\")=?";

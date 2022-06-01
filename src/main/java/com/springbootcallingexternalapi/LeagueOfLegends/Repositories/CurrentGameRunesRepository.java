@@ -8,14 +8,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /** Scan repository class.*/
-
 @Repository
 public class CurrentGameRunesRepository {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
   /** Scan repository class.*/
-
   public void insertRunes (CurrentGameInfoRuneModel currentGameInfoRuneModel)
       throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();

@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /** Scan repository class.*/
-
 @Repository
 public class ServerRepository {
 
@@ -14,7 +13,6 @@ public class ServerRepository {
   private JdbcTemplate jdbcTemplate;
 
   /** Insert server status in to the db.*/
-
   public void insertServerStatus(MaintenancesStatusModel maintenancesStatusModel) {
     String sql = "INSERT INTO \"ServerStatus\" "
         + "(\"name\",\"locales\",\"maintenances\",\"incidents\") VALUES(?,?,?,?)";
