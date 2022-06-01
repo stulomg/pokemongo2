@@ -33,7 +33,8 @@ public class SecurityUserModel {
   private String password;
   @NotNull
   @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+  @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<SecurityRoleModel> securityRoleModels = new HashSet<>();
 
   public SecurityUserModel() {

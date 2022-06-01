@@ -3,7 +3,6 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.GlobalVariable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Test;
@@ -42,7 +41,7 @@ public class RiotRestControllerTest {
   public void getMasterySuccessfullyDefaultCase() throws Exception {
     jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
     AccountBaseModel baseModel = new AccountBaseModel(
-        "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
+        "4ErJjwg277eqtqEvfGvWDbI55AWp17i4sht2-kE0HcyI",
         "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x4",
         "dkiVwTUbuZMVmqV0T6-KIDOGTrBeeqoJhR5It3ksJ3j1UwM2Dmk1rm2NVcjyffiF-hHBtXRpnkjXAw",
         "Darkclaw",
@@ -51,7 +50,7 @@ public class RiotRestControllerTest {
     Integer owner = 1;
     accountRepository.insertAccount(baseModel, owner);
     String token = securityUserService.generateToken();
-    mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/darkclaw/evelynn")
+    mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Darkclaw/evelynn")
         .header("authorization", token)).andExpect(status().isOk()).andReturn();
   }
 

@@ -15,13 +15,11 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptio
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Position.PositionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.GlobalVariable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountForClashDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoRuneModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameSuperMetaDataModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.GlobalVariable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaintenancesStatusModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
@@ -206,7 +204,8 @@ public class RiotRequestorService {
 
   /**This function retrieves a Live match players runes. */
   public CurrentGameInfoRuneModel getCurrentGameRunes(String account)
-      throws AccountNotFoundException, CharacterNotAllowedException, AccountNotFoundDbException, JsonProcessingException {
+      throws AccountNotFoundException, CharacterNotAllowedException,
+      AccountNotFoundDbException, JsonProcessingException {
 
     if (isAlpha(account)) {
       String id = accountRepository.retrieveIdRiotByAccount(account);
