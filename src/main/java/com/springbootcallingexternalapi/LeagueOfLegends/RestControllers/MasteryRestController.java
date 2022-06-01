@@ -21,7 +21,7 @@ public class MasteryRestController {
   @GetMapping(value = "/account/masteryHistory/{account}")
   public ResponseEntity<Object> accountMasteryHistory(@PathVariable String account) {
     try {
-      return new ResponseEntity<>(masteryService.AccountMasteryHistory(account), HttpStatus.OK);
+      return new ResponseEntity<>(masteryService.accountMasteryHistory(account), HttpStatus.OK);
     } catch (CharacterNotAllowedException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     } catch (AccountNotFoundException e1) {
