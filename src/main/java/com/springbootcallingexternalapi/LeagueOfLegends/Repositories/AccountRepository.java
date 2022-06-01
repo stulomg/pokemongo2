@@ -4,7 +4,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDbException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
@@ -170,14 +170,14 @@ public class AccountRepository {
 
   /** Retrieve riot id by account.*/
   public String retrieveIdRiotByAccount(String account)
-      throws CharacterNotAllowedException, AccountNotFoundDBException {
+      throws CharacterNotAllowedException, AccountNotFoundDbException {
     String sql = "SELECT id FROM \"Account\" WHERE LOWER(name) =?;";
     Object[] params = {account.toLowerCase(Locale.ROOT)};
     if (isAlpha(account)) {
       try {
         return jdbcTemplate.queryForObject(sql, params, String.class);
       } catch (EmptyResultDataAccessException e) {
-        throw new AccountNotFoundDBException(account);
+        throw new AccountNotFoundDbException(account);
       }
     } else {
       throw new CharacterNotAllowedException(account);
@@ -186,14 +186,14 @@ public class AccountRepository {
 
   /** Retrieve riot puuid by account.*/
   public String retrievePuuidRiotByAccount(String account)
-      throws CharacterNotAllowedException, AccountNotFoundDBException {
+      throws CharacterNotAllowedException, AccountNotFoundDbException {
     String sql = "SELECT puuid FROM \"Account\" WHERE LOWER(name) =?;";
     Object[] params = {account.toLowerCase(Locale.ROOT)};
     if (isAlpha(account)) {
       try {
         return jdbcTemplate.queryForObject(sql, params, String.class);
       } catch (EmptyResultDataAccessException e) {
-        throw new AccountNotFoundDBException(account);
+        throw new AccountNotFoundDbException(account);
       }
     } else {
       throw new CharacterNotAllowedException(account);

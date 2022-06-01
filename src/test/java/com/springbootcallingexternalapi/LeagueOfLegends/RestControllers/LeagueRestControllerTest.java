@@ -147,5 +147,4 @@ public class LeagueRestControllerTest {
         .andExpect(status().isBadRequest())
         .andExpect(content().string("kusi>> has characters not allowed"));
   }
-
 }

@@ -1,6 +1,6 @@
 package com.springbootcallingexternalapi.Twitter.TwitterRestControllers;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.DBNotAvaliableException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.DbNotAvaliableException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.TwitterExceptions.HashtagAlreadyRegisterException;
 import com.springbootcallingexternalapi.Twitter.TwitterServices.TwitterRequestorService;
@@ -25,7 +25,7 @@ public class TwitterRestController {
     Object response = null;
     try {
       response = twitterRequestorService.getRiotTweets();
-    } catch (DBNotAvaliableException e) {
+    } catch (DbNotAvaliableException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.REQUEST_TIMEOUT);
     }
     return new ResponseEntity<>(response, HttpStatus.OK);

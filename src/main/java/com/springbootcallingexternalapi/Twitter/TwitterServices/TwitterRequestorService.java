@@ -1,6 +1,6 @@
 package com.springbootcallingexternalapi.Twitter.TwitterServices;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.DBNotAvaliableException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.DbNotAvaliableException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.TwitterExceptions.HashtagAlreadyRegisterException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.TweetsBigDataModel;
@@ -32,7 +32,7 @@ public class TwitterRequestorService {
 
   /**This function allows us to request to Twitter. */
   public <T> ResponseEntity<T> requestToTwitterHashtags(String uri, HttpMethod method,
-      Class<T> clazz) throws DBNotAvaliableException {
+      Class<T> clazz) throws DbNotAvaliableException {
     HttpHeaders headers = new HttpHeaders();
     headers.add("Authorization", BEARER_TOKEN);
     List<String> hashtags = hashtagsRepository.retrieveHashtags();
@@ -58,7 +58,7 @@ public class TwitterRequestorService {
   }
 
   /**This function get all tweets related to RiotGames. */
-  public ResponseEntity<TweetsBigDataModel> getRiotTweets() throws DBNotAvaliableException {
+  public ResponseEntity<TweetsBigDataModel> getRiotTweets() throws DbNotAvaliableException {
     String uri = "/tweets/search/recent?query={query}&max_results={max_results}"
         + "&sort_order={sort_order}";
     ResponseEntity<TweetsBigDataModel> response = requestToTwitterHashtags(uri, HttpMethod.GET,

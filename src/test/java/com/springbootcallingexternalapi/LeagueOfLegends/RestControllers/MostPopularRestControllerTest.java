@@ -180,8 +180,4 @@ class MostPopularRestControllerTest {
         .andExpect(status().isNotFound())
         .andExpect(content().string("There is not enough data to perform the query"));
   }
-
 }
-
-
-
