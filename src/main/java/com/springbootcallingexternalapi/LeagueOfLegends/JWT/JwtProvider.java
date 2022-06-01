@@ -14,20 +14,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+/** Generate the JWT for the Login. */
 @Component
 public class JwtProvider {
 
-  private final static Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+  private final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
   @Value("${jwt.secret}")
   private String secret;
   @Value("${jwt.expiration}")
   private int expiration;
 
+  /** Function that generates the JWT. */
   public String generateToken(Authentication authentication) {
-    SecurityUserMainModel securityUserMainModel = (SecurityUserMainModel) authentication.getPrincipal();
+    SecurityUserMainModel securityUserMainModel =
+        (SecurityUserMainModel) authentication.getPrincipal();
     return "Bearer " + Jwts.builder().setSubject(securityUserMainModel.getUsername())
         .setIssuedAt(new Date())
-        .setExpiration(new Date(new Date().getTime() + expiration * 1000))
+        .setExpiration(new Date(new Date().getTime() + expiration * 1000L))
         .signWith(SignatureAlgorithm.HS512, secret)
         .compact();
   }
@@ -36,6 +39,7 @@ public class JwtProvider {
     return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
   }
 
+  /** Validate the JWT. */
   public boolean validateToken(String token) {
     try {
       Jwts.parser().setSigningKey(secret).parseClaimsJws(token);

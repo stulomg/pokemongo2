@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+/** League class controller. */
 @RestController
 public class LeagueRestController {
 
   @Autowired
   LeagueService leagueService;
 
+  /** Endpoint to search the history of divisions according to the account in the application. */
   @GetMapping(value = "/account/division-history/{account}")
   public ResponseEntity<Object> divisionHistory(@PathVariable String account) {
 
@@ -31,6 +33,7 @@ public class LeagueRestController {
     }
   }
 
+  /** Endpoint to find the maximum division between two owners in the application. */
   @GetMapping(value = "/account/max-division/{owner}/{owner2}")
   public ResponseEntity<Object> divisionComparison(@PathVariable String owner,
       @PathVariable String owner2) {
