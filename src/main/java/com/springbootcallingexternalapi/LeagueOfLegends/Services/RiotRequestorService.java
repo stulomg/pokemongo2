@@ -5,7 +5,7 @@ import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifie
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDbException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionNotFoundException;
@@ -204,7 +204,7 @@ public class RiotRequestorService {
 
   /**This function retrieves a Live match players runes. */
   public CurrentGameInfoRuneModel getCurrentGameRunes(String account)
-      throws AccountNotFoundException, CharacterNotAllowedException, AccountNotFoundDbException {
+      throws AccountNotFoundException, CharacterNotAllowedException, AccountNotFoundDbException, JsonProcessingException {
 
     if (isAlpha(account)) {
       String id = accountRepository.retrieveIdRiotByAccount(account);
