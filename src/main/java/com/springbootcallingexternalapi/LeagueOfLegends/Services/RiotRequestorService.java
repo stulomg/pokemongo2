@@ -20,6 +20,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBa
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoRuneModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameSuperMetaDataModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.GlobalVariable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaintenancesStatusModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
