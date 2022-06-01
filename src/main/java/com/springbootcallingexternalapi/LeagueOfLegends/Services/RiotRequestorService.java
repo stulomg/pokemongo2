@@ -227,7 +227,7 @@ public class RiotRequestorService {
       throws AccountNotFoundException, ChampionNotFoundException, CharacterNotAllowedException, AccountDataException, ChampionMasteryNotFoundException, PositionNotFoundException, AccountNotFoundDBException {
 
     String puuid = accountRepository.retrievePuuidRiotByAccount(account);
-    String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=440&start=0&count=10";
+    String uri = "/lol/match/v5/matches/by-puuid/" + puuid + "/ids?queue=420&start=0&count=5";
     ResponseEntity<List> response = requestToRiot2(uri, HttpMethod.GET, List.class);
     List<String> listMatches = response.getBody();
     List<Object> list = new ArrayList<Object>();
