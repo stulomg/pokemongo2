@@ -204,7 +204,8 @@ public class RiotRequestorService {
 
   /**This function retrieves a Live match players runes. */
   public CurrentGameInfoRuneModel getCurrentGameRunes(String account)
-      throws AccountNotFoundException, CharacterNotAllowedException, AccountNotFoundDbException, JsonProcessingException {
+      throws AccountNotFoundException, CharacterNotAllowedException,
+      AccountNotFoundDbException, JsonProcessingException {
 
     if (isAlpha(account)) {
       String id = accountRepository.retrieveIdRiotByAccount(account);

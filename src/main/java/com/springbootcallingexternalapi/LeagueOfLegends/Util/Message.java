@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Util;
 
+/**Shows a message. */
 public class Message {
 
   private String message;

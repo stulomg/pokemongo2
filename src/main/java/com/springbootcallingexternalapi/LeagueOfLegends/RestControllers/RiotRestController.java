@@ -150,8 +150,8 @@ public class RiotRestController {
       Object response = riotRequestorService.getAccountsForClash(account);
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (AccountNotFoundException | ChampionNotFoundException
-             | AccountDataException | ChampionMasteryNotFoundException |
-             AccountNotFoundDbException e) {
+             | AccountDataException | ChampionMasteryNotFoundException
+        | AccountNotFoundDbException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     } catch (CharacterNotAllowedException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
