@@ -40,13 +40,12 @@ CREATE TABLE IF NOT EXISTS public."Account"
     owner integer NOT NULL,
     name text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT "Account_pkey" PRIMARY KEY ("id_BD"),
-    CONSTRAINT "Uk_id" UNIQUE (id),
+    CONSTRAINT "UK_nameAccount" UNIQUE (name),
     CONSTRAINT id_owner FOREIGN KEY (owner)
-        REFERENCES public."Owner" (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-        NOT VALID
-)
+            REFERENCES public."Owner" (id) MATCH SIMPLE
+            ON UPDATE NO ACTION
+            ON DELETE NO ACTION
+    )
 
 TABLESPACE pg_default;
 

@@ -115,11 +115,11 @@ public class AccountRepository {
    */
   public void accountUpdateExisting(AccountBaseModel model, Integer owner)
       throws CharacterNotAllowedException, AccountNotFoundException {
-    String sql = "UPDATE \"Account\" SET name=?, \"accountid\"=?, puuid=?,\"revisionDate\"=?,"
-        + " owner=? WHERE id=?";
-    Object[] params = {model.getName().toLowerCase(Locale.ROOT), model.getAccountId(),
+    String sql = "UPDATE \"Account\" SET id=? , \"accountid\"=?, puuid=?,\"revisionDate\"=?,"
+        + " owner=? WHERE name=?";
+    Object[] params = {model.getId(), model.getAccountId(),
         model.getPuuid(),
-        model.getRevisionDate(), owner, model.getId()};
+        model.getRevisionDate(), owner, model.getName().toLowerCase(Locale.ROOT)};
     if (isAlpha(model.getName())) {
       int result = jdbcTemplate.update(sql, params);
       if (result == 0) {
