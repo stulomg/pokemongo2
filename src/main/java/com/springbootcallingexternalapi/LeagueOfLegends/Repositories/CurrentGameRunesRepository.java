@@ -14,7 +14,7 @@ public class CurrentGameRunesRepository {
   private JdbcTemplate jdbcTemplate;
 
   /** Scan repository class.*/
-  public void insertRunes (CurrentGameInfoRuneModel currentGameInfoRuneModel)
+  public void insertRunes(CurrentGameInfoRuneModel currentGameInfoRuneModel)
       throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
 

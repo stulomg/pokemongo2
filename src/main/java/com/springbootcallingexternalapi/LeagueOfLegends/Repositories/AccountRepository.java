@@ -30,7 +30,8 @@ public class AccountRepository {
   /** Insert account in the DB.*/
   public void insertAccount(AccountBaseModel account, Integer owner)
       throws AccountDataException, AccountExistsOrNotException {
-    String sql = "INSERT INTO \"Account\"(id, puuid, accountid, \"revisionDate\", \"owner\", name) VALUES (?, ?, ?, ?, ?, ?);";
+    String sql = "INSERT INTO \"Account\"(id, puuid, accountid, \"revisionDate\", \"owner\", name)"
+        + " VALUES (?, ?, ?, ?, ?, ?);";
     Object[] params = {
         account.getId(),
         account.getPuuid(),
