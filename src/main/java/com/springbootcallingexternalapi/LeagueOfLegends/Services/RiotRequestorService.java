@@ -11,6 +11,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExce
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.PlayerNotInGameException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.NotRelationshipException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Position.PositionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
@@ -46,7 +47,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -329,13 +329,13 @@ public class RiotRequestorService {
    * This function find the relationship between two players.
    */
   public Object playersRelationship(String account1, String account2)
-      throws CharacterNotAllowedException, AccountNotFoundException {
+      throws CharacterNotAllowedException, AccountNotFoundException, NotRelationshipException {
     List<String> list1 = relationshipRepository.getPlayersMatched(account1);
     List<String> list2 = relationshipRepository.getPlayersMatched(account2);
     list2.retainAll(list1);
 
     if (list2.isEmpty() || list2 == null) {
-      return new ResponseEntity<>("The players have no relation", HttpStatus.OK);
+      throw new NotRelationshipException(account1,account2);
     } else {
       return list2.toString();
     }

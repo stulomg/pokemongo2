@@ -8,6 +8,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExce
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.PlayerNotInGameException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.NotRelationshipException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions.OwnerNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Position.PositionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
@@ -187,7 +188,7 @@ public class RiotRestController {
       response = riotRequestorService.playersRelationship(account1, account2);
     } catch (CharacterNotAllowedException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    } catch (AccountNotFoundException e) {
+    } catch (AccountNotFoundException | NotRelationshipException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
     return new ResponseEntity<>(response, HttpStatus.OK);
