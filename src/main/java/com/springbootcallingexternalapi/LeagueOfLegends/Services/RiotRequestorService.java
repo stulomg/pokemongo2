@@ -15,11 +15,13 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptio
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Position.PositionNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.QueueNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.GlobalVariable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountForClashDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoRuneModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameSuperMetaDataModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.GlobalVariable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MaintenancesStatusModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
@@ -57,7 +59,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class RiotRequestorService {
 
-  private static final String RIOT_TOKEN = "RGAPI-2e7cc45a-5269-46cb-ae9c-c4bd7787e2f7";
+  String riotToken = GlobalVariable.RIOT_TOKEN;
 
   Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -170,7 +172,7 @@ public class RiotRequestorService {
   public <T> ResponseEntity<T> requestToRiot(String uri, HttpMethod method, Class<T> clazz) {
     String finalUrl = "https://la1.api.riotgames.com" + uri;
     HttpHeaders headers = new HttpHeaders();
-    headers.add("X-Riot-Token", RIOT_TOKEN);
+    headers.add("X-Riot-Token", riotToken);
     HttpEntity<String> entity = new HttpEntity<>("", headers);
     return restTemplate.exchange(finalUrl, method, entity, clazz);
   }
@@ -178,7 +180,7 @@ public class RiotRequestorService {
   private <T> ResponseEntity<T> requestToRiot2(String uri, HttpMethod method, Class<T> clazz) {
     String finalUrl = "https://americas.api.riotgames.com" + uri;
     HttpHeaders headers = new HttpHeaders();
-    headers.add("X-Riot-Token", RIOT_TOKEN);
+    headers.add("X-Riot-Token", riotToken);
     HttpEntity<String> entity = new HttpEntity<>("", headers);
     return restTemplate.exchange(finalUrl, method, entity, clazz);
   }

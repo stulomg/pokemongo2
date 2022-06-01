@@ -3,6 +3,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.GlobalVariable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @AutoConfigureMockMvc
 public class RiotRestControllerTest {
 
-  private static final String RIOT_TOKEN = "RGAPI-2e7cc45a-5269-46cb-ae9c-c4bd7787e2f7";
+  String riotToken = GlobalVariable.RIOT_TOKEN;
   @Autowired
   JdbcTemplate jdbcTemplate;
   @Autowired
