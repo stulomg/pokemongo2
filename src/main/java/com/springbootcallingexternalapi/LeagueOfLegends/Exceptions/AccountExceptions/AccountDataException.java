@@ -18,7 +18,7 @@ public class AccountDataException extends Exception {
   }
 
   public AccountDataException(LeagueInfoModel account) {
-    super("Th data entered for the account " + account.getSummonerName()
+    super("The data entered for the account " + account.getSummonerName()
         + " is not valid, please rectify");
   }
 
