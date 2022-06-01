@@ -1,5 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
+/** Model for the clash account. */
+
 public class AccountForClashDataModel {
 
   private String teamId;

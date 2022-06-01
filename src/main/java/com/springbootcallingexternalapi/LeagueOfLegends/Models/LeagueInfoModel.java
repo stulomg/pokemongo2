@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import java.sql.Timestamp;
 
+/** Model for the league info.*/
 
 public class LeagueInfoModel {
 
@@ -22,6 +23,8 @@ public class LeagueInfoModel {
   private Integer elo;
 
   private String owner;
+
+  /** Constructor for the league info.*/
 
 
   public LeagueInfoModel(Timestamp date, String leagueId, String queueType, String tier,

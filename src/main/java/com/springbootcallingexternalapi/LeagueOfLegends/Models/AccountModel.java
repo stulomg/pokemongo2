@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
+/** Model for the account. */
 
 public class AccountModel {
 
@@ -17,6 +18,8 @@ public class AccountModel {
 
   private String ownerName;
 
+  /** Constructor for the model. */
+
   public AccountModel(String id, String accountId, String puuid, String name, Long revisionDate,
       Integer owner, String ownerName) {
     this.id = id;
@@ -27,6 +30,8 @@ public class AccountModel {
     this.owner = owner;
     this.ownerName = ownerName;
   }
+
+  /** Constructor for the model. */
 
   public AccountModel(String id, String accountId, String puuid, String name, Long revisionDate,
       Integer owner) {

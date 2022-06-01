@@ -2,6 +2,8 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import java.sql.Timestamp;
 
+/** Model for the mastery history.*/
+
 public class MasteryHistoryInfoModel {
 
   private Integer champion;
@@ -13,6 +15,8 @@ public class MasteryHistoryInfoModel {
   private Timestamp date;
 
   private Integer account;
+
+  /** Constructor for the mastery history.*/
 
   public MasteryHistoryInfoModel(Integer champion, int championLevel, int championPoints,
       Timestamp date, Integer account) {

@@ -18,6 +18,6 @@ public class MasteryService {
   public Object AccountMasteryHistory(String account)
       throws CharacterNotAllowedException, AccountNotFoundException {
     Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
-    return masteryRepository.AccountMasteryHistory(account, accountID);
+    return masteryRepository.accountMasteryHistory(account, accountID);
   }
 }

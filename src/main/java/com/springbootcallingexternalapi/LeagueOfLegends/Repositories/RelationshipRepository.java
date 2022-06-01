@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+/** Scan repository class.*/
+
 @Repository
 public class RelationshipRepository {
 
@@ -16,11 +18,13 @@ public class RelationshipRepository {
   @Autowired
   JdbcTemplate jdbcTemplate;
 
+  /** Get players matched.*/
+
   public List<String> getPlayersMatched(String account)
       throws CharacterNotAllowedException, AccountNotFoundException {
-    Integer AccoundId = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
+    Integer accountId = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
     String sql = "SELECT \"id_Jugador\" FROM \"Account_Jugador\" WHERE \"id_Account\"=?";
-    Object[] params = {AccoundId};
+    Object[] params = {accountId};
     List<String> listPlayersMatched = jdbcTemplate.query(sql, params,
         BeanPropertyRowMapper.newInstance(String.class));
     return listPlayersMatched;

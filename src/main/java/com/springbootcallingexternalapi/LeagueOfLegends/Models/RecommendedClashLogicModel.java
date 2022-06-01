@@ -1,17 +1,21 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
+/** Model for the recommended clash logic.*/
+
 public class RecommendedClashLogicModel {
 
   private Integer account;
   private Integer champion;
   private Integer gamesChampion;
-  private Integer TotalGamesAccount;
+  private Integer totalGamesAccount;
   private Integer masteryChampion;
-  private Integer TotalMasteryAccount;
-  private Integer GamesWinChampion;
+  private Integer totalMasteryAccount;
+  private Integer gamesWinChampion;
 
   public RecommendedClashLogicModel() {
   }
+
+  /** Constructor for the recommended clash logic.*/
 
   public RecommendedClashLogicModel(Integer account, Integer champion, Integer gamesChampion,
       Integer totalGamesAccount, Integer masteryChampion, Integer totalMasteryAccount,
@@ -19,10 +23,10 @@ public class RecommendedClashLogicModel {
     this.account = account;
     this.champion = champion;
     this.gamesChampion = gamesChampion;
-    TotalGamesAccount = totalGamesAccount;
+    this.totalGamesAccount = totalGamesAccount;
     this.masteryChampion = masteryChampion;
-    TotalMasteryAccount = totalMasteryAccount;
-    GamesWinChampion = gamesWinChampion;
+    this.totalMasteryAccount = totalMasteryAccount;
+    this.gamesWinChampion = gamesWinChampion;
   }
 
   public Integer getAccount() {
@@ -50,11 +54,11 @@ public class RecommendedClashLogicModel {
   }
 
   public Integer getTotalGamesAccount() {
-    return TotalGamesAccount;
+    return totalGamesAccount;
   }
 
   public void setTotalGamesAccount(Integer totalGamesAccount) {
-    TotalGamesAccount = totalGamesAccount;
+    this.totalGamesAccount = totalGamesAccount;
   }
 
   public Integer getMasteryChampion() {
@@ -66,18 +70,18 @@ public class RecommendedClashLogicModel {
   }
 
   public Integer getTotalMasteryAccount() {
-    return TotalMasteryAccount;
+    return totalMasteryAccount;
   }
 
   public void setTotalMasteryAccount(Integer totalMasteryAccount) {
-    TotalMasteryAccount = totalMasteryAccount;
+    this.totalMasteryAccount = totalMasteryAccount;
   }
 
   public Integer getGamesWinChampion() {
-    return GamesWinChampion;
+    return gamesWinChampion;
   }
 
   public void setGamesWinChampion(Integer gamesWinChampion) {
-    GamesWinChampion = gamesWinChampion;
+    this.gamesWinChampion = gamesWinChampion;
   }
 }

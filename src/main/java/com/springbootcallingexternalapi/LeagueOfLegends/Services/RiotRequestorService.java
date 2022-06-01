@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
 import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
@@ -193,7 +194,7 @@ public class RiotRequestorService {
   }
 
   public CurrentGameInfoRuneModel getCurrentGameRunes(String account)
-      throws AccountNotFoundException, CharacterNotAllowedException, AccountNotFoundDBException {
+      throws AccountNotFoundException, CharacterNotAllowedException, AccountNotFoundDBException, JsonProcessingException {
 
       if (isAlpha(account)) {
           String id = accountRepository.retrieveIdRiotByAccount(account);

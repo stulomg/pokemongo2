@@ -1,5 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
+/** Model for the recommended clash response.*/
+
 public class RecommendedClashResponseModel {
 
   private Integer account;
@@ -9,6 +11,8 @@ public class RecommendedClashResponseModel {
 
   public RecommendedClashResponseModel() {
   }
+
+  /** Constructor for the recommended clash response.*/
 
   public RecommendedClashResponseModel(Integer account, Integer recommendPosition,
       Integer gamesPlayed, Integer recommendChampion) {

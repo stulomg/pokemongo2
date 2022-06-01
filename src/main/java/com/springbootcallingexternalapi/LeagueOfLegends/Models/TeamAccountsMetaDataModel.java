@@ -1,5 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
+/** Model for the team accounts meta data.*/
+
 public class TeamAccountsMetaDataModel {
 
   private TeamAccountsForClashDataModel[] players;

@@ -2,6 +2,8 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import java.util.Arrays;
 
+/**Model for the current game.*/
+
 public class CurrentGameInfoBaseModel {
 
   private Long mapId;
@@ -11,6 +13,8 @@ public class CurrentGameInfoBaseModel {
   private String gameType;
 
   private CurrentGameParticipantModel[] participants;
+
+  /**Constructor for the current game.*/
 
   public CurrentGameInfoBaseModel(Long mapId, String gameMode, String gameType,
       CurrentGameParticipantModel[] participants) {
@@ -25,12 +29,8 @@ public class CurrentGameInfoBaseModel {
 
   @Override
   public String toString() {
-    return "CurrentGameInfoBaseModel{" +
-        "mapId=" + mapId +
-        ", gameMode='" + gameMode + '\'' +
-        ", gameType='" + gameType + '\'' +
-        ", participants=" + Arrays.toString(participants) +
-        '}';
+    return "CurrentGameInfoBaseModel{" + "mapId=" + mapId + ", gameMode='" + gameMode + '\'' + ","
+        + " gameType='" + gameType + '\'' + ", participants=" + Arrays.toString(participants) + '}';
   }
 
   public Long getMapId() {

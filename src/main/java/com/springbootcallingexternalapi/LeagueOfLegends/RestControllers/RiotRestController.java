@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
@@ -98,7 +99,7 @@ public class RiotRestController {
     try {
       CurrentGameInfoRuneModel response = riotRequestorService.getCurrentGameRunes(account);
       return new ResponseEntity<>(response, HttpStatus.OK);
-    } catch (CharacterNotAllowedException e) {
+    } catch (CharacterNotAllowedException | JsonProcessingException e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     } catch (AccountNotFoundException | AccountNotFoundDBException e1) {
       return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);

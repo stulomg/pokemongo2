@@ -16,13 +16,17 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+/** Scan repository class.*/
+
 @Repository
 public class LeagueRepository {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  public void insertLeagueInfo(LeagueInfoModel leagueInfoModel, Integer accountID, Integer ownerID)
+  /** Insert the league info in to the db.*/
+
+  public void insertLeagueInfo(LeagueInfoModel leagueInfoModel, Integer accountId, Integer ownerId)
       throws AccountDataException {
     String sql = "INSERT INTO \"LeagueHistory\"(date, leagueid, \"queueType\", tier, rank, "
         + "\"leaguePoints\", \"Elo\", account, owner) VALUES (?,?,?,?,?,?,?,?,?);";
@@ -34,8 +38,8 @@ public class LeagueRepository {
         leagueInfoModel.getRank(),
         leagueInfoModel.getLeaguePoints(),
         leagueInfoModel.getElo(),
-        accountID,
-        ownerID
+        accountId,
+        ownerId
     };
     try {
       jdbcTemplate.update(sql, params);
@@ -44,10 +48,12 @@ public class LeagueRepository {
     }
   }
 
-  public List<LeagueInfoModel> divisionHistory(String account, Integer accountID)
+  /** Select the division history from the db.*/
+
+  public List<LeagueInfoModel> divisionHistory(String account, Integer accountId)
       throws CharacterNotAllowedException, LeagueDataNotFoundException {
     String sql = "SELECT * FROM \"LeagueHistory\" WHERE \"account\" =? ORDER BY \"date\" DESC LIMIT 20;";
-    Object[] params = {accountID};
+    Object[] params = {accountId};
     if (isAlpha(account)) {
       List<LeagueInfoModel> listOfLeagues = jdbcTemplate.query(sql, params,
           BeanPropertyRowMapper.newInstance(LeagueInfoModel.class));
@@ -60,10 +66,12 @@ public class LeagueRepository {
     throw new CharacterNotAllowedException(account);
   }
 
-  public List<MaxDivisionModel> getMaxDivision(String owner, String owner2, Integer ownerID,
-      Integer owner2ID) throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner {
+  /** Select the maximum division from the information in the database.*/
+
+  public List<MaxDivisionModel> getMaxDivision(String owner, String owner2, Integer ownerId,
+      Integer owner2Id) throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner {
     String sql = "SELECT  \"account\", \"tier\",\"rank\",\"date\" FROM \"LeagueHistory\" WHERE owner =? or owner =? GROUP BY \"account\", \"tier\", \"rank\",\"date\" ORDER BY  MAX (\"Elo\") DESC  LIMIT 1";
-    Object[] params = {ownerID, owner2ID};
+    Object[] params = {ownerId, owner2Id};
     if (isAlpha(owner) && isAlpha(owner2)) {
       List<MaxDivisionModel> infoList = jdbcTemplate.query(sql, params,
           BeanPropertyRowMapper.newInstance(MaxDivisionModel.class));

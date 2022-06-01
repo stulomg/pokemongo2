@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/** Scan repository class.*/
+
 @Repository
 public interface SecurityUserRepository extends JpaRepository<SecurityUserModel, Integer> {
 

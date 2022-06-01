@@ -1,5 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
+/** Model for the recommended clash data.*/
+
 public class RecommendedClashDataModel {
 
   private String participant;
