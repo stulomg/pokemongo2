@@ -5,6 +5,7 @@ import com.springbootcallingexternalapi.Twitter.TwitterRepository.TweetRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**This class let us save a tweet into MongoDB Database. */
 @Service
 public class TweetService {
 
