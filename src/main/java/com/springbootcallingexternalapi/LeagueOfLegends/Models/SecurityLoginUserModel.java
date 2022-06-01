@@ -2,7 +2,9 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import javax.validation.constraints.NotBlank;
 
-/** Model for the security user login.*/
+/**
+ * Model for the security user login.
+ */
 public class SecurityLoginUserModel {
 
   @NotBlank

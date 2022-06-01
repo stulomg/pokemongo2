@@ -17,7 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-/**This class host all the function that request to Twitter Api. */
+/**
+ * This class host all the function that request to Twitter Api.
+ */
 @Service
 public class TwitterRequestorService {
 
@@ -30,7 +32,9 @@ public class TwitterRequestorService {
   @Autowired
   TweetService tweetService;
 
-  /**This function allows us to request to Twitter. */
+  /**
+   * This function allows us to request to Twitter.
+   */
   public <T> ResponseEntity<T> requestToTwitterHashtags(String uri, HttpMethod method,
       Class<T> clazz) throws DbNotAvaliableException {
     HttpHeaders headers = new HttpHeaders();
@@ -46,7 +50,9 @@ public class TwitterRequestorService {
     return restTemplate.exchange(finalUrl, method, entity, clazz, variables);
   }
 
-  /**This function insert a hashtag into a database. */
+  /**
+   * This function insert a hashtag into a database.
+   */
   public void insertHashtag(String hashtag)
       throws HashtagAlreadyRegisterException, CharacterNotAllowedException {
     hashtag = "#" + hashtag;
@@ -57,7 +63,9 @@ public class TwitterRequestorService {
     }
   }
 
-  /**This function get all tweets related to RiotGames. */
+  /**
+   * This function get all tweets related to RiotGames.
+   */
   public ResponseEntity<TweetsBigDataModel> getRiotTweets() throws DbNotAvaliableException {
     String uri = "/tweets/search/recent?query={query}&max_results={max_results}"
         + "&sort_order={sort_order}";

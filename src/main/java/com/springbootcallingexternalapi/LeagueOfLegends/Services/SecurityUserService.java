@@ -24,7 +24,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-/**This class host the functions for security login. */
+/**
+ * This class host the functions for security login.
+ */
 @Service
 @Transactional
 @EnableCaching
@@ -59,6 +61,9 @@ public class SecurityUserService {
     securityUserRepository.save(user);
   }
 
+  /**
+   * This function allows you to create a new user for login.
+   */
   public void newUser(SecurityNewUserModel newUser) {
     SecurityUserModel user =
         new SecurityUserModel(newUser.getName(),
@@ -74,6 +79,9 @@ public class SecurityUserService {
     securityUserRepository.save(user);
   }
 
+  /**
+   * This function logs an user.
+   */
   public SecurityJwtDtoModel login(SecurityLoginUserModel securityLoginUserModel) {
     Authentication authentication =
         authenticationManager.authenticate(
@@ -87,6 +95,9 @@ public class SecurityUserService {
     return securityJwtDtoModel;
   }
 
+  /**
+   * This function generate a token for authentication .
+   */
   public String generateToken() {
     jdbcTemplate.execute("TRUNCATE TABLE \"user\" RESTART IDENTITY CASCADE");
     SecurityNewUserModel dataNewUser = new SecurityNewUserModel(

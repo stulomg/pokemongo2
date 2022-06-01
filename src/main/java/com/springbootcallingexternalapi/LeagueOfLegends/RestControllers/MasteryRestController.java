@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Mastery class controller. */
+/**
+ * Mastery class controller.
+ */
 @RestController
 public class MasteryRestController {
 
   @Autowired
   MasteryService masteryService;
 
-  /** Endpoint to search for the masters with the champions of an account in the application. */
+  /**
+   * Endpoint to search for the masters with the champions of an account in the application.
+   */
   @GetMapping(value = "/account/masteryHistory/{account}")
   public ResponseEntity<Object> accountMasteryHistory(@PathVariable String account) {
     try {

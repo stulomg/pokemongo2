@@ -11,14 +11,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Owner class controller. */
+/**
+ * Owner class controller.
+ */
 @RestController
 public class OwnerRestController {
 
   @Autowired
   OwnerService ownerService;
 
-  /** Endpoint to register a new owner in the application. */
+  /**
+   * Endpoint to register a new owner in the application.
+   */
   @GetMapping(value = "/account/new-owner")
   public ResponseEntity<Object> newOwner(@RequestBody OwnerModel ownerModel) {
     try {

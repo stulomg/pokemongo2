@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-/** Generate the JWT for the Login. */
+/**
+ * Generate the JWT for the Login.
+ */
 @Component
 public class JwtProvider {
 
@@ -24,7 +26,9 @@ public class JwtProvider {
   @Value("${jwt.expiration}")
   private int expiration;
 
-  /** Function that generates the JWT. */
+  /**
+   * Function that generates the JWT.
+   */
   public String generateToken(Authentication authentication) {
     SecurityUserMainModel securityUserMainModel =
         (SecurityUserMainModel) authentication.getPrincipal();
@@ -39,7 +43,9 @@ public class JwtProvider {
     return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
   }
 
-  /** Validate the JWT. */
+  /**
+   * Validate the JWT.
+   */
   public boolean validateToken(String token) {
     try {
       Jwts.parser().setSigningKey(secret).parseClaimsJws(token);

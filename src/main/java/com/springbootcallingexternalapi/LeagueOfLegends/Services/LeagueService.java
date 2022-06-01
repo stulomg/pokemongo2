@@ -14,7 +14,9 @@ import java.sql.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**This class host function that give you information from Account SoloQ. */
+/**
+ * This class host function that give you information from Account SoloQ.
+ */
 @Service
 public class LeagueService {
 
@@ -25,7 +27,9 @@ public class LeagueService {
   @Autowired
   OwnerRepository ownerRepository;
 
-  /**This function insert SoloQ info into our DataBase. */
+  /**
+   * This function insert SoloQ info into our DataBase.
+   */
   public void insertLeagueInfo(LeagueInfoModel leagueInfoModel, String account)
       throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
     leagueInfoModel.setElo(calculateElo(leagueInfoModel.getTier(), leagueInfoModel.getRank(),
@@ -42,7 +46,9 @@ public class LeagueService {
     return leagueRepository.divisionHistory(account, accountId);
   }
 
-  /**This function allows you to get the max division reached of 2 summoners. */
+  /**
+   * This function allows you to get the max division reached of 2 summoners.
+   */
   public Object getMaxDivision(String owner, String owner2)
       throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner,
       CharacterNotAllowedException {

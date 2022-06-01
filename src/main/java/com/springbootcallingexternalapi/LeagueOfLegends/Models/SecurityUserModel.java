@@ -14,7 +14,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-/** Hibernate tells him to make a class table.*/
+/**
+ * Hibernate tells him to make a class table.
+ */
 @Entity
 @Table(name = "user", schema = "public")
 public class SecurityUserModel {
@@ -33,13 +35,16 @@ public class SecurityUserModel {
   private String password;
   @NotNull
   @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+  @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<SecurityRoleModel> securityRoleModels = new HashSet<>();
 
   public SecurityUserModel() {
   }
 
-  /** Constructor for the security user.*/
+  /**
+   * Constructor for the security user.
+   */
   public SecurityUserModel(@NotNull String name, @NotNull String userName, @NotNull String email,
       @NotNull String password) {
     this.name = name;

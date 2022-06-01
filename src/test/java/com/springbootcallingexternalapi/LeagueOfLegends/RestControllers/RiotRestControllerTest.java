@@ -3,6 +3,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.GlobalVariable;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @AutoConfigureMockMvc
 public class RiotRestControllerTest {
 
-  private static final String RIOT_TOKEN = "RGAPI-2b7bdd63-d0a7-404b-8b84-bace9ec4d7ef";
+  String riotToken = GlobalVariable.RIOT_TOKEN;
   @Autowired
   JdbcTemplate jdbcTemplate;
   @Autowired
@@ -41,7 +42,7 @@ public class RiotRestControllerTest {
   public void getMasterySuccessfullyDefaultCase() throws Exception {
     jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
     AccountBaseModel baseModel = new AccountBaseModel(
-        "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
+        "4ErJjwg277eqtqEvfGvWDbI55AWp17i4sht2-kE0HcyI",
         "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x4",
         "dkiVwTUbuZMVmqV0T6-KIDOGTrBeeqoJhR5It3ksJ3j1UwM2Dmk1rm2NVcjyffiF-hHBtXRpnkjXAw",
         "Darkclaw",
@@ -50,7 +51,7 @@ public class RiotRestControllerTest {
     Integer owner = 1;
     accountRepository.insertAccount(baseModel, owner);
     String token = securityUserService.generateToken();
-    mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/darkclaw/evelynn")
+    mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Darkclaw/evelynn")
         .header("authorization", token)).andExpect(status().isOk()).andReturn();
   }
 
@@ -80,19 +81,6 @@ public class RiotRestControllerTest {
     String token = securityUserService.generateToken();
     mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Dark*claw/ez<<real")
         .header("authorization", token)).andExpect(status().isBadRequest());
-  }
-
-  @Test
-  public void accountDataExceptionEnGetMastery() {
-    //no se como hacerlo
-  }
-
-  @Test
-  public void serverStatusDefault() throws Exception {
-    String token = securityUserService.generateToken();
-    mockMvc.perform(
-            MockMvcRequestBuilders.get("/call-riot/server/status").header("authorization", token))
-        .andExpect(status().isOk()).andReturn();
   }
 
   @Test

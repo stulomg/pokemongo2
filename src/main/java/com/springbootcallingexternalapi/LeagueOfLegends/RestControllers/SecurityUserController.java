@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Security class controller. */
+/**
+ * Security class controller.
+ */
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin
@@ -27,7 +29,9 @@ public class SecurityUserController {
   @Autowired
   SecurityUserService securityUserService;
 
-  /** Endpoint to register a new user in the application. */
+  /**
+   * Endpoint to register a new user in the application.
+   */
   @PostMapping("/newUser")
   public ResponseEntity<?> newUser(@Valid @RequestBody SecurityNewUserModel newUser) {
     try {
@@ -46,7 +50,9 @@ public class SecurityUserController {
     }
   }
 
-  /** Endpoint to log in according to a user in the application. */
+  /**
+   * Endpoint to log in according to a user in the application.
+   */
   @PostMapping("/login")
   @Cacheable(value = "logins", key = "#securityLoginUserModel.userName")
   public ResponseEntity<SecurityJwtDtoModel> login(

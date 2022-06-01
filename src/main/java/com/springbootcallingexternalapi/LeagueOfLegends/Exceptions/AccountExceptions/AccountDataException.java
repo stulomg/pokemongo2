@@ -4,7 +4,9 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.LeagueInfoModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.MasteryHistoryInfoModel;
 
-/** Exceptions for entered account data.*/
+/**
+ * Exceptions for entered account data.
+ */
 public class AccountDataException extends Exception {
 
   public AccountDataException(AccountBaseModel account) {

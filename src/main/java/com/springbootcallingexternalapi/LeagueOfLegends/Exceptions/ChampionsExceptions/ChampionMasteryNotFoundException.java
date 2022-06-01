@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions;
 
-/** Exceptions for when a champion has not mastery.*/
+/**
+ * Exceptions for when a champion has not mastery.
+ */
 public class ChampionMasteryNotFoundException extends Exception {
 
   public ChampionMasteryNotFoundException(String championName) {

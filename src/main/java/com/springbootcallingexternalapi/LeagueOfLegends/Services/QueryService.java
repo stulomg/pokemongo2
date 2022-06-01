@@ -14,14 +14,18 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**This class host the services that let you create a custom query to our Account database. */
+/**
+ * This class host the services that let you create a custom query to our Account database.
+ */
 @Service
 public class QueryService {
 
   @Autowired
   QueryRepository queryRepository;
 
-  /**This function allows you to register a custom query into our database. */
+  /**
+   * This function allows you to register a custom query into our database.
+   */
   public List<QueryResponseModel> specificQuery(QueryModel queryModel)
       throws QuerySyntaxErrorException, QueryInvalidParameterException, QueryCriteriaExistException,
       NoDataException {

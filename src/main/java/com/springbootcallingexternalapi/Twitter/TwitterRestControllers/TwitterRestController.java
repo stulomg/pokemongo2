@@ -12,14 +12,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**This class host the function to add hashtags. */
+/**
+ * This class host the function to add hashtags.
+ */
 @RestController
 public class TwitterRestController {
 
   @Autowired
   TwitterRequestorService twitterRequestorService;
 
-  /**This function get tweets with pre saved hashtags. */
+  /**
+   * This function get tweets with pre saved hashtags.
+   */
   @GetMapping(value = "/call-twitter/community/tweets/riot_games")
   public ResponseEntity<Object> getRiotTweets() {
     Object response = null;
@@ -31,7 +35,9 @@ public class TwitterRestController {
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
-  /**This function insert a new hashtag to the list. */
+  /**
+   * This function insert a new hashtag to the list.
+   */
   @PostMapping(value = "/insert/twitter/{hashtag}")
   public ResponseEntity<Object> insertHashtags(@PathVariable String hashtag) {
     try {

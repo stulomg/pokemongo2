@@ -13,15 +13,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Clash class controller. */
+/**
+ * Clash class controller.
+ */
 @RestController
 public class RecommendedClashRestController {
 
   @Autowired
   RecommendedClashService recommendedClashService;
 
-  /** Endpoint to recommend position and champion to choose
-   *  from 5 accounts previously registered in the application. */
+  /**
+   * Endpoint to recommend position and champion to choose from 5 accounts previously registered in
+   * the application.
+   */
   @GetMapping(value = "/loldata/clash/recommended")
   public ResponseEntity<Object> getRecommendedRole(
       @RequestBody List<RecommendedClashDataModel> data) {

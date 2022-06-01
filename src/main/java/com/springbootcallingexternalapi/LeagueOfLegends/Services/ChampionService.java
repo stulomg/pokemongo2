@@ -6,14 +6,18 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.ChampionRep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**This class host the function to bring info about League of legends champions. */
+/**
+ * This class host the function to bring info about League of legends champions.
+ */
 @Service
 public class ChampionService {
 
   @Autowired
   ChampionRepository championRepository;
 
-  /**This function allows to bring the championId giving a championName. */
+  /**
+   * This function allows to bring the championId giving a championName.
+   */
   public Long retrieveChampionIdByChampionName(String championName)
       throws ChampionNotFoundException, CharacterNotAllowedException {
 

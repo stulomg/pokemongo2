@@ -12,7 +12,9 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/** This is the class that host the CRUD services for Riot Games Accounts. */
+/**
+ * This is the class that host the CRUD services for Riot Games Accounts.
+ */
 @Service
 public class AccountService {
 
@@ -21,7 +23,9 @@ public class AccountService {
   @Autowired
   OwnerRepository ownerRepository;
 
-  /** This function delet an account from database. */
+  /**
+   * This function delet an account from database.
+   */
   public void deleteAccount(String account)
       throws AccountOrOwnerNotFoundException, CharacterNotAllowedException, OwnerNotFoundException,
       AccountNotFoundException {
@@ -30,7 +34,9 @@ public class AccountService {
     accountRepository.deleteAccount(account, ownerId);
   }
 
-  /** This function retrieve an Account info bringing the Account Owner. */
+  /**
+   * This function retrieve an Account info bringing the Account Owner.
+   */
   public List<AccountModel> retrieveAccountByOwner(String owner)
       throws CharacterNotAllowedException, OwnerNotFoundException {
     Integer ownerId = Math.toIntExact(
@@ -38,7 +44,9 @@ public class AccountService {
     return accountRepository.retrieveAccountByOwner(owner.toLowerCase(Locale.ROOT), ownerId);
   }
 
-  /** This function allows you to update an account info. */
+  /**
+   * This function allows you to update an account info.
+   */
   public void accountUpdate(AccountModel model)
       throws CharacterNotAllowedException, AccountNotFoundException, OwnerNotFoundException {
     Integer ownerId = Math.toIntExact(
@@ -46,7 +54,9 @@ public class AccountService {
     accountRepository.accountUpdate(model, ownerId);
   }
 
-  /**This function retrieve an Account info bringing the Account Owner. */
+  /**
+   * This function retrieve an Account info bringing the Account Owner.
+   */
   public List<AccountModel> retrieveAccountByName(String name)
       throws CharacterNotAllowedException, AccountNotFoundException {
     return accountRepository.retrieveAccountByAccountName(name.toLowerCase(Locale.ROOT));

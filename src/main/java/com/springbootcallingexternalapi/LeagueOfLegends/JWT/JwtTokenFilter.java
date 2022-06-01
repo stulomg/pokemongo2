@@ -14,7 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-/** Check the JWT to verify its authenticity. */
+/**
+ * Check the JWT to verify its authenticity.
+ */
 public class JwtTokenFilter extends OncePerRequestFilter {
 
   private final Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);

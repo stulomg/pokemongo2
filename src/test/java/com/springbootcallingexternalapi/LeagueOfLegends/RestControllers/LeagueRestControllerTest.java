@@ -79,11 +79,11 @@ public class LeagueRestControllerTest {
   @Test
   void divisionHistoryLeagueNotFoundException() throws Exception {
 
-    riotRequestorService.getAccountAndAssignToOwner("Darkclaw", "stul");
+    riotRequestorService.getAccountAndAssignToOwner("Visk", "testuno");
     String token = securityUserService.generateToken();
-    mockMvc.perform(get("/account/division-history/Darkclaw").header("authorization", token))
+    mockMvc.perform(get("/account/division-history/Visk").header("authorization", token))
         .andExpect(status().isNotFound())
-        .andExpect(content().string("The SoloQ data for Darkclaw does not exist"));
+        .andExpect(content().string("The SoloQ data for Visk does not exist"));
   }
 
   @Test

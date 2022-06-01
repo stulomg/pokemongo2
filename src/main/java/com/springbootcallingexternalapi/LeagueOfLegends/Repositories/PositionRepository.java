@@ -10,14 +10,18 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-/** Scan repository class.*/
+/**
+ * Scan repository class.
+ */
 @Repository
 public class PositionRepository {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  /** Retrieve position id by position name.*/
+  /**
+   * Retrieve position id by position name.
+   */
   public Long retrievePositionIdByPositionName(String positionName)
       throws CharacterNotAllowedException, PositionNotFoundException {
     String sql = "SELECT id FROM \"Position\" WHERE LOWER(\"namePosition\")=?;";

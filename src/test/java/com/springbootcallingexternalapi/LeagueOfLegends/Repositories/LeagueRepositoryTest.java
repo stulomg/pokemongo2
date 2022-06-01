@@ -160,7 +160,7 @@ public class LeagueRepositoryTest {
           5,
           "s"
       );
-      repository.insertLeagueInfo(baseModel, 5, 1);
+      repository.insertLeagueInfo(baseModel, 100, 1);
     });
   }
 
