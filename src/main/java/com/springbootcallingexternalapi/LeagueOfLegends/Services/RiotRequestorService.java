@@ -57,7 +57,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class RiotRequestorService {
 
-  private static final String RIOT_TOKEN = "RGAPI-2e7cc45a-5269-46cb-ae9c-c4bd7787e2f7";
+  private static final String RIOT_TOKEN = "RGAPI-7f7d7e8f-776d-44bf-943f-49b220f028e3";
 
   Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
