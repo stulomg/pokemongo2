@@ -16,12 +16,14 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+/** Scan repository class.*/
 @Repository
 public class QueryRepository {
 
   @Autowired
   JdbcTemplate jdbcTemplate;
 
+  /** Insert new query.*/
   public void newQuery(QueryModel queryModel) throws QueryCriteriaExistException {
     String sqlSave = "INSERT INTO \"SpecificQuery\"(criteria, query) VALUES (?, ?);";
     Object[] params = {
@@ -35,6 +37,7 @@ public class QueryRepository {
     }
   }
 
+  /** Call a new query.*/
   public List<QueryResponseModel> specificQuery(QueryModel queryModel)
       throws QuerySyntaxErrorException, NoDataException {
     try {
@@ -51,6 +54,7 @@ public class QueryRepository {
     }
   }
 
+  /** Shows a list of query.*/
   public List<QueryModel> listQuery() throws QueryNoDataException {
     String sql = "SELECT * FROM \"SpecificQuery\"";
     List<QueryModel> querySpecific = jdbcTemplate.query(sql,
@@ -61,6 +65,7 @@ public class QueryRepository {
     return querySpecific;
   }
 
+  /** Filter a query.*/
   public QueryModel filterQuery(String criteria) throws QueryFilterNoDataException {
     String sql = "SELECT * FROM \"SpecificQuery\" WHERE \"criteria\" = ?;";
     Object[] params = {criteria};

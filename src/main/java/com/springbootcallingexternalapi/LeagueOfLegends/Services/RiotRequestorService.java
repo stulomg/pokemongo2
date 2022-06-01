@@ -2,9 +2,10 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Services;
 
 import static com.springbootcallingexternalapi.LeagueOfLegends.Util.AlphaVerifier.isAlpha;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDbException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionMasteryNotFoundException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.ChampionsExceptions.ChampionNotFoundException;
@@ -82,8 +83,8 @@ public class RiotRequestorService {
   RelationshipRepository relationshipRepository;
   @Autowired
   CurrentGameRunesRepository currentGameRunesRepository;
-  String ajsdhfa = "sdjfas";
 
+  /**This retrieve an account info from Riot Api and assign to a local owner. */
   public AccountBaseModel getAccountAndAssignToOwner(String account, String owner)
       throws AccountDataException, AccountNotFoundException, CharacterNotAllowedException,
       OwnerNotFoundException {

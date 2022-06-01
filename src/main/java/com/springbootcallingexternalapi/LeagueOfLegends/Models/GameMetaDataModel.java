@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**Ignore properties other than the assigned ones.*/
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameMetaDataModel {
 

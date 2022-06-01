@@ -121,7 +121,7 @@ public class MasteryRepositoryTest {
     repository.insertMasteryInfo(basemodel);
     repository.insertMasteryInfo(basemodel2);
 
-    List<MasteryHistoryModel> resultSet = repository.AccountMasteryHistory("testuno", 1);
+    List<MasteryHistoryModel> resultSet = repository.accountMasteryHistory("testuno", 1);
     Assertions.assertEquals(2, resultSet.size());
     MasteryHistoryModel result = resultSet.get(0);
 
@@ -145,7 +145,7 @@ public class MasteryRepositoryTest {
     String account = "pepito";
 
     Exception exception = assertThrows(AccountNotFoundException.class,
-        () -> repository.AccountMasteryHistory(account, 50));
+        () -> repository.accountMasteryHistory(account, 50));
 
     String expectedMessage = "The account pepito was not found, please rectify";
     String actualMessage = exception.getMessage();
@@ -168,7 +168,7 @@ public class MasteryRepositoryTest {
     String account = "<<<";
 
     Exception exception = assertThrows(CharacterNotAllowedException.class,
-        () -> repository.AccountMasteryHistory(account, 50));
+        () -> repository.accountMasteryHistory(account, 50));
 
     String expectedMessage = " has characters not allowed";
     String actualMessage = exception.getMessage();

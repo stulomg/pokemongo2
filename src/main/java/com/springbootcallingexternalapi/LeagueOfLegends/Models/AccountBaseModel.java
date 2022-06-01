@@ -1,6 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-/**Insert comment. */
+/** Base model for the account. */
 public class AccountBaseModel {
 
   private String id;
@@ -9,7 +9,7 @@ public class AccountBaseModel {
   private String name;
   private Long revisionDate;
 
-  /**Insert comment. */
+  /** Constructor for the model. */
   public AccountBaseModel(String id, String accountId, String puuid, String name,
       Long revisionDate) {
     this.id = id;

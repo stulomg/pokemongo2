@@ -3,6 +3,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 
+/** Model for the security Jwt Dto.*/
 public class SecurityJwtDtoModel {
 
   private String token;
@@ -10,6 +11,7 @@ public class SecurityJwtDtoModel {
   private String userName;
   private Collection<? extends GrantedAuthority> authorities;
 
+  /** Constructor for the security Jwt Dto.*/
   public SecurityJwtDtoModel(String token, String userName,
       Collection<? extends GrantedAuthority> authorities) {
     this.token = token;

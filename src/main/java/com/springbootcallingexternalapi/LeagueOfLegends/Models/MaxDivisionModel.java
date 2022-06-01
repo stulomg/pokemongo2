@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import java.sql.Timestamp;
 
+/** Model for the max division.*/
 public class MaxDivisionModel {
 
   private Timestamp date;
@@ -15,6 +16,7 @@ public class MaxDivisionModel {
   public MaxDivisionModel() {
   }
 
+  /** Constructor for the max division.*/
   public MaxDivisionModel(Timestamp date, String tier, String rank, String account) {
     this.date = date;
     this.tier = tier;
