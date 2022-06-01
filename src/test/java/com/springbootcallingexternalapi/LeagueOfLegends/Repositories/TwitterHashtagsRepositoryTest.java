@@ -1,7 +1,7 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.DBNotAvaliableException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.DbNotAvaliableException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
 import com.springbootcallingexternalapi.Twitter.TwitterRepository.HashtagsRepository;
@@ -36,7 +36,7 @@ public class TwitterHashtagsRepositoryTest {
 
   @Test
   void insertHashtagSuccessfullyDefaultCase()
-      throws DBNotAvaliableException, CharacterNotAllowedException {
+      throws DbNotAvaliableException, CharacterNotAllowedException {
 
     String test = "#pepito";
 

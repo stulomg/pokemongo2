@@ -1,9 +1,9 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions;
 
 /** Exceptions for when an account is not in the database.*/
-public class AccountNotFoundDBException extends Exception {
+public class AccountNotFoundDbException extends Exception {
 
-  public AccountNotFoundDBException(String account) {
+  public AccountNotFoundDbException(String account) {
     super("The account " + account + " was not registered");
   }
 }
