@@ -231,8 +231,6 @@ public class RiotRequestorService {
           CurrentGameInfoRuneModel.class);
       CurrentGameInfoRuneModel model = response2.getBody();
 
-      currentGameRunesRepository.insertRunes(model);
-
       return response2.getBody();
     } else {
       throw new CharacterNotAllowedException(account);
