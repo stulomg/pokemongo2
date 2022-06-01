@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/** Security class controller. */
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin
@@ -26,6 +27,7 @@ public class SecurityUserController {
   @Autowired
   SecurityUserService securityUserService;
 
+  /** Endpoint to register a new user in the application. */
   @PostMapping("/newUser")
   public ResponseEntity<?> newUser(@Valid @RequestBody SecurityNewUserModel newUser) {
     try {
@@ -33,7 +35,8 @@ public class SecurityUserController {
       return new ResponseEntity(new Message("New registered user"), HttpStatus.CREATED);
     } catch (ConstraintViolationException e) {
       return new ResponseEntity<>(new Message(
-          "Incomplete information, information need to be added in the following order: name, userName, email, password"),
+          "Incomplete information, information need to be added in the following order: "
+              + "name, userName, email, password"),
           HttpStatus.BAD_REQUEST);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(new Message("Password is required"), HttpStatus.BAD_REQUEST);
@@ -43,6 +46,7 @@ public class SecurityUserController {
     }
   }
 
+  /** Endpoint to log in according to a user in the application. */
   @PostMapping("/login")
   @Cacheable(value = "logins", key = "#securityLoginUserModel.userName")
   public ResponseEntity<SecurityJwtDtoModel> login(
