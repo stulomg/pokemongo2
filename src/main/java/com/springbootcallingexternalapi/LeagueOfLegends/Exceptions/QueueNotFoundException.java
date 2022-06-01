@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions;
 
+/** Exception for when a account has not Soloq data. */
 public class QueueNotFoundException extends Exception {
 
   public QueueNotFoundException(String message) {

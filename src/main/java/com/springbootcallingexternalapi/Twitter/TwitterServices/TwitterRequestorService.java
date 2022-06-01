@@ -1,6 +1,6 @@
 package com.springbootcallingexternalapi.Twitter.TwitterServices;
 
-import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.DBNotAvaliableException;
+import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.DbNotAvaliableException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.GeneralExceptions.CharacterNotAllowedException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.TwitterExceptions.HashtagAlreadyRegisterException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.TweetsBigDataModel;
@@ -39,7 +39,7 @@ public class TwitterRequestorService {
   private StanfordCoreNLP pipeline;
 
   public <T> ResponseEntity<T> requestToTwitterHashtags(String uri, HttpMethod method,
-      Class<T> clazz) throws DBNotAvaliableException {
+      Class<T> clazz) throws DbNotAvaliableException {
     String finalUrl = "https://api.twitter.com/2" + uri;
     HttpHeaders headers = new HttpHeaders();
     headers.add("Authorization", BEARER_TOKEN);
@@ -64,7 +64,7 @@ public class TwitterRequestorService {
     }
   }
 
-  public ResponseEntity<TweetsBigDataModel> getRiotTweets() throws DBNotAvaliableException {
+  public ResponseEntity<TweetsBigDataModel> getRiotTweets() throws DbNotAvaliableException {
     String uri = "/tweets/search/recent?query={query}&max_results={max_results}&sort_order={sort_order}";
     ResponseEntity<TweetsBigDataModel> response = requestToTwitterHashtags(uri, HttpMethod.GET,
         TweetsBigDataModel.class);
