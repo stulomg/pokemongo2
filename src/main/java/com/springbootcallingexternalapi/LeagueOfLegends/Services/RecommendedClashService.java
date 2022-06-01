@@ -43,7 +43,6 @@ public class RecommendedClashService {
                     Double GamesWinChampion = Double.valueOf(recommendedClashChampionModel.get(j).getGamesWinChampion());
 
                     Double value = (GamesChamp/TotalGamesChampion) + (MasteryChampion/TotalMasteryChampion)+ (GamesWinChampion/GamesChamp);
-                    System.out.println(value);
                     if (value > champValue) {
                         champValue = value;
                         championReccomended.set(i,recommendedClashChampionModel.get(j).getChampion());
@@ -144,7 +143,16 @@ public class RecommendedClashService {
                     Data.setTotalGamesAccount((Integer) totalGamesAccount.get(i));
                     Data.setMasteryChampion(recommendedChampion.get(j).getMaxmastery());
                     Data.setTotalMasteryAccount((Integer) totalMasteryAccount.get(i));
-                    Data.setGamesWinChampion(championWin.get(j).getWin());
+                    for (int k = 0; k < championWin.size(); k++) {
+                        if (recommendedChampion.get(j).getAccount() == championWin.get(k).getAccount()) {
+                            if (recommendedChampion.get(j).getChampion() == championWin.get(k).getChampion()) {
+                                Data.setGamesWinChampion(championWin.get(k).getWin());
+                                break;
+                            }else {
+                                Data.setGamesWinChampion(0);
+                            }
+                        }
+                    }
                     recommendedClashLogicModel.add(Data);
                 }
             }

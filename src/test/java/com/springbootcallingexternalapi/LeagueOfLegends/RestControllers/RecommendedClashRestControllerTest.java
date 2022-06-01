@@ -3,7 +3,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.GameDataModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedClashDataModel;
-import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedClashRoleModel;
+import com.springbootcallingexternalapi.LeagueOfLegends.Models.RecommendedClashResponseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MatchRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
 import org.junit.jupiter.api.Assertions;
@@ -53,7 +53,7 @@ class RecommendedClashRestControllerTest {
         for (int i = 0; i < 10; i++) {
             GameDataModel dataSummoner = new GameDataModel();
             dataSummoner.setWin(true);
-            dataSummoner.setChampionPoints(0000);
+            dataSummoner.setChampionPoints(1000);
             if (i < 5) {
                 matchRepository.insertIndividualMatchData(dataSummoner,1,4,8);
             }else {
@@ -77,17 +77,20 @@ class RecommendedClashRestControllerTest {
                         .content(objectMapper.writeValueAsString(participants)))
                 .andExpect(status().isOk()).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
-        RecommendedClashRoleModel[] recommendedRole = new ObjectMapper().readValue(response, RecommendedClashRoleModel[].class);
+        RecommendedClashResponseModel[] recommendedRole = new ObjectMapper().readValue(response, RecommendedClashResponseModel[].class);
         for (int i = 0; i < recommendedRole.length; i++) {
             if (recommendedRole[i].getAccount() == 1) {
                 Assertions.assertEquals(4, recommendedRole[i].getRecommendPosition());
                 Assertions.assertEquals(5, recommendedRole[i].getGamesPlayed());
+                Assertions.assertEquals(8, recommendedRole[i].getRecommendChampion());
             }else if (recommendedRole[i].getAccount() == 2) {
                 Assertions.assertEquals(3, recommendedRole[i].getRecommendPosition());
                 Assertions.assertEquals(4, recommendedRole[i].getGamesPlayed());
+                Assertions.assertEquals(8, recommendedRole[i].getRecommendChampion());
             }else {
                 Assertions.assertEquals(0, recommendedRole[i].getRecommendPosition());
                 Assertions.assertEquals(0, recommendedRole[i].getRecommendPosition());
+                Assertions.assertEquals(0, recommendedRole[i].getRecommendChampion());
             }
         }
     }
@@ -105,7 +108,7 @@ class RecommendedClashRestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommended").header("authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(participants)))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isNotFound())
                 .andExpect(content().string("There is not enough data to perform the query"));
     }
     @Test
@@ -139,7 +142,7 @@ class RecommendedClashRestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/loldata/clash/recommended").header("authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(participants)))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isNotFound())
                 .andExpect(content().string("The account testcuatro was not found, please rectify"));
     }
 }
