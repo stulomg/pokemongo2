@@ -72,10 +72,10 @@ class RecommendedClashServiceTest {
             }
             participants.add(participant);
         }
-        List<RecommendedClashResponseModel> recommendedRoleResponse = recommendedClashService.recommendedClashService(participants);
-        Assertions.assertEquals(5, recommendedRoleResponse.size());
-        for (int i = 0; i < recommendedRoleResponse.size(); i++) {
-            RecommendedClashResponseModel result = recommendedRoleResponse.get(i);
+        List<RecommendedClashResponseModel> recommendedClash = recommendedClashService.recommendedClashService(participants);
+        Assertions.assertEquals(5, recommendedClash.size());
+        for (int i = 0; i < recommendedClash.size(); i++) {
+            RecommendedClashResponseModel result = recommendedClash.get(i);
             if (result.getAccount() == 1) {
                 Assertions.assertEquals(5,result.getRecommendPosition());
                 Assertions.assertEquals(12,result.getGamesPlayed());
