@@ -1,42 +1,41 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-import java.sql.Timestamp;
-
 public class MostPopularModel {
-    private Integer account;
-    private Integer champion;
-    private String date;
 
-    public MostPopularModel() {
-    }
+  private Integer account;
+  private Integer champion;
+  private String date;
 
-    public MostPopularModel(Integer account, Integer champion, String date) {
-        this.account = account;
-        this.champion = champion;
-        this.date = date;
-    }
+  public MostPopularModel() {
+  }
 
-    public Integer getAccount() {
-        return account;
-    }
+  public MostPopularModel(Integer account, Integer champion, String date) {
+    this.account = account;
+    this.champion = champion;
+    this.date = date;
+  }
 
-    public void setAccount(Integer account) {
-        this.account = account;
-    }
+  public Integer getAccount() {
+    return account;
+  }
 
-    public Integer getChampion() {
-        return champion;
-    }
+  public void setAccount(Integer account) {
+    this.account = account;
+  }
 
-    public void setChampion(Integer champion) {
-        this.champion = champion;
-    }
+  public Integer getChampion() {
+    return champion;
+  }
 
-    public String getDate() {
-        return date;
-    }
+  public void setChampion(Integer champion) {
+    this.champion = champion;
+  }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+  public String getDate() {
+    return date;
+  }
+
+  public void setDate(String date) {
+    this.date = date;
+  }
 }

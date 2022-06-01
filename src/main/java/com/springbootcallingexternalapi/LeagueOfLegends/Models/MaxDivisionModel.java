@@ -3,53 +3,54 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 import java.sql.Timestamp;
 
 public class MaxDivisionModel {
-    private Timestamp date;
 
-    private String tier;
+  private Timestamp date;
 
-    private String rank;
+  private String tier;
 
-    private String account;
+  private String rank;
 
-    public MaxDivisionModel() {
-    }
+  private String account;
 
-    public MaxDivisionModel(Timestamp date, String tier, String rank, String account) {
-        this.date = date;
-        this.tier = tier;
-        this.rank = rank;
-        this.account = account;
-    }
+  public MaxDivisionModel() {
+  }
 
-    public Timestamp getDate() {
-        return date;
-    }
+  public MaxDivisionModel(Timestamp date, String tier, String rank, String account) {
+    this.date = date;
+    this.tier = tier;
+    this.rank = rank;
+    this.account = account;
+  }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
-    }
+  public Timestamp getDate() {
+    return date;
+  }
 
-    public String getTier() {
-        return tier;
-    }
+  public void setDate(Timestamp date) {
+    this.date = date;
+  }
 
-    public void setTier(String tier) {
-        this.tier = tier;
-    }
+  public String getTier() {
+    return tier;
+  }
 
-    public String getRank() {
-        return rank;
-    }
+  public void setTier(String tier) {
+    this.tier = tier;
+  }
 
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
+  public String getRank() {
+    return rank;
+  }
 
-    public String getAccount() {
-        return account;
-    }
+  public void setRank(String rank) {
+    this.rank = rank;
+  }
 
-    public void setAccount(String account) {
-        this.account = account;
-    }
+  public String getAccount() {
+    return account;
+  }
+
+  public void setAccount(String account) {
+    this.account = account;
+  }
 }

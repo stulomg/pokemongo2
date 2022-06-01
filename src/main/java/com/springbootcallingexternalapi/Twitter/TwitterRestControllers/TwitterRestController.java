@@ -15,27 +15,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TwitterRestController {
 
-    @Autowired
-    TwitterRequestorService twitterRequestorService;
+  @Autowired
+  TwitterRequestorService twitterRequestorService;
 
-    @GetMapping (value = "/call-twitter/community/tweets/riot_games")
-    public ResponseEntity<Object> getRiotTweets(){
-        Object response = null;
-        try {
-            response = twitterRequestorService.getRiotTweets();
-        } catch (DBNotAvaliableException e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.REQUEST_TIMEOUT);
-        }
-        return new ResponseEntity<>(response,HttpStatus.OK);
+  @GetMapping(value = "/call-twitter/community/tweets/riot_games")
+  public ResponseEntity<Object> getRiotTweets() {
+    Object response = null;
+    try {
+      response = twitterRequestorService.getRiotTweets();
+    } catch (DBNotAvaliableException e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.REQUEST_TIMEOUT);
     }
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
 
-    @PostMapping (value = "/insert/twitter/{hashtag}")
-    public ResponseEntity<Object> insertHashtags(@PathVariable String hashtag){
-       try {
-           twitterRequestorService.insertHashtag(hashtag);
-       }catch (HashtagAlreadyRegisterException | CharacterNotAllowedException e){
-           return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-       }
-        return new ResponseEntity<>( hashtag + " hashtag created successfully", HttpStatus.OK);
+  @PostMapping(value = "/insert/twitter/{hashtag}")
+  public ResponseEntity<Object> insertHashtags(@PathVariable String hashtag) {
+    try {
+      twitterRequestorService.insertHashtag(hashtag);
+    } catch (HashtagAlreadyRegisterException | CharacterNotAllowedException e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    return new ResponseEntity<>(hashtag + " hashtag created successfully", HttpStatus.OK);
+  }
 }

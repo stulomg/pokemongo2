@@ -1,61 +1,63 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class AccountBaseModel {
-    private String id;
-    private String accountId;
-    private String puuid;
-    private String name;
-    private Long revisionDate;
 
-    public AccountBaseModel(String id, String accountId, String puuid, String name, Long revisionDate) {
-        this.id = id;
-        this.accountId = accountId;
-        this.puuid = puuid;
-        this.name = name;
-        this.revisionDate = revisionDate;
-    }
+  private String id;
+  private String accountId;
+  private String puuid;
+  private String name;
+  private Long revisionDate;
 
-    public AccountBaseModel() {
+  public AccountBaseModel(String id, String accountId, String puuid, String name,
+      Long revisionDate) {
+    this.id = id;
+    this.accountId = accountId;
+    this.puuid = puuid;
+    this.name = name;
+    this.revisionDate = revisionDate;
+  }
 
-    }
+  public AccountBaseModel() {
 
-    public String getId() {
-        return id;
-    }
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getAccountId() {
-        return accountId;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
+  public String getAccountId() {
+    return accountId;
+  }
 
-    public String getPuuid() {
-        return puuid;
-    }
+  public void setAccountId(String accountId) {
+    this.accountId = accountId;
+  }
 
-    public void setPuuid(String puuid) {
-        this.puuid = puuid;
-    }
+  public String getPuuid() {
+    return puuid;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setPuuid(String puuid) {
+    this.puuid = puuid;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Long getRevisionDate() {
-        return revisionDate;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setRevisionDate(Long revisionDate) {
-        this.revisionDate = revisionDate;
-    }
+  public Long getRevisionDate() {
+    return revisionDate;
+  }
+
+  public void setRevisionDate(Long revisionDate) {
+    this.revisionDate = revisionDate;
+  }
 }

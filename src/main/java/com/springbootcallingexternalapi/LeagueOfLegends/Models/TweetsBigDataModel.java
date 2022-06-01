@@ -1,30 +1,31 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class TweetsBigDataModel {
-    private TweetModel[] data;
-    private Object meta;
 
-    public TweetsBigDataModel(TweetModel[] data, Object meta) {
-        this.data = data;
-        this.meta = meta;
-    }
+  private TweetModel[] data;
+  private Object meta;
 
-    public TweetsBigDataModel() {
-    }
+  public TweetsBigDataModel(TweetModel[] data, Object meta) {
+    this.data = data;
+    this.meta = meta;
+  }
 
-    public TweetModel[] getData() {
-        return data;
-    }
+  public TweetsBigDataModel() {
+  }
 
-    public void setData(TweetModel[] data) {
-        this.data = data;
-    }
+  public TweetModel[] getData() {
+    return data;
+  }
 
-    public Object getMeta() {
-        return meta;
-    }
+  public void setData(TweetModel[] data) {
+    this.data = data;
+  }
 
-    public void setMeta(Object meta) {
-        this.meta = meta;
-    }
+  public Object getMeta() {
+    return meta;
+  }
+
+  public void setMeta(Object meta) {
+    this.meta = meta;
+  }
 }

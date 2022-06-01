@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TweetService {
-    @Autowired
-    TweetRepository tweetRepository;
-    public void saveTweet (TweetsBigDataModel tweetModel){
-        tweetRepository.save(tweetModel);
-    }
+
+  @Autowired
+  TweetRepository tweetRepository;
+
+  public void saveTweet(TweetsBigDataModel tweetModel) {
+    tweetRepository.save(tweetModel);
+  }
 }

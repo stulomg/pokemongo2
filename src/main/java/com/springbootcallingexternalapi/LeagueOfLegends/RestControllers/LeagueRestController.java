@@ -15,29 +15,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LeagueRestController {
-    @Autowired
-    LeagueService leagueService;
 
-    @GetMapping(value = "/account/division-history/{account}")
-    public ResponseEntity<Object> divisionHistory(@PathVariable String account) {
+  @Autowired
+  LeagueService leagueService;
 
-        try {
-            return new ResponseEntity<>(leagueService.divisionHistory(account), HttpStatus.OK);
-        } catch (CharacterNotAllowedException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (LeagueDataNotFoundException | AccountNotFoundException e1) {
-            return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
-        }
+  @GetMapping(value = "/account/division-history/{account}")
+  public ResponseEntity<Object> divisionHistory(@PathVariable String account) {
+
+    try {
+      return new ResponseEntity<>(leagueService.divisionHistory(account), HttpStatus.OK);
+    } catch (CharacterNotAllowedException e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    } catch (LeagueDataNotFoundException | AccountNotFoundException e1) {
+      return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
     }
+  }
 
-    @GetMapping(value = "/account/max-division/{owner}/{owner2}")
-    public ResponseEntity<Object> divisionComparison(@PathVariable String owner, @PathVariable String owner2) {
-        try {
-            return new ResponseEntity<>(leagueService.getMaxDivision(owner, owner2), HttpStatus.OK);
-        } catch (CharacterNotAllowedExceptionOwner | CharacterNotAllowedException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (OwnerNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+  @GetMapping(value = "/account/max-division/{owner}/{owner2}")
+  public ResponseEntity<Object> divisionComparison(@PathVariable String owner,
+      @PathVariable String owner2) {
+    try {
+      return new ResponseEntity<>(leagueService.getMaxDivision(owner, owner2), HttpStatus.OK);
+    } catch (CharacterNotAllowedExceptionOwner | CharacterNotAllowedException e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    } catch (OwnerNotFoundException e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+  }
 }

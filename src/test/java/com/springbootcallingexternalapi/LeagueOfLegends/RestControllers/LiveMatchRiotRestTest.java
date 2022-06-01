@@ -1,5 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.RestControllers;
 
+import static org.mockito.Mockito.doReturn;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGameInfoBaseModel;
@@ -7,6 +10,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Models.CurrentGamePartic
 import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.AccountRepository;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.RiotRequestorService;
 import com.springbootcallingexternalapi.LeagueOfLegends.Services.SecurityUserService;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,74 +23,78 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import java.util.Optional;
-import static org.mockito.Mockito.doReturn;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class LiveMatchRiotRestTest {
 
-    private static final String RIOT_TOKEN = "RGAPI-6a21e72b-cdff-4e03-a044-9a42f854884d";
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private SecurityUserService securityUserService;
-    @SpyBean
-    private RiotRequestorService riotRequestorService;
-    @InjectMocks
-    private RiotRestController riotRestController;
-    @Autowired
-    AccountRepository accountRepository;
+  private static final String RIOT_TOKEN = "RGAPI-6a21e72b-cdff-4e03-a044-9a42f854884d";
+  @Autowired
+  AccountRepository accountRepository;
+  @Autowired
+  private MockMvc mockMvc;
+  @Autowired
+  private SecurityUserService securityUserService;
+  @SpyBean
+  private RiotRequestorService riotRequestorService;
+  @InjectMocks
+  private RiotRestController riotRestController;
 
-    @Test
-    public void liveMatchSuccessfullyDefaultCase() throws Exception {
+  @Test
+  public void liveMatchSuccessfullyDefaultCase() throws Exception {
 
-        CurrentGameParticipantModel participant1 = new CurrentGameParticipantModel(
-                100L,
-                4L,
-                3L,
-                202L,
-                "hauries"
-        );
+    CurrentGameParticipantModel participant1 = new CurrentGameParticipantModel(
+        100L,
+        4L,
+        3L,
+        202L,
+        "hauries"
+    );
 
-        CurrentGameParticipantModel participant2 = new CurrentGameParticipantModel(
-                200L,
-                4L,
-                3L,
-                202L,
-                "pepito"
-        );
+    CurrentGameParticipantModel participant2 = new CurrentGameParticipantModel(
+        200L,
+        4L,
+        3L,
+        202L,
+        "pepito"
+    );
 
-        CurrentGameParticipantModel[] participants = {participant1, participant2};
+    CurrentGameParticipantModel[] participants = {participant1, participant2};
 
-        CurrentGameInfoBaseModel fakeCurrentGameInfoBaseModel = new CurrentGameInfoBaseModel(
-                11L,
-                "CLASSIC",
-                "MATCHED_GAME",
-                participants
-        );
+    CurrentGameInfoBaseModel fakeCurrentGameInfoBaseModel = new CurrentGameInfoBaseModel(
+        11L,
+        "CLASSIC",
+        "MATCHED_GAME",
+        participants
+    );
 
-        AccountBaseModel model = new AccountBaseModel(
-                "uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w",
-                "jsdfhaskdfh",
-                "jahdfjadshf",
-                "Hauries",
-                2853L
-        );
-        Integer owner = 1;
-        accountRepository.insertAccount(model,owner);
+    AccountBaseModel model = new AccountBaseModel(
+        "uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w",
+        "jsdfhaskdfh",
+        "jahdfjadshf",
+        "Hauries",
+        2853L
+    );
+    Integer owner = 1;
+    accountRepository.insertAccount(model, owner);
 
-        doReturn(ResponseEntity.of(Optional.of(model))).when(riotRequestorService).getAccountFromRiot("hauries");
+    doReturn(ResponseEntity.of(Optional.of(model))).when(riotRequestorService)
+        .getAccountFromRiot("hauries");
 
-        doReturn(ResponseEntity.of(Optional.of(fakeCurrentGameInfoBaseModel))).when(riotRequestorService).requestToRiot("/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w", HttpMethod.GET, CurrentGameInfoBaseModel.class);
+    doReturn(ResponseEntity.of(Optional.of(fakeCurrentGameInfoBaseModel))).when(
+        riotRequestorService).requestToRiot(
+        "/lol/spectator/v4/active-games/by-summoner/uxXUjTn9WObZzjvGayVLZVwCiKGxnkX5XyXOgh9Masbp6w",
+        HttpMethod.GET, CurrentGameInfoBaseModel.class);
 
-        String token = securityUserService.generateToken();
+    String token = securityUserService.generateToken();
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/live/match/hauries").header("authorization", token)).andExpect(status().isOk()).andReturn();
+    MvcResult mvcResult = mockMvc.perform(
+            MockMvcRequestBuilders.get("/call-riot/live/match/hauries").header("authorization", token))
+        .andExpect(status().isOk()).andReturn();
 
-        CurrentGameInfoBaseModel response = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class);
+    CurrentGameInfoBaseModel response = new ObjectMapper().readValue(
+        mvcResult.getResponse().getContentAsString(), CurrentGameInfoBaseModel.class);
 
-        Assertions.assertEquals(fakeCurrentGameInfoBaseModel.toString(), response.toString());
-    }
+    Assertions.assertEquals(fakeCurrentGameInfoBaseModel.toString(), response.toString());
+  }
 }

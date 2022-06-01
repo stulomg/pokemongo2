@@ -4,63 +4,64 @@ import java.util.Arrays;
 
 public class CurrentGameInfoBaseModel {
 
-    private Long mapId;
+  private Long mapId;
 
-    private String gameMode;
+  private String gameMode;
 
-    private String gameType;
+  private String gameType;
 
-    private CurrentGameParticipantModel[] participants;
+  private CurrentGameParticipantModel[] participants;
 
-    @Override
-    public String toString() {
-        return "CurrentGameInfoBaseModel{" +
-                "mapId=" + mapId +
-                ", gameMode='" + gameMode + '\'' +
-                ", gameType='" + gameType + '\'' +
-                ", participants=" + Arrays.toString(participants) +
-                '}';
-    }
+  public CurrentGameInfoBaseModel(Long mapId, String gameMode, String gameType,
+      CurrentGameParticipantModel[] participants) {
+    this.mapId = mapId;
+    this.gameMode = gameMode;
+    this.gameType = gameType;
+    this.participants = participants;
+  }
 
-    public CurrentGameInfoBaseModel(Long mapId, String gameMode, String gameType, CurrentGameParticipantModel[] participants) {
-        this.mapId = mapId;
-        this.gameMode = gameMode;
-        this.gameType = gameType;
-        this.participants = participants;
-    }
+  public CurrentGameInfoBaseModel() {
+  }
 
-    public CurrentGameInfoBaseModel() {
-    }
+  @Override
+  public String toString() {
+    return "CurrentGameInfoBaseModel{" +
+        "mapId=" + mapId +
+        ", gameMode='" + gameMode + '\'' +
+        ", gameType='" + gameType + '\'' +
+        ", participants=" + Arrays.toString(participants) +
+        '}';
+  }
 
-    public Long getMapId() {
-        return mapId;
-    }
+  public Long getMapId() {
+    return mapId;
+  }
 
-    public void setMapId(Long mapId) {
-        this.mapId = mapId;
-    }
+  public void setMapId(Long mapId) {
+    this.mapId = mapId;
+  }
 
-    public String getGameMode() {
-        return gameMode;
-    }
+  public String getGameMode() {
+    return gameMode;
+  }
 
-    public void setGameMode(String gameMode) {
-        this.gameMode = gameMode;
-    }
+  public void setGameMode(String gameMode) {
+    this.gameMode = gameMode;
+  }
 
-    public String getGameType() {
-        return gameType;
-    }
+  public String getGameType() {
+    return gameType;
+  }
 
-    public void setGameType(String gameType) {
-        this.gameType = gameType;
-    }
+  public void setGameType(String gameType) {
+    this.gameType = gameType;
+  }
 
-    public CurrentGameParticipantModel[] getParticipants() {
-        return participants;
-    }
+  public CurrentGameParticipantModel[] getParticipants() {
+    return participants;
+  }
 
-    public void setParticipants(CurrentGameParticipantModel[] participants) {
-        this.participants = participants;
-    }
+  public void setParticipants(CurrentGameParticipantModel[] participants) {
+    this.participants = participants;
+  }
 }

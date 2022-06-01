@@ -1,65 +1,66 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 public class SecurityNewUserModel {
-    @NotBlank
-    private String name;
-    @NotBlank
-    private String userName;
-    @Email
-    private String email;
-    @NotBlank
-    private String password;
-    private Set<String> roles = new HashSet<>();
 
-    public SecurityNewUserModel(String name, String userName, String email, String password) {
-        this.name = name;
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-    }
+  @NotBlank
+  private String name;
+  @NotBlank
+  private String userName;
+  @Email
+  private String email;
+  @NotBlank
+  private String password;
+  private Set<String> roles = new HashSet<>();
 
-    public String getName() {
-        return name;
-    }
+  public SecurityNewUserModel(String name, String userName, String email, String password) {
+    this.name = name;
+    this.userName = userName;
+    this.email = email;
+    this.password = password;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getUserName() {
-        return userName;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+  public String getUserName() {
+    return userName;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public Set<String> getRoles() {
-        return roles;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
-    }
+  public Set<String> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(Set<String> roles) {
+    this.roles = roles;
+  }
 }

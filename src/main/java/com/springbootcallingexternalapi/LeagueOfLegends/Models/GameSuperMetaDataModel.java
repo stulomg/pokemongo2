@@ -6,20 +6,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class GameSuperMetaDataModel {
 
 
-    private GameMetaDataModel info;
+  private GameMetaDataModel info;
 
-    public GameSuperMetaDataModel(GameMetaDataModel info) {
-        this.info = info;
-    }
+  public GameSuperMetaDataModel(GameMetaDataModel info) {
+    this.info = info;
+  }
 
-    public GameSuperMetaDataModel() {
-    }
+  public GameSuperMetaDataModel() {
+  }
 
-    public GameMetaDataModel getInfo() {
-        return info;
-    }
+  public GameMetaDataModel getInfo() {
+    return info;
+  }
 
-    public void setInfo(GameMetaDataModel info) {
-        this.info = info;
-    }
+  public void setInfo(GameMetaDataModel info) {
+    this.info = info;
+  }
 }

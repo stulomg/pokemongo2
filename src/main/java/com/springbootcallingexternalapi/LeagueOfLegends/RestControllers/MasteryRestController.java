@@ -12,17 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MasteryRestController {
-    @Autowired
-    MasteryService masteryService;
-    @GetMapping(value = "/account/masteryHistory/{account}")
 
-    public ResponseEntity<Object> AccountMasteryHistory(@PathVariable String account) {
-        try {
-            return new ResponseEntity<>(masteryService.AccountMasteryHistory(account), HttpStatus.OK);
-        } catch (CharacterNotAllowedException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (AccountNotFoundException e1) {
-            return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
-        }
+  @Autowired
+  MasteryService masteryService;
+
+  @GetMapping(value = "/account/masteryHistory/{account}")
+
+  public ResponseEntity<Object> AccountMasteryHistory(@PathVariable String account) {
+    try {
+      return new ResponseEntity<>(masteryService.AccountMasteryHistory(account), HttpStatus.OK);
+    } catch (CharacterNotAllowedException e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    } catch (AccountNotFoundException e1) {
+      return new ResponseEntity<>(e1.getMessage(), HttpStatus.NOT_FOUND);
     }
+  }
 }

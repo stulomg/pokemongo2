@@ -5,20 +5,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GameMetaDataModel {
 
-    private GameDataModel[] participants;
+  private GameDataModel[] participants;
 
-    public GameMetaDataModel(GameDataModel[] participants) {
-        this.participants = participants;
-    }
+  public GameMetaDataModel(GameDataModel[] participants) {
+    this.participants = participants;
+  }
 
-    public GameMetaDataModel() {
-    }
+  public GameMetaDataModel() {
+  }
 
-    public GameDataModel[] getParticipants() {
-        return participants;
-    }
+  public GameDataModel[] getParticipants() {
+    return participants;
+  }
 
-    public void setParticipants(GameDataModel[] participants) {
-        this.participants = participants;
-    }
+  public void setParticipants(GameDataModel[] participants) {
+    this.participants = participants;
+  }
 }
