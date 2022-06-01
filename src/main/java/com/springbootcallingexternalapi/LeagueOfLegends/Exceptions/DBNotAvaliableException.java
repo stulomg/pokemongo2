@@ -1,9 +1,9 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions;
 
 /** Exception for when a database connection error occurs. */
-public class DbNotAvaliableException extends Exception {
+public class DBNotAvaliableException extends Exception {
 
-  public DbNotAvaliableException() {
+  public DBNotAvaliableException() {
     super("Error establishing connection to database");
   }
 }
