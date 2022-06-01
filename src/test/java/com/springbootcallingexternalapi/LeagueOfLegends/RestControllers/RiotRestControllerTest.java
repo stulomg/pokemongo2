@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @AutoConfigureMockMvc
 public class RiotRestControllerTest {
 
-  private static final String RIOT_TOKEN = "RGAPI-2e7cc45a-5269-46cb-ae9c-c4bd7787e2f7";
+  private static final String RIOT_TOKEN = "RGAPI-7f7d7e8f-776d-44bf-943f-49b220f028e3";
   @Autowired
   JdbcTemplate jdbcTemplate;
   @Autowired
@@ -41,7 +41,7 @@ public class RiotRestControllerTest {
   public void getMasterySuccessfullyDefaultCase() throws Exception {
     jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
     AccountBaseModel baseModel = new AccountBaseModel(
-        "qwx-QX5fD0_freIh9Wai_5nVkDrZ2urz_VTfA74M9e9P",
+        "4ErJjwg277eqtqEvfGvWDbI55AWp17i4sht2-kE0HcyI",
         "nS4rwFEX4a58v9ghLVldu34nNV4_GVPLNnDJiRiLZLxG0x4",
         "dkiVwTUbuZMVmqV0T6-KIDOGTrBeeqoJhR5It3ksJ3j1UwM2Dmk1rm2NVcjyffiF-hHBtXRpnkjXAw",
         "Darkclaw",
@@ -50,7 +50,7 @@ public class RiotRestControllerTest {
     Integer owner = 1;
     accountRepository.insertAccount(baseModel, owner);
     String token = securityUserService.generateToken();
-    mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/darkclaw/evelynn")
+    mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Darkclaw/evelynn")
         .header("authorization", token)).andExpect(status().isOk()).andReturn();
   }
 
@@ -80,19 +80,6 @@ public class RiotRestControllerTest {
     String token = securityUserService.generateToken();
     mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/mastery/Dark*claw/ez<<real")
         .header("authorization", token)).andExpect(status().isBadRequest());
-  }
-
-  @Test
-  public void accountDataExceptionEnGetMastery() {
-    //no se como hacerlo
-  }
-
-  @Test
-  public void serverStatusDefault() throws Exception {
-    String token = securityUserService.generateToken();
-    mockMvc.perform(
-            MockMvcRequestBuilders.get("/call-riot/server/status").header("authorization", token))
-        .andExpect(status().isOk()).andReturn();
   }
 
   @Test
