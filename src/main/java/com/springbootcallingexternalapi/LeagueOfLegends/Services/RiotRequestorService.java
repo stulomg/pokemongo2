@@ -57,7 +57,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class RiotRequestorService {
 
-  private static final String RIOT_TOKEN = "RGAPI-2e7cc45a-5269-46cb-ae9c-c4bd7787e2f7";
+  private static final String RIOT_TOKEN = "RGAPI-2b7bdd63-d0a7-404b-8b84-bace9ec4d7ef";
 
   Logger logger = LoggerFactory.getLogger(RiotRequestorService.class);
 
@@ -212,8 +212,6 @@ public class RiotRequestorService {
       ResponseEntity<CurrentGameInfoRuneModel> response2 = requestToRiot(uri, HttpMethod.GET,
           CurrentGameInfoRuneModel.class);
       CurrentGameInfoRuneModel model = response2.getBody();
-
-      currentGameRunesRepository.insertRunes(model);
 
       return response2.getBody();
     } else {

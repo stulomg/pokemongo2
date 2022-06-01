@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @AutoConfigureMockMvc
 public class RiotRestControllerTest {
 
-  private static final String RIOT_TOKEN = "RGAPI-2e7cc45a-5269-46cb-ae9c-c4bd7787e2f7";
+  private static final String RIOT_TOKEN = "RGAPI-2b7bdd63-d0a7-404b-8b84-bace9ec4d7ef";
   @Autowired
   JdbcTemplate jdbcTemplate;
   @Autowired
