@@ -6,21 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+/** Scan repository class.*/
 @Repository
 public class MatchRepository {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  public void insertIndividualMatchData(GameDataModel gamedata, Integer accountID,
-      Integer positionID, Integer championID) {
+  /** Insert individual match date in to the db.*/
+  public void insertIndividualMatchData(GameDataModel gamedata, Integer accountId,
+      Integer positionId, Integer championId) {
 
     String sql = "INSERT INTO \"MatchHistory\"(account, \"position\", champion, \"championPoints\", win)VALUES (?, ?, ?, ?, ?);";
-    Object[] params = {accountID, positionID, championID, gamedata.getChampionPoints(),
+    Object[] params = {accountId, positionId, championId, gamedata.getChampionPoints(),
         gamedata.isWin()};
     jdbcTemplate.update(sql, params);
   }
 
+  /** Insert full match date in to the db.*/
   public void insertFullMatchData(CurrentGameInfoBaseModel gameModel) {
     String sql = "INSERT INTO \"FullMatchHistory\"(\"mapId\", \"gameMode\", \"gameType\",\"participants\")VALUES (?, ?, ?, ?);";
     Object[] params = {gameModel.getMapId(), gameModel.getGameMode(), gameModel.getGameType(),

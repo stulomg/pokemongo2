@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+/** Model for the security new user.*/
 public class SecurityNewUserModel {
 
   @NotBlank
@@ -17,6 +18,7 @@ public class SecurityNewUserModel {
   private String password;
   private Set<String> roles = new HashSet<>();
 
+  /** Constructor for the security new user.*/
   public SecurityNewUserModel(String name, String userName, String email, String password) {
     this.name = name;
     this.userName = userName;

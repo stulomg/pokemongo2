@@ -2,6 +2,7 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/** Scan document class.*/
 @Document(value = "tweets")
 public class TweetModel {
 

@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
+/** Model for the maintenance status.*/
 public class MaintenancesStatusModel {
 
   private String name;
@@ -10,6 +11,7 @@ public class MaintenancesStatusModel {
   public MaintenancesStatusModel() {
   }
 
+  /** Constructor for the maintenance status.*/
   public MaintenancesStatusModel(String name, String[] locales, String[] maintenances,
       String[] incidents) {
     this.name = name;

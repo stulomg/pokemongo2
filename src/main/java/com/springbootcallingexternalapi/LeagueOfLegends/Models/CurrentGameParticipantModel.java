@@ -1,5 +1,6 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
+/** Model for the current game participants.*/
 public class CurrentGameParticipantModel {
 
   private Long teamId;
@@ -12,6 +13,7 @@ public class CurrentGameParticipantModel {
 
   private String summonerName;
 
+  /** Constructor for the current game participants.*/
   public CurrentGameParticipantModel(Long teamId, Long spell1Id, Long spell2Id, Long championId,
       String summonerName) {
     this.teamId = teamId;
@@ -27,13 +29,9 @@ public class CurrentGameParticipantModel {
 
   @Override
   public String toString() {
-    return "CurrentGameParticipantModel{" +
-        "teamId=" + teamId +
-        ", spell1Id=" + spell1Id +
-        ", spell2Id=" + spell2Id +
-        ", championId=" + championId +
-        ", summonerName='" + summonerName + '\'' +
-        '}';
+    return "CurrentGameParticipantModel{" + "teamId=" + teamId + ", spell1Id=" + spell1Id + ","
+        + " spell2Id=" + spell2Id + ", championId=" + championId + ", "
+        + "summonerName='" + summonerName + '\'' + '}';
   }
 
   public Long getTeamId() {

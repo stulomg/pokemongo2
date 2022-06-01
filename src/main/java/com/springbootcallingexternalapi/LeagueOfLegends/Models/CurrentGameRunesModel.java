@@ -1,11 +1,13 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
+/** Model for the current game runes.*/
 public class CurrentGameRunesModel {
 
   private String summonerName;
 
   private Object perks;
 
+  /** Constructor for the current game runes.*/
   public CurrentGameRunesModel(String summonerName, Object perks) {
 
     this.summonerName = summonerName;
@@ -17,10 +19,8 @@ public class CurrentGameRunesModel {
 
   @Override
   public String toString() {
-    return "CurrentGameParticipantModel{" +
-        ", summonerName='" + summonerName + '\'' +
-        ", perks=" + perks +
-        '}';
+    return "CurrentGameParticipantModel{" + ", summonerName='" + summonerName + '\'' + ","
+        + " perks=" + perks + '}';
   }
 
   public String getSummonerName() {
