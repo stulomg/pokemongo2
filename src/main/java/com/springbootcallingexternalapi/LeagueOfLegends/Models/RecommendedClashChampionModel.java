@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-/** Model for the recommended clash champion.*/
+/**
+ * Model for the recommended clash champion.
+ */
 public class RecommendedClashChampionModel {
 
   private Integer account;
@@ -11,7 +13,9 @@ public class RecommendedClashChampionModel {
   public RecommendedClashChampionModel() {
   }
 
-  /** Constructor for the recommended clash champion.*/
+  /**
+   * Constructor for the recommended clash champion.
+   */
   public RecommendedClashChampionModel(Integer account, Integer champion, Integer gamesplayed,
       Integer maxmastery) {
     this.account = account;

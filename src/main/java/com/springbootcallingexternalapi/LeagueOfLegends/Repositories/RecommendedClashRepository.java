@@ -11,14 +11,18 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-/** Scan repository class.*/
+/**
+ * Scan repository class.
+ */
 @Repository
 public class RecommendedClashRepository {
 
   @Autowired
   JdbcTemplate jdbcTemplate;
 
-  /** Recommend a role.*/
+  /**
+   * Recommend a role.
+   */
   public List<RecommendedClashRoleModel> recommendedRole(ArrayList accounts)
       throws NoDataException {
     String sql =
@@ -38,7 +42,9 @@ public class RecommendedClashRepository {
     }
   }
 
-  /** Recommend a champion.*/
+  /**
+   * Recommend a champion.
+   */
   public List<RecommendedClashChampionModel> recommendChampion(ArrayList accounts)
       throws NoDataException {
     String sql =
@@ -60,7 +66,9 @@ public class RecommendedClashRepository {
     }
   }
 
-  /** Recommend clash win rate.*/
+  /**
+   * Recommend clash win rate.
+   */
   public List<RecommendedClashWinRateModel> championWin(ArrayList accounts) throws NoDataException {
     String sql = "SELECT account, champion ,COUNT(\"win\")as win\n"
         + "FROM \"MatchHistory\" \n"

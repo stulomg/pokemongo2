@@ -84,19 +84,6 @@ public class RiotRestControllerTest {
   }
 
   @Test
-  public void accountDataExceptionEnGetMastery() {
-    //no se como hacerlo
-  }
-
-  @Test
-  public void serverStatusDefault() throws Exception {
-    String token = securityUserService.generateToken();
-    mockMvc.perform(
-            MockMvcRequestBuilders.get("/call-riot/server/status").header("authorization", token))
-        .andExpect(status().isOk()).andReturn();
-  }
-
-  @Test
   public void serverStatusNotFound() throws Exception {
     String token = securityUserService.generateToken();
     mockMvc.perform(MockMvcRequestBuilders.get("/call-riot/server/").header("authorization", token))

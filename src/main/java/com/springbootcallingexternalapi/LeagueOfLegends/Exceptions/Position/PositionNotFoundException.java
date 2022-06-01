@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Position;
 
-/** Exception for when a position was not found.*/
+/**
+ * Exception for when a position was not found.
+ */
 public class PositionNotFoundException extends Exception {
 
   public PositionNotFoundException(String position) {

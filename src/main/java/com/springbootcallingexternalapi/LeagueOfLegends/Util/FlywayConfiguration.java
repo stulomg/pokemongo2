@@ -5,7 +5,9 @@ import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-/**This class configure the flyway database. */
+/**
+ * This class configure the flyway database.
+ */
 @Configuration
 public class FlywayConfiguration {
 

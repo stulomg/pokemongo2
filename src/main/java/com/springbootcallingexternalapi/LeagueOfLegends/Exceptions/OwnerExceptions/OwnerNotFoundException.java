@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptions;
 
-/** Exception for when an owner was not found.*/
+/**
+ * Exception for when an owner was not found.
+ */
 public class OwnerNotFoundException extends Exception {
 
   public OwnerNotFoundException(String owner) {

@@ -16,7 +16,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**This class host the functions that give you recomendations about clash opponents. */
+/**
+ * This class host the functions that give you recomendations about clash opponents.
+ */
 @Service
 public class RecommendedClashService {
 
@@ -25,7 +27,9 @@ public class RecommendedClashService {
   @Autowired
   AccountRepository accountRepository;
 
-  /**This function shows you the opponent recommended champion. */
+  /**
+   * This function shows you the opponent recommended champion.
+   */
   public List<RecommendedClashResponseModel> recommendedClashService(
       List<RecommendedClashDataModel> data)
       throws NoDataException, CharacterNotAllowedException, AccountNotFoundException {
@@ -84,7 +88,9 @@ public class RecommendedClashService {
     return recommendedClashModelFinal;
   }
 
-  /**This function recomend a role given an account. */
+  /**
+   * This function recomend a role given an account.
+   */
   public List<RecommendedClashRoleModel> recommendedRoleService(ArrayList accounts)
       throws NoDataException {
     List<RecommendedClashRoleModel> recommendedClashRoleModelFinal = new ArrayList<>();
@@ -121,12 +127,14 @@ public class RecommendedClashService {
     return recommendedClashRoleModelFinal;
   }
 
-  /**This function recomend you a champion giving an account. */
+  /**
+   * This function recomend you a champion giving an account.
+   */
   public List<RecommendedClashLogicModel> recommendedChampionService(ArrayList accounts)
       throws NoDataException {
     List<RecommendedClashChampionModel> recommendedChampion = recommendedClashRepository
         .recommendChampion(
-        accounts);
+            accounts);
     List<RecommendedClashWinRateModel> championWin = recommendedClashRepository.championWin(
         accounts);
     ArrayList totalGamesAccount = new ArrayList(accounts.size());

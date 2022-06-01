@@ -20,14 +20,18 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-/** Scan repository class.*/
+/**
+ * Scan repository class.
+ */
 @Repository
 public class AccountRepository {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  /** Insert account in the DB.*/
+  /**
+   * Insert account in the DB.
+   */
   public void insertAccount(AccountBaseModel account, Integer owner)
       throws AccountDataException, AccountExistsOrNotException {
     String sql = "INSERT INTO \"Account\"(id, puuid, accountid, \"revisionDate\", \"owner\", name)"
@@ -48,7 +52,9 @@ public class AccountRepository {
     }
   }
 
-  /** Delete an account.*/
+  /**
+   * Delete an account.
+   */
   public void deleteAccount(String account, Integer ownerId)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "DELETE FROM \"Account\" WHERE Lower(name) =? and \"owner\" =?;";
@@ -63,7 +69,9 @@ public class AccountRepository {
     }
   }
 
-  /** Retrieve account by owner.*/
+  /**
+   * Retrieve account by owner.
+   */
   public List<AccountModel> retrieveAccountByOwner(String owner, Integer ownerId)
       throws CharacterNotAllowedException, OwnerNotFoundException {
     String sql = "SELECT * FROM \"Account\" WHERE  \"owner\" =?";
@@ -80,7 +88,9 @@ public class AccountRepository {
     throw new CharacterNotAllowedException(owner);
   }
 
-  /** Update account.*/
+  /**
+   * Update account.
+   */
   public void accountUpdate(AccountModel model, Integer ownerId)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "UPDATE \"Account\" SET name=?, \"accountid\"=?, puuid=?,\"revisionDate\"=?,"
@@ -100,7 +110,9 @@ public class AccountRepository {
     throw new CharacterNotAllowedException(model.getName());
   }
 
-  /** Update existing account.*/
+  /**
+   * Update existing account.
+   */
   public void accountUpdateExisting(AccountBaseModel model, Integer owner)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "UPDATE \"Account\" SET name=?, \"accountid\"=?, puuid=?,\"revisionDate\"=?,"
@@ -119,7 +131,9 @@ public class AccountRepository {
     throw new CharacterNotAllowedException(model.getName());
   }
 
-  /** Retrieve account by account name.*/
+  /**
+   * Retrieve account by account name.
+   */
   public List<AccountModel> retrieveAccountByAccountName(String account)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "SELECT * FROM \"Account\" WHERE LOWER (name)=?";
@@ -137,7 +151,9 @@ public class AccountRepository {
     }
   }
 
-  /** Retrieve account id by account name.*/
+  /**
+   * Retrieve account id by account name.
+   */
   public Integer retrieveAccountIdByAccountName(String accountName)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "SELECT \"id_BD\" FROM \"Account\" WHERE LOWER(\"name\")=?;";
@@ -153,7 +169,9 @@ public class AccountRepository {
     }
   }
 
-  /** Retrieve owner id by account.*/
+  /**
+   * Retrieve owner id by account.
+   */
   public Long retrieveOwnerIdByAccount(String account)
       throws CharacterNotAllowedException, AccountNotFoundException {
     String sql = "SELECT owner FROM \"Account\" WHERE LOWER(name) =?;";
@@ -169,7 +187,9 @@ public class AccountRepository {
     }
   }
 
-  /** Retrieve riot id by account.*/
+  /**
+   * Retrieve riot id by account.
+   */
   public String retrieveIdRiotByAccount(String account)
       throws CharacterNotAllowedException, AccountNotFoundDbException {
     String sql = "SELECT id FROM \"Account\" WHERE LOWER(name) =?;";
@@ -185,7 +205,9 @@ public class AccountRepository {
     }
   }
 
-  /** Retrieve riot puuid by account.*/
+  /**
+   * Retrieve riot puuid by account.
+   */
   public String retrievePuuidRiotByAccount(String account)
       throws CharacterNotAllowedException, AccountNotFoundDbException {
     String sql = "SELECT puuid FROM \"Account\" WHERE LOWER(name) =?;";

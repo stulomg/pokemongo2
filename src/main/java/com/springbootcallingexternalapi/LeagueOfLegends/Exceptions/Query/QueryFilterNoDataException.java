@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.Query;
 
-/** Exception for when the criteria has no query.*/
+/**
+ * Exception for when the criteria has no query.
+ */
 public class QueryFilterNoDataException extends Exception {
 
   public QueryFilterNoDataException(String criteria) {

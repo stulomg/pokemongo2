@@ -7,7 +7,9 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**This class host the functions that bring you information for Champion Masteries. */
+/**
+ * This class host the functions that bring you information for Champion Masteries.
+ */
 @Service
 public class MasteryService {
 

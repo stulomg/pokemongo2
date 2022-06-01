@@ -8,7 +8,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**This class host the services of roles for login accounts. */
+/**
+ * This class host the services of roles for login accounts.
+ */
 @Service
 @Transactional
 public class SecurityRoleService {

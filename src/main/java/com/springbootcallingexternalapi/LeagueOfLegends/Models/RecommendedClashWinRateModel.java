@@ -1,6 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-/** Model for the recommended clash win rate.*/
+/**
+ * Model for the recommended clash win rate.
+ */
 public class RecommendedClashWinRateModel {
 
   private Integer account;
@@ -10,7 +12,9 @@ public class RecommendedClashWinRateModel {
   public RecommendedClashWinRateModel() {
   }
 
-  /** Constructor for the recommended clash win rate.*/
+  /**
+   * Constructor for the recommended clash win rate.
+   */
   public RecommendedClashWinRateModel(Integer account, Integer champion, Integer win) {
     this.account = account;
     this.champion = champion;
