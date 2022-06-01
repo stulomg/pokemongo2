@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**This class host function that give you information from Account SoloQ. */
 @Service
 public class LeagueService {
 
@@ -24,27 +25,30 @@ public class LeagueService {
   @Autowired
   OwnerRepository ownerRepository;
 
+  /**This function insert SoloQ info into our DataBase. */
   public void insertLeagueInfo(LeagueInfoModel leagueInfoModel, String account)
       throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException {
     leagueInfoModel.setElo(calculateElo(leagueInfoModel.getTier(), leagueInfoModel.getRank(),
         leagueInfoModel.getLeaguePoints()));
     leagueInfoModel.setDate(new Timestamp(System.currentTimeMillis()));
-    Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
-    Integer ownerID = Math.toIntExact(accountRepository.retrieveOwnerIdByAccount(account));
-    leagueRepository.insertLeagueInfo(leagueInfoModel, accountID, ownerID);
+    Integer accountId = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
+    Integer ownerId = Math.toIntExact(accountRepository.retrieveOwnerIdByAccount(account));
+    leagueRepository.insertLeagueInfo(leagueInfoModel, accountId, ownerId);
   }
 
   public Object divisionHistory(String account)
       throws CharacterNotAllowedException, LeagueDataNotFoundException, AccountNotFoundException {
-    Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
-    return leagueRepository.divisionHistory(account, accountID);
+    Integer accountId = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
+    return leagueRepository.divisionHistory(account, accountId);
   }
 
+  /**This function allows you to get the max division reached of 2 summoners. */
   public Object getMaxDivision(String owner, String owner2)
-      throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner, CharacterNotAllowedException {
-    Integer ownerID = Math.toIntExact(ownerRepository.retrieveOwnerIdByOwnerName(owner));
-    Integer owner2ID = Math.toIntExact(ownerRepository.retrieveOwnerIdByOwnerName(owner2));
-    return leagueRepository.getMaxDivision(owner, owner2, ownerID, owner2ID);
+      throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner,
+      CharacterNotAllowedException {
+    Integer ownerId = Math.toIntExact(ownerRepository.retrieveOwnerIdByOwnerName(owner));
+    Integer owner2Id = Math.toIntExact(ownerRepository.retrieveOwnerIdByOwnerName(owner2));
+    return leagueRepository.getMaxDivision(owner, owner2, ownerId, owner2Id);
   }
 
   private int calculateElo(String tier, String rank, int points) {

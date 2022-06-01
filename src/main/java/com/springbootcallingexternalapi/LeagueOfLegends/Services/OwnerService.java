@@ -8,6 +8,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.OwnerReposi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**This class host the functions that insert or retrieve you an Owner. */
 @Service
 public class OwnerService {
 

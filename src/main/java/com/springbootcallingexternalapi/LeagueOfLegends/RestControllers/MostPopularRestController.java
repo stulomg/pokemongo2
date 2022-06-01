@@ -8,12 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/** Most Popular class controller. */
 @RestController
 public class MostPopularRestController {
 
   @Autowired
   MostPopularService mostPopularService;
 
+  /** Endpoint to search for the most popular account
+   * (the most consulted account in the last month) in the application. */
   @GetMapping(value = "/loldata/mostpopular")
   public ResponseEntity<Object> getMostPopular() {
     try {
