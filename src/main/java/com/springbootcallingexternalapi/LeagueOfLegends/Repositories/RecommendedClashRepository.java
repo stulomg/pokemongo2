@@ -42,7 +42,8 @@ public class RecommendedClashRepository {
   public List<RecommendedClashChampionModel> recommendChampion(ArrayList accounts)
       throws NoDataException {
     String sql =
-        "SELECT account,champion ,COUNT(champion)as gamesplayed,MAX(\"championPoints\")as maxmastery\n"
+        "SELECT account,champion ,COUNT(champion)as gamesplayed,"
+            + "MAX(\"championPoints\")as maxmastery\n"
             +
             "FROM \"MatchHistory\" \n"
             + "WHERE account in (?,?,?,?,?)\n"

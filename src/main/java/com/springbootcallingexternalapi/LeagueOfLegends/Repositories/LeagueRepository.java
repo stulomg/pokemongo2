@@ -49,7 +49,8 @@ public class LeagueRepository {
   /** Select the division history from the db.*/
   public List<LeagueInfoModel> divisionHistory(String account, Integer accountId)
       throws CharacterNotAllowedException, LeagueDataNotFoundException {
-    String sql = "SELECT * FROM \"LeagueHistory\" WHERE \"account\" =? ORDER BY \"date\" DESC LIMIT 20;";
+    String sql = "SELECT * FROM \"LeagueHistory\" WHERE \"account\" =? ORDER BY"
+        + " \"date\" DESC LIMIT 20;";
     Object[] params = {accountId};
     if (isAlpha(account)) {
       List<LeagueInfoModel> listOfLeagues = jdbcTemplate.query(sql, params,
@@ -66,7 +67,9 @@ public class LeagueRepository {
   /** Select the maximum division from the information in the database.*/
   public List<MaxDivisionModel> getMaxDivision(String owner, String owner2, Integer ownerId,
       Integer owner2Id) throws OwnerNotFoundException, CharacterNotAllowedExceptionOwner {
-    String sql = "SELECT  \"account\", \"tier\",\"rank\",\"date\" FROM \"LeagueHistory\" WHERE owner =? or owner =? GROUP BY \"account\", \"tier\", \"rank\",\"date\" ORDER BY  MAX (\"Elo\") DESC  LIMIT 1";
+    String sql = "SELECT  \"account\", \"tier\",\"rank\",\"date\" FROM \"LeagueHistory\" "
+        + "WHERE owner =? or owner =? GROUP BY \"account\", \"tier\", \"rank\",\"date\" "
+        + "ORDER BY  MAX (\"Elo\") DESC  LIMIT 1";
     Object[] params = {ownerId, owner2Id};
     if (isAlpha(owner) && isAlpha(owner2)) {
       List<MaxDivisionModel> infoList = jdbcTemplate.query(sql, params,

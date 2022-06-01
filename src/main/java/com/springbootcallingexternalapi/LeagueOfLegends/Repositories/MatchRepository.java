@@ -17,7 +17,8 @@ public class MatchRepository {
   public void insertIndividualMatchData(GameDataModel gamedata, Integer accountId,
       Integer positionId, Integer championId) {
 
-    String sql = "INSERT INTO \"MatchHistory\"(account, \"position\", champion, \"championPoints\", win)VALUES (?, ?, ?, ?, ?);";
+    String sql = "INSERT INTO \"MatchHistory\"(account, \"position\", champion,"
+        + " \"championPoints\", win)VALUES (?, ?, ?, ?, ?);";
     Object[] params = {accountId, positionId, championId, gamedata.getChampionPoints(),
         gamedata.isWin()};
     jdbcTemplate.update(sql, params);
@@ -25,7 +26,8 @@ public class MatchRepository {
 
   /** Insert full match date in to the db.*/
   public void insertFullMatchData(CurrentGameInfoBaseModel gameModel) {
-    String sql = "INSERT INTO \"FullMatchHistory\"(\"mapId\", \"gameMode\", \"gameType\",\"participants\")VALUES (?, ?, ?, ?);";
+    String sql = "INSERT INTO \"FullMatchHistory\"(\"mapId\", \"gameMode\", \"gameType\","
+        + "\"participants\")VALUES (?, ?, ?, ?);";
     Object[] params = {gameModel.getMapId(), gameModel.getGameMode(), gameModel.getGameType(),
         gameModel.getParticipants()};
     jdbcTemplate.update(sql, params);
