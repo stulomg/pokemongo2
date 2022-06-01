@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**This class host the functions that retrieve the most popular player and champion. */
 @Service
 public class MostPopularService {
 

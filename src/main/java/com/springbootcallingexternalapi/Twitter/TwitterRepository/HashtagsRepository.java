@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+/**This class host the functions that insert or retreive hashtag to our DataBase. */
 @Repository
 public class HashtagsRepository {
 
@@ -18,6 +19,7 @@ public class HashtagsRepository {
     jdbcTemplate.update(sql, hasthag);
   }
 
+  /**This function retrieve a list of hashtags. */
   public List<String> retrieveHashtags() throws DBNotAvaliableException {
     String sql = "SELECT \"hashtagName\" FROM \"TwitterHashtag\"";
     try {

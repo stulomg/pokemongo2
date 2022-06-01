@@ -14,14 +14,17 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**This class host the services that let you create a custom query to our Account database. */
 @Service
 public class QueryService {
 
   @Autowired
   QueryRepository queryRepository;
 
+  /**This function allows you to register a custom query into our database. */
   public List<QueryResponseModel> specificQuery(QueryModel queryModel)
-      throws QuerySyntaxErrorException, QueryInvalidParameterException, QueryCriteriaExistException, NoDataException {
+      throws QuerySyntaxErrorException, QueryInvalidParameterException, QueryCriteriaExistException,
+      NoDataException {
     String[] excludedWords = {"insert", "delete", "update", "truncate", "create", "alter", "drop"};
     for (int i = 0; i < excludedWords.length; i++) {
       if (queryModel.getQuery().contains(excludedWords[i]) || queryModel.getQuery()

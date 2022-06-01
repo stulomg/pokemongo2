@@ -7,6 +7,7 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Repositories.MasteryRepo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**This class host the functions that bring you information for Champion Masteries. */
 @Service
 public class MasteryService {
 
@@ -15,9 +16,9 @@ public class MasteryService {
   @Autowired
   AccountRepository accountRepository;
 
-  public Object AccountMasteryHistory(String account)
+  public Object accountMasteryHistory(String account)
       throws CharacterNotAllowedException, AccountNotFoundException {
-    Integer accountID = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
-    return masteryRepository.AccountMasteryHistory(account, accountID);
+    Integer accountId = Math.toIntExact(accountRepository.retrieveAccountIdByAccountName(account));
+    return masteryRepository.AccountMasteryHistory(account, accountId);
   }
 }

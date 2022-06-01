@@ -16,6 +16,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**This class host the functions that give you recomendations about clash opponents. */
 @Service
 public class RecommendedClashService {
 
@@ -24,6 +25,7 @@ public class RecommendedClashService {
   @Autowired
   AccountRepository accountRepository;
 
+  /**This function shows you the opponent recommended champion. */
   public List<RecommendedClashResponseModel> recommendedClashService(
       List<RecommendedClashDataModel> data)
       throws NoDataException, CharacterNotAllowedException, AccountNotFoundException {
@@ -45,20 +47,20 @@ public class RecommendedClashService {
       Double champValue = 0.0;
       for (int j = 0; j < recommendedClashChampionModel.size(); j++) {
         if (accounts.get(i) == recommendedClashChampionModel.get(j).getAccount()) {
-          Double GamesChamp = Double.valueOf(
+          Double gamesChamp = Double.valueOf(
               recommendedClashChampionModel.get(j).getGamesChampion());
-          Double TotalGamesChampion = Double.valueOf(
+          Double totalGamesChampion = Double.valueOf(
               recommendedClashChampionModel.get(j).getTotalGamesAccount());
-          Double MasteryChampion = Double.valueOf(
+          Double masteryChampion = Double.valueOf(
               recommendedClashChampionModel.get(j).getMasteryChampion());
-          Double TotalMasteryChampion = Double.valueOf(
+          Double totalMasteryChampion = Double.valueOf(
               recommendedClashChampionModel.get(j).getTotalMasteryAccount());
-          Double GamesWinChampion = Double.valueOf(
+          Double gamesWinChampion = Double.valueOf(
               recommendedClashChampionModel.get(j).getGamesWinChampion());
 
           Double value =
-              (GamesChamp / TotalGamesChampion) + (MasteryChampion / TotalMasteryChampion) + (
-                  GamesWinChampion / GamesChamp);
+              (gamesChamp / totalGamesChampion) + (masteryChampion / totalMasteryChampion) + (
+                  gamesWinChampion / gamesChamp);
           if (value > champValue) {
             champValue = value;
             championReccomended.set(i, recommendedClashChampionModel.get(j).getChampion());
@@ -82,6 +84,7 @@ public class RecommendedClashService {
     return recommendedClashModelFinal;
   }
 
+  /**This function recomend a role given an account. */
   public List<RecommendedClashRoleModel> recommendedRoleService(ArrayList accounts)
       throws NoDataException {
     List<RecommendedClashRoleModel> recommendedClashRoleModelFinal = new ArrayList<>();
@@ -118,9 +121,11 @@ public class RecommendedClashService {
     return recommendedClashRoleModelFinal;
   }
 
+  /**This function recomend you a champion giving an account. */
   public List<RecommendedClashLogicModel> recommendedChampionService(ArrayList accounts)
       throws NoDataException {
-    List<RecommendedClashChampionModel> recommendedChampion = recommendedClashRepository.recommendChampion(
+    List<RecommendedClashChampionModel> recommendedChampion = recommendedClashRepository
+        .recommendChampion(
         accounts);
     List<RecommendedClashWinRateModel> championWin = recommendedClashRepository.championWin(
         accounts);
@@ -151,7 +156,7 @@ public class RecommendedClashService {
     for (int i = 0; i < accounts.size(); i++) {
       for (int j = 0; j < recommendedChampion.size(); j++) {
         if (accounts.get(i) == recommendedChampion.get(j).getAccount()) {
-          RecommendedClashLogicModel Data = new RecommendedClashLogicModel(
+          RecommendedClashLogicModel data = new RecommendedClashLogicModel(
               0,
               0,
               0,
@@ -160,23 +165,23 @@ public class RecommendedClashService {
               0,
               0
           );
-          Data.setAccount(recommendedChampion.get(j).getAccount());
-          Data.setChampion(recommendedChampion.get(j).getChampion());
-          Data.setGamesChampion(recommendedChampion.get(j).getGamesplayed());
-          Data.setTotalGamesAccount((Integer) totalGamesAccount.get(i));
-          Data.setMasteryChampion(recommendedChampion.get(j).getMaxmastery());
-          Data.setTotalMasteryAccount((Integer) totalMasteryAccount.get(i));
+          data.setAccount(recommendedChampion.get(j).getAccount());
+          data.setChampion(recommendedChampion.get(j).getChampion());
+          data.setGamesChampion(recommendedChampion.get(j).getGamesplayed());
+          data.setTotalGamesAccount((Integer) totalGamesAccount.get(i));
+          data.setMasteryChampion(recommendedChampion.get(j).getMaxmastery());
+          data.setTotalMasteryAccount((Integer) totalMasteryAccount.get(i));
           for (int k = 0; k < championWin.size(); k++) {
             if (recommendedChampion.get(j).getAccount() == championWin.get(k).getAccount()) {
               if (recommendedChampion.get(j).getChampion() == championWin.get(k).getChampion()) {
-                Data.setGamesWinChampion(championWin.get(k).getWin());
+                data.setGamesWinChampion(championWin.get(k).getWin());
                 break;
               } else {
-                Data.setGamesWinChampion(0);
+                data.setGamesWinChampion(0);
               }
             }
           }
-          recommendedClashLogicModel.add(Data);
+          recommendedClashLogicModel.add(data);
         }
       }
     }
