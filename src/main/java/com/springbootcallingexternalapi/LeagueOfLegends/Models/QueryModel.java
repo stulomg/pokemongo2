@@ -1,30 +1,31 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class QueryModel {
-    private String criteria;
-    private String query;
 
-    public QueryModel() {
-    }
+  private String criteria;
+  private String query;
 
-    public QueryModel(String criteria, String query) {
-        this.criteria = criteria;
-        this.query = query;
-    }
+  public QueryModel() {
+  }
 
-    public String getCriteria() {
-        return criteria;
-    }
+  public QueryModel(String criteria, String query) {
+    this.criteria = criteria;
+    this.query = query;
+  }
 
-    public void setCriteria(String criteria) {
-        this.criteria = criteria;
-    }
+  public String getCriteria() {
+    return criteria;
+  }
 
-    public String getQuery() {
-        return query;
-    }
+  public void setCriteria(String criteria) {
+    this.criteria = criteria;
+  }
 
-    public void setQuery(String query) {
-        this.query = query;
-    }
+  public String getQuery() {
+    return query;
+  }
+
+  public void setQuery(String query) {
+    this.query = query;
+  }
 }

@@ -2,50 +2,51 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class MaintenancesStatusModel {
 
-    private String name;
-    private String[] locales;
-    private String[] maintenances;
-    private String[] incidents;
+  private String name;
+  private String[] locales;
+  private String[] maintenances;
+  private String[] incidents;
 
-    public MaintenancesStatusModel() {
-    }
+  public MaintenancesStatusModel() {
+  }
 
-    public MaintenancesStatusModel(String name, String[] locales, String[] maintenances, String[] incidents) {
-        this.name = name;
-        this.locales = locales;
-        this.maintenances = maintenances;
-        this.incidents = incidents;
-    }
+  public MaintenancesStatusModel(String name, String[] locales, String[] maintenances,
+      String[] incidents) {
+    this.name = name;
+    this.locales = locales;
+    this.maintenances = maintenances;
+    this.incidents = incidents;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String[] getLocales() {
-        return locales;
-    }
+  public String[] getLocales() {
+    return locales;
+  }
 
-    public void setLocales(String[] locales) {
-        this.locales = locales;
-    }
+  public void setLocales(String[] locales) {
+    this.locales = locales;
+  }
 
-    public String[] getMaintenances() {
-        return maintenances;
-    }
+  public String[] getMaintenances() {
+    return maintenances;
+  }
 
-    public void setMaintenances(String[] maintenances) {
-        this.maintenances = maintenances;
-    }
+  public void setMaintenances(String[] maintenances) {
+    this.maintenances = maintenances;
+  }
 
-    public String[] getIncidents() {
-        return incidents;
-    }
+  public String[] getIncidents() {
+    return incidents;
+  }
 
-    public void setIncidents(String[] incidents) {
-        this.incidents = incidents;
-    }
+  public void setIncidents(String[] incidents) {
+    this.incidents = incidents;
+  }
 }

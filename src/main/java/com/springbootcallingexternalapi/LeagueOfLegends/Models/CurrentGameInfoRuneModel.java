@@ -3,63 +3,65 @@ package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 import java.util.Arrays;
 
 public class CurrentGameInfoRuneModel {
-    private Long mapId;
 
-    private String gameMode;
+  private Long mapId;
 
-    private String gameType;
+  private String gameMode;
 
-    private CurrentGameRunesModel[] participants;
+  private String gameType;
 
-    @Override
-    public String toString() {
-        return "CurrentGameInfoRuneModel{" +
-                "mapId=" + mapId +
-                ", gameMode='" + gameMode + '\'' +
-                ", gameType='" + gameType + '\'' +
-                ", participants=" + Arrays.toString(participants) +
-                '}';
-    }
+  private CurrentGameRunesModel[] participants;
 
-    public CurrentGameInfoRuneModel(Long mapId, String gameMode, String gameType, CurrentGameRunesModel[] participants) {
-        this.mapId = mapId;
-        this.gameMode = gameMode;
-        this.gameType = gameType;
-        this.participants = participants;
-    }
+  public CurrentGameInfoRuneModel(Long mapId, String gameMode, String gameType,
+      CurrentGameRunesModel[] participants) {
+    this.mapId = mapId;
+    this.gameMode = gameMode;
+    this.gameType = gameType;
+    this.participants = participants;
+  }
 
-    public CurrentGameInfoRuneModel() {
-    }
+  public CurrentGameInfoRuneModel() {
+  }
 
-    public Long getMapId() {
-        return mapId;
-    }
+  @Override
+  public String toString() {
+    return "CurrentGameInfoRuneModel{" +
+        "mapId=" + mapId +
+        ", gameMode='" + gameMode + '\'' +
+        ", gameType='" + gameType + '\'' +
+        ", participants=" + Arrays.toString(participants) +
+        '}';
+  }
 
-    public void setMapId(Long mapId) {
-        this.mapId = mapId;
-    }
+  public Long getMapId() {
+    return mapId;
+  }
 
-    public String getGameMode() {
-        return gameMode;
-    }
+  public void setMapId(Long mapId) {
+    this.mapId = mapId;
+  }
 
-    public void setGameMode(String gameMode) {
-        this.gameMode = gameMode;
-    }
+  public String getGameMode() {
+    return gameMode;
+  }
 
-    public String getGameType() {
-        return gameType;
-    }
+  public void setGameMode(String gameMode) {
+    this.gameMode = gameMode;
+  }
 
-    public void setGameType(String gameType) {
-        this.gameType = gameType;
-    }
+  public String getGameType() {
+    return gameType;
+  }
 
-    public CurrentGameRunesModel[] getParticipants() {
-        return participants;
-    }
+  public void setGameType(String gameType) {
+    this.gameType = gameType;
+  }
 
-    public void setParticipants(CurrentGameRunesModel[] participants) {
-        this.participants = participants;
-    }
+  public CurrentGameRunesModel[] getParticipants() {
+    return participants;
+  }
+
+  public void setParticipants(CurrentGameRunesModel[] participants) {
+    this.participants = participants;
+  }
 }

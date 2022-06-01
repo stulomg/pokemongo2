@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MostPopularRestController {
-    @Autowired
-    MostPopularService mostPopularService;
 
-    @GetMapping(value = "/loldata/mostpopular")
-    public ResponseEntity<Object> getMostPopular() {
-        try {
-            return new ResponseEntity<>(mostPopularService.mostpopularService(), HttpStatus.OK);
-        } catch (NoDataException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+  @Autowired
+  MostPopularService mostPopularService;
+
+  @GetMapping(value = "/loldata/mostpopular")
+  public ResponseEntity<Object> getMostPopular() {
+    try {
+      return new ResponseEntity<>(mostPopularService.mostpopularService(), HttpStatus.OK);
+    } catch (NoDataException e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+  }
 }

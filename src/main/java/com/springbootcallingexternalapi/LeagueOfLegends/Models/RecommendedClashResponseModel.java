@@ -1,50 +1,52 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class RecommendedClashResponseModel {
-    private Integer account ;
-    private Integer recommendPosition ;
-    private Integer gamesPlayed ;
-    private Integer recommendChampion ;
 
-    public RecommendedClashResponseModel() {
-    }
+  private Integer account;
+  private Integer recommendPosition;
+  private Integer gamesPlayed;
+  private Integer recommendChampion;
 
-    public RecommendedClashResponseModel(Integer account, Integer recommendPosition, Integer gamesPlayed, Integer recommendChampion) {
-        this.account = account;
-        this.recommendPosition = recommendPosition;
-        this.gamesPlayed = gamesPlayed;
-        this.recommendChampion = recommendChampion;
-    }
+  public RecommendedClashResponseModel() {
+  }
 
-    public Integer getAccount() {
-        return account;
-    }
+  public RecommendedClashResponseModel(Integer account, Integer recommendPosition,
+      Integer gamesPlayed, Integer recommendChampion) {
+    this.account = account;
+    this.recommendPosition = recommendPosition;
+    this.gamesPlayed = gamesPlayed;
+    this.recommendChampion = recommendChampion;
+  }
 
-    public void setAccount(Integer account) {
-        this.account = account;
-    }
+  public Integer getAccount() {
+    return account;
+  }
 
-    public Integer getRecommendPosition() {
-        return recommendPosition;
-    }
+  public void setAccount(Integer account) {
+    this.account = account;
+  }
 
-    public void setRecommendPosition(Integer recommendPosition) {
-        this.recommendPosition = recommendPosition;
-    }
+  public Integer getRecommendPosition() {
+    return recommendPosition;
+  }
 
-    public Integer getGamesPlayed() {
-        return gamesPlayed;
-    }
+  public void setRecommendPosition(Integer recommendPosition) {
+    this.recommendPosition = recommendPosition;
+  }
 
-    public void setGamesPlayed(Integer gamesPlayed) {
-        this.gamesPlayed = gamesPlayed;
-    }
+  public Integer getGamesPlayed() {
+    return gamesPlayed;
+  }
 
-    public Integer getRecommendChampion() {
-        return recommendChampion;
-    }
+  public void setGamesPlayed(Integer gamesPlayed) {
+    this.gamesPlayed = gamesPlayed;
+  }
 
-    public void setRecommendChampion(Integer recommendChampion) {
-        this.recommendChampion = recommendChampion;
-    }
+  public Integer getRecommendChampion() {
+    return recommendChampion;
+  }
+
+  public void setRecommendChampion(Integer recommendChampion) {
+    this.recommendChampion = recommendChampion;
+  }
 }

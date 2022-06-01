@@ -1,5 +1,8 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Repositories;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountDataException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountExistsOrNotException;
 import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.AccountExceptions.AccountNotFoundDBException;
@@ -11,6 +14,8 @@ import com.springbootcallingexternalapi.LeagueOfLegends.Exceptions.OwnerExceptio
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountBaseModel;
 import com.springbootcallingexternalapi.LeagueOfLegends.Models.AccountModel;
 import com.springbootcallingexternalapi.SpringBootCallingExternalApiApplication;
+import java.util.List;
+import java.util.Locale;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,552 +29,578 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.List;
-import java.util.Locale;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 @SpringBootTest(classes = AccountRepository.class)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
 public class AccountRepositoryTest {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    @Autowired
-    private AccountRepository repository;
-    @Autowired
-    private OwnerRepository ownerRepository;
-
-    @Autowired
-    public AccountRepositoryTest(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-        repository = new AccountRepository();
-        ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
-    }
-
-    @BeforeEach
-    void setup() {
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
-    }
-
-    @AfterEach
-    void setup2(){
-        jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
-        jdbcTemplate.execute("INSERT INTO \"Account\"( id, puuid, accountid, \"revisionDate\", owner, name)\n" +
-                "VALUES\n" +
-                "('testuno', 'testuno', 'testuno', 123456, 1, 'testuno'),\n" +
-                "('testdos', 'testdos', 'testdos', 123457, 2, 'testdos'),\n" +
-                "('testtres', 'testtres', 'testtres', 123457, 2, 'testtres');");
-    }
-
-    @Test
-    void insertSuccessfullyDefaultCase() throws AccountDataException, AccountExistsOrNotException {
-        //GIVEN A NORMAL ACCOUNT WITH ALL DATA AND A STANDARD OWNER FROM THE BASE OWNER
-
-        //Account with all data
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Soyeon Lover",
-                1648276400000L);
-
-        //Owner Standard
-        Integer owner = 1;
-
-        AccountModel modelo = new AccountModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Soyeon Lover",
-                1648276400000L,
-                owner,
-                "ownerName");
-
-        //WHEN TRYING TO INSERT IT INTO THE DATABASE AND RETRIEVING THE RESULTS
-        repository.insertAccount(baseModel, owner);
-
-        //THEN INSERT PROPERLY AND PERSIST THE DATA IN THE DATABASE.
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
-        Assertions.assertEquals(1, resultSet.size());
-        AccountModel result = resultSet.get(0);
-
-        Assertions.assertEquals(modelo.getAccountId(), result.getAccountId());
-        Assertions.assertEquals(modelo.getId(), result.getId());
-        Assertions.assertEquals(modelo.getName().toLowerCase(Locale.ROOT), result.getName());
-        Assertions.assertEquals(modelo.getOwner(), result.getOwner());
-        Assertions.assertEquals(modelo.getPuuid(), result.getPuuid());
-        Assertions.assertEquals(modelo.getRevisionDate(), result.getRevisionDate());
-    }
-
-    @Test
-    void accountExistsExceptionInsertAccount() throws AccountDataException, AccountExistsOrNotException {
-        Integer owner = 1;
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Soyeon Lover",
-                1648276400000L
-        );
-        repository.insertAccount(baseModel, owner);
-        Exception exception = assertThrows(AccountExistsOrNotException.class, () -> repository.insertAccount(baseModel, owner));
-
-        String expectedMessage = "Account already registered";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    void updateSuccessfullyDefaultCase() throws CharacterNotAllowedException, AccountNotFoundException, AccountDataException, AccountExistsOrNotException {
-        //given
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Soyeon Lover",
-                1648276400000L
-        );
-        Integer owner = 1;
-
-        AccountModel model = new AccountModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "STULMEMITO",
-                "F46S5D4F",
-                "stulesunmeme",
-                1324654564L,
-                owner,
-                "testuno");
-
-        repository.insertAccount(baseModel, owner);
-        //When
-        repository.accountUpdate(model, owner);
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
-        //Then
-        Assertions.assertEquals(1, resultSet.size());
-        Assertions.assertEquals(baseModel.getId(), resultSet.get(0).getId());
-        Assertions.assertEquals(model.getAccountId(), resultSet.get(0).getAccountId());
-        Assertions.assertEquals(model.getPuuid(), resultSet.get(0).getPuuid());
-        Assertions.assertEquals(model.getName(), resultSet.get(0).getName());
-        Assertions.assertEquals(model.getRevisionDate(), resultSet.get(0).getRevisionDate());
-        Assertions.assertEquals(owner, resultSet.get(0).getOwner());
-    }
-
-    @Test
-    void accountNotFoundExceptionAccountUpdate() {
-        Integer owner = 1;
-
-        AccountModel model = new AccountModel(
-                "",
-                "STULMEMITO",
-                "F46S5D4F",
-                "stulesunmeme",
-                1324654564L,
-                owner,
-                "ownerName");
-        Exception exception = Assertions.assertThrows(AccountNotFoundException.class, () -> repository.accountUpdate(model, owner));
-
-        String expectedMessage = "The account stulesunmeme was not found, please rectify";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    void characterNotAllowedAccountUpdate() {
-        Integer owner = 1;
-
-        AccountModel model = new AccountModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "STULMEMITO",
-                "F46S5D4F",
-                "stule*sunmeme",
-                1324654564L,
-                owner,
-                "ownerName");
-        Exception exception = Assertions.assertThrows(CharacterNotAllowedException.class, () -> repository.accountUpdate(model, owner));
-
-        String expectedMessage = "has characters not allowed";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    void deleteAccountDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountExistsOrNotException, AccountNotFoundException {
-
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Soyeon Lover",
-                1648276400000L
-        );
-        Integer owner = 1;
-        String owner2 = "kusi";
-
-        repository.insertAccount(baseModel, owner);
-        repository.deleteAccount(baseModel.getName(), owner);
-
-        List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"", BeanPropertyRowMapper.newInstance(AccountModel.class));
-        Assertions.assertEquals(0, resultSet.size());
-    }
-
-    @Test
-    void accountNotFoundExceptionDeleteAccount() throws CharacterNotAllowedException, OwnerNotFoundException {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Soyeon Lover",
-                1648276400000L
-        );
-        Integer owner = 1;
-
-        Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.deleteAccount(baseModel.getName(), owner));
-
-        String expectedMessage = "The account Soyeon Lover was not found, please rectify";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    void characterNotAllowedExceptionDeleteAccount() throws CharacterNotAllowedException, OwnerNotFoundException {
-
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "<<<",
-                1648276400000L
-        );
-        Integer owner = 1;
-        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.deleteAccount(baseModel.getName(), owner));
-
-        String expectedMessage = " has characters not allowed";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    void retrieveAccountByOwnerSuccessfullyDefaultCase() throws CharacterNotAllowedException, AccountDataException, OwnerNotAllowedException, OwnerNotFoundException, AccountExistsOrNotException {
-
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Soyeon Lover",
-                1648276400000L
-        );
-        Integer ownerID = 1;
-        String owner = ("testuno").toLowerCase(Locale.ROOT);
-
-        AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Soyeon Lover",
-                1648276400000L,
-                ownerID,
-                "testuno");
-
-        repository.insertAccount(baseModel, ownerID);
-        List<AccountModel> resultSet = repository.retrieveAccountByOwner(owner, ownerID);
-        Assertions.assertEquals(1, resultSet.size());
-        AccountModel result = resultSet.get(0);
-
-        Assertions.assertEquals(modelo.getAccountId(), result.getAccountId());
-        Assertions.assertEquals(modelo.getId(), result.getId());
-        Assertions.assertEquals(modelo.getName().toLowerCase(Locale.ROOT), result.getName());
-        Assertions.assertEquals(modelo.getOwner(), result.getOwner());
-        Assertions.assertEquals(modelo.getPuuid(), result.getPuuid());
-        Assertions.assertEquals(modelo.getRevisionDate(), result.getRevisionDate());
-    }
-
-    @Test
-    void characterNotAllowedExceptionRetrieveAccountByOwner() {
-
-        String owner = "<<>>";
-
-        Integer ownerID = 1;
-        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.retrieveAccountByOwner(owner, ownerID));
-
-        String expectedMessage = " has characters not allowed";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-
-    }
-
-    @Test
-    void ownerNotFoundExceptionRetrieveAccountByOwner() {
-
-        String owner = "pepito";
-        Integer ownerID = 100;
-
-        Exception exception = assertThrows(OwnerNotFoundException.class, () -> repository.retrieveAccountByOwner(owner, ownerID));
-
-        String expectedMessage = "The owner pepito was not found, please rectify";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    void retrieveAccountByAccountNameSuccessfullyDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, AccountExistsOrNotException {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("Soyeon Lover").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-
-        Integer owner = 1;
-
-        AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "Soyeon Lover",
-                1648276400000L,
-                owner,
-                "ownerName");
-
-        repository.insertAccount(baseModel, owner);
-
-        List<AccountModel> resultSet = repository.retrieveAccountByAccountName(baseModel.getName());
-        Assertions.assertEquals(1, resultSet.size());
-        AccountModel result = resultSet.get(0);
-
-        Assertions.assertEquals(modelo.getAccountId(), result.getAccountId());
-        Assertions.assertEquals(modelo.getId(), result.getId());
-        Assertions.assertEquals(modelo.getName().toLowerCase(Locale.ROOT), result.getName());
-        Assertions.assertEquals(modelo.getOwner(), result.getOwner());
-        Assertions.assertEquals(modelo.getPuuid(), result.getPuuid());
-        Assertions.assertEquals(modelo.getRevisionDate(), result.getRevisionDate());
-    }
-
-    @Test
-    void characterNotAllowedRetrieveAccountByAccountName() {
-
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "<<<<",
-                1648276400000L
-        );
-
-        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.retrieveAccountByAccountName(baseModel.getName()));
-
-        String expectedMessage = " has characters not allowed";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    void accountNotFoundExceptionRetrieveAccountByAccountName() {
-
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "pepito pro",
-                1648276400000L
-        );
-
-        Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.retrieveAccountByAccountName(baseModel.getName()));
-
-        String expectedMessage = "The account pepito pro was not found, please rectify";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    void retrieveAccountIDByAccountNameSuccessfullyDefaultCase() throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, AccountExistsOrNotException {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("test").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-        Integer owner = 1;
-        repository.insertAccount(baseModel, owner);
-        Integer resultSet = repository.retrieveAccountIdByAccountName(baseModel.getName());
-        Assertions.assertEquals(1, resultSet);
-    }
-
-    @Test
-    void characterNotAllowedRetrieveAccountIDByAccountName() {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "<<<<",
-                1648276400000L
-        );
-        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.retrieveAccountIdByAccountName(baseModel.getName()));
-        String expectedMessage = "<<<< has characters not allowed";
-        String actualMessage = exception.getMessage();
-        Assertions.assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Test
-    void accountNotFoundExceptionRetrieveAccountIDByAccountName() {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                "pepito pro",
-                1648276400000L
-        );
-        Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.retrieveAccountIdByAccountName(baseModel.getName()));
-
-        String expectedMessage = "The account pepito pro was not found, please rectify";
-        String actualMessage = exception.getMessage();
-        Assertions.assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Test
-    void retrieveOwnerIdByAccount() throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundException {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("Soyeon Lover").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-        Integer owner = 1;
-        Long OwnerSpected = 1L;
-        repository.insertAccount(baseModel, owner);
-        Long resultSet = repository.retrieveOwnerIdByAccount(baseModel.getName());
-        Assertions.assertEquals(OwnerSpected, resultSet);
-    }
-
-    @Test
-    void accountNotFoundExceptionRetrieveOwnerIdByAccount() {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("test").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-        Exception exception = assertThrows(AccountNotFoundException.class, () -> repository.retrieveOwnerIdByAccount(baseModel.getName()));
-        String expectedMessage = "The account test was not found, please rectify";
-        String actualMessage = exception.getMessage();
-        Assertions.assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Test
-    void characterNotAllowedExceptionRetrieveOwnerIdByAccount() {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("test*").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.retrieveOwnerIdByAccount(baseModel.getName()));
-        String expectedMessage = "test* has characters not allowed";
-        String actualMessage = exception.getMessage();
-        Assertions.assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Test
-    void retrieveIdRiotByAccount() throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundDBException, ClashIsNotAvailable {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("test").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-        Integer owner = 1;
-        repository.insertAccount(baseModel, owner);
-        String resultSet = repository.retrieveIdRiotByAccount(baseModel.getName());
-        Assertions.assertEquals(baseModel.getId(), resultSet);
-    }
-
-    @Test
-    void accountNotFoundDBExceptionRetrieveIdRiotByAccount() {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("test").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-        Exception exception = assertThrows(AccountNotFoundDBException.class, () -> repository.retrieveIdRiotByAccount(baseModel.getName()));
-        String expectedMessage = "The account test was not registered";
-        String actualMessage = exception.getMessage();
-        Assertions.assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Test
-    void characterNotAllowedExceptionRetrieveIdRiotByAccount() {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("test*").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.retrieveIdRiotByAccount(baseModel.getName()));
-        String expectedMessage = "test* has characters not allowed";
-        String actualMessage = exception.getMessage();
-        Assertions.assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Test
-    void retrievePuuidRiotByAccount() throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundDBException {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("test").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-        Integer owner = 1;
-        repository.insertAccount(baseModel, owner);
-        String resultSet = repository.retrievePuuidRiotByAccount(baseModel.getName());
-        Assertions.assertEquals(baseModel.getPuuid(), resultSet);
-    }
-
-    @Test
-    void accountNotFoundDBExceptionRetrievePuuidRiotByAccount() {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("test").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-        Exception exception = assertThrows(AccountNotFoundDBException.class, () -> repository.retrievePuuidRiotByAccount(baseModel.getName()));
-        String expectedMessage = "The account test was not registered";
-        String actualMessage = exception.getMessage();
-        Assertions.assertEquals(expectedMessage, actualMessage);
-    }
-
-    @Test
-    void characterNotAllowedExceptionRetrievePuuidRiotByAccount() {
-        AccountBaseModel baseModel = new AccountBaseModel(
-                "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
-                "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
-                "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
-                ("test*").toLowerCase(Locale.ROOT),
-                1648276400000L
-        );
-        Exception exception = assertThrows(CharacterNotAllowedException.class, () -> repository.retrievePuuidRiotByAccount(baseModel.getName()));
-        String expectedMessage = "test* has characters not allowed";
-        String actualMessage = exception.getMessage();
-        Assertions.assertEquals(expectedMessage, actualMessage);
-    }
+  @Autowired
+  private final JdbcTemplate jdbcTemplate;
+  @Autowired
+  private final AccountRepository repository;
+  @Autowired
+  private OwnerRepository ownerRepository;
+
+  @Autowired
+  public AccountRepositoryTest(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+    repository = new AccountRepository();
+    ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
+  }
+
+  @BeforeEach
+  void setup() {
+    jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
+  }
+
+  @AfterEach
+  void setup2() {
+    jdbcTemplate.execute("TRUNCATE TABLE \"Account\" RESTART IDENTITY CASCADE;");
+    jdbcTemplate.execute(
+        "INSERT INTO \"Account\"( id, puuid, accountid, \"revisionDate\", owner, name)\n" +
+            "VALUES\n" +
+            "('testuno', 'testuno', 'testuno', 123456, 1, 'testuno'),\n" +
+            "('testdos', 'testdos', 'testdos', 123457, 2, 'testdos'),\n" +
+            "('testtres', 'testtres', 'testtres', 123457, 2, 'testtres');");
+  }
+
+  @Test
+  void insertSuccessfullyDefaultCase() throws AccountDataException, AccountExistsOrNotException {
+    //GIVEN A NORMAL ACCOUNT WITH ALL DATA AND A STANDARD OWNER FROM THE BASE OWNER
+
+    //Account with all data
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "Soyeon Lover",
+        1648276400000L);
+
+    //Owner Standard
+    Integer owner = 1;
+
+    AccountModel modelo = new AccountModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "Soyeon Lover",
+        1648276400000L,
+        owner,
+        "ownerName");
+
+    //WHEN TRYING TO INSERT IT INTO THE DATABASE AND RETRIEVING THE RESULTS
+    repository.insertAccount(baseModel, owner);
+
+    //THEN INSERT PROPERLY AND PERSIST THE DATA IN THE DATABASE.
+    List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"",
+        BeanPropertyRowMapper.newInstance(AccountModel.class));
+    Assertions.assertEquals(1, resultSet.size());
+    AccountModel result = resultSet.get(0);
+
+    Assertions.assertEquals(modelo.getAccountId(), result.getAccountId());
+    Assertions.assertEquals(modelo.getId(), result.getId());
+    Assertions.assertEquals(modelo.getName().toLowerCase(Locale.ROOT), result.getName());
+    Assertions.assertEquals(modelo.getOwner(), result.getOwner());
+    Assertions.assertEquals(modelo.getPuuid(), result.getPuuid());
+    Assertions.assertEquals(modelo.getRevisionDate(), result.getRevisionDate());
+  }
+
+  @Test
+  void accountExistsExceptionInsertAccount()
+      throws AccountDataException, AccountExistsOrNotException {
+    Integer owner = 1;
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "Soyeon Lover",
+        1648276400000L
+    );
+    repository.insertAccount(baseModel, owner);
+    Exception exception = assertThrows(AccountExistsOrNotException.class,
+        () -> repository.insertAccount(baseModel, owner));
+
+    String expectedMessage = "Account already registered";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+  @Test
+  void updateSuccessfullyDefaultCase()
+      throws CharacterNotAllowedException, AccountNotFoundException, AccountDataException, AccountExistsOrNotException {
+    //given
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "Soyeon Lover",
+        1648276400000L
+    );
+    Integer owner = 1;
+
+    AccountModel model = new AccountModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "STULMEMITO",
+        "F46S5D4F",
+        "stulesunmeme",
+        1324654564L,
+        owner,
+        "testuno");
+
+    repository.insertAccount(baseModel, owner);
+    //When
+    repository.accountUpdate(model, owner);
+    List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"",
+        BeanPropertyRowMapper.newInstance(AccountModel.class));
+    //Then
+    Assertions.assertEquals(1, resultSet.size());
+    Assertions.assertEquals(baseModel.getId(), resultSet.get(0).getId());
+    Assertions.assertEquals(model.getAccountId(), resultSet.get(0).getAccountId());
+    Assertions.assertEquals(model.getPuuid(), resultSet.get(0).getPuuid());
+    Assertions.assertEquals(model.getName(), resultSet.get(0).getName());
+    Assertions.assertEquals(model.getRevisionDate(), resultSet.get(0).getRevisionDate());
+    Assertions.assertEquals(owner, resultSet.get(0).getOwner());
+  }
+
+  @Test
+  void accountNotFoundExceptionAccountUpdate() {
+    Integer owner = 1;
+
+    AccountModel model = new AccountModel(
+        "",
+        "STULMEMITO",
+        "F46S5D4F",
+        "stulesunmeme",
+        1324654564L,
+        owner,
+        "ownerName");
+    Exception exception = Assertions.assertThrows(AccountNotFoundException.class,
+        () -> repository.accountUpdate(model, owner));
+
+    String expectedMessage = "The account stulesunmeme was not found, please rectify";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+  @Test
+  void characterNotAllowedAccountUpdate() {
+    Integer owner = 1;
+
+    AccountModel model = new AccountModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "STULMEMITO",
+        "F46S5D4F",
+        "stule*sunmeme",
+        1324654564L,
+        owner,
+        "ownerName");
+    Exception exception = Assertions.assertThrows(CharacterNotAllowedException.class,
+        () -> repository.accountUpdate(model, owner));
+
+    String expectedMessage = "has characters not allowed";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+  @Test
+  void deleteAccountDefaultCase()
+      throws CharacterNotAllowedException, AccountDataException, AccountExistsOrNotException, AccountNotFoundException {
+
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "Soyeon Lover",
+        1648276400000L
+    );
+    Integer owner = 1;
+    String owner2 = "kusi";
+
+    repository.insertAccount(baseModel, owner);
+    repository.deleteAccount(baseModel.getName(), owner);
+
+    List<AccountModel> resultSet = jdbcTemplate.query("SELECT * FROM \"Account\"",
+        BeanPropertyRowMapper.newInstance(AccountModel.class));
+    Assertions.assertEquals(0, resultSet.size());
+  }
+
+  @Test
+  void accountNotFoundExceptionDeleteAccount()
+      throws CharacterNotAllowedException, OwnerNotFoundException {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "Soyeon Lover",
+        1648276400000L
+    );
+    Integer owner = 1;
+
+    Exception exception = assertThrows(AccountNotFoundException.class,
+        () -> repository.deleteAccount(baseModel.getName(), owner));
+
+    String expectedMessage = "The account Soyeon Lover was not found, please rectify";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+  @Test
+  void characterNotAllowedExceptionDeleteAccount()
+      throws CharacterNotAllowedException, OwnerNotFoundException {
+
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "<<<",
+        1648276400000L
+    );
+    Integer owner = 1;
+    Exception exception = assertThrows(CharacterNotAllowedException.class,
+        () -> repository.deleteAccount(baseModel.getName(), owner));
+
+    String expectedMessage = " has characters not allowed";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+  @Test
+  void retrieveAccountByOwnerSuccessfullyDefaultCase()
+      throws CharacterNotAllowedException, AccountDataException, OwnerNotAllowedException, OwnerNotFoundException, AccountExistsOrNotException {
+
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "Soyeon Lover",
+        1648276400000L
+    );
+    Integer ownerID = 1;
+    String owner = ("testuno").toLowerCase(Locale.ROOT);
+
+    AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "Soyeon Lover",
+        1648276400000L,
+        ownerID,
+        "testuno");
+
+    repository.insertAccount(baseModel, ownerID);
+    List<AccountModel> resultSet = repository.retrieveAccountByOwner(owner, ownerID);
+    Assertions.assertEquals(1, resultSet.size());
+    AccountModel result = resultSet.get(0);
+
+    Assertions.assertEquals(modelo.getAccountId(), result.getAccountId());
+    Assertions.assertEquals(modelo.getId(), result.getId());
+    Assertions.assertEquals(modelo.getName().toLowerCase(Locale.ROOT), result.getName());
+    Assertions.assertEquals(modelo.getOwner(), result.getOwner());
+    Assertions.assertEquals(modelo.getPuuid(), result.getPuuid());
+    Assertions.assertEquals(modelo.getRevisionDate(), result.getRevisionDate());
+  }
+
+  @Test
+  void characterNotAllowedExceptionRetrieveAccountByOwner() {
+
+    String owner = "<<>>";
+
+    Integer ownerID = 1;
+    Exception exception = assertThrows(CharacterNotAllowedException.class,
+        () -> repository.retrieveAccountByOwner(owner, ownerID));
+
+    String expectedMessage = " has characters not allowed";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+
+  }
+
+  @Test
+  void ownerNotFoundExceptionRetrieveAccountByOwner() {
+
+    String owner = "pepito";
+    Integer ownerID = 100;
+
+    Exception exception = assertThrows(OwnerNotFoundException.class,
+        () -> repository.retrieveAccountByOwner(owner, ownerID));
+
+    String expectedMessage = "The owner pepito was not found, please rectify";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+  @Test
+  void retrieveAccountByAccountNameSuccessfullyDefaultCase()
+      throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, AccountExistsOrNotException {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("Soyeon Lover").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+
+    Integer owner = 1;
+
+    AccountModel modelo = new AccountModel("IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "Soyeon Lover",
+        1648276400000L,
+        owner,
+        "ownerName");
+
+    repository.insertAccount(baseModel, owner);
+
+    List<AccountModel> resultSet = repository.retrieveAccountByAccountName(baseModel.getName());
+    Assertions.assertEquals(1, resultSet.size());
+    AccountModel result = resultSet.get(0);
+
+    Assertions.assertEquals(modelo.getAccountId(), result.getAccountId());
+    Assertions.assertEquals(modelo.getId(), result.getId());
+    Assertions.assertEquals(modelo.getName().toLowerCase(Locale.ROOT), result.getName());
+    Assertions.assertEquals(modelo.getOwner(), result.getOwner());
+    Assertions.assertEquals(modelo.getPuuid(), result.getPuuid());
+    Assertions.assertEquals(modelo.getRevisionDate(), result.getRevisionDate());
+  }
+
+  @Test
+  void characterNotAllowedRetrieveAccountByAccountName() {
+
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "<<<<",
+        1648276400000L
+    );
+
+    Exception exception = assertThrows(CharacterNotAllowedException.class,
+        () -> repository.retrieveAccountByAccountName(baseModel.getName()));
+
+    String expectedMessage = " has characters not allowed";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+  @Test
+  void accountNotFoundExceptionRetrieveAccountByAccountName() {
+
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "pepito pro",
+        1648276400000L
+    );
+
+    Exception exception = assertThrows(AccountNotFoundException.class,
+        () -> repository.retrieveAccountByAccountName(baseModel.getName()));
+
+    String expectedMessage = "The account pepito pro was not found, please rectify";
+    String actualMessage = exception.getMessage();
+
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+
+  @Test
+  void retrieveAccountIDByAccountNameSuccessfullyDefaultCase()
+      throws CharacterNotAllowedException, AccountDataException, AccountNotFoundException, AccountExistsOrNotException {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("test").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+    Integer owner = 1;
+    repository.insertAccount(baseModel, owner);
+    Integer resultSet = repository.retrieveAccountIdByAccountName(baseModel.getName());
+    Assertions.assertEquals(1, resultSet);
+  }
+
+  @Test
+  void characterNotAllowedRetrieveAccountIDByAccountName() {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "<<<<",
+        1648276400000L
+    );
+    Exception exception = assertThrows(CharacterNotAllowedException.class,
+        () -> repository.retrieveAccountIdByAccountName(baseModel.getName()));
+    String expectedMessage = "<<<< has characters not allowed";
+    String actualMessage = exception.getMessage();
+    Assertions.assertEquals(expectedMessage, actualMessage);
+  }
+
+  @Test
+  void accountNotFoundExceptionRetrieveAccountIDByAccountName() {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        "pepito pro",
+        1648276400000L
+    );
+    Exception exception = assertThrows(AccountNotFoundException.class,
+        () -> repository.retrieveAccountIdByAccountName(baseModel.getName()));
+
+    String expectedMessage = "The account pepito pro was not found, please rectify";
+    String actualMessage = exception.getMessage();
+    Assertions.assertEquals(expectedMessage, actualMessage);
+  }
+
+  @Test
+  void retrieveOwnerIdByAccount()
+      throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundException {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("Soyeon Lover").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+    Integer owner = 1;
+    Long OwnerSpected = 1L;
+    repository.insertAccount(baseModel, owner);
+    Long resultSet = repository.retrieveOwnerIdByAccount(baseModel.getName());
+    Assertions.assertEquals(OwnerSpected, resultSet);
+  }
+
+  @Test
+  void accountNotFoundExceptionRetrieveOwnerIdByAccount() {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("test").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+    Exception exception = assertThrows(AccountNotFoundException.class,
+        () -> repository.retrieveOwnerIdByAccount(baseModel.getName()));
+    String expectedMessage = "The account test was not found, please rectify";
+    String actualMessage = exception.getMessage();
+    Assertions.assertEquals(expectedMessage, actualMessage);
+  }
+
+  @Test
+  void characterNotAllowedExceptionRetrieveOwnerIdByAccount() {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("test*").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+    Exception exception = assertThrows(CharacterNotAllowedException.class,
+        () -> repository.retrieveOwnerIdByAccount(baseModel.getName()));
+    String expectedMessage = "test* has characters not allowed";
+    String actualMessage = exception.getMessage();
+    Assertions.assertEquals(expectedMessage, actualMessage);
+  }
+
+  @Test
+  void retrieveIdRiotByAccount()
+      throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundDBException, ClashIsNotAvailable {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("test").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+    Integer owner = 1;
+    repository.insertAccount(baseModel, owner);
+    String resultSet = repository.retrieveIdRiotByAccount(baseModel.getName());
+    Assertions.assertEquals(baseModel.getId(), resultSet);
+  }
+
+  @Test
+  void accountNotFoundDBExceptionRetrieveIdRiotByAccount() {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("test").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+    Exception exception = assertThrows(AccountNotFoundDBException.class,
+        () -> repository.retrieveIdRiotByAccount(baseModel.getName()));
+    String expectedMessage = "The account test was not registered";
+    String actualMessage = exception.getMessage();
+    Assertions.assertEquals(expectedMessage, actualMessage);
+  }
+
+  @Test
+  void characterNotAllowedExceptionRetrieveIdRiotByAccount() {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("test*").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+    Exception exception = assertThrows(CharacterNotAllowedException.class,
+        () -> repository.retrieveIdRiotByAccount(baseModel.getName()));
+    String expectedMessage = "test* has characters not allowed";
+    String actualMessage = exception.getMessage();
+    Assertions.assertEquals(expectedMessage, actualMessage);
+  }
+
+  @Test
+  void retrievePuuidRiotByAccount()
+      throws AccountDataException, AccountExistsOrNotException, CharacterNotAllowedException, AccountNotFoundDBException {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("test").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+    Integer owner = 1;
+    repository.insertAccount(baseModel, owner);
+    String resultSet = repository.retrievePuuidRiotByAccount(baseModel.getName());
+    Assertions.assertEquals(baseModel.getPuuid(), resultSet);
+  }
+
+  @Test
+  void accountNotFoundDBExceptionRetrievePuuidRiotByAccount() {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("test").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+    Exception exception = assertThrows(AccountNotFoundDBException.class,
+        () -> repository.retrievePuuidRiotByAccount(baseModel.getName()));
+    String expectedMessage = "The account test was not registered";
+    String actualMessage = exception.getMessage();
+    Assertions.assertEquals(expectedMessage, actualMessage);
+  }
+
+  @Test
+  void characterNotAllowedExceptionRetrievePuuidRiotByAccount() {
+    AccountBaseModel baseModel = new AccountBaseModel(
+        "IZFyGsu-JAEUSRVhFIZfNTn3GyxGs3Czkuu4xLF6KeDsoeY",
+        "j08sf6UyWH02HuceTTo255Ej2ozXs7QDlY6AK3ES_SBic-1xR7UPB99a",
+        "y38Dbbwd74qmqTouPMB64ZEdYEd0iQAHoHP_OPRlpdqkNv_FD8PAPOFdCWaTerbXeBYBgR_qGIhWCQ",
+        ("test*").toLowerCase(Locale.ROOT),
+        1648276400000L
+    );
+    Exception exception = assertThrows(CharacterNotAllowedException.class,
+        () -> repository.retrievePuuidRiotByAccount(baseModel.getName()));
+    String expectedMessage = "test* has characters not allowed";
+    String actualMessage = exception.getMessage();
+    Assertions.assertEquals(expectedMessage, actualMessage);
+  }
 }

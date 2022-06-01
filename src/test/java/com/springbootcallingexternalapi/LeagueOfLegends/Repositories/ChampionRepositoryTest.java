@@ -20,56 +20,49 @@ import org.springframework.test.util.ReflectionTestUtils;
 @ContextConfiguration(classes = SpringBootCallingExternalApiApplication.class)
 
 public class ChampionRepositoryTest {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    private ChampionRepository repository;
 
-    @Autowired
-    public ChampionRepositoryTest(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-        repository = new ChampionRepository();
-        ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
-    }
+  @Autowired
+  private final JdbcTemplate jdbcTemplate;
+  private final ChampionRepository repository;
 
-    @Test
-    void retrieveSuccessfullyChampionIdDefaultCase() throws CharacterNotAllowedException, AccountDataException, ChampionNotFoundException, AccountNotFoundException {
-        //GIVEN A NORMAL ACCOUNT WITH ALL DATA AND A STANDARD OWNER FROM THE BASE OWNERS
-        String championNameGiven = new String(
-                "zeri"
+  @Autowired
+  public ChampionRepositoryTest(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+    repository = new ChampionRepository();
+    ReflectionTestUtils.setField(repository, "jdbcTemplate", jdbcTemplate);
+  }
 
-        );
-        String champioIdExpected = new String(
-                "221"
-        );
-        //Account with all data
+  @Test
+  void retrieveSuccessfullyChampionIdDefaultCase()
+      throws CharacterNotAllowedException, AccountDataException, ChampionNotFoundException, AccountNotFoundException {
+    //GIVEN A NORMAL ACCOUNT WITH ALL DATA AND A STANDARD OWNER FROM THE BASE OWNERS
+    String championNameGiven = "zeri";
+    String champioIdExpected = "221";
+    //Account with all data
 
-        //WHEN TRYING TO INSERT IT INTO THE DATABASE AND RETRIEVING THE RESULTS
-        repository.retrieveChampionIdByChampionName(championNameGiven);
-        //THEN INSERT PROPERLY AND PERSIST THE DATA IN THE DATABASE.
+    //WHEN TRYING TO INSERT IT INTO THE DATABASE AND RETRIEVING THE RESULTS
+    repository.retrieveChampionIdByChampionName(championNameGiven);
+    //THEN INSERT PROPERLY AND PERSIST THE DATA IN THE DATABASE.
 
-        Long result = repository.retrieveChampionIdByChampionName(championNameGiven);
-        Assertions.assertEquals(champioIdExpected, result.toString());
-    }
+    Long result = repository.retrieveChampionIdByChampionName(championNameGiven);
+    Assertions.assertEquals(champioIdExpected, result.toString());
+  }
 
-    @Test
-    void retrieveChampionIdCharacterNotAllowedException() {
-        //GIVEN
-        Assertions.assertThrows(CharacterNotAllowedException.class, () -> {
-            String championNameGiven = new String(
-                    "ze*/ri"
-            );
-            repository.retrieveChampionIdByChampionName(championNameGiven);
-        });
-    }
+  @Test
+  void retrieveChampionIdCharacterNotAllowedException() {
+    //GIVEN
+    Assertions.assertThrows(CharacterNotAllowedException.class, () -> {
+      String championNameGiven = "ze*/ri";
+      repository.retrieveChampionIdByChampionName(championNameGiven);
+    });
+  }
 
-    @Test
-    void retrieveChampionIdThrowsChampionNotFoundException(){
-        //given
-        Assertions.assertThrows(ChampionNotFoundException.class, () -> {
-            String championNameGiven = new String(
-                    "UndefinedChampion"
-            );
-            repository.retrieveChampionIdByChampionName(championNameGiven);
-        });
-    }
+  @Test
+  void retrieveChampionIdThrowsChampionNotFoundException() {
+    //given
+    Assertions.assertThrows(ChampionNotFoundException.class, () -> {
+      String championNameGiven = "UndefinedChampion";
+      repository.retrieveChampionIdByChampionName(championNameGiven);
+    });
+  }
 }

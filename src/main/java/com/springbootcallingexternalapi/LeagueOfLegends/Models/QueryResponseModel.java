@@ -1,75 +1,77 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class QueryResponseModel {
-    private String id;
 
-    private String puuid;
+  private String id;
 
-    private String accountId;
+  private String puuid;
 
-    private Long revisionDate;
+  private String accountId;
 
-    private Integer owner;
+  private Long revisionDate;
 
-    private String name;
+  private Integer owner;
 
-    public QueryResponseModel() {
-    }
+  private String name;
 
-    public QueryResponseModel(String id, String puuid, String accountId, Long revisionDate, Integer owner, String name) {
-        this.id = id;
-        this.puuid = puuid;
-        this.accountId = accountId;
-        this.revisionDate = revisionDate;
-        this.owner = owner;
-        this.name = name;
-    }
+  public QueryResponseModel() {
+  }
 
-    public String getId() {
-        return id;
-    }
+  public QueryResponseModel(String id, String puuid, String accountId, Long revisionDate,
+      Integer owner, String name) {
+    this.id = id;
+    this.puuid = puuid;
+    this.accountId = accountId;
+    this.revisionDate = revisionDate;
+    this.owner = owner;
+    this.name = name;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getPuuid() {
-        return puuid;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setPuuid(String puuid) {
-        this.puuid = puuid;
-    }
+  public String getPuuid() {
+    return puuid;
+  }
 
-    public String getAccountId() {
-        return accountId;
-    }
+  public void setPuuid(String puuid) {
+    this.puuid = puuid;
+  }
 
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
+  public String getAccountId() {
+    return accountId;
+  }
 
-    public Long getRevisionDate() {
-        return revisionDate;
-    }
+  public void setAccountId(String accountId) {
+    this.accountId = accountId;
+  }
 
-    public void setRevisionDate(Long revisionDate) {
-        this.revisionDate = revisionDate;
-    }
+  public Long getRevisionDate() {
+    return revisionDate;
+  }
 
-    public Integer getOwner() {
-        return owner;
-    }
+  public void setRevisionDate(Long revisionDate) {
+    this.revisionDate = revisionDate;
+  }
 
-    public void setOwner(Integer owner) {
-        this.owner = owner;
-    }
+  public Integer getOwner() {
+    return owner;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setOwner(Integer owner) {
+    this.owner = owner;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

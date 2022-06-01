@@ -1,40 +1,41 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class RecommendedClashWinRateModel {
-    private Integer account;
-    private Integer champion;
-    private Integer win;
 
-    public RecommendedClashWinRateModel() {
-    }
+  private Integer account;
+  private Integer champion;
+  private Integer win;
 
-    public RecommendedClashWinRateModel(Integer account, Integer champion, Integer win) {
-        this.account = account;
-        this.champion = champion;
-        this.win = win;
-    }
+  public RecommendedClashWinRateModel() {
+  }
 
-    public Integer getAccount() {
-        return account;
-    }
+  public RecommendedClashWinRateModel(Integer account, Integer champion, Integer win) {
+    this.account = account;
+    this.champion = champion;
+    this.win = win;
+  }
 
-    public void setAccount(Integer account) {
-        this.account = account;
-    }
+  public Integer getAccount() {
+    return account;
+  }
 
-    public Integer getChampion() {
-        return champion;
-    }
+  public void setAccount(Integer account) {
+    this.account = account;
+  }
 
-    public void setChampion(Integer champion) {
-        this.champion = champion;
-    }
+  public Integer getChampion() {
+    return champion;
+  }
 
-    public Integer getWin() {
-        return win;
-    }
+  public void setChampion(Integer champion) {
+    this.champion = champion;
+  }
 
-    public void setWin(Integer win) {
-        this.win = win;
-    }
+  public Integer getWin() {
+    return win;
+  }
+
+  public void setWin(Integer win) {
+    this.win = win;
+  }
 }

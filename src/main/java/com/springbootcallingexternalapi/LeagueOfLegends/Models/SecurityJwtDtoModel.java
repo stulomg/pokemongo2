@@ -1,49 +1,51 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
+import org.springframework.security.core.GrantedAuthority;
 
 public class SecurityJwtDtoModel {
-    private  String token;
-    private String  bearer = "Bearer";
-    private String userName;
-    private Collection<? extends GrantedAuthority> authorities;
 
-    public SecurityJwtDtoModel(String token, String userName, Collection<? extends GrantedAuthority> authorities) {
-        this.token = token;
-        this.userName = userName;
-        this.authorities = authorities;
-    }
+  private String token;
+  private String bearer = "Bearer";
+  private String userName;
+  private Collection<? extends GrantedAuthority> authorities;
 
-    public String getToken() {
-        return token;
-    }
+  public SecurityJwtDtoModel(String token, String userName,
+      Collection<? extends GrantedAuthority> authorities) {
+    this.token = token;
+    this.userName = userName;
+    this.authorities = authorities;
+  }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+  public String getToken() {
+    return token;
+  }
 
-    public String getBearer() {
-        return bearer;
-    }
+  public void setToken(String token) {
+    this.token = token;
+  }
 
-    public void setBearer(String bearer) {
-        this.bearer = bearer;
-    }
+  public String getBearer() {
+    return bearer;
+  }
 
-    public String getUserName() {
-        return userName;
-    }
+  public void setBearer(String bearer) {
+    this.bearer = bearer;
+  }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+  public String getUserName() {
+    return userName;
+  }
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return authorities;
+  }
+
+  public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+    this.authorities = authorities;
+  }
 }

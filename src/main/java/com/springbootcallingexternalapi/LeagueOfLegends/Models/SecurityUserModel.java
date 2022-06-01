@@ -1,90 +1,101 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "user", schema = "public")
 public class SecurityUserModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @NotNull
-    private String name;
-    @NotNull
-    @Column(unique = true)
-    private String userName;
-    @NotNull
-    private String email;
-    @NotNull
-    private String password;
-    @NotNull
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id") , inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<SecurityRoleModel> securityRoleModels = new HashSet<>();
 
-    public SecurityUserModel() {
-    }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+  @NotNull
+  private String name;
+  @NotNull
+  @Column(unique = true)
+  private String userName;
+  @NotNull
+  private String email;
+  @NotNull
+  private String password;
+  @NotNull
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+  private Set<SecurityRoleModel> securityRoleModels = new HashSet<>();
 
-    public SecurityUserModel(@NotNull String name, @NotNull String userName, @NotNull String email, @NotNull String password) {
-        this.name = name;
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-    }
+  public SecurityUserModel() {
+  }
 
-    public int getId() {
-        return id;
-    }
+  public SecurityUserModel(@NotNull String name, @NotNull String userName, @NotNull String email,
+      @NotNull String password) {
+    this.name = name;
+    this.userName = userName;
+    this.email = email;
+    this.password = password;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    @NotNull
-    public String getName() {
-        return name;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setName(@NotNull String name) {
-        this.name = name;
-    }
+  @NotNull
+  public String getName() {
+    return name;
+  }
 
-    @NotNull
-    public String getUserName() {
-        return userName;
-    }
+  public void setName(@NotNull String name) {
+    this.name = name;
+  }
 
-    public void setUserName(@NotNull String userName) {
-        this.userName = userName;
-    }
+  @NotNull
+  public String getUserName() {
+    return userName;
+  }
 
-    @NotNull
-    public String getEmail() {
-        return email;
-    }
+  public void setUserName(@NotNull String userName) {
+    this.userName = userName;
+  }
 
-    public void setEmail(@NotNull String email) {
-        this.email = email;
-    }
+  @NotNull
+  public String getEmail() {
+    return email;
+  }
 
-    @NotNull
-    public String getPassword() {
-        return password;
-    }
+  public void setEmail(@NotNull String email) {
+    this.email = email;
+  }
 
-    public void setPassword(@NotNull String password) {
-        this.password = password;
-    }
+  @NotNull
+  public String getPassword() {
+    return password;
+  }
 
-    @NotNull
-    public Set<SecurityRoleModel> getRoles() {
-        return securityRoleModels;
-    }
+  public void setPassword(@NotNull String password) {
+    this.password = password;
+  }
 
-    public void setRoles(@NotNull Set<SecurityRoleModel> securityRoleModels) {
-        this.securityRoleModels = securityRoleModels;
-    }
+  @NotNull
+  public Set<SecurityRoleModel> getRoles() {
+    return securityRoleModels;
+  }
+
+  public void setRoles(@NotNull Set<SecurityRoleModel> securityRoleModels) {
+    this.securityRoleModels = securityRoleModels;
+  }
 }

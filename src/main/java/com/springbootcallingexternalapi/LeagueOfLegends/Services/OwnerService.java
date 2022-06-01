@@ -10,13 +10,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OwnerService {
-    @Autowired
-    OwnerRepository ownerRepository;
 
-    public void insertOwner(OwnerModel ownerModel) throws OwnerAlreadyExists, CharacterNotAllowedException {
-        ownerRepository.insertOwner(ownerModel);
-    }
-    public Long retrieveOwnerIdByOwnerName(String owner) throws CharacterNotAllowedException, OwnerNotFoundException {
-        return ownerRepository.retrieveOwnerIdByOwnerName(owner);
-    }
+  @Autowired
+  OwnerRepository ownerRepository;
+
+  public void insertOwner(OwnerModel ownerModel)
+      throws OwnerAlreadyExists, CharacterNotAllowedException {
+    ownerRepository.insertOwner(ownerModel);
+  }
+
+  public Long retrieveOwnerIdByOwnerName(String owner)
+      throws CharacterNotAllowedException, OwnerNotFoundException {
+    return ownerRepository.retrieveOwnerIdByOwnerName(owner);
+  }
 }

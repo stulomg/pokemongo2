@@ -1,117 +1,116 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.sql.Timestamp;
-import java.util.Date;
 
 
 public class LeagueInfoModel {
-    private Timestamp date;
 
-    private String leagueId;
+  private Timestamp date;
 
-    private String queueType;
+  private String leagueId;
 
-    private String tier;
+  private String queueType;
 
-    private String rank;
+  private String tier;
 
-    private String summonerName;
+  private String rank;
 
-    private Integer leaguePoints;
+  private String summonerName;
 
-    private Integer elo;
+  private Integer leaguePoints;
 
-    private String owner;
+  private Integer elo;
 
-
-    public LeagueInfoModel(Timestamp date, String leagueId, String queueType, String tier, String rank, String summonerName, Integer leaguePoints, Integer elo, String owner) {
-        this.date = date;
-        this.leagueId = leagueId;
-        this.queueType = queueType;
-        this.tier = tier;
-        this.rank = rank;
-        this.summonerName = summonerName;
-        this.leaguePoints = leaguePoints;
-        this.elo = elo;
-        this.owner = owner;
-
-    }
+  private String owner;
 
 
-    public LeagueInfoModel() {
-    }
+  public LeagueInfoModel(Timestamp date, String leagueId, String queueType, String tier,
+      String rank, String summonerName, Integer leaguePoints, Integer elo, String owner) {
+    this.date = date;
+    this.leagueId = leagueId;
+    this.queueType = queueType;
+    this.tier = tier;
+    this.rank = rank;
+    this.summonerName = summonerName;
+    this.leaguePoints = leaguePoints;
+    this.elo = elo;
+    this.owner = owner;
 
-    public Timestamp getDate() {
-        return date;
-    }
+  }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
-    }
 
-    public String getLeagueId() {
-        return leagueId;
-    }
+  public LeagueInfoModel() {
+  }
 
-    public void setLeagueId(String leagueId) {
-        this.leagueId = leagueId;
-    }
+  public Timestamp getDate() {
+    return date;
+  }
 
-    public String getQueueType() {
-        return queueType;
-    }
+  public void setDate(Timestamp date) {
+    this.date = date;
+  }
 
-    public void setQueueType(String queueType) {
-        this.queueType = queueType;
-    }
+  public String getLeagueId() {
+    return leagueId;
+  }
 
-    public String getTier() {
-        return tier;
-    }
+  public void setLeagueId(String leagueId) {
+    this.leagueId = leagueId;
+  }
 
-    public void setTier(String tier) {
-        this.tier = tier;
-    }
+  public String getQueueType() {
+    return queueType;
+  }
 
-    public String getRank() {
-        return rank;
-    }
+  public void setQueueType(String queueType) {
+    this.queueType = queueType;
+  }
 
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
+  public String getTier() {
+    return tier;
+  }
 
-    public String getSummonerName() {
-        return summonerName;
-    }
+  public void setTier(String tier) {
+    this.tier = tier;
+  }
 
-    public void setSummonerName(String summonerName) {
-        this.summonerName = summonerName;
-    }
+  public String getRank() {
+    return rank;
+  }
 
-    public Integer getLeaguePoints() {
-        return leaguePoints;
-    }
+  public void setRank(String rank) {
+    this.rank = rank;
+  }
 
-    public void setLeaguePoints(Integer leaguePoints) {
-        this.leaguePoints = leaguePoints;
-    }
+  public String getSummonerName() {
+    return summonerName;
+  }
 
-    public Integer getElo() {
-        return elo;
-    }
+  public void setSummonerName(String summonerName) {
+    this.summonerName = summonerName;
+  }
 
-    public void setElo(Integer elo) {
-        this.elo = elo;
-    }
+  public Integer getLeaguePoints() {
+    return leaguePoints;
+  }
 
-    public String getOwner() {
-        return owner;
-    }
+  public void setLeaguePoints(Integer leaguePoints) {
+    this.leaguePoints = leaguePoints;
+  }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
+  public Integer getElo() {
+    return elo;
+  }
+
+  public void setElo(Integer elo) {
+    this.elo = elo;
+  }
+
+  public String getOwner() {
+    return owner;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
 }

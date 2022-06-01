@@ -13,16 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class OwnerRestController {
-    @Autowired
-    OwnerService ownerService;
 
-    @GetMapping(value = "/account/new-owner")
-    public ResponseEntity<Object> newOwner(@RequestBody OwnerModel ownerModel) {
-        try {
-            ownerService.insertOwner(ownerModel);
-        } catch (OwnerAlreadyExists | CharacterNotAllowedException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("Owner has been added correctly", HttpStatus.OK);
+  @Autowired
+  OwnerService ownerService;
+
+  @GetMapping(value = "/account/new-owner")
+  public ResponseEntity<Object> newOwner(@RequestBody OwnerModel ownerModel) {
+    try {
+      ownerService.insertOwner(ownerModel);
+    } catch (OwnerAlreadyExists | CharacterNotAllowedException e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    return new ResponseEntity<>("Owner has been added correctly", HttpStatus.OK);
+  }
 }

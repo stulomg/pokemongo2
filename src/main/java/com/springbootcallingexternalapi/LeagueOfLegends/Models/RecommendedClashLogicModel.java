@@ -1,80 +1,83 @@
 package com.springbootcallingexternalapi.LeagueOfLegends.Models;
 
 public class RecommendedClashLogicModel {
-    private Integer account;
-    private Integer champion;
-    private Integer gamesChampion;
-    private Integer TotalGamesAccount;
-    private Integer masteryChampion;
-    private Integer TotalMasteryAccount;
-    private Integer GamesWinChampion;
 
-    public RecommendedClashLogicModel() {
-    }
+  private Integer account;
+  private Integer champion;
+  private Integer gamesChampion;
+  private Integer TotalGamesAccount;
+  private Integer masteryChampion;
+  private Integer TotalMasteryAccount;
+  private Integer GamesWinChampion;
 
-    public RecommendedClashLogicModel(Integer account, Integer champion, Integer gamesChampion, Integer totalGamesAccount, Integer masteryChampion, Integer totalMasteryAccount, Integer gamesWinChampion) {
-        this.account = account;
-        this.champion = champion;
-        this.gamesChampion = gamesChampion;
-        TotalGamesAccount = totalGamesAccount;
-        this.masteryChampion = masteryChampion;
-        TotalMasteryAccount = totalMasteryAccount;
-        GamesWinChampion = gamesWinChampion;
-    }
+  public RecommendedClashLogicModel() {
+  }
 
-    public Integer getAccount() {
-        return account;
-    }
+  public RecommendedClashLogicModel(Integer account, Integer champion, Integer gamesChampion,
+      Integer totalGamesAccount, Integer masteryChampion, Integer totalMasteryAccount,
+      Integer gamesWinChampion) {
+    this.account = account;
+    this.champion = champion;
+    this.gamesChampion = gamesChampion;
+    TotalGamesAccount = totalGamesAccount;
+    this.masteryChampion = masteryChampion;
+    TotalMasteryAccount = totalMasteryAccount;
+    GamesWinChampion = gamesWinChampion;
+  }
 
-    public void setAccount(Integer account) {
-        this.account = account;
-    }
+  public Integer getAccount() {
+    return account;
+  }
 
-    public Integer getChampion() {
-        return champion;
-    }
+  public void setAccount(Integer account) {
+    this.account = account;
+  }
 
-    public void setChampion(Integer champion) {
-        this.champion = champion;
-    }
+  public Integer getChampion() {
+    return champion;
+  }
 
-    public Integer getGamesChampion() {
-        return gamesChampion;
-    }
+  public void setChampion(Integer champion) {
+    this.champion = champion;
+  }
 
-    public void setGamesChampion(Integer gamesChampion) {
-        this.gamesChampion = gamesChampion;
-    }
+  public Integer getGamesChampion() {
+    return gamesChampion;
+  }
 
-    public Integer getTotalGamesAccount() {
-        return TotalGamesAccount;
-    }
+  public void setGamesChampion(Integer gamesChampion) {
+    this.gamesChampion = gamesChampion;
+  }
 
-    public void setTotalGamesAccount(Integer totalGamesAccount) {
-        TotalGamesAccount = totalGamesAccount;
-    }
+  public Integer getTotalGamesAccount() {
+    return TotalGamesAccount;
+  }
 
-    public Integer getMasteryChampion() {
-        return masteryChampion;
-    }
+  public void setTotalGamesAccount(Integer totalGamesAccount) {
+    TotalGamesAccount = totalGamesAccount;
+  }
 
-    public void setMasteryChampion(Integer masteryChampion) {
-        this.masteryChampion = masteryChampion;
-    }
+  public Integer getMasteryChampion() {
+    return masteryChampion;
+  }
 
-    public Integer getTotalMasteryAccount() {
-        return TotalMasteryAccount;
-    }
+  public void setMasteryChampion(Integer masteryChampion) {
+    this.masteryChampion = masteryChampion;
+  }
 
-    public void setTotalMasteryAccount(Integer totalMasteryAccount) {
-        TotalMasteryAccount = totalMasteryAccount;
-    }
+  public Integer getTotalMasteryAccount() {
+    return TotalMasteryAccount;
+  }
 
-    public Integer getGamesWinChampion() {
-        return GamesWinChampion;
-    }
+  public void setTotalMasteryAccount(Integer totalMasteryAccount) {
+    TotalMasteryAccount = totalMasteryAccount;
+  }
 
-    public void setGamesWinChampion(Integer gamesWinChampion) {
-        GamesWinChampion = gamesWinChampion;
-    }
+  public Integer getGamesWinChampion() {
+    return GamesWinChampion;
+  }
+
+  public void setGamesWinChampion(Integer gamesWinChampion) {
+    GamesWinChampion = gamesWinChampion;
+  }
 }

@@ -7,16 +7,17 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class CurrentGameRunesRepository {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
-    public void insertRunes (CurrentGameInfoRuneModel currentGameInfoRuneModel){
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
 
-        String sql = "INSERT INTO \"CurrentGameRunes\" (\"participants\") VALUES(ARRAY['{?,?,?,?,?,?,?,?,?}']::jsonb[])";
-        Object[] params = {
-                currentGameInfoRuneModel.getParticipants()
-                
-        };
-        jdbcTemplate.update(sql, params);
-    }
+  public void insertRunes(CurrentGameInfoRuneModel currentGameInfoRuneModel) {
+
+    String sql = "INSERT INTO \"CurrentGameRunes\" (\"participants\") VALUES(ARRAY['{?,?,?,?,?,?,?,?,?}']::jsonb[])";
+    Object[] params = {
+        currentGameInfoRuneModel.getParticipants()
+
+    };
+    jdbcTemplate.update(sql, params);
+  }
 }
