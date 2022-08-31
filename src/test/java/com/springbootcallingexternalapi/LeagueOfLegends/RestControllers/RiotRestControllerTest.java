@@ -16,7 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RiotRestControllerTest {
+public class
+RiotRestControllerTest {
 
   String riotToken = GlobalVariable.RIOT_TOKEN;
   @Autowired
